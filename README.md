@@ -28,9 +28,11 @@ GitHub Pages is not turned on yet, or the wrong **source** is selected. Do **one
 
 ## APK download
 
-**Download buttons** use the file that **exists** on the **Latest** release today (**v6.8**), named **`HotelManager-v2.0-release.apk`**:
+**Download buttons** use a **pinned** link to the v6.8 asset (reliable 404 fix):
 
-`https://github.com/roireuven/hotel-management-v2/releases/latest/download/HotelManager-v2.0-release.apk`
+`https://github.com/roireuven/hotel-management-v2/releases/download/v6.8/HotelManager-v2.0-release.apk`
+
+**Why not `/releases/latest/download/...`?** If GitHub’s **Latest** release is empty, mistagged, or the asset name does not match, that URL **404s**. Your repo’s **Latest** was a tag like `v6,9` with **no `.apk` uploaded** — so “direct latest” failed.
 
 **Why not `HotelManager-v6.9-release.apk`?** That file is **not** on [Releases](https://github.com/roireuven/hotel-management-v2/releases) until you build it and upload it. Until then, links to it return **404**.
 
