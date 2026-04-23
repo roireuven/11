@@ -26,13 +26,25 @@ GitHub Pages is not turned on yet, or the wrong **source** is selected. Do **one
 
 **Easier:** If Actions fails, use **Option A** (branch `main`, folder **`/ (root)`**) — no workflow needed.
 
-## APK download
+## APK download (v6.9 — *Hotel Manager v6.9 — Reorder from Past Orders*)
 
-Every **Download** button uses the **latest** GitHub Release asset (today that is **v6.8**, file **`HotelManager-v2.0-release.apk`**):
+Every **Download** button points at the **latest** release asset named:
 
-`https://github.com/roireuven/hotel-management-v2/releases/latest/download/HotelManager-v2.0-release.apk`
+**`HotelManager-v6.9-release.apk`**
 
-The right-hand card shows **v6.8** and links to the same file. When you publish a newer **latest** release, either attach an APK with this **exact filename** or edit `index.html` so every `href` and `download="..."` match your new asset name.
+URL pattern:
+
+`https://github.com/roireuven/hotel-management-v2/releases/latest/download/HotelManager-v6.9-release.apk`
+
+### Publish this build from your *current* code
+
+1. Build a signed (or release) `.apk` from the **commit you want to ship** (e.g. current `master` with latest `docs/` and locales). Run `node docs/scripts/sync-embedded-locales.cjs` in **hotel-management-v2** before building if the app bundles `docs/index.html`.
+2. Name the file **`HotelManager-v6.9-release.apk`**.
+3. On [Releases](https://github.com/roireuven/hotel-management-v2/releases) → **Draft a new release**:
+   - Tag: **`v6.9`**
+   - Title: **Hotel Manager v6.9 — Reorder from Past Orders**
+   - Upload **`HotelManager-v6.9-release.apk`**
+4. Check **Set as the latest release** so `/latest/download/...` matches the landing page.
 
 ## Files
 
