@@ -26,13 +26,24 @@ GitHub Pages is not turned on yet, or the wrong **source** is selected. Do **one
 
 **Easier:** If Actions fails, use **Option A** (branch `main`, folder **`/ (root)`**) — no workflow needed.
 
-## APK download
+## APK download (v9.0)
 
-The site’s **Download** buttons point at the **latest** release asset on the main app repo (filename must match the uploaded APK):
+The landing page promotes **v9.0** on the right-hand **New release** card and in every **Download** button. The file must exist on GitHub:
 
-`https://github.com/roireuven/hotel-management-v2/releases/latest/download/HotelManager-v2.0-release.apk`
+`https://github.com/roireuven/hotel-management-v2/releases/download/v9.0/HotelManager-v9.0-release.apk`
 
-When you publish a **new** release, either keep that asset name on the new **latest** release, or edit `index.html` so the URL and `download="..."` filename match your new `.apk` name.
+### Publish this version (upload the new APK)
+
+On repo **roireuven/hotel-management-v2**:
+
+1. Build a signed release APK from your current sources and name it **`HotelManager-v9.0-release.apk`** (exact name).
+2. **Releases** → **Draft a new release** → choose tag **`v9.0`** (create new tag on your default branch).
+3. Title e.g. `Hotel Manager v9.0`, attach **`HotelManager-v9.0-release.apk`**, publish.
+4. Mark **v9.0** as **Set as the latest release** if it should be the default on GitHub.
+
+Or with [GitHub CLI](https://cli.github.com/): `gh release create v9.0 HotelManager-v9.0-release.apk --title "Hotel Manager v9.0" --generate-notes`
+
+To ship a different version later, change **`v9.0`** and **`HotelManager-v9.0-release.apk`** everywhere in `index.html` (search/replace) to match the new tag and filename.
 
 ## Files
 
