@@ -28,11 +28,11 @@ GitHub Pages is not turned on yet, or the wrong **source** is selected. Do **one
 
 ## APK download
 
-The site’s **Download** buttons point to the latest release asset on the main app repo:
+The site’s **Download** buttons point to release **v8.4** on the main app repo:
 
-`https://github.com/roireuven/hotel-management-v2/releases/latest/download/HotelManager-v2.0-release.apk`
+`https://github.com/roireuven/hotel-management-v2/releases/download/v8.4/HotelManager-v8.4-release.apk`
 
-When you publish a **new** Android build: create a GitHub Release on **hotel-management-v2** and attach an APK named **`HotelManager-v2.0-release.apk`** (same name) so **`/latest/download/...`** keeps working. Or edit `index.html` and change the URL/filename to match your new asset.
+When you ship a **new** Android build from current sources: on **hotel-management-v2**, create a GitHub Release tagged **`v8.4`** (or bump the tag in `index.html`) and attach a signed APK named **`HotelManager-v8.4-release.apk`** so the link above works. Mark that release as **Latest** if you want it to be the default download.
 
 ## Files
 
