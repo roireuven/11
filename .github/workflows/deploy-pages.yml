@@ -1,5 +1,4 @@
-# Deploys the static site at repo root (index.html) to GitHub Pages.
-# After pushing: Repo → Settings → Pages → Build and deployment → Source: "GitHub Actions"
+# Publishes only the static site files to GitHub Pages (Source: GitHub Actions).
 name: Deploy GitHub Pages
 
 on:
@@ -26,13 +25,21 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Prepare site folder
+        run: |
+          mkdir -p _site
+          cp index.html _site/
+          if [ -f README.md ]; then cp README.md _site/; fi
+          if [ -f app-release.apk ]; then cp app-release.apk _site/; fi
+          touch _site/.nojekyll
+
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: .
+          path: _site
 
       - name: Deploy to GitHub Pages
         id: deployment

@@ -19,10 +19,12 @@ GitHub Pages is not turned on yet, or the wrong **source** is selected. Do **one
 
 #### Option B — GitHub Actions (this repo includes a workflow)
 
-1. Merge/push so `.github/workflows/deploy-pages.yml` is on `main`
-2. **Settings** → **Pages** → **Source**: **GitHub Actions** (not “Deploy from a branch”)
-3. **Actions** tab → run **Deploy GitHub Pages** (or push a commit to trigger it)
-4. When the workflow is green, open the site URL again
+1. **Settings** → **Pages** → **Source**: **GitHub Actions** → Save  
+2. Push to `main` (or **Actions** → **Deploy GitHub Pages** → **Run workflow**)  
+3. **Actions** tab → wait until **Deploy GitHub Pages** is green (approve **github-pages** environment the first time if GitHub asks).  
+4. Reload [https://roireuven.github.io/11/](https://roireuven.github.io/11/)
+
+**Easier:** If Actions fails, use **Option A** (branch `main`, folder **`/ (root)`**) — no workflow needed.
 
 ## APK
 
