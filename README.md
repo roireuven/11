@@ -28,14 +28,14 @@ GitHub Pages is not turned on yet, or the wrong **source** is selected. Do **one
 
 ## APK download
 
-**Current links** target **v7.3.3** (localization / i18n) and this asset name:
+**Current links** target **v7.4.0** (localization / i18n) and this asset name:
 
-`https://github.com/roireuven/hotel-management-v2/releases/download/v7.3.3/HotelManager-v7.3.3-release.apk`
+`https://github.com/roireuven/hotel-management-v2/releases/download/v7.4.0/HotelManager-v7.4.0-release.apk`
 
-1. In [Releases](https://github.com/roireuven/hotel-management-v2/releases), create a release with tag **v7.3.3** and upload **`HotelManager-v7.3.3-release.apk`** (exact name). Set it as **Latest** if you want the default to point at this build.
+1. In [Releases](https://github.com/roireuven/hotel-management-v2/releases), create a release with tag **v7.4.0** and upload **`HotelManager-v7.4.0-release.apk`** (exact name). Set it as **Latest** if you want the default to point at this build.
 2. The older **v6.8** file remains available for archive downloads if you need it.
 
-**Why not `/releases/latest/download/...`?** It only works when your **Latest** release includes an `.apk` whose filename matches the URL. A tagged link (`.../download/v7.3.3/...`) stays predictable after you create that release and attach the file.
+**Why not `/releases/latest/download/...`?** It only works when your **Latest** release includes an `.apk` whose filename matches the URL. A tagged link (`.../download/v7.4.0/...`) stays predictable after you create that release and attach the file.
 
 ## Files
 
