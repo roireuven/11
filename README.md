@@ -26,9 +26,13 @@ GitHub Pages is not turned on yet, or the wrong **source** is selected. Do **one
 
 **Easier:** If Actions fails, use **Option A** (branch `main`, folder **`/ (root)`**) — no workflow needed.
 
-## APK
+## APK download
 
-Add your signed build as **`app-release.apk`** in this repository root (next to `index.html`). Download buttons on the site link to that file.
+The site’s **Download** buttons point to the latest release asset on the main app repo:
+
+`https://github.com/roireuven/hotel-management-v2/releases/latest/download/HotelManager-v2.0-release.apk`
+
+When you publish a **new** Android build: create a GitHub Release on **hotel-management-v2** and attach an APK named **`HotelManager-v2.0-release.apk`** (same name) so **`/latest/download/...`** keeps working. Or edit `index.html` and change the URL/filename to match your new asset.
 
 ## Files
 
