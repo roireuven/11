@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Hotel Manager — hotel, restaurant, and mini-mart operations in one Android app." />
+  <title>Hotel Manager — Android App</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              50: '#eff6ff',
+              100: '#dbeafe',
+              500: '#3b82f6',
+              600: '#2563eb',
+              700: '#1d4ed8',
+              900: '#1e3a5f',
+            },
+          },
+          boxShadow: {
+            soft: '0 4px 24px -4px rgba(30, 58, 95, 0.12), 0 8px 32px -8px rgba(37, 99, 235, 0.15)',
+          },
+        },
+      },
+    };
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body class="font-sans text-slate-800 antialiased bg-slate-50">
+  <!-- Nav -->
+  <header class="sticky top-0 z-50 border-b border-slate-200/80 bg-white/90 backdrop-blur-md">
+    <div class="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
+      <a href="#" class="flex items-center gap-2 text-lg font-bold text-brand-900">
+        <span class="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-brand-600 to-brand-900 text-sm font-extrabold text-white shadow-sm">H</span>
+        <span>Hotel Manager</span>
+      </a>
+      <a
+        href="app-release.apk"
+        download
+        class="inline-flex items-center gap-2 rounded-full bg-brand-600 px-4 py-2 text-sm font-semibold text-white shadow-md transition hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2"
+      >
+        <i class="fa-solid fa-download" aria-hidden="true"></i>
+        Download
+      </a>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero -->
+    <section class="relative overflow-hidden bg-gradient-to-b from-white via-slate-50 to-slate-100">
+      <div class="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_80%_50%_at_50%_-20%,rgba(37,99,235,0.15),transparent)]"></div>
+      <div class="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-24 lg:px-8 lg:py-28">
+        <div class="mx-auto max-w-3xl text-center">
+          <p class="mb-3 text-sm font-semibold uppercase tracking-wider text-brand-600">Android app</p>
+          <h1 class="text-4xl font-extrabold tracking-tight text-slate-900 sm:text-5xl lg:text-6xl">
+            Run your hotel, restaurant &amp; shop — <span class="bg-gradient-to-r from-brand-600 to-cyan-600 bg-clip-text text-transparent">one app</span>
+          </h1>
+          <p class="mt-5 text-lg text-slate-600 sm:text-xl">
+            Bookings, housekeeping, POS, mini-mart, and billing — designed for front desk, F&amp;B, and managers on the go.
+          </p>
+          <div class="mt-10 flex flex-col items-stretch justify-center gap-3 sm:flex-row sm:items-center">
+            <a
+              href="app-release.apk"
+              download
+              class="inline-flex items-center justify-center gap-2 rounded-xl bg-brand-600 px-8 py-4 text-base font-bold text-white shadow-lg shadow-brand-500/30 transition hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2"
+            >
+              <i class="fa-brands fa-android text-xl" aria-hidden="true"></i>
+              Download APK
+            </a>
+            <a href="#features" class="inline-flex items-center justify-center rounded-xl border-2 border-slate-200 bg-white px-8 py-4 text-base font-semibold text-slate-700 transition hover:border-brand-200 hover:text-brand-700">
+              See features
+            </a>
+          </div>
+          <p class="mt-4 text-sm text-slate-500">Free download · For Android devices</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features -->
+    <section id="features" class="border-t border-slate-200 bg-white py-16 sm:py-20">
+      <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+        <div class="text-center">
+          <h2 class="text-3xl font-bold text-slate-900 sm:text-4xl">Built for your property</h2>
+          <p class="mx-auto mt-3 max-w-2xl text-slate-600">Everything you need to coordinate rooms, services, and sales in one place.</p>
+        </div>
+        <div class="mt-14 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+          <article class="rounded-2xl border border-slate-100 bg-slate-50/80 p-6 shadow-soft transition hover:border-brand-200 hover:shadow-lg">
+            <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-brand-100 text-brand-700">
+              <i class="fa-solid fa-hotel text-xl" aria-hidden="true"></i>
+            </div>
+            <h3 class="mt-4 text-lg font-bold text-slate-900">Hotel operations</h3>
+            <p class="mt-2 text-slate-600">Rooms, bookings, check-in/out, housekeeping, and invoicing so your front office stays in sync.</p>
+          </article>
+          <article class="rounded-2xl border border-slate-100 bg-slate-50/80 p-6 shadow-soft transition hover:border-brand-200 hover:shadow-lg">
+            <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-emerald-100 text-emerald-700">
+              <i class="fa-solid fa-utensils text-xl" aria-hidden="true"></i>
+            </div>
+            <h3 class="mt-4 text-lg font-bold text-slate-900">Restaurant &amp; POS</h3>
+            <p class="mt-2 text-slate-600">Take orders, manage the kitchen queue, and settle tabs — with room-charge when you need it.</p>
+          </article>
+          <article class="rounded-2xl border border-slate-100 bg-slate-50/80 p-6 shadow-soft transition hover:border-brand-200 hover:shadow-lg sm:col-span-2 sm:max-w-none lg:col-span-1">
+            <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-amber-100 text-amber-700">
+              <i class="fa-solid fa-chart-line text-xl" aria-hidden="true"></i>
+            </div>
+            <h3 class="mt-4 text-lg font-bold text-slate-900">Inventory &amp; insight</h3>
+            <p class="mt-2 text-slate-600">Mini-mart and F&amp;B stock, transactions, and reports to keep revenue and items under control.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- About -->
+    <section id="about" class="border-t border-slate-200 bg-slate-100/80 py-16 sm:py-20">
+      <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+        <div class="grid items-center gap-10 lg:grid-cols-2">
+          <div>
+            <h2 class="text-3xl font-bold text-slate-900 sm:text-4xl">What is Hotel Manager?</h2>
+            <p class="mt-4 text-lg text-slate-600">
+              Hotel Manager is a mobile management system for hotels that also cover restaurant and retail-style sales. It helps staff handle daily operations — from room status and guest stays to F&amp;B orders and on-site shop sales — without juggling multiple tools.
+            </p>
+            <p class="mt-4 text-slate-600">
+              Ideal for <strong class="text-slate-800">front desk, housekeeping, F&amp;B, and management</strong> who need a fast, touch-friendly app on Android phones and tablets.
+            </p>
+          </div>
+          <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-soft">
+            <ul class="space-y-3 text-slate-700">
+              <li class="flex gap-3">
+                <i class="fa-solid fa-circle-check mt-0.5 text-emerald-600" aria-hidden="true"></i>
+                <span>All-in-one workflows for room + F&amp;B + shop</span>
+              </li>
+              <li class="flex gap-3">
+                <i class="fa-solid fa-circle-check mt-0.5 text-emerald-600" aria-hidden="true"></i>
+                <span>Role-aware experience for different staff (e.g. reception, kitchen)</span>
+              </li>
+              <li class="flex gap-3">
+                <i class="fa-solid fa-circle-check mt-0.5 text-emerald-600" aria-hidden="true"></i>
+                <span>Built for on-device use on Android</span>
+              </li>
+            </ul>
+            <a
+              href="app-release.apk"
+              download
+              class="mt-6 flex w-full items-center justify-center gap-2 rounded-xl bg-brand-600 py-3 font-semibold text-white transition hover:bg-brand-700"
+            >
+              <i class="fa-solid fa-download" aria-hidden="true"></i>
+              Get the APK
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Install -->
+    <section id="install" class="border-t border-slate-200 bg-white py-16 sm:py-20">
+      <div class="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
+        <h2 class="text-center text-3xl font-bold text-slate-900 sm:text-4xl">How to install the APK</h2>
+        <p class="mt-3 text-center text-slate-600">Android blocks apps from outside the Play Store until you allow installs from your browser or files app.</p>
+        <ol class="mt-10 list-none space-y-4">
+          <li class="flex gap-4 rounded-xl border border-slate-200 bg-slate-50 p-4">
+            <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-brand-600 text-sm font-bold text-white">1</span>
+            <div>
+              <p class="font-semibold text-slate-900">Download the file</p>
+              <p class="mt-1 text-slate-600">Tap <strong>Download APK</strong> above to save <code class="rounded bg-slate-200 px-1.5 py-0.5 text-sm">app-release.apk</code> to your device.</p>
+            </div>
+          </li>
+          <li class="flex gap-4 rounded-xl border border-slate-200 bg-slate-50 p-4">
+            <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-brand-600 text-sm font-bold text-white">2</span>
+            <div>
+              <p class="font-semibold text-slate-900">Allow unknown sources</p>
+              <p class="mt-1 text-slate-600">Open <strong>Settings</strong> → <strong>Apps</strong> → <strong>Special app access</strong> → <strong>Install unknown apps</strong> (wording may vary), then allow the app you use to open the APK (e.g. Chrome, Files, or <strong>Package installer</strong>).</p>
+            </div>
+          </li>
+          <li class="flex gap-4 rounded-xl border border-slate-200 bg-slate-50 p-4">
+            <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-brand-600 text-sm font-bold text-white">3</span>
+            <div>
+              <p class="font-semibold text-slate-900">Open &amp; install</p>
+              <p class="mt-1 text-slate-600">Open the downloaded APK from your notifications or file manager, then follow the prompts. You can disable unknown-source permission later if you prefer.</p>
+            </div>
+          </li>
+        </ol>
+        <p class="mt-6 text-center text-sm text-slate-500">On older Android versions, look for <strong>Settings → Security → Unknown sources</strong> or <strong>Install from unknown sources</strong>.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="border-t border-slate-200 bg-slate-900 py-10 text-slate-400">
+    <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col items-center justify-between gap-4 sm:flex-row">
+        <p class="text-sm">© <span id="y"></span> Hotel Manager. All rights reserved.</p>
+        <a href="app-release.apk" download class="text-sm font-medium text-brand-400 hover:text-brand-300">Download app-release.apk</a>
+      </div>
+    </div>
+  </footer>
+  <script>
+    document.getElementById('y').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
