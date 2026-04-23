@@ -26,25 +26,19 @@ GitHub Pages is not turned on yet, or the wrong **source** is selected. Do **one
 
 **Easier:** If Actions fails, use **Option A** (branch `main`, folder **`/ (root)`**) — no workflow needed.
 
-## APK download (v6.9 — *Hotel Manager v6.9 — Reorder from Past Orders*)
+## APK download
 
-Every **Download** button points at the **latest** release asset named:
+**Download buttons** use the file that **exists** on the **Latest** release today (**v6.8**), named **`HotelManager-v2.0-release.apk`**:
 
-**`HotelManager-v6.9-release.apk`**
+`https://github.com/roireuven/hotel-management-v2/releases/latest/download/HotelManager-v2.0-release.apk`
 
-URL pattern:
+**Why not `HotelManager-v6.9-release.apk`?** That file is **not** on [Releases](https://github.com/roireuven/hotel-management-v2/releases) until you build it and upload it. Until then, links to it return **404**.
 
-`https://github.com/roireuven/hotel-management-v2/releases/latest/download/HotelManager-v6.9-release.apk`
+### When you publish v6.9
 
-### Publish this build from your *current* code
-
-1. Build a signed (or release) `.apk` from the **commit you want to ship** (e.g. current `master` with latest `docs/` and locales). Run `node docs/scripts/sync-embedded-locales.cjs` in **hotel-management-v2** before building if the app bundles `docs/index.html`.
-2. Name the file **`HotelManager-v6.9-release.apk`**.
-3. On [Releases](https://github.com/roireuven/hotel-management-v2/releases) → **Draft a new release**:
-   - Tag: **`v6.9`**
-   - Title: **Hotel Manager v6.9 — Reorder from Past Orders**
-   - Upload **`HotelManager-v6.9-release.apk`**
-4. Check **Set as the latest release** so `/latest/download/...` matches the landing page.
+1. Build from your current sources; optionally name the output **`HotelManager-v6.9-release.apk`**.
+2. Create a release with tag **v6.9**, attach that file, and set it as **Latest** (or edit `index.html` to use a tagged URL and matching filename).
+3. Update `index.html` so every `href` + `download="..."` point at the new asset, then push this repo so Pages updates.
 
 ## Files
 
