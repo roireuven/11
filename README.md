@@ -28,14 +28,13 @@ GitHub Pages is not turned on yet, or the wrong **source** is selected. Do **one
 
 ## APK download
 
-**Current links** target **v7.4.0** (localization / i18n) and this asset name:
+The site links to a **public file in a separate repository** (not a GitHub Release on the main app repo):
 
-`https://github.com/roireuven/hotel-management-v2/releases/download/v7.4.0/HotelManager-v7.4.0-release.apk`
+`https://raw.githubusercontent.com/roireuven/HotelManager-v7.4.1-release.apk/main/app-debug.apk`
 
-1. In [Releases](https://github.com/roireuven/hotel-management-v2/releases), create a release with tag **v7.4.0** and upload **`HotelManager-v7.4.0-release.apk`** (exact name). Set it as **Latest** if you want the default to point at this build.
-2. The older **v6.8** file remains available for archive downloads if you need it.
+That is the direct **raw** URL for `app-debug.apk` on branch `main` (same file as `github.com/.../raw/main/...`). If the link 404s, the default branch may be `master` — use `.../master/app-debug.apk` in the path.
 
-**Why not `/releases/latest/download/...`?** It only works when your **Latest** release includes an `.apk` whose filename matches the URL. A tagged link (`.../download/v7.4.0/...`) stays predictable after you create that release and attach the file.
+**Alternative:** create a [Release](https://github.com/roireuven/hotel-management-v2/releases) on the main app repo and point `index.html` at `.../releases/download/TAG/filename.apk` for a cleaner, versioned download URL.
 
 ## Files
 
