@@ -1,0 +1,6 @@
+{
+  "projects": {
+    "default": "hotel-restaurant-minimart",
+    "production": "hotel-restaurant-minimart"
+  }
+}
