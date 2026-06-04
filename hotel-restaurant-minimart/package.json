@@ -11,7 +11,7 @@
     "deploy:preview": "firebase hosting:channel:deploy preview --expires 7d"
   },
   "devDependencies": {
-    "firebase-tools": "^14.0.0",
+    "firebase-tools": "^15.19.1",
     "serve": "^14.2.4"
   },
   "engines": {

@@ -6,6 +6,8 @@ Local development environment for the web app hosted at:
 
 Firebase project: `hotel-restaurant-minimart`
 
+Requires **firebase-tools 15.x** (installed via `npm install`).
+
 ## Quick start
 
 ```bash
