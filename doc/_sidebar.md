@@ -34,4 +34,4 @@
 
 * **Links**
   * [Live web app ↗](https://hotel-restaurant-minimart.firebaseapp.com/)
-  * [APK landing ↗](../)
+  * [APK landing (GitHub) ↗](https://roireuven.github.io/11/)

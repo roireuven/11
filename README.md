@@ -8,9 +8,12 @@ Full documentation for **HotelRestaurantMini-MartManagement** (hotel, restaurant
 
 | Format | URL |
 |--------|-----|
-| **Docs site (browse)** | [https://roireuven.github.io/11/doc/](https://roireuven.github.io/11/doc/) |
+| **Docs site (Firebase)** | [https://hotel-restaurant-minimart.firebaseapp.com/doc/](https://hotel-restaurant-minimart.firebaseapp.com/doc/) |
+| **Docs site (GitHub Pages)** | [https://roireuven.github.io/11/doc/](https://roireuven.github.io/11/doc/) |
 | **Markdown source** | [doc/README.md](doc/README.md) |
 | **Live app** | [hotel-restaurant-minimart.firebaseapp.com](https://hotel-restaurant-minimart.firebaseapp.com/) |
+
+Deploy docs to Firebase from repo root: `npm install && firebase login && npm run deploy`
 
 ## Live site
 
