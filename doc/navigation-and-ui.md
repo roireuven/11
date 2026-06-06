@@ -33,9 +33,13 @@ Hidden sections collapse automatically when no visible links remain for your rol
 
 ## Documentation (in-app)
 
-After sign-in, open **Admin → Documentation** in the sidebar (available to **all roles**). The full docs site opens inside the app in an embedded viewer, with a link to open `/doc/` in a new tab.
+| Location | Action |
+|----------|--------|
+| **Top bar** | **Documentation** button (next to Localization) — opens embedded docs |
+| **Sidebar** | Admin section → **Documentation** |
+| **Login screen** | **Documentation ↗** link |
 
-Before sign-in, use **Documentation ↗** on the login screen.
+Available to **all roles**. Opens the full docs site inside the app; use **Open in new tab ↗** for `/doc/`.
 
 Standalone URL: [https://hotel-restaurant-minimart.firebaseapp.com/doc/](https://hotel-restaurant-minimart.firebaseapp.com/doc/)
 
