@@ -3,6 +3,7 @@
 Complete documentation for **HotelRestaurantMini-MartManagement** (v2.0), an all-in-one property management system for **hotel**, **restaurant**, **mini-mart**, and **POS** operations.
 
 > **Browse online (Firebase):** [https://hotel-restaurant-minimart.firebaseapp.com/doc/](https://hotel-restaurant-minimart.firebaseapp.com/doc/)  
+> **Inside the app:** Sidebar → **Documentation** (all roles) — embedded help  
 > **Mirror (GitHub Pages):** [https://roireuven.github.io/11/doc/](https://roireuven.github.io/11/doc/)
 
 ## Live application

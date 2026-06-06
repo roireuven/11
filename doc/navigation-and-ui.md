@@ -31,6 +31,14 @@ Hidden sections collapse automatically when no visible links remain for your rol
 | **Bookings** | Open bookings |
 | **Menu** | Toggle sidebar |
 
+## Documentation (in-app)
+
+After sign-in, open **Admin → Documentation** in the sidebar (available to **all roles**). The full docs site opens inside the app in an embedded viewer, with a link to open `/doc/` in a new tab.
+
+Before sign-in, use **Documentation ↗** on the login screen.
+
+Standalone URL: [https://hotel-restaurant-minimart.firebaseapp.com/doc/](https://hotel-restaurant-minimart.firebaseapp.com/doc/)
+
 The POS bottom-nav button routes to the mini-mart/sales interface for quick till operations.
 
 ## Dark mode
