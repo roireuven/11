@@ -6,7 +6,11 @@ Static landing page for the Android app.
 
 Full documentation for **HotelRestaurantMini-MartManagement** (hotel, restaurant, mini-mart web app):
 
-**[doc/README.md](doc/README.md)** — [Live app](https://hotel-restaurant-minimart.firebaseapp.com/)
+| Format | URL |
+|--------|-----|
+| **Docs site (browse)** | [https://roireuven.github.io/11/doc/](https://roireuven.github.io/11/doc/) |
+| **Markdown source** | [doc/README.md](doc/README.md) |
+| **Live app** | [hotel-restaurant-minimart.firebaseapp.com](https://hotel-restaurant-minimart.firebaseapp.com/) |
 
 ## Live site
 
