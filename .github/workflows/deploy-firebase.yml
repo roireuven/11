@@ -37,8 +37,11 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Build hosting bundle
+      - name: Build app + documentation bundle
         run: npm run build
+
+      - name: Verify bundle includes documentation
+        run: npm run verify
 
       - name: Deploy to Firebase Hosting
         env:
@@ -48,4 +51,4 @@ jobs:
             echo "::error::FIREBASE_TOKEN secret is not set. Run 'firebase login:ci' locally and add the token to repo Settings → Secrets → Actions."
             exit 1
           fi
-          npx firebase deploy --only hosting --token "$FIREBASE_TOKEN" --non-interactive
+          npx firebase deploy --only hosting --project hotel-restaurant-minimart --token "$FIREBASE_TOKEN" --non-interactive

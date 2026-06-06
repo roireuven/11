@@ -33,13 +33,16 @@ Hidden sections collapse automatically when no visible links remain for your rol
 
 ## Documentation (in-app)
 
-| Location | Action |
-|----------|--------|
-| **Top bar** | **Documentation** button (next to Localization) — opens embedded docs |
-| **Sidebar** | Admin section → **Documentation** |
-| **Login screen** | **Documentation ↗** link |
+Documentation is **inside the app** — full guides open in an embedded viewer.
 
-Available to **all roles**. Opens the full docs site inside the app; use **Open in new tab ↗** for `/doc/`.
+| Location | Label | Action |
+|----------|-------|--------|
+| **Top bar** | Documentation | Next to Localization |
+| **Hamburger menu (☰)** | Documentation | Main section, under Dashboard |
+| **Bottom bar** | Docs | Bottom navigation (mobile) |
+| **Login screen** | Documentation ↗ | Before sign-in |
+
+Available to **all roles**. Use **Open in new tab ↗** inside the docs page for `/doc/`.
 
 Standalone URL: [https://hotel-restaurant-minimart.firebaseapp.com/doc/](https://hotel-restaurant-minimart.firebaseapp.com/doc/)
 

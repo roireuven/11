@@ -13,7 +13,15 @@ Full documentation for **HotelRestaurantMini-MartManagement** (hotel, restaurant
 | **Markdown source** | [doc/README.md](doc/README.md) |
 | **Live app** | [hotel-restaurant-minimart.firebaseapp.com](https://hotel-restaurant-minimart.firebaseapp.com/) |
 
-Deploy docs to Firebase from repo root: `npm install && firebase login && npm run deploy`
+Deploy **app + documentation** to Firebase from repo root:
+
+```bash
+npm install
+firebase login
+npm run deploy
+```
+
+This builds `public/` with the app (Documentation button in top bar), embeds docs in the app, and uploads `/doc/` (26 guides). CI: add `FIREBASE_TOKEN` secret and push to `main`, or run **Actions → Deploy Firebase Hosting → Run workflow**.
 
 ## Live site
 
