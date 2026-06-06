@@ -8,6 +8,9 @@ DOC_SRC="$ROOT/doc"
 
 bash "$ROOT/scripts/sync-from-production.sh"
 
+echo "Patching mobile top bar..."
+python3 "$ROOT/scripts/patch-app-mobile-menu.py"
+
 echo "Embedding documentation into app..."
 python3 "$ROOT/scripts/patch-app-embed-docs.py"
 
