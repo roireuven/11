@@ -15,6 +15,12 @@ Full documentation for **HotelRestaurantMini-MartManagement** (hotel, restaurant
 
 Deploy docs to Firebase from repo root: `npm install && firebase login && npm run deploy`
 
+The deploy bundle includes:
+- **App** — synced from production + Documentation button (top bar) + sidebar page
+- **`/doc/`** — full Docsify documentation site (24 guides)
+
+GitHub Actions workflow `.github/workflows/deploy-firebase.yml` runs `npm run build` + deploy on push to `main` when `FIREBASE_TOKEN` secret is set.
+
 ## Live site
 
 **URL:** [https://roireuven.github.io/11/](https://roireuven.github.io/11/)

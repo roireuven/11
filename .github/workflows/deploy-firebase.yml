@@ -1,0 +1,52 @@
+# Deploy HotelRestaurantMini-MartManagement + documentation to Firebase Hosting.
+# Requires secret FIREBASE_TOKEN (firebase login:ci) or FIREBASE_SERVICE_ACCOUNT JSON.
+name: Deploy Firebase Hosting
+
+on:
+  push:
+    branches: ["main"]
+    paths:
+      - "doc/**"
+      - "scripts/**"
+      - "firebase.json"
+      - ".firebaserc"
+      - "package.json"
+      - "package-lock.json"
+  workflow_dispatch:
+
+concurrency:
+  group: firebase-hosting
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build app + documentation bundle
+        run: npm run build
+
+      - name: Verify deploy bundle
+        run: npm run verify
+
+      - name: Deploy to Firebase Hosting
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+        run: |
+          if [ -z "${FIREBASE_TOKEN:-}" ]; then
+            echo "::warning::FIREBASE_TOKEN secret not set — skipping Firebase deploy."
+            echo "Add repo secret FIREBASE_TOKEN from: firebase login:ci"
+            exit 0
+          fi
+          npx firebase deploy --only hosting --project hotel-restaurant-minimart --token "$FIREBASE_TOKEN" --non-interactive
