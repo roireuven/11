@@ -1,0 +1,51 @@
+# Deploy HotelRestaurantMini-MartManagement app + docs to Firebase Hosting.
+name: Deploy Firebase Hosting
+
+on:
+  push:
+    branches: ["main"]
+    paths:
+      - "doc/**"
+      - "scripts/**"
+      - "firebase.json"
+      - ".firebaserc"
+      - "package.json"
+      - "package-lock.json"
+      - ".github/workflows/deploy-firebase.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: firebase-hosting
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build hosting bundle
+        run: npm run build
+
+      - name: Deploy to Firebase Hosting
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+        run: |
+          if [ -z "$FIREBASE_TOKEN" ]; then
+            echo "::error::FIREBASE_TOKEN secret is not set. Run 'firebase login:ci' locally and add the token to repo Settings → Secrets → Actions."
+            exit 1
+          fi
+          npx firebase deploy --only hosting --token "$FIREBASE_TOKEN" --non-interactive
