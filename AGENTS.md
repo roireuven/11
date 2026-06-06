@@ -5,3 +5,4 @@
 - For local development preview, serve the repository root with a static server such as `python3 -m http.server 8000` and open `http://localhost:8000`.
 - The "Download APK" flow depends on an external public GitHub raw URL in the separate `roireuven/HotelManager-v7.4.1-release.apk` repository; this repository does not contain the Android app source or APK build pipeline.
 - A useful sanity check is to request the local page and verify the APK URL resolves, since CDN assets and the download target are remote dependencies.
+- **Full product documentation** for HotelRestaurantMini-MartManagement is in [`doc/`](doc/). Browse on Firebase: [https://hotel-restaurant-minimart.firebaseapp.com/doc/](https://hotel-restaurant-minimart.firebaseapp.com/doc/) (or GitHub Pages mirror at `/11/doc/`). Deploy with `npm run deploy` after `firebase login`.

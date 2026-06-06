@@ -31,6 +31,10 @@ jobs:
           cp index.html _site/
           if [ -f README.md ]; then cp README.md _site/; fi
           if [ -f app-release.apk ]; then cp app-release.apk _site/; fi
+          if [ -d doc ]; then
+            cp -r doc _site/doc
+            touch _site/doc/.nojekyll
+          fi
           touch _site/.nojekyll
 
       - name: Setup Pages
