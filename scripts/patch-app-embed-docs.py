@@ -6,11 +6,16 @@ import re
 import sys
 from pathlib import Path
 
-MARKER = "HRMM-DOCS-EMBED-v3"
+MARKER = "HRMM-DOCS-EMBED-v4"
 INDEX = Path("public/index.html")
 
 SIDEBAR_LINK = """
       <a data-page="documentation" class="hrmm-doc-nav"><span class="icon">&#128214;</span><span class="nav-txt" data-i18n="nav.documentation">Documentation</span></a>"""
+
+SIDEBAR_HELP_BLOCK = """
+      <div class="nav-section" data-i18n="nav.sectionHelp">Help</div>""" + SIDEBAR_LINK
+
+SIDEBAR_NAV_OPEN = '    <nav class="sidebar-nav" id="sidebarNav">'
 
 TOPBAR_BTN = """
         <button type="button" class="btn-lang" id="topbarDocBtn" onclick="navToPage('documentation')" data-i18n-title="topbar.documentationTitle" title="Documentation" aria-label="Documentation">
@@ -105,21 +110,29 @@ def _insert_topbar_btn(content: str) -> str:
 
 
 def _insert_sidebar_main(content: str) -> str:
-    # Remove old admin-section placement if present (v1/v2)
+    # Remove any previous documentation nav link
+    content = re.sub(
+        r'\n\s*<div class="nav-section" data-i18n="nav.sectionHelp">Help</div>\s*\n\s*<a data-page="documentation" class="hrmm-doc-nav">.*?</a>',
+        "",
+        content,
+        flags=re.DOTALL,
+    )
     content = re.sub(
         r'\n\s*<a data-page="documentation" class="hrmm-doc-nav">.*?</a>',
         "",
         content,
-        count=1,
         flags=re.DOTALL,
     )
-    if 'data-page="documentation"' in content.split("sidebarNav")[1].split("</nav>")[0]:
+    nav_block = content.split("sidebarNav", 1)[1].split("</nav>", 1)[0] if "sidebarNav" in content else ""
+    if 'data-page="documentation"' in nav_block:
         return content
-    m = DASHBOARD_NAV_LOOSE.search(content)
-    if not m:
-        raise SystemExit("Could not find dashboard nav link for documentation")
-    insert_at = m.end()
-    return content[:insert_at] + SIDEBAR_LINK + content[insert_at:]
+    if SIDEBAR_NAV_OPEN not in content:
+        raise SystemExit("Could not find sidebar nav for documentation")
+    return content.replace(
+        SIDEBAR_NAV_OPEN,
+        SIDEBAR_NAV_OPEN + SIDEBAR_HELP_BLOCK,
+        1,
+    )
 
 
 def _insert_bottom_nav(content: str) -> str:
@@ -168,6 +181,13 @@ def _patch_core(content: str) -> str:
             1,
         )
 
+    if '"sectionMain": "Main"' in content and '"sectionHelp"' not in content[:120000]:
+        content = content.replace(
+            '"sectionMain": "Main"',
+            '"sectionHelp": "Help",\n    "sectionMain": "Main"',
+            1,
+        )
+
     if '"localization": "Localization"' in content:
         block = content.split('"topbar"', 1)[1][:800] if '"topbar"' in content else ""
         if '"documentationTitle"' not in block:
@@ -211,9 +231,9 @@ def patch(content: str) -> str:
         MARKER in content
         and 'data-bnav="documentation" onclick' in content
         and 'id="topbarDocBtn"' in content
-        and 'class="hrmm-doc-nav"' in content
+        and 'nav.sectionHelp' in content
     ):
-        print("Already patched v3 — skipping")
+        print("Already patched v4 — skipping")
         return content
 
     content = _patch_core(content)
@@ -240,7 +260,7 @@ def main() -> int:
     text = index.read_text(encoding="utf-8")
     patched = patch(text)
     index.write_text(patched, encoding="utf-8")
-    print(f"Patched {index} — docs in top bar, hamburger menu, and bottom nav")
+    print(f"Patched {index} — docs in Help menu, top bar, and bottom nav")
     return 0
 
 
