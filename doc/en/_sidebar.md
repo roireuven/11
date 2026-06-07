@@ -3,6 +3,7 @@
 * **Getting started**
   * [Overview](overview.md)
   * [Getting started](getting-started.md)
+  * [Visual guide (screenshots)](visual-guide.md)
   * [Installation](installation.md)
   * [First-time setup](first-time-setup.md)
   * [Demo credentials](demo-credentials.md)

@@ -4,6 +4,8 @@ Retail sales for on-site shop items, snacks, and amenities — with walk-in or r
 
 **Path:** Sidebar → **Mini-Mart** or bottom nav **POS**
 
+![Mini-mart POS — products, cart, charge to room](assets/screenshots/minimart-pos.png)
+
 ## Guest-attached sales
 
 Before scanning items, choose who the order is for:

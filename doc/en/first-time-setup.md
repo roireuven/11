@@ -9,6 +9,8 @@ The **First-Time Setup** screen shows when:
 
 Screen title: **Welcome to HotelRestaurantMini-MartManagement — v2.0 — First-Time Setup**
 
+![First-time setup — email, password, Create Account](assets/screenshots/first-time-setup.png)
+
 ## What you create
 
 | Field | Purpose |

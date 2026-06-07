@@ -22,6 +22,7 @@ Complete documentation for **HotelRestaurantMini-MartManagement** (v2.0), an all
 |----------|-------------|
 | [Overview](overview.md) | What the system is, who it is for, key capabilities |
 | [Getting started](getting-started.md) | Quick start for owners and staff |
+| [Visual guide (screenshots)](visual-guide.md) | Illustrated UI tour with screenshots |
 | [Installation](installation.md) | Web, Android, and local development |
 | [First-time setup](first-time-setup.md) | Create your system account and initial configuration |
 | [Demo credentials](demo-credentials.md) | Built-in demo users for testing |
