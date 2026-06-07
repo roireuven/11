@@ -6,7 +6,7 @@ import re
 import sys
 from pathlib import Path
 
-MARKER = "HRMM-MOBILE-MENU-v2"
+MARKER = "HRMM-MOBILE-MENU-v3"
 INDEX = Path("public/index.html")
 
 MENU_OLD = (
@@ -38,16 +38,19 @@ MOBILE_CSS = """
       .topbar .btn-logout { padding: 0.22rem 0.42rem; font-size: 0.65rem; min-height: 30px; letter-spacing: 0; }
       .topbar .dark-toggle { width: 30px; height: 30px; min-width: 30px; padding: 0; font-size: 0.95rem; flex-shrink: 0; border: none; background: rgba(255,255,255,0.15); border-radius: 7px; color: #fff; cursor: pointer; }
       .content { height: calc(100vh - 50px); }
-      .sidebar { width: min(280px, 92vw); max-width: 100vw; }
-      .sidebar-header { padding: 0.85rem 0.75rem; gap: 0.5rem; align-items: flex-start; }
-      .sidebar-header h2 { font-size: 0.88rem; line-height: 1.2; word-break: break-word; hyphens: auto; }
-      .sidebar-header span { font-size: 0.62rem; line-height: 1.25; }
-      .sidebar-header .logo { width: 34px !important; height: 34px !important; font-size: 1.15rem !important; flex-shrink: 0; }
-      .sidebar-nav { padding-bottom: 4.5rem; }
-      .sidebar-nav a { padding: 0.52rem 0.85rem; gap: 0.5rem; font-size: 0.78rem; }
-      .sidebar-nav a .icon { font-size: 1rem; width: 22px; flex-shrink: 0; }
+      /* Sidebar above bottom nav (was z-index 100 vs bottom-nav 150 — Settings hidden) */
+      .sidebar { width: min(280px, 92vw); max-width: 100vw; -webkit-overflow-scrolling: touch; overscroll-behavior: contain; }
+      .sidebar.open { z-index: 210; }
+      .sidebar-overlay.open { z-index: 205; }
+      .sidebar-header { padding: 0.75rem 0.7rem; gap: 0.45rem; align-items: flex-start; }
+      .sidebar-header h2 { font-size: 0.84rem; line-height: 1.15; word-break: break-word; hyphens: auto; }
+      .sidebar-header span { font-size: 0.6rem; line-height: 1.2; }
+      .sidebar-header .logo { width: 32px !important; height: 32px !important; font-size: 1.05rem !important; flex-shrink: 0; }
+      .sidebar-nav { padding-bottom: calc(1.25rem + env(safe-area-inset-bottom, 0px)); }
+      .sidebar-nav a { padding: 0.46rem 0.75rem; gap: 0.45rem; font-size: 0.76rem; }
+      .sidebar-nav a .icon { font-size: 0.95rem; width: 20px; flex-shrink: 0; }
       .sidebar-nav a .nav-txt { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-      .sidebar-nav .nav-section { padding: 0.35rem 0.85rem 0.12rem; font-size: 0.6rem; margin-top: 0.35rem; }
+      .sidebar-nav .nav-section { padding: 0.3rem 0.75rem 0.1rem; font-size: 0.58rem; margin-top: 0.28rem; }
       .bottom-nav { height: 50px; }
       .bottom-nav-item { font-size: 0.56rem; gap: 1px; padding: 0 1px; min-width: 0; }
       .bottom-nav-item .bnav-icon { font-size: 1rem; }
@@ -62,7 +65,7 @@ MOBILE_CSS = """
       .menu-toggle { font-size: 0.85rem; min-width: 28px; min-height: 28px; padding: 0.12rem 0.28rem; }
       .topbar .btn-logout { padding: 0.18rem 0.32rem; font-size: 0.58rem; }
       .sidebar { width: min(260px, 94vw); }
-      .sidebar-nav a { padding: 0.48rem 0.7rem; font-size: 0.74rem; }
+      .sidebar-nav a { padding: 0.42rem 0.65rem; font-size: 0.72rem; }
       .bottom-nav-item { font-size: 0.52rem; }
       .bottom-nav-item .bnav-label { max-width: 2.75rem; }
     }
@@ -118,7 +121,7 @@ def main() -> int:
         return 1
     text = index.read_text(encoding="utf-8")
     index.write_text(patch(text), encoding="utf-8")
-    print(f"Patched {index} — compact hamburger top bar and sidebar for small phones")
+    print(f"Patched {index} — sidebar Settings/Dropdowns visible on small phones")
     return 0
 
 
