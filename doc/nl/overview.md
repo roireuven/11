@@ -9,4 +9,4 @@
 - **Minimarkt & POS** — Winkelverkopen, kamerkosten, kassa
 - **Administratie** — Instellingen, accounts, rapporten, back-up, lokalisatie
 
-Voor het volledige overzicht met doelgroep- en mogelijkheidstabellen, zie de [English overview](../en/overview.md).
+Voor het volledige overzicht met doelgroep- en mogelijkheidstabellen, zie de [English overview](https://hotel-restaurant-minimart.firebaseapp.com/doc/?lang=en#/overview).

@@ -2,7 +2,7 @@
 
 **Path:** Sidebar → **Settings** — **Admin only**
 
-![Settings — property name, currency, taxes, seasons](/doc/en/assets/screenshots/11-settings.png)
+![Settings — property name, currency, taxes, seasons](assets/screenshots/11-settings.png)
 
 ## Hotel settings
 

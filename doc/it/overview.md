@@ -9,4 +9,4 @@
 - **Minimarket e POS** — Vendite negozio, addebiti camera, cassa
 - **Amministrazione** — Impostazioni, account, report, backup, localizzazione
 
-Per la panoramica completa con tabelle di pubblico e capacità, consulta la [English overview](../en/overview.md).
+Per la panoramica completa con tabelle di pubblico e capacità, consulta la [English overview](https://hotel-restaurant-minimart.firebaseapp.com/doc/?lang=en#/overview).

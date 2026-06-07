@@ -30,4 +30,4 @@ HotelRestaurantMini-MartManagement는 **21개 UI 언어**를 지원하며 아랍
 
 문서는 모든 앱 UI 언어로 제공됩니다. 아직 번역되지 않은 페이지는 영어 원본으로 연결됩니다.
 
-언어 변경, RTL, 로케일 파일 위치는 [English localization guide](../en/localization.md).
+언어 변경, RTL, 로케일 파일 위치는 [English localization guide](https://hotel-restaurant-minimart.firebaseapp.com/doc/?lang=en#/localization).

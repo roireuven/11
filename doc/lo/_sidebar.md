@@ -3,6 +3,7 @@
 * **ເລີ່ມຕົ້ນ**
   * [ພາບລວມ](overview.md)
   * [ເລີ່ມຕົ້ນ](getting-started.md)
+  * [Visual guide (screenshots)](visual-guide.md)
   * [ການຕິດຕັ້ງ](installation.md)
   * [ການຕັ້ງຄ່າຄັ້ງທຳອິດ](first-time-setup.md)
   * [ຂໍ້ມູນເຂົ້າສູ່ລະບົບເດໂມ](demo-credentials.md)
@@ -23,6 +24,7 @@
   * [ການຕັ້ງຄ່າ ແລະ ການກຳນົດຄ່າ](settings-and-configuration.md)
   * [ສຳຮອງ, ກູ້ຄືນ ແລະ ຂໍ້ມູນ](backup-restore-and-data.md)
   * [ການແປພາສາ](localization.md)
+  * [Multilingual documentation](multilingual-documentation.md)
   * [ແບບຈຳລອງຂໍ້ມູນ](data-model.md)
 
 * **ເຕັກນິກ**
@@ -34,4 +36,4 @@
 
 * **ລິ້ງ**
   * [Live web app ↗](https://hotel-restaurant-minimart.firebaseapp.com/)
-  * [APK landing ↗](https://roireuven.github.io/11/)
+  * [APK landing (GitHub) ↗](https://roireuven.github.io/11/)

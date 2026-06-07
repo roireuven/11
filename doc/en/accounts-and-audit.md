@@ -10,7 +10,7 @@ Staff access control, messaging, and compliance logging — **Admin** modules.
 
 **Path:** Sidebar → **Accounts** — **Admin only**
 
-![Accounts — create staff logins and roles](/doc/en/assets/screenshots/13-accounts.png)
+![Accounts — create staff logins and roles](assets/screenshots/13-accounts.png)
 
 | Field | Description |
 |-------|-------------|
