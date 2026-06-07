@@ -2,10 +2,11 @@
 """Guest QR scan → restaurant self-order screen (restaurant only, not mini-mart)."""
 from __future__ import annotations
 
+import re
 import sys
 from pathlib import Path
 
-MARKER = "HRMM-GUEST-QR-ORDER-v1"
+MARKER = "HRMM-GUEST-QR-ORDER-v2"
 INDEX = Path("public/index.html")
 
 GET_INVOICE_QR_PAYLOAD_OLD = """function getInvoiceQrPayload(inv) {
@@ -22,7 +23,7 @@ GET_INVOICE_QR_PAYLOAD_OLD = """function getInvoiceQrPayload(inv) {
   return parts.join('|');
 }"""
 
-GET_INVOICE_QR_PAYLOAD_NEW = """function guestQrRestaurantOrderEnabled() {
+GET_INVOICE_QR_PAYLOAD_V1 = """function guestQrRestaurantOrderEnabled() {
   return !(settings && (settings.invoiceQrIncludeRestaurantOrder === false || settings.invoiceQrIncludeRestaurantOrder === '0' || settings.invoiceQrIncludeRestaurantOrder === 0));
 }
 function buildGuestRestaurantOrderUrl(inv) {
@@ -67,6 +68,120 @@ function getInvoiceQrPayload(inv) {
   return parts.join('|');
 }"""
 
+GET_INVOICE_QR_PAYLOAD_V2 = """function guestQrRestaurantOrderEnabled() {
+  return !(settings && (settings.invoiceQrIncludeRestaurantOrder === false || settings.invoiceQrIncludeRestaurantOrder === '0' || settings.invoiceQrIncludeRestaurantOrder === 0));
+}
+function isLegacyInvoiceQrPayload(text) {
+  var s = String(text == null ? '' : text).trim();
+  if (!s) return false;
+  if (/^INV:/.test(s) || /\\|TXN:/.test(s) || /\\|TOTAL:/.test(s)) return true;
+  if (/^TOTAL:/.test(s)) return true;
+  return false;
+}
+function invoiceQrCaptionForPayload(payload) {
+  var s = String(payload == null ? '' : payload).trim();
+  if (!s) return '';
+  if (s.indexOf('guestOrder=restaurant') >= 0) return 'Scan to order from restaurant';
+  return s.length > 52 ? s.slice(0, 49) + '…' : s;
+}
+function buildGuestRestaurantOrderUrl(inv) {
+  var base = '';
+  if (settings && settings.invoiceQrText) {
+    var custom = String(settings.invoiceQrText).trim();
+    if (/^https?:\\/\\//i.test(custom)) base = custom.split('#')[0].split('?')[0];
+  }
+  if (!base) {
+    try { base = location.origin + (location.pathname || '/'); } catch (e) { base = ''; }
+  }
+  if (!base) return '';
+  try { base = String(base).split('#')[0]; } catch (e) {}
+  var params = new URLSearchParams();
+  params.set('guestOrder', 'restaurant');
+  if (inv) {
+    var roomVal = inv.roomNumber != null ? String(inv.roomNumber).trim() : '';
+    var tableVal = inv.tableNumber != null ? String(inv.tableNumber).trim() : '';
+    if (!tableVal && roomVal && /^table\\b/i.test(roomVal)) tableVal = roomVal;
+    if (tableVal && tableVal !== '—') params.set('table', tableVal);
+    else if (roomVal && roomVal !== '—' && !/^table\\b/i.test(roomVal)) params.set('room', roomVal);
+    if (inv.guestName != null && String(inv.guestName).trim() !== '' && String(inv.guestName).trim() !== '—') params.set('guest', String(inv.guestName).trim());
+    if (inv.bookingId != null && String(inv.bookingId).trim() !== '') params.set('booking', String(inv.bookingId).trim());
+  }
+  var q = params.toString();
+  if (base.indexOf('?') >= 0) {
+    var parts = base.split('?');
+    return parts[0] + '?' + q;
+  }
+  return base + '?' + q;
+}
+function getInvoiceQrPayload(inv) {
+  if (guestQrRestaurantOrderEnabled()) {
+    var orderUrl = buildGuestRestaurantOrderUrl(inv);
+    if (orderUrl) return orderUrl;
+  }
+  var base = (settings && settings.invoiceQrText) ? String(settings.invoiceQrText).trim() : '';
+  var includeDetails = !(settings && (settings.invoiceQrIncludeDetails === false || settings.invoiceQrIncludeDetails === '0' || settings.invoiceQrIncludeDetails === 0));
+  if (guestQrRestaurantOrderEnabled()) includeDetails = false;
+  var parts = [];
+  if (base && !guestQrRestaurantOrderEnabled()) parts.push(base);
+  if (includeDetails && inv) {
+    if (inv.invoiceNumber) parts.push('INV:' + String(inv.invoiceNumber));
+    if (inv.paymentTransactionId) parts.push('TXN:' + String(inv.paymentTransactionId));
+    if (inv.grandTotal != null && inv.grandTotal !== '') parts.push('TOTAL:' + String(inv.grandTotal));
+  }
+  if (!parts.length) return '';
+  return parts.join('|');
+}"""
+
+GET_EFFECTIVE_QR_PAYLOAD_OLD = """function getEffectiveInvoiceQrPayload(inv) {
+  if (inv && inv.qrTextOverride != null && inv.qrTextOverride !== undefined) return String(inv.qrTextOverride).trim();
+  return getInvoiceQrPayload(inv);
+}"""
+
+GET_EFFECTIVE_QR_PAYLOAD_NEW = """function getEffectiveInvoiceQrPayload(inv) {
+  if (inv && inv.qrTextOverride != null && inv.qrTextOverride !== undefined) {
+    var override = String(inv.qrTextOverride).trim();
+    if (!(guestQrRestaurantOrderEnabled() && isLegacyInvoiceQrPayload(override))) return override;
+  }
+  return getInvoiceQrPayload(inv);
+}"""
+
+BUILD_QR_CAPTION_OLD = """  var cap = custom ? 'Custom QR image' : (payload.length > 52 ? payload.slice(0, 49) + '…' : payload);"""
+
+BUILD_QR_CAPTION_NEW = """  var cap = custom ? 'Custom QR image' : invoiceQrCaptionForPayload(payload);"""
+
+REFRESH_QR_CAPTION_OLD = """  if (capEl) capEl.textContent = custom ? 'Custom QR image' : (payload.length > 52 ? payload.slice(0, 49) + '…' : payload);"""
+
+REFRESH_QR_CAPTION_NEW = """  if (capEl) capEl.textContent = custom ? 'Custom QR image' : invoiceQrCaptionForPayload(payload);"""
+
+ENSURE_GUEST_SETTING_V1 = """(function ensureGuestQrOrderSettingDefault() {
+  try {
+    if (typeof settings !== 'undefined' && settings && settings.invoiceQrIncludeRestaurantOrder === undefined) {
+      settings.invoiceQrIncludeRestaurantOrder = true;
+      if (typeof save === 'function') save('settings', settings);
+    }
+  } catch (e) {}
+})();"""
+
+ENSURE_GUEST_SETTING_V2 = """(function ensureGuestQrOrderSettingDefault() {
+  try {
+    var mk = (typeof DB_KEY !== 'undefined' ? DB_KEY : 'hotel_mgr_') + 'guestQrOrderForceEnabledV2';
+    var done = false;
+    try { done = String(localStorage.getItem(mk) || '') === '1'; } catch (e) {}
+    if (typeof settings !== 'undefined' && settings) {
+      if (settings.invoiceQrIncludeRestaurantOrder === undefined || !done) {
+        settings.invoiceQrIncludeRestaurantOrder = true;
+        if (typeof save === 'function') save('settings', settings);
+      }
+      if (!done) {
+        try { localStorage.setItem(mk, '1'); } catch (e) {}
+        if (typeof isAndroid !== 'undefined' && isAndroid) {
+          try { HotelDB.saveSetting('guestQrOrderForceEnabledV2', '1'); } catch (e) {}
+        }
+      }
+    }
+  } catch (e) {}
+})();"""
+
 UPDATE_QR_PREVIEW_OLD = """  var payload = getInvoiceQrPayload({ invoiceNumber: 'INV-PREVIEW', paymentTransactionId: 'TXN-PREVIEW', grandTotal: 0 });"""
 
 UPDATE_QR_PREVIEW_NEW = """  var payload = getInvoiceQrPayload({ invoiceNumber: 'INV-PREVIEW', paymentTransactionId: 'TXN-PREVIEW', grandTotal: 0, roomNumber: '101', guestName: 'Guest', bookingId: 'BK-PREVIEW' });"""
@@ -77,7 +192,7 @@ SETTINGS_QR_DETAILS_OLD = """        <label style="margin-top:0.5rem;display:fle
         </label>
         <p style="font-size:0.78rem;color:var(--text-light);margin:0.35rem 0 0;">Generated QR appears on each invoice. Upload a custom QR image below to override.</p>"""
 
-SETTINGS_QR_DETAILS_NEW = """        <label style="margin-top:0.5rem;display:flex;align-items:center;gap:0.35rem;font-weight:500;font-size:0.88rem;">
+SETTINGS_QR_DETAILS_V1 = """        <label style="margin-top:0.5rem;display:flex;align-items:center;gap:0.35rem;font-weight:500;font-size:0.88rem;">
           <input type="checkbox" id="sInvoiceQrGuestOrder" ${(s.invoiceQrIncludeRestaurantOrder===false||s.invoiceQrIncludeRestaurantOrder==='0'||s.invoiceQrIncludeRestaurantOrder===0)?'':'checked'} onchange="updateInvoiceQrPreview()">
           QR opens guest restaurant order (scan to order food)
         </label>
@@ -86,6 +201,16 @@ SETTINGS_QR_DETAILS_NEW = """        <label style="margin-top:0.5rem;display:fle
           Include invoice number &amp; total in QR (when guest order QR is off)
         </label>
         <p style="font-size:0.78rem;color:var(--text-light);margin:0.35rem 0 0;">When guest order is on, the QR links to the restaurant menu for room/table ordering. Optional custom URL above is used as the site base when it starts with http.</p>"""
+
+SETTINGS_QR_DETAILS_V2 = """        <label style="margin-top:0.5rem;display:flex;align-items:center;gap:0.35rem;font-weight:500;font-size:0.88rem;">
+          <input type="checkbox" id="sInvoiceQrGuestOrder" ${(s.invoiceQrIncludeRestaurantOrder===false||s.invoiceQrIncludeRestaurantOrder==='0'||s.invoiceQrIncludeRestaurantOrder===0)?'':'checked'} onchange="updateInvoiceQrPreview()">
+          QR opens guest restaurant order (scan to order food)
+        </label>
+        <label style="margin-top:0.5rem;display:flex;align-items:center;gap:0.35rem;font-weight:500;font-size:0.88rem;opacity:0.85;">
+          <input type="checkbox" id="sInvoiceQrDetails" ${(s.invoiceQrIncludeDetails===false||s.invoiceQrIncludeDetails==='0'||s.invoiceQrIncludeDetails===0)?'':'checked'} onchange="updateInvoiceQrPreview()">
+          Include invoice number &amp; total in QR (only when guest order QR is off)
+        </label>
+        <p style="font-size:0.78rem;color:var(--text-light);margin:0.35rem 0 0;">When guest order is on, invoice QR codes link to the restaurant menu (room/guest from the invoice). Press Ctrl+F5 after updates if the QR still shows old invoice text.</p>"""
 
 SAVE_SETTINGS_QR_OLD = """  if (document.getElementById('sInvoiceQrText')) settings.invoiceQrText = document.getElementById('sInvoiceQrText').value.trim();
   if (document.getElementById('sInvoiceQrDetails')) settings.invoiceQrIncludeDetails = document.getElementById('sInvoiceQrDetails').checked;
@@ -132,14 +257,55 @@ var guestRestCart = [];
 var guestRestMenuFilter = 'All';
 var guestRestCtx = { room: '', guest: '', booking: '', table: '' };
 var guestRestSubmitted = false;
-(function ensureGuestQrOrderSettingDefault() {
-  try {
-    if (typeof settings !== 'undefined' && settings && settings.invoiceQrIncludeRestaurantOrder === undefined) {
-      settings.invoiceQrIncludeRestaurantOrder = true;
-      if (typeof save === 'function') save('settings', settings);
-    }
-  } catch (e) {}
-})();
+"""
+
+CSS = """
+    /* HRMM guest QR restaurant order */
+    .guest-rest-order-overlay { position: fixed; inset: 0; z-index: 10050; background: var(--bg, #f4f6f9); overflow: auto; -webkit-overflow-scrolling: touch; }
+    .guest-rest-order-overlay.hidden { display: none; }
+    body.guest-rest-order-mode { overflow: hidden; }
+    body.guest-rest-order-mode #app,
+    body.guest-rest-order-mode #sidebar,
+    body.guest-rest-order-mode #topbar,
+    body.guest-rest-order-mode #bottomNav { display: none !important; }
+    .guest-rest-order-shell { max-width: 960px; margin: 0 auto; min-height: 100dvh; display: flex; flex-direction: column; padding: max(0.5rem, env(safe-area-inset-top, 0px)) 0.75rem max(1rem, env(safe-area-inset-bottom, 8px)); box-sizing: border-box; }
+    .guest-rest-order-hd { display: flex; align-items: flex-start; justify-content: space-between; gap: 0.75rem; padding: 0.5rem 0 0.75rem; border-bottom: 1px solid var(--border); margin-bottom: 0.75rem; }
+    .guest-rest-order-hd h1 { margin: 0; font-size: 1.15rem; line-height: 1.25; }
+    .guest-rest-order-sub { margin: 0.25rem 0 0; font-size: 0.82rem; color: var(--text-light); line-height: 1.35; }
+    .guest-rest-order-close { border: none; background: transparent; font-size: 1.75rem; line-height: 1; cursor: pointer; color: var(--text-light); padding: 0.15rem 0.35rem; }
+    .guest-rest-order-body { flex: 1; }
+    .guest-rest-layout { display: grid; grid-template-columns: 1fr; gap: 0.85rem; }
+    @media (min-width: 768px) { .guest-rest-layout { grid-template-columns: 1.2fr 0.8fr; align-items: start; } }
+    .guest-rest-panel { background: var(--card-bg, #fff); border: 1px solid var(--border); border-radius: 12px; padding: 0.85rem; }
+    .guest-rest-panel h2 { margin: 0 0 0.65rem; font-size: 1rem; display: flex; align-items: center; gap: 0.35rem; }
+    .guest-rest-count { font-size: 0.75rem; background: var(--primary); color: #fff; border-radius: 999px; padding: 0.1rem 0.45rem; }
+    .guest-rest-tabs { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-bottom: 0.65rem; }
+    .guest-rest-menu-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 0.5rem; }
+    .guest-rest-menu-card { display: flex; flex-direction: column; align-items: flex-start; text-align: left; gap: 0.15rem; border: 1px solid var(--border); border-radius: 10px; padding: 0.65rem; background: var(--card-bg, #fff); cursor: pointer; min-height: 88px; }
+    .guest-rest-menu-card:active { transform: scale(0.98); }
+    .grmc-name { font-weight: 600; font-size: 0.88rem; line-height: 1.25; }
+    .grmc-meta { font-size: 0.72rem; color: var(--text-light); }
+    .grmc-price { font-size: 0.85rem; color: var(--primary); font-weight: 700; margin-top: auto; }
+    .guest-rest-empty, .guest-rest-cart-empty { grid-column: 1 / -1; text-align: center; color: var(--text-light); padding: 1.5rem 0.5rem; font-size: 0.88rem; }
+    .guest-rest-cart-items { max-height: 240px; overflow: auto; margin-bottom: 0.65rem; }
+    .guest-rest-cart-row { display: grid; grid-template-columns: 1fr auto auto auto; gap: 0.35rem; align-items: center; padding: 0.35rem 0; border-bottom: 1px solid var(--border); font-size: 0.85rem; }
+    .guest-rest-qty { display: inline-flex; align-items: center; gap: 0.2rem; }
+    .guest-rest-qty button { width: 28px; height: 28px; border: 1px solid var(--border); border-radius: 6px; background: var(--card-bg, #fff); cursor: pointer; }
+    .guest-rest-remove { border: none; background: transparent; color: var(--danger, #c62828); cursor: pointer; font-size: 1rem; }
+    .guest-rest-totals { font-size: 0.85rem; margin-bottom: 0.65rem; }
+    .guest-rest-totals > div { display: flex; justify-content: space-between; padding: 0.2rem 0; }
+    .guest-rest-grand { font-weight: 700; font-size: 0.95rem; border-top: 1px solid var(--border); margin-top: 0.25rem; padding-top: 0.35rem !important; }
+    .guest-rest-notes-label { display: block; font-size: 0.78rem; font-weight: 600; margin-bottom: 0.65rem; }
+    .guest-rest-notes-label input { margin-top: 0.25rem; }
+    .guest-rest-submit { width: 100%; justify-content: center; min-height: 44px; }
+    .guest-rest-success { text-align: center; padding: 2.5rem 1rem; }
+    .guest-rest-success-icon { width: 64px; height: 64px; border-radius: 50%; background: #e8f5e9; color: #2e7d32; font-size: 2rem; line-height: 64px; margin: 0 auto 1rem; }
+    .guest-rest-success h2 { margin: 0 0 0.5rem; }
+    .guest-rest-success p { color: var(--text-light); margin: 0 0 1rem; line-height: 1.45; }
+    /* __HRMM_GUEST_QR_MARKER__ */
+"""
+
+GUEST_ORDER_JS_BODY = ENSURE_GUEST_SETTING_V2 + """
 function parseGuestRestaurantOrderParams() {
   var sp = (typeof window.hotelBootUrlParams === 'function') ? window.hotelBootUrlParams() : new URLSearchParams(typeof location !== 'undefined' && location.search ? location.search : '');
   if (sp.get('guestOrder') !== 'restaurant') return null;
@@ -331,55 +497,19 @@ window.tryBootGuestRestaurantOrder = function() {
 };
 """
 
-CSS = """
-    /* HRMM guest QR restaurant order */
-    .guest-rest-order-overlay { position: fixed; inset: 0; z-index: 10050; background: var(--bg, #f4f6f9); overflow: auto; -webkit-overflow-scrolling: touch; }
-    .guest-rest-order-overlay.hidden { display: none; }
-    body.guest-rest-order-mode { overflow: hidden; }
-    body.guest-rest-order-mode #app,
-    body.guest-rest-order-mode #sidebar,
-    body.guest-rest-order-mode #topbar,
-    body.guest-rest-order-mode #bottomNav { display: none !important; }
-    .guest-rest-order-shell { max-width: 960px; margin: 0 auto; min-height: 100dvh; display: flex; flex-direction: column; padding: max(0.5rem, env(safe-area-inset-top, 0px)) 0.75rem max(1rem, env(safe-area-inset-bottom, 8px)); box-sizing: border-box; }
-    .guest-rest-order-hd { display: flex; align-items: flex-start; justify-content: space-between; gap: 0.75rem; padding: 0.5rem 0 0.75rem; border-bottom: 1px solid var(--border); margin-bottom: 0.75rem; }
-    .guest-rest-order-hd h1 { margin: 0; font-size: 1.15rem; line-height: 1.25; }
-    .guest-rest-order-sub { margin: 0.25rem 0 0; font-size: 0.82rem; color: var(--text-light); line-height: 1.35; }
-    .guest-rest-order-close { border: none; background: transparent; font-size: 1.75rem; line-height: 1; cursor: pointer; color: var(--text-light); padding: 0.15rem 0.35rem; }
-    .guest-rest-order-body { flex: 1; }
-    .guest-rest-layout { display: grid; grid-template-columns: 1fr; gap: 0.85rem; }
-    @media (min-width: 768px) { .guest-rest-layout { grid-template-columns: 1.2fr 0.8fr; align-items: start; } }
-    .guest-rest-panel { background: var(--card-bg, #fff); border: 1px solid var(--border); border-radius: 12px; padding: 0.85rem; }
-    .guest-rest-panel h2 { margin: 0 0 0.65rem; font-size: 1rem; display: flex; align-items: center; gap: 0.35rem; }
-    .guest-rest-count { font-size: 0.75rem; background: var(--primary); color: #fff; border-radius: 999px; padding: 0.1rem 0.45rem; }
-    .guest-rest-tabs { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-bottom: 0.65rem; }
-    .guest-rest-menu-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 0.5rem; }
-    .guest-rest-menu-card { display: flex; flex-direction: column; align-items: flex-start; text-align: left; gap: 0.15rem; border: 1px solid var(--border); border-radius: 10px; padding: 0.65rem; background: var(--card-bg, #fff); cursor: pointer; min-height: 88px; }
-    .guest-rest-menu-card:active { transform: scale(0.98); }
-    .grmc-name { font-weight: 600; font-size: 0.88rem; line-height: 1.25; }
-    .grmc-meta { font-size: 0.72rem; color: var(--text-light); }
-    .grmc-price { font-size: 0.85rem; color: var(--primary); font-weight: 700; margin-top: auto; }
-    .guest-rest-empty, .guest-rest-cart-empty { grid-column: 1 / -1; text-align: center; color: var(--text-light); padding: 1.5rem 0.5rem; font-size: 0.88rem; }
-    .guest-rest-cart-items { max-height: 240px; overflow: auto; margin-bottom: 0.65rem; }
-    .guest-rest-cart-row { display: grid; grid-template-columns: 1fr auto auto auto; gap: 0.35rem; align-items: center; padding: 0.35rem 0; border-bottom: 1px solid var(--border); font-size: 0.85rem; }
-    .guest-rest-qty { display: inline-flex; align-items: center; gap: 0.2rem; }
-    .guest-rest-qty button { width: 28px; height: 28px; border: 1px solid var(--border); border-radius: 6px; background: var(--card-bg, #fff); cursor: pointer; }
-    .guest-rest-remove { border: none; background: transparent; color: var(--danger, #c62828); cursor: pointer; font-size: 1rem; }
-    .guest-rest-totals { font-size: 0.85rem; margin-bottom: 0.65rem; }
-    .guest-rest-totals > div { display: flex; justify-content: space-between; padding: 0.2rem 0; }
-    .guest-rest-grand { font-weight: 700; font-size: 0.95rem; border-top: 1px solid var(--border); margin-top: 0.25rem; padding-top: 0.35rem !important; }
-    .guest-rest-notes-label { display: block; font-size: 0.78rem; font-weight: 600; margin-bottom: 0.65rem; }
-    .guest-rest-notes-label input { margin-top: 0.25rem; }
-    .guest-rest-submit { width: 100%; justify-content: center; min-height: 44px; }
-    .guest-rest-success { text-align: center; padding: 2.5rem 1rem; }
-    .guest-rest-success-icon { width: 64px; height: 64px; border-radius: 50%; background: #e8f5e9; color: #2e7d32; font-size: 2rem; line-height: 64px; margin: 0 auto 1rem; }
-    .guest-rest-success h2 { margin: 0 0 0.5rem; }
-    .guest-rest-success p { color: var(--text-light); margin: 0 0 1rem; line-height: 1.45; }
-    /* __HRMM_GUEST_QR_MARKER__ */
-"""
-
 
 def _is_fully_patched(content: str) -> bool:
-    return MARKER in content and "tryBootGuestRestaurantOrder" in content and "buildGuestRestaurantOrderUrl" in content
+    return MARKER in content and "isLegacyInvoiceQrPayload" in content and "tryBootGuestRestaurantOrder" in content
+
+
+def _apply_qr_payload_upgrade(content: str) -> str:
+    if GET_INVOICE_QR_PAYLOAD_V1 in content:
+        return content.replace(GET_INVOICE_QR_PAYLOAD_V1, GET_INVOICE_QR_PAYLOAD_V2, 1)
+    if GET_INVOICE_QR_PAYLOAD_OLD in content:
+        return content.replace(GET_INVOICE_QR_PAYLOAD_OLD, GET_INVOICE_QR_PAYLOAD_V2, 1)
+    if "function guestQrRestaurantOrderEnabled()" in content and "isLegacyInvoiceQrPayload" not in content:
+        raise SystemExit("Could not upgrade guest QR payload block")
+    return content
 
 
 def patch(content: str) -> str:
@@ -387,19 +517,29 @@ def patch(content: str) -> str:
         print(f"Already patched {MARKER} — skipping")
         return content
 
-    if GET_INVOICE_QR_PAYLOAD_OLD not in content and "buildGuestRestaurantOrderUrl" not in content:
-        raise SystemExit("Could not find getInvoiceQrPayload anchor")
+    content = _apply_qr_payload_upgrade(content)
 
-    if GET_INVOICE_QR_PAYLOAD_OLD in content:
-        content = content.replace(GET_INVOICE_QR_PAYLOAD_OLD, GET_INVOICE_QR_PAYLOAD_NEW, 1)
+    if GET_EFFECTIVE_QR_PAYLOAD_OLD in content and "isLegacyInvoiceQrPayload" not in content.split(GET_EFFECTIVE_QR_PAYLOAD_OLD, 1)[0][-200:]:
+        content = content.replace(GET_EFFECTIVE_QR_PAYLOAD_OLD, GET_EFFECTIVE_QR_PAYLOAD_NEW, 1)
+
+    if BUILD_QR_CAPTION_OLD in content:
+        content = content.replace(BUILD_QR_CAPTION_OLD, BUILD_QR_CAPTION_NEW, 1)
+
+    if REFRESH_QR_CAPTION_OLD in content:
+        content = content.replace(REFRESH_QR_CAPTION_OLD, REFRESH_QR_CAPTION_NEW, 1)
+
+    if ENSURE_GUEST_SETTING_V1 in content:
+        content = content.replace(ENSURE_GUEST_SETTING_V1, ENSURE_GUEST_SETTING_V2, 1)
 
     if UPDATE_QR_PREVIEW_OLD in content:
         content = content.replace(UPDATE_QR_PREVIEW_OLD, UPDATE_QR_PREVIEW_NEW, 1)
 
     if SETTINGS_QR_DETAILS_OLD in content:
-        content = content.replace(SETTINGS_QR_DETAILS_OLD, SETTINGS_QR_DETAILS_NEW, 1)
+        content = content.replace(SETTINGS_QR_DETAILS_OLD, SETTINGS_QR_DETAILS_V2, 1)
+    elif SETTINGS_QR_DETAILS_V1 in content:
+        content = content.replace(SETTINGS_QR_DETAILS_V1, SETTINGS_QR_DETAILS_V2, 1)
 
-    if SAVE_SETTINGS_QR_OLD in content:
+    if SAVE_SETTINGS_QR_OLD in content and "sInvoiceQrGuestOrder" not in content.split(SAVE_SETTINGS_QR_OLD, 1)[1][:120]:
         content = content.replace(SAVE_SETTINGS_QR_OLD, SAVE_SETTINGS_QR_NEW, 1)
 
     if LOGIN_OVERLAY_END in content and 'id="guestRestOrderOverlay"' not in content:
@@ -407,19 +547,26 @@ def patch(content: str) -> str:
 
     autologin_anchor = "/* Autologin after all data and i18n helpers are ready. Never show login on top of the first-time setup overlay. */"
     if autologin_anchor in content and "tryBootGuestRestaurantOrder" not in content:
-        content = content.replace(autologin_anchor, GUEST_ORDER_JS + autologin_anchor, 1)
+        content = content.replace(
+            autologin_anchor,
+            GUEST_ORDER_JS + GUEST_ORDER_JS_BODY + autologin_anchor,
+            1,
+        )
+    elif ENSURE_GUEST_SETTING_V1 in content and ENSURE_GUEST_SETTING_V2 not in content:
+        content = content.replace(ENSURE_GUEST_SETTING_V1, ENSURE_GUEST_SETTING_V2, 1)
 
-    if INIT_AUTOLOGIN_OLD in content:
+    if INIT_AUTOLOGIN_OLD in content and "tryBootGuestRestaurantOrder()" not in content.split(INIT_AUTOLOGIN_OLD, 1)[1][:120]:
         content = content.replace(INIT_AUTOLOGIN_OLD, INIT_AUTOLOGIN_NEW, 1)
 
-    if f"/* {MARKER} */" not in content and "/* __HRMM_GUEST_QR_MARKER__ */" not in content:
+    if "/* __HRMM_GUEST_QR_MARKER__ */" not in content:
         content = content.replace(
             "  </style>\n</head>",
             CSS + "\n  </style>\n</head>",
             1,
         )
 
-    if f"<!-- {MARKER} -->" not in content:
+    content = re.sub(r"<!-- HRMM-GUEST-QR-ORDER-v\d+ -->", f"<!-- {MARKER} -->", content)
+    if MARKER not in content:
         content = content.replace(
             "<title>HotelRestaurantMini-MartManagement</title>",
             f"<title>HotelRestaurantMini-MartManagement</title>\n  <!-- {MARKER} -->",

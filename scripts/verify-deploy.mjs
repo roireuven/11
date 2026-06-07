@@ -64,8 +64,8 @@ if (!html.includes("hrmmInvoicePrintFrame") || !html.includes("buildInvoicePrint
 if (!html.includes("HRMM-SHIFTS-v1") || !html.includes("migrateShiftsClosedByDefault")) {
   fail("app missing shifts-closed-by-default patch (HRMM-SHIFTS-v1)");
 }
-if (!html.includes("HRMM-GUEST-QR-ORDER-v1") || !html.includes("tryBootGuestRestaurantOrder") || !html.includes("buildGuestRestaurantOrderUrl")) {
-  fail("app missing guest QR restaurant order patch (HRMM-GUEST-QR-ORDER-v1)");
+if (!html.includes("HRMM-GUEST-QR-ORDER-v2") || !html.includes("tryBootGuestRestaurantOrder") || !html.includes("isLegacyInvoiceQrPayload")) {
+  fail("app missing guest QR restaurant order patch (HRMM-GUEST-QR-ORDER-v2)");
 }
 if (!html.includes('id="guestRestOrderOverlay"') || !html.includes("guestRestSubmitOrder")) {
   fail("app missing guest restaurant order overlay UI");
