@@ -6,7 +6,7 @@ import re
 import sys
 from pathlib import Path
 
-MARKER = "HRMM-TOPBAR-SETTINGS-v2"
+MARKER = "HRMM-TOPBAR-SETTINGS-v3"
 INDEX = Path("public/index.html")
 
 TOPBAR_BTN = """
@@ -32,37 +32,54 @@ BOTTOM_NAV_WITH_SETTINGS = """    <button class="bottom-nav-item" data-bnav="set
 BNAV_ACTIVE_OLD = "const match = p === page || (p === 'pos' && (page === 'minimart' || page === 'pos')) || (p === 'documentation' && page === 'documentation');"
 BNAV_ACTIVE_NEW = "const match = p === page || (p === 'pos' && (page === 'minimart' || page === 'pos')) || (p === 'documentation' && page === 'documentation') || (p === 'settings' && page === 'settings');"
 
-RBAC_TAIL_OLD = """  const restNav = document.querySelector('#sidebarNav a[data-page="restaurant"]');
+RBAC_REST_NAV = """  const restNav = document.querySelector('#sidebarNav a[data-page="restaurant"]');
   if (restNav) {
     if (currentRole === 'Kitchen') restNav.innerHTML = '<span class="icon">&#127859;</span><span class="nav-txt" data-i18n="nav.kitchen">' + (i18nEn ? t('nav.kitchen') : 'Kitchen') + '</span>';
     else restNav.innerHTML = '<span class="icon">&#127860;</span><span class="nav-txt" data-i18n="nav.restaurant">' + (i18nEn ? t('nav.restaurant') : 'Restaurant') + '</span>';
   }
-}"""
+"""
 
-RBAC_TAIL_WITH_TOPBAR = """  const restNav = document.querySelector('#sidebarNav a[data-page="restaurant"]');
-  if (restNav) {
-    if (currentRole === 'Kitchen') restNav.innerHTML = '<span class="icon">&#127859;</span><span class="nav-txt" data-i18n="nav.kitchen">' + (i18nEn ? t('nav.kitchen') : 'Kitchen') + '</span>';
-    else restNav.innerHTML = '<span class="icon">&#127860;</span><span class="nav-txt" data-i18n="nav.restaurant">' + (i18nEn ? t('nav.restaurant') : 'Restaurant') + '</span>';
-  }
-  var settingsBtn = document.getElementById('topbarSettingsBtn');
+RBAC_TAIL_OLD = RBAC_REST_NAV + "}"
+
+RBAC_TAIL_WITH_TOPBAR = RBAC_REST_NAV + """  var settingsBtn = document.getElementById('topbarSettingsBtn');
   if (settingsBtn) {
     settingsBtn.style.display = (allowed === null || (Array.isArray(allowed) && allowed.indexOf('settings') >= 0)) ? '' : 'none';
   }
 }"""
 
-RBAC_TAIL_FULL = RBAC_TAIL_WITH_TOPBAR.replace(
-    "  var settingsBtn = document.getElementById('topbarSettingsBtn');",
-    "  var canSettings = allowed === null || (Array.isArray(allowed) && allowed.indexOf('settings') >= 0);\n"
-    "  var settingsBtn = document.getElementById('topbarSettingsBtn');",
-).replace(
-    "settingsBtn.style.display = (allowed === null || (Array.isArray(allowed) && allowed.indexOf('settings') >= 0)) ? '' : 'none';",
-    "settingsBtn.style.display = canSettings ? '' : 'none';",
-) + """
+RBAC_SETTINGS_TAIL = """  var canSettings = allowed === null || (Array.isArray(allowed) && allowed.indexOf('settings') >= 0);
+  var settingsBtn = document.getElementById('topbarSettingsBtn');
+  if (settingsBtn) {
+    settingsBtn.style.display = canSettings ? '' : 'none';
+  }
   var bnavSettings = document.querySelector('#bottomNav [data-bnav="settings"]');
   if (bnavSettings) {
     bnavSettings.style.display = canSettings ? '' : 'none';
   }
 }"""
+
+RBAC_TAIL_FULL = RBAC_REST_NAV + RBAC_SETTINGS_TAIL
+
+# v2 bug: bnavSettings block was appended after applyRBAC's closing brace (breaks login JS)
+RBAC_BROKEN_V2 = RBAC_SETTINGS_TAIL.replace(
+    "  var bnavSettings = document.querySelector('#bottomNav [data-bnav=\"settings\"]');",
+    "}\n  var bnavSettings = document.querySelector('#bottomNav [data-bnav=\"settings\"]');",
+    1,
+)
+
+
+def _rbac_is_broken(content: str) -> bool:
+    return RBAC_BROKEN_V2 in content or "}\n  var bnavSettings = document.querySelector('#bottomNav [data-bnav=\"settings\"]');" in content
+
+
+def _fix_rbac_tail(content: str) -> str:
+    if RBAC_BROKEN_V2 in content:
+        return content.replace(RBAC_BROKEN_V2, RBAC_SETTINGS_TAIL, 1)
+    if RBAC_TAIL_WITH_TOPBAR in content:
+        return content.replace(RBAC_TAIL_WITH_TOPBAR, RBAC_TAIL_FULL, 1)
+    if RBAC_TAIL_OLD in content:
+        return content.replace(RBAC_TAIL_OLD, RBAC_TAIL_FULL, 1)
+    return content
 
 
 def _css_block() -> str:
@@ -81,10 +98,12 @@ def _strip_old_settings_css(content: str) -> str:
 
 
 def _is_fully_patched(content: str) -> bool:
+    if _rbac_is_broken(content):
+        return False
     return (
         MARKER in content
         and 'data-bnav="settings"' in content
-        and "bnavSettings" in content
+        and RBAC_SETTINGS_TAIL in content
         and f"/* {MARKER} */" in content
     )
 
@@ -108,12 +127,7 @@ def patch(content: str) -> str:
     elif BNAV_ACTIVE_NEW not in content and "p === 'settings'" not in content:
         content = content.replace(BNAV_ACTIVE_OLD, BNAV_ACTIVE_NEW, 1)
 
-    if "bnavSettings" in content:
-        pass
-    elif RBAC_TAIL_WITH_TOPBAR in content:
-        content = content.replace(RBAC_TAIL_WITH_TOPBAR, RBAC_TAIL_FULL, 1)
-    elif RBAC_TAIL_OLD in content:
-        content = content.replace(RBAC_TAIL_OLD, RBAC_TAIL_FULL, 1)
+    content = _fix_rbac_tail(content)
 
     content = _strip_old_settings_css(content)
     if f"/* {MARKER} */" not in content:

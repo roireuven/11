@@ -46,6 +46,13 @@ for (const [needle, msg] of checks) {
   if (!html.includes(needle)) fail(msg);
 }
 
+if (/\n}\n  var bnavSettings = document\.querySelector\('#bottomNav \[data-bnav="settings"\]'\);/.test(html)) {
+  fail("applyRBAC has broken Settings tail (orphaned bnavSettings breaks login)");
+}
+if (!html.includes("HRMM-TOPBAR-SETTINGS-v3")) {
+  fail("app missing fixed Settings patch marker (HRMM-TOPBAR-SETTINGS-v3)");
+}
+
 let docHtml;
 try {
   docHtml = await readFile(join(DOC, "index.html"), "utf8");
