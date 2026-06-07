@@ -49,6 +49,9 @@ runPython("scripts/patch-app-embed-docs.py");
 console.log("Patching sell flows, audit log, POS nav...");
 runPython("scripts/patch-app-features.py");
 
+console.log("Adding Settings shortcut to top bar...");
+runPython("scripts/patch-app-topbar-settings.py");
+
 console.log("Adding documentation keys to app locale files...");
 runPython("scripts/patch-locale-doc-keys.py");
 

@@ -32,6 +32,7 @@ try {
 
 const checks = [
   ['id="topbarDocBtn"', "app missing top bar Documentation button"],
+  ['id="topbarSettingsBtn"', "app missing top bar Settings button"],
   ['data-bnav="documentation"', "app missing bottom nav Documentation link"],
   ['class="hrmm-doc-nav"', "app missing hamburger menu Documentation link"],
   ['embed=1', "app missing in-app embedded documentation (embed=1)"],
