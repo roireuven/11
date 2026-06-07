@@ -11,7 +11,7 @@ The app is a **single-page application (SPA)** with:
 - **Main content** — active module (or **embedded documentation** viewer)
 - **Bottom navigation** (mobile) — Dashboard, POS, Bookings, **Docs**, Menu
 
-![Dashboard — top bar, shifts, and bottom navigation](assets/screenshots/dashboard.png)
+![Dashboard — top bar, shifts, and bottom navigation](assets/screenshots/02-dashboard.png)
 
 ---
 
@@ -36,7 +36,7 @@ Hidden sections collapse automatically when no visible links remain for your rol
 | Desktop | Click **☰** (hamburger) top-left |
 | Mobile | Tap **Menu** in bottom nav |
 
-![Help section at top of sidebar — Documentation link](assets/screenshots/help-menu.png)
+![Help section at top of sidebar — Documentation link](assets/screenshots/03-help-menu.png)
 
 ---
 
@@ -65,7 +65,7 @@ Documentation is **inside the software** — not a separate website tab.
 | **Bottom bar** | Docs | Bottom navigation (mobile) |
 | **Login screen** | Hint text | Help available after sign-in via ☰ Menu → Help |
 
-![Documentation embedded inside the app](assets/screenshots/documentation-embed.png)
+![Documentation embedded inside the app](assets/screenshots/04-documentation-embed.png)
 
 - Opens in your **current app language** (21 locales)
 - See [Multilingual documentation](multilingual-documentation.md) and [Visual guide](visual-guide.md)
