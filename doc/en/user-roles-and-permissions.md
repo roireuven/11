@@ -43,6 +43,7 @@ Pages listed below are **visible** for each role. All others are hidden.
 | Audit Log | ✓ | — | — | — | — | — |
 | Dropdown Lists | ✓ | — | — | — | — | — |
 | Settings | ✓ | — | — | — | — | — |
+| **Documentation** | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
 
 \* **Kitchen** sees the Restaurant page relabeled **Kitchen** — payment and order-creation actions are restricted.
 

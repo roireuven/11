@@ -23,6 +23,7 @@
   * [Settings & configuration](settings-and-configuration.md)
   * [Backup, restore & data](backup-restore-and-data.md)
   * [Localization](localization.md)
+  * [Multilingual documentation](multilingual-documentation.md)
   * [Data model](data-model.md)
 
 * **Technical**
