@@ -3,10 +3,10 @@
   "private": true,
   "description": "Firebase Hosting — HotelRestaurantMini-MartManagement app + documentation",
   "scripts": {
-    "build": "bash scripts/build-public.sh",
-    "sync": "bash scripts/sync-from-production.sh",
-    "patch": "python3 scripts/patch-app-mobile-menu.py && python3 scripts/patch-app-embed-docs.py",
-    "verify": "bash scripts/verify-deploy.sh",
+    "build": "node scripts/build-public.mjs",
+    "sync": "node scripts/sync-from-production.mjs",
+    "patch": "node scripts/patch-app.mjs",
+    "verify": "node scripts/verify-deploy.mjs",
     "serve": "npm run build && npx firebase emulators:start --only hosting",
     "deploy": "npm run build && npm run verify && npx firebase deploy --only hosting --project hotel-restaurant-minimart"
   },
