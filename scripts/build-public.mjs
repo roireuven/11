@@ -58,6 +58,9 @@ runPython("scripts/patch-app-invoice.py");
 console.log("Patching shifts to start closed by default...");
 runPython("scripts/patch-app-shifts.py");
 
+console.log("Adding guest QR restaurant self-order...");
+runPython("scripts/patch-app-guest-qr-order.py");
+
 console.log("Adding documentation keys to app locale files...");
 runPython("scripts/patch-locale-doc-keys.py");
 
