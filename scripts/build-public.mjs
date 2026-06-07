@@ -52,6 +52,15 @@ runPython("scripts/patch-app-features.py");
 console.log("Adding Settings shortcut to top bar...");
 runPython("scripts/patch-app-topbar-settings.py");
 
+console.log("Patching invoice items table and logo...");
+runPython("scripts/patch-app-invoice.py");
+
+console.log("Patching shifts to start closed by default...");
+runPython("scripts/patch-app-shifts.py");
+
+console.log("Adding guest QR restaurant self-order...");
+runPython("scripts/patch-app-guest-qr-order.py");
+
 console.log("Adding documentation keys to app locale files...");
 runPython("scripts/patch-locale-doc-keys.py");
 
