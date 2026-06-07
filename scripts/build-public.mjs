@@ -55,6 +55,9 @@ runPython("scripts/patch-app-topbar-settings.py");
 console.log("Patching invoice items table and logo...");
 runPython("scripts/patch-app-invoice.py");
 
+console.log("Patching shifts to start closed by default...");
+runPython("scripts/patch-app-shifts.py");
+
 console.log("Adding documentation keys to app locale files...");
 runPython("scripts/patch-locale-doc-keys.py");
 

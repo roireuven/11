@@ -61,6 +61,9 @@ if (!html.includes("HRMM-INVOICE-PRINT-v5")) {
 if (!html.includes("printPostPaymentInvoice") || !html.includes("buildInvoicePrintBodyHtml")) {
   fail("app missing dedicated invoice print window");
 }
+if (!html.includes("HRMM-SHIFTS-v1") || !html.includes("migrateShiftsClosedByDefault")) {
+  fail("app missing shifts-closed-by-default patch (HRMM-SHIFTS-v1)");
+}
 
 let docHtml;
 try {
