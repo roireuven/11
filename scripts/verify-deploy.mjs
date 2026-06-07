@@ -55,11 +55,11 @@ if (!html.includes("HRMM-TOPBAR-SETTINGS-v3")) {
 if (!html.includes("getInvoiceLineItems") || !html.includes("refreshInvoiceQrDisplay") || !html.includes("HRMM-INVOICE-v4")) {
   fail("app missing invoice items table, logo, and QR patch (HRMM-INVOICE-v4)");
 }
-if (!html.includes("HRMM-INVOICE-PRINT-v5")) {
+if (!html.includes("HRMM-INVOICE-PRINT-v6")) {
   fail("app missing invoice print layout fix");
 }
-if (!html.includes("printPostPaymentInvoice") || !html.includes("buildInvoicePrintBodyHtml")) {
-  fail("app missing dedicated invoice print window");
+if (!html.includes("hrmmInvoicePrintFrame") || !html.includes("buildInvoicePrintBodyHtml")) {
+  fail("app missing iframe invoice print (HRMM-INVOICE-PRINT-v6)");
 }
 if (!html.includes("HRMM-SHIFTS-v1") || !html.includes("migrateShiftsClosedByDefault")) {
   fail("app missing shifts-closed-by-default patch (HRMM-SHIFTS-v1)");
