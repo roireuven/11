@@ -2,9 +2,9 @@
 
 Stock and product management across **restaurant**, **mini-mart**, and shared **inventory**.
 
-![Mini-mart POS — store items linked to inventory](assets/screenshots/09-minimart-pos.png)
+![Mini-mart POS — store items linked to inventory](/doc/en/assets/screenshots/09-minimart-pos.png)
 
-![Restaurant — menu items and stock checks](assets/screenshots/08-restaurant.png)
+![Restaurant — menu items and stock checks](/doc/en/assets/screenshots/08-restaurant.png)
 
 ---
 

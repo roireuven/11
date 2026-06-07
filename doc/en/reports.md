@@ -13,7 +13,7 @@ Available to **Admin** and **Manager**. **Manager** lands on Reports by default 
 | **Dashboard** | Roles with dashboard access | Live KPIs, shift status, date-filtered charts |
 | **Reports** | Admin, Manager | Department sales, occupancy trends, shift summaries |
 
-![Dashboard analytics and shift panels](assets/screenshots/02-dashboard.png)
+![Dashboard analytics and shift panels](/doc/en/assets/screenshots/02-dashboard.png)
 
 ---
 
