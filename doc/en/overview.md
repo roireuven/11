@@ -9,7 +9,11 @@
 - **Mini-mart / shop** — retail items sold on-site
 - **POS** — point-of-sale for walk-in and room-charge sales
 
-Staff use a **single app** with **role-based menus** so front desk, housekeeping, F&B, kitchen, and management each see only what they need.
+Staff use a **single app** with **role-based menus** and **in-app documentation** (Help → Documentation) in 21 languages.
+
+![Dashboard — hotel, restaurant, and mini-mart in one app](assets/screenshots/02-dashboard.png)
+
+> Open **☰ Menu → Help → Documentation** for the full illustrated guide ([Visual guide](visual-guide.md)).
 
 ## Tagline
 
@@ -54,7 +58,7 @@ Staff use a **single app** with **role-based menus** so front desk, housekeeping
 
 ### Administration
 
-- Multi-language UI (22 locales)
+- Multi-language UI (21 locales)
 - Dark mode
 - CSV/ZIP export and JSON backup/restore
 - Audit and change logs per module

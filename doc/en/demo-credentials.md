@@ -1,37 +1,72 @@
 # Demo credentials
 
-The sign-in screen includes **Demo Credentials** for training and evaluation. Tap an email row to auto-fill the username field.
+Built-in demo users for **training and evaluation** without running first-time setup.
 
-**Default password for all demo users:** `1234`
+![Sign-in screen — demo credential rows](assets/screenshots/01-login.png)
 
-| Role | Email (username) | Password | Typical use |
-|------|------------------|----------|-------------|
-| **Admin** | admin@hotel.com | 1234 | Full system access |
-| **Manager** | mike@hotel.com | 1234 | Reports, inventory, operations |
-| **Reception** | jane@hotel.com | 1234 | Front desk, bookings, invoices |
-| **Housekeeper** | tom@hotel.com | 1234 | Housekeeping board |
-| **Restaurant** | restaurant@hotel.com | 1234 | F&B orders and menu |
-| **Kitchen** | kitchen@hotel.com | 1234 | Kitchen queue only |
+> Tap a demo **email row** to auto-fill the username. Password for all demo users: **`1234`**
 
-## Role tips (from the app)
+---
 
-| Role | Description |
-|------|-------------|
-| Admin | Full system control, settings, accounts, audit |
-| Manager | Reports, inventory, overrides, analytics |
-| Reception | Rooms, bookings, check-in/out, invoices |
-| Housekeeper | Room status and maintenance tickets |
-| Restaurant | Orders, menu products, F&B stock (not room management) |
-| Kitchen | Live order queue — prep, ready, served (no room billing) |
+## Demo user table
 
-## Notes
+| Role | Email (username) | Password | Lands on |
+|------|------------------|----------|----------|
+| **Admin** | admin@hotel.com | 1234 | Dashboard (full access) |
+| **Manager** | mike@hotel.com | 1234 | Reports |
+| **Reception** | jane@hotel.com | 1234 | Rooms |
+| **Housekeeper** | tom@hotel.com | 1234 | Housekeeping |
+| **Restaurant** | restaurant@hotel.com | 1234 | Restaurant |
+| **Kitchen** | kitchen@hotel.com | 1234 | Restaurant (as **Kitchen**) |
 
-- Demo accounts may be **auto-created** on first login if missing from the accounts list (Restaurant and Kitchen).
-- Demo data lives in the same browser/device storage as your property data — use **Factory reset** in Settings before production if you tested with demos.
-- For a clean property, use [First-time setup](first-time-setup.md) instead of demo logins.
+---
+
+## What each role sees
+
+| Role | Sidebar highlights | Restrictions |
+|------|-------------------|--------------|
+| **Admin** | All modules incl. Settings, Accounts, Audit | — |
+| **Manager** | Reports, inventory, operations | No Settings/Accounts |
+| **Reception** | Rooms, bookings, guests, invoices, F&B sales | No admin modules |
+| **Housekeeper** | Housekeeping, maintenance | No billing |
+| **Restaurant** | Restaurant, menu, inventory | No room management |
+| **Kitchen** | Kitchen queue only | No payments |
+
+See full matrix: [User roles & permissions](user-roles-and-permissions.md).
+
+---
+
+## Training workflow
+
+1. Open [live app](https://hotel-restaurant-minimart.firebaseapp.com/)
+2. Select **interface language** on login screen
+3. Tap demo row → enter password **1234** → **Sign in**
+4. Explore role-specific menus
+5. Open **☰ Help → Documentation** for guides and [Visual guide](visual-guide.md)
+
+Try each role in separate browser profiles to compare menus side by side.
+
+---
+
+## Demo data notes
+
+- Demo accounts may be **auto-created** on first login if missing
+- Sample rooms, bookings, and catalog data may load with demo namespace
+- Demo data shares browser storage with your property — **Factory reset** before production
+- For a clean property, use [First-time setup](first-time-setup.md) instead
+
+---
 
 ## Interface language
 
-On the login screen, choose **Interface language** before signing in. The selection applies to labels on the login screen and throughout the app after sign-in.
+Choose language **before** sign-in on the login screen. Applies to labels and in-app documentation (21 locales).
 
-Supported languages: see [Localization](localization.md).
+See [Localization](localization.md).
+
+---
+
+## Related
+
+- [Getting started](getting-started.md)
+- [First-time setup](first-time-setup.md)
+- [Visual guide](visual-guide.md)

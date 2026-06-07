@@ -8,10 +8,12 @@
     "patch": "node scripts/patch-app.mjs",
     "verify": "node scripts/verify-deploy.mjs",
     "serve": "npm run build && npx firebase emulators:start --only hosting",
+    "capture:screenshots": "node scripts/capture-doc-screenshots.mjs",
     "deploy": "npm run build && npm run verify && npx firebase deploy --only hosting --project hotel-restaurant-minimart"
   },
   "devDependencies": {
-    "firebase-tools": "^15.19.1"
+    "firebase-tools": "^15.19.1",
+    "playwright": "^1.60.0"
   },
   "engines": {
     "node": ">=18"

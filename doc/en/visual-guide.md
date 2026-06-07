@@ -1,102 +1,175 @@
 # Visual guide (screenshots)
 
-Illustrated tour of **HotelRestaurantMini-MartManagement** — use with the in-app **Help → Documentation** panel or this guide when training staff.
-
-> Screenshots show representative UI layouts. Your theme (light/dark) and language may differ slightly.
+**Real screenshots** from [hotel-restaurant-minimart.firebaseapp.com](https://hotel-restaurant-minimart.firebaseapp.com/) — captured from the live app. Use this guide when training staff; open the same topics **inside the app** via **☰ Menu → Help → Documentation**.
 
 ---
 
-## Dashboard
+## 1. Sign-in screen
 
-Main landing page after login. Shows **shift status** for Restaurant, Mini-Mart, and Hotel, plus date filters and operation analytics.
+Demo credentials are available on the login screen (password **1234** for all demo users).
 
-![Dashboard with shift panels and analytics](assets/screenshots/dashboard.png)
+![Sign-in screen with demo credentials](assets/screenshots/01-login.png)
 
-| Area | What to look for |
-|------|------------------|
-| **Shift bars** | Open/close shifts per department (green = open) |
-| **Date range** | Filter dashboard metrics |
-| **LAST 30 DAYS** | Quick range preset |
-| **Bottom nav** | Dashboard · POS · Bookings · Docs · Menu |
+> **Caption:** Choose interface language, enter email/password, or tap a demo row.
+
+See [Demo credentials](demo-credentials.md) and [First-time setup](first-time-setup.md).
 
 ---
 
-## Help menu & documentation
+## 2. Dashboard
 
-Open the **☰ Menu** (or bottom **Menu** on mobile). **Help** is at the top — tap **Documentation**.
+Default landing for most roles. Shows **shift status** (Restaurant, Mini-Mart, Hotel), date filters, and operation analytics.
 
-![Sidebar Help section with Documentation link](assets/screenshots/help-menu.png)
+![Dashboard — shifts and analytics](assets/screenshots/02-dashboard.png)
 
-Documentation opens **inside the app** (not a separate website). It follows your **interface language** (21 locales).
+> **Caption:** Open shifts with **OPEN SHIFT**; use date range or **LAST 30 DAYS** for reports.
 
-![Embedded documentation panel](assets/screenshots/documentation-embed.png)
-
-| Access point | Location |
-|--------------|----------|
-| Top bar | **Documentation** button |
-| Sidebar | **Help → Documentation** |
-| Mobile | Bottom **Docs** |
+See [Reports](reports.md).
 
 ---
 
-## First-time setup
+## 3. Help menu (sidebar)
 
-Shown on first visit or when starting fresh. Creates your **Admin** account and **data namespace**.
+Tap **☰** (top-left) or **Menu** on mobile. **Help → Documentation** is at the **top** of the sidebar.
 
-![First-time setup screen](assets/screenshots/first-time-setup.png)
+![Sidebar open — Help section and Documentation](assets/screenshots/03-help-menu.png)
 
-See [First-time setup](first-time-setup.md) for field details and reset options.
+> **Caption:** Documentation is embedded in the app — not a separate website.
 
----
-
-## Bookings
-
-Create reservations, check guests in/out, and link stays to billing.
-
-![Bookings list and actions](assets/screenshots/bookings.png)
-
-See [Hotel operations](hotel-operations.md) for the full booking workflow.
+See [Navigation & UI](navigation-and-ui.md).
 
 ---
 
-## Restaurant & kitchen
+## 4. Documentation (embedded in app)
 
-Table floor, room service, kitchen queue, and payments.
+Full user guide opens **inside** the software in your **current language** (21 locales).
 
-![Restaurant order screen](assets/screenshots/restaurant.png)
+![Documentation panel embedded in the app](assets/screenshots/04-documentation-embed.png)
+
+> **Caption:** Also available from top bar **Documentation** and mobile bottom **Docs**.
+
+See [Multilingual documentation](multilingual-documentation.md).
+
+---
+
+## 5. Rooms
+
+Room grid: occupancy, housekeeping status, rates, maintenance badges.
+
+![Rooms module](assets/screenshots/05-rooms.png)
+
+See [Hotel operations](hotel-operations.md).
+
+---
+
+## 6. Bookings
+
+Reservations, check-in/out, guest linking, invoices.
+
+![Bookings module](assets/screenshots/06-bookings.png)
+
+---
+
+## 7. Housekeeping
+
+Floor board — tap room cards to cycle cleaning status.
+
+![Housekeeping board](assets/screenshots/07-housekeeping.png)
+
+---
+
+## 8. Restaurant & kitchen
+
+Table floor, room service, kitchen queue, payments.
+
+![Restaurant module](assets/screenshots/08-restaurant.png)
 
 See [Restaurant & kitchen](restaurant-and-kitchen.md).
 
 ---
 
-## Mini-mart / POS
+## 9. Mini-mart / POS
 
-Retail sales — walk-in cash/card or **charge to room**.
+Shop sales — walk-in cash/card or **charge to room**.
 
-![Mini-mart POS cart](assets/screenshots/minimart-pos.png)
-
-Mobile users: bottom nav **POS** opens the same module.
+![Mini-mart POS](assets/screenshots/09-minimart-pos.png)
 
 See [Mini-mart & POS](minimart-and-pos.md).
 
 ---
 
-## Settings
+## 10. Invoices
 
-Admin-only property configuration: name, currency, taxes, seasons, backup.
+Guest folios, line items, checkout billing.
 
-![Settings configuration form](assets/screenshots/settings.png)
+![Invoices module](assets/screenshots/10-invoices.png)
+
+See [Services & billing](services-and-billing.md).
+
+---
+
+## 11. Settings (Admin)
+
+Hotel profile, currency, taxes, seasons, backup, danger zone.
+
+![Settings — Admin configuration](assets/screenshots/11-settings.png)
 
 See [Settings & configuration](settings-and-configuration.md).
 
 ---
 
-## Printing screenshots from docs
+## 12. Reports (Manager)
 
-When viewing documentation **inside the app**, use your browser **Print** (Ctrl+P). The embedded viewer prints the current help page; app chrome is hidden in print CSS where supported.
+Department sales, occupancy, shift summaries.
+
+![Reports module](assets/screenshots/12-reports.png)
+
+---
+
+## 13. Accounts (Admin)
+
+Staff users, roles, passwords.
+
+![Accounts — user management](assets/screenshots/13-accounts.png)
+
+See [Accounts & audit](accounts-and-audit.md).
+
+---
+
+## 14. Guest portal
+
+In-stay guest requests and portal activity (Reception / Manager / Admin).
+
+![Guest portal](assets/screenshots/14-guest-portal.png)
+
+See [Guest portal](guest-portal.md).
+
+---
+
+## 15. Mobile bottom navigation
+
+On phones: **Dashboard · POS · Bookings · Docs · Menu**.
+
+![Mobile layout — bottom navigation bar](assets/screenshots/15-mobile-bottom-nav.png)
+
+> **Caption:** **Docs** opens the same embedded documentation as the desktop Help menu.
+
+---
+
+## Refreshing screenshots (developers)
+
+From repo root, after the live app is updated:
+
+```bash
+npm install
+node scripts/capture-doc-screenshots.mjs
+npm run deploy
+```
+
+Requires Playwright (`npx playwright install chromium`).
 
 ## Related
 
 - [Getting started](getting-started.md)
 - [Navigation & UI](navigation-and-ui.md)
-- [Multilingual documentation](multilingual-documentation.md)
+- [User roles & permissions](user-roles-and-permissions.md)

@@ -1,82 +1,112 @@
 # Inventory & catalog
 
-Stock and product management across F&B and retail.
+Stock and product management across **restaurant**, **mini-mart**, and shared **inventory**.
 
-## Inventory
+![Mini-mart POS — store items linked to inventory](assets/screenshots/09-minimart-pos.png)
+
+![Restaurant — menu items and stock checks](assets/screenshots/08-restaurant.png)
+
+---
+
+## Inventory (central stock)
 
 **Path:** Sidebar → **Inventory**
 
-Central stock for:
+| Feature | Description |
+|---------|-------------|
+| **Items** | Ingredients, supplies, retail stock |
+| **Categories** | From Dropdown Lists |
+| **Adjustments** | Manual stock in/out |
+| **Audit log** | Inventory change history |
 
-- F&B ingredients and supplies
-- Mini-mart products (when linked)
-- Hotel operational supplies
+Restaurant and mini-mart **decrement stock on sale** when menu/store items link to inventory rows.
 
-Features:
+### Stock validation
 
-- Add/edit inventory items
-- Categories from dropdown lists
-- Stock counts and adjustments
-- Audit log (Inventory audit log)
+- Mini-mart shows *"Not enough stock"* if cart exceeds on-hand quantity
+- Restaurant may block items when recipe link requires stock
 
-Restaurant and mini-mart decrement stock on sale when items are linked.
+---
 
-## Menu Items
+## Menu Items (restaurant catalog)
 
 **Path:** Sidebar → **Menu Items**
 
-Restaurant catalog:
+| Field | Purpose |
+|-------|---------|
+| Name, category | Menu organization |
+| Price | Restaurant currency |
+| Image URL | Optional photo on POS |
+| Recipe / inventory link | Deduct stock on order |
 
-- Dish name, category, price
-- Optional image URL
-- Recipe / inventory link (catalog-inventory migration links items at setup)
+**Roles:** Admin, Manager, Reception, Restaurant — not Kitchen/Housekeeper.
 
-Accessible to Admin, Manager, Reception, Restaurant — **not** Kitchen or Housekeeper.
+Configure categories: **Dropdown Lists → Menu categories**.
 
-## Store Items
+---
+
+## Store Items (mini-mart catalog)
 
 **Path:** Sidebar → **Store Items**
 
-Mini-mart / shop catalog:
+| Field | Purpose |
+|-------|---------|
+| Name, category, barcode | SKU identification |
+| Price | Shop shelf price |
+| Stock on hand | Linked to inventory |
 
-- Product name, category, price, barcode
-- Stock on hand
-- Store categories from dropdown lists
+**Roles:** Typically Admin/Manager edit catalog; Reception sells via Mini-mart.
 
-Typically Admin/Manager only in sidebar (Reception may use mini-mart without editing store catalog).
+Configure categories: **Dropdown Lists → Store categories**.
+
+---
+
+## How catalogs connect
+
+```
+Menu Items ──► Restaurant orders ──► Inventory (deduct)
+Store Items  ──► Mini-mart POS    ──► Inventory (deduct)
+Inventory    ──► Reports / export / audit
+```
+
+---
 
 ## Dropdown list dependencies
-
-Configure under **Dropdown Lists**:
 
 | List | Used by |
 |------|---------|
 | Menu categories | Menu Items |
 | Store categories | Store Items |
 | Inventory categories | Inventory |
-| Order statuses | Restaurant queue |
-| Payment types | POS / restaurant |
+| Order statuses | Restaurant kitchen queue |
+| Payment types | POS, restaurant, invoices |
+
+**Path:** Sidebar → **Dropdown Lists** (Admin)
+
+---
 
 ## Sample datasets
 
-Production includes optional bundled data:
+| Asset | Content |
+|-------|---------|
+| `nisha1-menu-dataset.js` | Sample Indian restaurant menu (LAK) |
+| `embedded-sample.js` | Bundled demo data loader |
 
-| File | Content |
-|------|---------|
-| `assets/data/nisha1-menu-dataset.js` | Sample Indian restaurant menu (LAK) |
-| `assets/data/embedded-sample.js` | Empty by default in new browsers |
+Reload: **Settings → Reload built-in demo sample** (destructive — [backup first](backup-restore-and-data.md)).
 
-Reload sample data from **Settings → Reload built-in demo sample** (destructive — see backup docs).
+---
 
-## CSV export
+## Export
 
-Export individual tables from Settings:
+**Settings → Export all data (CSV ZIP)** or per-table CSV:
 
-- Inventory, Menu, Store, Restaurant, Mini-mart open bills, etc.
+- Inventory, Menu, Store, Restaurant sales, Mini-mart bills
+
+---
 
 ## Related
 
 - [Restaurant & kitchen](restaurant-and-kitchen.md)
 - [Mini-mart & POS](minimart-and-pos.md)
-- [Settings & configuration](settings-and-configuration.md)
 - [Data model](data-model.md)
+- [Visual guide](visual-guide.md)
