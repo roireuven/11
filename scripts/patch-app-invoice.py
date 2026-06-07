@@ -6,7 +6,7 @@ import re
 import sys
 from pathlib import Path
 
-MARKER = "HRMM-INVOICE-v3"
+MARKER = "HRMM-INVOICE-v4"
 INDEX = Path("public/index.html")
 
 CSS = """
@@ -641,6 +641,35 @@ SETTINGS_QR_FILE_NEW = """        <input type="file" accept="image/png,image/jpe
 BUILD_QR_EDITABLE_OLD = "buildInvoiceBrandHeaderHtml() + buildInvoiceQrHtml(inv) +"
 BUILD_QR_EDITABLE_NEW = "buildInvoiceBrandHeaderHtml() + buildInvoiceQrHtml(inv, { editable: true }) +"
 
+PRINT_MEDIA_OLD = """    @media print { .post-payment-invoice-hd, .post-payment-invoice-ft, .prepaid-invoice-banner { -webkit-print-color-adjust: exact; print-color-adjust: exact; } body * { visibility: hidden; } .post-payment-invoice-overlay, .post-payment-invoice-overlay * { visibility: visible; } .post-payment-invoice-overlay { position: absolute; inset: 0; display: block !important; background: #fff; backdrop-filter: none; padding: 0; } .post-payment-invoice-card { max-width: none; box-shadow: none; border: none; } .post-payment-no-print { display: none !important; } }"""
+
+PRINT_MEDIA_NEW = """    @media print {
+      /* HRMM-INVOICE-PRINT-v4 — expand body instead of clipping scroll area */
+      .post-payment-invoice-hd, .prepaid-invoice-banner, .invoice-brand-block, .invoice-qr-block {
+        -webkit-print-color-adjust: exact; print-color-adjust: exact;
+      }
+      body * { visibility: hidden; }
+      .post-payment-invoice-overlay, .post-payment-invoice-overlay * { visibility: visible; }
+      .post-payment-invoice-overlay {
+        position: static !important; inset: auto !important; display: block !important;
+        background: #fff !important; backdrop-filter: none !important; padding: 0 !important;
+        height: auto !important; max-height: none !important; overflow: visible !important;
+      }
+      .post-payment-invoice-card {
+        max-width: none !important; max-height: none !important; height: auto !important;
+        box-shadow: none !important; border: none !important; overflow: visible !important;
+        display: block !important; width: 100% !important;
+      }
+      .post-payment-invoice-body {
+        overflow: visible !important; flex: none !important; min-height: auto !important;
+        max-height: none !important; height: auto !important; background: #fff !important;
+      }
+      .post-payment-invoice-ft, .post-payment-no-print, .invoice-qr-editor { display: none !important; }
+      .invoice-items-table { break-inside: avoid; page-break-inside: avoid; }
+    }"""
+
+PRINT_FIX_MARKER = "HRMM-INVOICE-PRINT-v4"
+
 QR_HELPERS_ANCHOR = "window.clearInvoiceLogo = function() {"
 QR_HELPERS_INSERT = """
 function getInvoiceQrPayload(inv) {
@@ -836,7 +865,7 @@ def _css_block() -> str:
 
 def _strip_old_invoice_css(content: str) -> str:
     return re.sub(
-        r"\n\s*/\* HRMM invoice[^\n]*\*/\n.*?\n\s*/\* HRMM-INVOICE-v\d+ \*/\n",
+        r"\n\s*/\* HRMM invoice items table[^\n]*\*/\n.*?\n\s*/\* HRMM-INVOICE-v\d+ \*/\n",
         "\n",
         content,
         flags=re.DOTALL,
@@ -849,8 +878,15 @@ def _is_fully_patched(content: str) -> bool:
         and "refreshInvoiceQrDisplay" in content
         and "invoiceModalQrBrowseChanged" in content
         and "buildInvoiceQrHtml(inv, { editable: true })" in content
+        and PRINT_FIX_MARKER in content
         and f"/* {MARKER} */" in content
     )
+
+
+def _apply_print_fix(content: str) -> str:
+    if PRINT_MEDIA_OLD in content:
+        content = content.replace(PRINT_MEDIA_OLD, PRINT_MEDIA_NEW, 1)
+    return content
 
 
 def _apply_v3_upgrades(content: str) -> str:
@@ -866,6 +902,8 @@ def _apply_v3_upgrades(content: str) -> str:
 
 
 def patch(content: str) -> str:
+    content = _apply_print_fix(content)
+
     if _is_fully_patched(content):
         print(f"Already patched {MARKER} — skipping")
         return content
@@ -951,7 +989,7 @@ def main() -> int:
         return 1
     text = index.read_text(encoding="utf-8")
     index.write_text(patch(text), encoding="utf-8")
-    print(f"Patched {index} — invoice items table, logo, QR code, and inline QR editor")
+    print(f"Patched {index} — invoice items table, logo, QR editor, and print layout fix")
     return 0
 
 

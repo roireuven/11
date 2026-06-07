@@ -52,8 +52,11 @@ if (/\n}\n  var bnavSettings = document\.querySelector\('#bottomNav \[data-bnav=
 if (!html.includes("HRMM-TOPBAR-SETTINGS-v3")) {
   fail("app missing fixed Settings patch marker (HRMM-TOPBAR-SETTINGS-v3)");
 }
-if (!html.includes("getInvoiceLineItems") || !html.includes("refreshInvoiceQrDisplay") || !html.includes("HRMM-INVOICE-v3")) {
-  fail("app missing invoice items table, logo, and QR patch (HRMM-INVOICE-v3)");
+if (!html.includes("getInvoiceLineItems") || !html.includes("refreshInvoiceQrDisplay") || !html.includes("HRMM-INVOICE-v4")) {
+  fail("app missing invoice items table, logo, and QR patch (HRMM-INVOICE-v4)");
+}
+if (!html.includes("HRMM-INVOICE-PRINT-v4")) {
+  fail("app missing invoice print layout fix");
 }
 
 let docHtml;
