@@ -49,11 +49,22 @@
   <div id="app">Loading documentation…</div>
   <script>
     (function () {
+      function docRoot() {
+        var p = location.pathname.replace(/\/+$/, '');
+        var i = p.lastIndexOf('/doc');
+        return i >= 0 ? p.slice(0, i + 4) : '/doc';
+      }
+
       function loadJson(url) {
         return fetch(url).then(function (r) { if (!r.ok) throw new Error(url); return r.json(); });
       }
 
-      Promise.all([loadJson('i18n/locales.json'), loadJson('i18n/ui.json')]).then(function (res) {
+      var DOC_ROOT = docRoot();
+
+      Promise.all([
+        loadJson(DOC_ROOT + '/i18n/locales.json'),
+        loadJson(DOC_ROOT + '/i18n/ui.json')
+      ]).then(function (res) {
         var LOCALES = res[0];
         var UI = res[1];
         var EMBED = new URLSearchParams(location.search).get('embed') === '1';
@@ -92,7 +103,7 @@
           var alias = {};
           SUPPORTED.forEach(function (loc) {
             if (loc === 'en') return;
-            alias['/' + loc + '/(.+)'] = '/en/$1';
+            alias[DOC_ROOT + '/' + loc + '/(.+)'] = DOC_ROOT + '/en/$1';
           });
           return alias;
         }
@@ -100,11 +111,11 @@
         window.$docsify = {
           name: 'HotelRestaurantMini-MartManagement',
           repo: 'roireuven/11',
-          basePath: DOC_LANG + '/',
+          basePath: DOC_ROOT + '/' + DOC_LANG + '/',
           homepage: 'README.md',
           loadSidebar: '_sidebar.md',
           subMaxLevel: 2,
-          relativePath: true,
+          relativePath: false,
           routerMode: 'hash',
           auto2heading: true,
           alias: buildAlias(),

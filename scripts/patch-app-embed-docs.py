@@ -6,7 +6,7 @@ import re
 import sys
 from pathlib import Path
 
-MARKER = "HRMM-DOCS-EMBED-v6"
+MARKER = "HRMM-DOCS-EMBED-v7"
 INDEX = Path("public/index.html")
 
 SIDEBAR_LINK = """
@@ -57,7 +57,7 @@ function renderDocumentation() {
   var el = document.getElementById('page-documentation');
   if (!el) return;
   var loc = getDocUiLocale() || 'en';
-  var src = 'doc/?lang=' + encodeURIComponent(loc) + '&embed=1#/README';
+  var src = '/doc/?lang=' + encodeURIComponent(loc) + '&embed=1#/README';
   el.innerHTML =
     '<div class="doc-embed-wrap">' +
       '<iframe class="doc-embed-frame" title="Documentation" src="' + src + '" loading="lazy"></iframe>' +
@@ -232,12 +232,12 @@ def _patch_core(content: str) -> str:
 
 
 def patch(content: str) -> str:
-    # Upgrade renderDocumentation to v6 (full in-app panel)
+    # Upgrade renderDocumentation (absolute /doc/ iframe path)
     old_render = re.search(
         r"function getDocUiLocale\(\)[\s\S]*?window\.openDocumentation = function\(\) \{ navToPage\('documentation'\); \};",
         content,
     )
-    if old_render and "embed=1" not in old_render.group(0):
+    if old_render and "'/doc/?lang='" not in old_render.group(0):
         content = content.replace(old_render.group(0), RENDER_FN.strip(), 1)
     elif "function renderDocumentation()" in content and "getDocUiLocale" not in content:
         content = content.replace(
@@ -246,14 +246,8 @@ def patch(content: str) -> str:
             1,
         )
 
-    if (
-        MARKER in content
-        and 'data-bnav="documentation" onclick' in content
-        and 'id="topbarDocBtn"' in content
-        and 'nav.sectionHelp' in content
-        and 'embed=1' in content
-    ):
-        print("Already patched v6 — skipping")
+    if MARKER in content:
+        print(f"Already patched {MARKER} — skipping")
         return content
 
     content = _patch_core(content)
@@ -267,6 +261,8 @@ def patch(content: str) -> str:
             f"<title>HotelRestaurantMini-MartManagement</title>\n  <!-- {MARKER} -->",
             1,
         )
+    content = re.sub(r"<!-- HRMM-DOCS-EMBED-v\d+ -->", f"<!-- {MARKER} -->", content)
+    content = re.sub(r"/\* HRMM-DOCS-EMBED-v\d+ \*/", f"/* {MARKER} */", content)
 
     return content
 
