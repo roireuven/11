@@ -3,6 +3,7 @@
 * **เริ่มต้นใช้งาน**
   * [ภาพรวม](overview.md)
   * [เริ่มต้นใช้งาน](getting-started.md)
+  * [Visual guide (screenshots)](visual-guide.md)
   * [การติดตั้ง](installation.md)
   * [การตั้งค่าครั้งแรก](first-time-setup.md)
   * [ข้อมูลรับรองทดลอง](demo-credentials.md)
@@ -23,6 +24,7 @@
   * [การตั้งค่าและการกำหนดค่า](settings-and-configuration.md)
   * [สำรองข้อมูล กู้คืน และข้อมูล](backup-restore-and-data.md)
   * [การแปลภาษา](localization.md)
+  * [Multilingual documentation](multilingual-documentation.md)
   * [โมเดลข้อมูล](data-model.md)
 
 * **เทคนิค**
@@ -34,4 +36,4 @@
 
 * **ลิงก์**
   * [Live web app ↗](https://hotel-restaurant-minimart.firebaseapp.com/)
-  * [APK landing ↗](https://roireuven.github.io/11/)
+  * [APK landing (GitHub) ↗](https://roireuven.github.io/11/)

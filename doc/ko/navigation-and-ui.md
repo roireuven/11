@@ -10,4 +10,4 @@
 | **햄버거 메뉴 (☰)** | 도움말 → 문서 | 사이드바 상단의 첫 번째 섹션 |
 | **하단 바** | Docs | 하단 탐색(모바일) |
 
-레이아웃 세부 정보, 다크 모드, 언어 선택기는 [English navigation guide](../en/navigation-and-ui.md).
+레이아웃 세부 정보, 다크 모드, 언어 선택기는 [English navigation guide](https://hotel-restaurant-minimart.firebaseapp.com/doc/?lang=en#/navigation-and-ui).

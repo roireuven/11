@@ -12,4 +12,4 @@
 
 ## 전체 가이드
 
-자세한 단계별 안내는 [English getting started guide](../en/getting-started.md).
+자세한 단계별 안내는 [English getting started guide](https://hotel-restaurant-minimart.firebaseapp.com/doc/?lang=en#/getting-started).
