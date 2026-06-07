@@ -6,7 +6,7 @@ import re
 import sys
 from pathlib import Path
 
-MARKER = "HRMM-INVOICE-v2"
+MARKER = "HRMM-INVOICE-v3"
 INDEX = Path("public/index.html")
 
 CSS = """
@@ -17,6 +17,13 @@ CSS = """
     .invoice-qr-block { text-align: center; margin: 0.75rem 0 1rem; }
     .invoice-qr-img { width: 132px; height: 132px; object-fit: contain; border: 1px solid var(--border); border-radius: 8px; padding: 0.35rem; background: #fff; }
     .invoice-qr-caption { font-size: 0.72rem; color: var(--text-light); margin-top: 0.35rem; word-break: break-word; max-width: 220px; margin-left: auto; margin-right: auto; }
+    .invoice-qr-editor { margin: 0.5rem auto 1rem; max-width: 300px; padding: 0.65rem; border: 1px dashed var(--border); border-radius: 8px; background: rgba(255,255,255,0.65); }
+    body.dark-mode .invoice-qr-editor { background: rgba(0,0,0,0.18); }
+    .invoice-qr-editor-label { font-size: 0.78rem; font-weight: 600; margin-bottom: 0.35rem; text-align: left; }
+    .invoice-qr-edit-input { font-size: 0.82rem; margin-bottom: 0.5rem; width: 100%; box-sizing: border-box; }
+    .invoice-qr-editor-actions { display: flex; flex-wrap: wrap; gap: 0.35rem; justify-content: center; }
+    .invoice-qr-editor-hint { font-size: 0.72rem; color: var(--text-light); margin: 0.45rem 0 0; text-align: left; }
+    .invoice-qr-browse-row { display: flex; flex-wrap: wrap; align-items: center; gap: 0.35rem; margin-top: 0.35rem; }
     .invoice-items-table { width: 100%; border-collapse: collapse; margin: 0.75rem 0; font-size: 0.85rem; }
     .invoice-items-table th, .invoice-items-table td { padding: 0.45rem 0.35rem; border-bottom: 1px solid var(--border); text-align: left; vertical-align: top; }
     .invoice-items-table th:last-child, .invoice-items-table td:last-child { text-align: right; }
@@ -91,17 +98,134 @@ function getInvoiceQrPayload(inv) {
   if (!parts.length) return '';
   return parts.join('|');
 }
-function buildInvoiceQrHtml(inv) {
-  var custom = (settings && settings.invoiceQrImage) ? String(settings.invoiceQrImage).trim() : '';
-  if (custom) {
-    return '<div class="invoice-qr-block"><img src="' + escapeHtml(custom) + '" alt="QR code" class="invoice-qr-img"><div class="invoice-qr-caption">Scan QR</div></div>';
-  }
-  var payload = getInvoiceQrPayload(inv);
-  if (!payload) return '';
-  var url = 'https://api.qrserver.com/v1/create-qr-code/?size=140x140&margin=10&data=' + encodeURIComponent(payload);
-  var cap = payload.length > 52 ? payload.slice(0, 49) + '…' : payload;
-  return '<div class="invoice-qr-block"><img src="' + escapeHtml(url) + '" alt="QR code" class="invoice-qr-img"><div class="invoice-qr-caption">' + escapeHtml(cap) + '</div></div>';
+function buildInvoiceQrHtml(inv, opts) {
+  opts = opts || {};
+  var custom = getEffectiveInvoiceQrImage(inv);
+  var payload = custom ? '' : getEffectiveInvoiceQrPayload(inv);
+  if (!custom && !payload) return opts.editable ? buildInvoiceQrEditorHtml(inv, getInvoiceQrPayload(inv)) : '';
+  var imgSrc = custom || buildInvoiceQrImageUrl(payload);
+  var cap = custom ? 'Custom QR image' : (payload.length > 52 ? payload.slice(0, 49) + '…' : payload);
+  var html = '<div class="invoice-qr-block" id="invoiceQrDisplayBlock">' +
+    '<img src="' + escapeHtml(imgSrc) + '" alt="QR code" class="invoice-qr-img" id="invoiceQrDisplayImg">' +
+    '<div class="invoice-qr-caption" id="invoiceQrDisplayCaption">' + escapeHtml(cap) + '</div></div>';
+  if (opts.editable) html += buildInvoiceQrEditorHtml(inv, payload);
+  return html;
 }
+function getEffectiveInvoiceQrPayload(inv) {
+  if (inv && inv.qrTextOverride != null && inv.qrTextOverride !== undefined) return String(inv.qrTextOverride).trim();
+  return getInvoiceQrPayload(inv);
+}
+function getEffectiveInvoiceQrImage(inv) {
+  if (inv && inv.qrImageOverride) return String(inv.qrImageOverride).trim();
+  if (settings && settings.invoiceQrImage) return String(settings.invoiceQrImage).trim();
+  return '';
+}
+function buildInvoiceQrImageUrl(payload) {
+  if (!payload) return '';
+  return 'https://api.qrserver.com/v1/create-qr-code/?size=140x140&margin=10&data=' + encodeURIComponent(payload);
+}
+function buildInvoiceQrEditorHtml(inv, payload) {
+  var editVal = (inv && inv.qrTextOverride != null && inv.qrTextOverride !== undefined) ? String(inv.qrTextOverride) : (payload || '');
+  return '<div class="invoice-qr-editor post-payment-no-print" id="invoiceQrEditor">' +
+    '<div class="invoice-qr-editor-label">Edit QR</div>' +
+    '<input type="text" class="form-control invoice-qr-edit-input" id="invoiceQrEditText" value="' + escapeHtml(editVal) + '" placeholder="URL or text for QR code">' +
+    '<div class="invoice-qr-editor-actions">' +
+    '<input type="file" accept="image/png,image/jpeg,image/webp,image/gif" id="invoiceQrBrowseFile" style="display:none" onchange="invoiceModalQrBrowseChanged(this)">' +
+    '<button type="button" class="btn btn-sm btn-outline" onclick="document.getElementById(\'invoiceQrBrowseFile\').click()">Browse…</button>' +
+    '<button type="button" class="btn btn-sm btn-primary" onclick="applyInvoiceQrEdit()">Apply</button>' +
+    '<button type="button" class="btn btn-sm btn-outline" onclick="resetInvoiceQrEdit()">Reset</button>' +
+    '</div>' +
+    '<p class="invoice-qr-editor-hint">Override QR for this invoice only. Defaults come from Settings.</p>' +
+    '</div>';
+}
+function persistInvoiceQrOverrides(inv) {
+  if (!inv || !inv.id) return;
+  try {
+    if (typeof load === 'function') invoices = load('invoices', invoices);
+    var idx = (invoices || []).findIndex(function(i) { return i && i.id === inv.id; });
+    if (idx < 0) return;
+    if (inv.qrTextOverride != null && inv.qrTextOverride !== undefined) invoices[idx].qrTextOverride = inv.qrTextOverride;
+    else delete invoices[idx].qrTextOverride;
+    if (inv.qrImageOverride) invoices[idx].qrImageOverride = inv.qrImageOverride;
+    else delete invoices[idx].qrImageOverride;
+    save('invoices', invoices);
+  } catch (e) {}
+}
+function refreshInvoiceQrDisplay(inv) {
+  if (!inv && window._activeInvoiceQrCtx) inv = window._activeInvoiceQrCtx.inv;
+  if (!inv) return;
+  var imgEl = document.getElementById('invoiceQrDisplayImg');
+  var capEl = document.getElementById('invoiceQrDisplayCaption');
+  var blockEl = document.getElementById('invoiceQrDisplayBlock');
+  var custom = getEffectiveInvoiceQrImage(inv);
+  var payload = custom ? '' : getEffectiveInvoiceQrPayload(inv);
+  if (!custom && !payload) {
+    if (blockEl) blockEl.style.display = 'none';
+    return;
+  }
+  if (blockEl) blockEl.style.display = '';
+  if (imgEl) imgEl.src = custom || buildInvoiceQrImageUrl(payload);
+  if (capEl) capEl.textContent = custom ? 'Custom QR image' : (payload.length > 52 ? payload.slice(0, 49) + '…' : payload);
+}
+function initInvoiceQrEditor(inv) {
+  if (!inv) return;
+  var txtEl = document.getElementById('invoiceQrEditText');
+  if (!txtEl) return;
+  if (inv.qrTextOverride != null && inv.qrTextOverride !== undefined) txtEl.value = String(inv.qrTextOverride);
+  else txtEl.value = getInvoiceQrPayload(inv);
+}
+window._activeInvoiceQrCtx = null;
+window.applyInvoiceQrEdit = function() {
+  var ctx = window._activeInvoiceQrCtx;
+  if (!ctx || !ctx.inv) return;
+  var inv = ctx.inv;
+  var txtEl = document.getElementById('invoiceQrEditText');
+  var val = txtEl ? txtEl.value.trim() : '';
+  if (val) inv.qrTextOverride = val;
+  else delete inv.qrTextOverride;
+  delete inv.qrImageOverride;
+  var fi = document.getElementById('invoiceQrBrowseFile');
+  if (fi) fi.value = '';
+  persistInvoiceQrOverrides(inv);
+  refreshInvoiceQrDisplay(inv);
+  if (typeof toast === 'function') toast(typeof t === 'function' ? t('msg.settingsSaved') : 'QR updated');
+};
+window.resetInvoiceQrEdit = function() {
+  var ctx = window._activeInvoiceQrCtx;
+  if (!ctx || !ctx.inv) return;
+  var inv = ctx.inv;
+  delete inv.qrTextOverride;
+  delete inv.qrImageOverride;
+  var fi = document.getElementById('invoiceQrBrowseFile');
+  if (fi) fi.value = '';
+  persistInvoiceQrOverrides(inv);
+  initInvoiceQrEditor(inv);
+  refreshInvoiceQrDisplay(inv);
+  if (typeof toast === 'function') toast('QR reset to default');
+};
+window.invoiceModalQrBrowseChanged = function(input) {
+  var ctx = window._activeInvoiceQrCtx;
+  if (!ctx || !ctx.inv) return;
+  var f = input && input.files && input.files[0];
+  if (!f) return;
+  if (f.size > 512000) {
+    if (typeof toast === 'function') toast('Image too large (max 512 KB)');
+    input.value = '';
+    return;
+  }
+  var inv = ctx.inv;
+  var reader = new FileReader();
+  reader.onload = function() {
+    inv.qrImageOverride = reader.result;
+    delete inv.qrTextOverride;
+    var txtEl = document.getElementById('invoiceQrEditText');
+    if (txtEl) txtEl.value = '';
+    persistInvoiceQrOverrides(inv);
+    refreshInvoiceQrDisplay(inv);
+    if (typeof toast === 'function') toast(typeof t === 'function' ? t('msg.settingsSaved') : 'QR image updated');
+  };
+  reader.readAsDataURL(f);
+};
 function buildInvoiceItemsTableHtml(inv) {
   var rows = getInvoiceLineItems(inv);
   if (!rows.length) return '';
@@ -247,7 +371,7 @@ BUILD_INVOICE_V1 = """function buildInvoiceFullScreenBodyHtml(inv, bodyMeta) {
 
 BUILD_INVOICE_V2 = BUILD_INVOICE_V1.replace(
     "return pre + buildInvoiceBrandHeaderHtml() +",
-    "return pre + buildInvoiceBrandHeaderHtml() + buildInvoiceQrHtml(inv) +",
+    "return pre + buildInvoiceBrandHeaderHtml() + buildInvoiceQrHtml(inv, { editable: true }) +",
     1,
 )
 
@@ -298,9 +422,13 @@ SETTINGS_INVOICE_V2 = """      <h3 style="margin:1.25rem 0 0.75rem;font-size:1re
       </div>
       <div class="form-group">
         <label>Custom QR image (optional)</label>
-        <input type="file" accept="image/png,image/jpeg,image/webp,image/gif" class="form-control" id="sInvoiceQrFile" onchange="invoiceQrFileChanged(this)">
+        <input type="file" accept="image/png,image/jpeg,image/webp,image/gif" id="sInvoiceQrFile" style="display:none" onchange="invoiceQrFileChanged(this)">
+        <div class="invoice-qr-browse-row">
+          <button type="button" class="btn btn-sm btn-outline" onclick="document.getElementById('sInvoiceQrFile').click()">Browse…</button>
+          <button type="button" class="btn btn-sm btn-outline" onclick="clearInvoiceQrImage()">Remove QR image</button>
+        </div>
         <div id="sInvoiceQrPreview" style="margin-top:0.5rem;"></div>
-        <button type="button" class="btn btn-sm btn-outline" style="margin-top:0.35rem;" onclick="clearInvoiceQrImage()">Remove QR image</button>
+        <p style="font-size:0.78rem;color:var(--text-light);margin:0.35rem 0 0;">Default QR for all invoices. Override on a single invoice from the payment receipt screen.</p>
       </div>
       <h3 style="margin:1.5rem 0 1rem;font-size:1rem;">${t('settings.regulations')}</h3>"""
 
@@ -349,6 +477,170 @@ SYNTHETIC_TXN_NEW = """    services: items.map(function(i) {
   };
 }"""
 
+V2_BUILD_QR_FN = """function buildInvoiceQrHtml(inv) {
+  var custom = (settings && settings.invoiceQrImage) ? String(settings.invoiceQrImage).trim() : '';
+  if (custom) {
+    return '<div class="invoice-qr-block"><img src="' + escapeHtml(custom) + '" alt="QR code" class="invoice-qr-img"><div class="invoice-qr-caption">Scan QR</div></div>';
+  }
+  var payload = getInvoiceQrPayload(inv);
+  if (!payload) return '';
+  var url = 'https://api.qrserver.com/v1/create-qr-code/?size=140x140&margin=10&data=' + encodeURIComponent(payload);
+  var cap = payload.length > 52 ? payload.slice(0, 49) + '…' : payload;
+  return '<div class="invoice-qr-block"><img src="' + escapeHtml(url) + '" alt="QR code" class="invoice-qr-img"><div class="invoice-qr-caption">' + escapeHtml(cap) + '</div></div>';
+}"""
+
+V3_QR_FN_BLOCK = """function buildInvoiceQrHtml(inv, opts) {
+  opts = opts || {};
+  var custom = getEffectiveInvoiceQrImage(inv);
+  var payload = custom ? '' : getEffectiveInvoiceQrPayload(inv);
+  if (!custom && !payload) return opts.editable ? buildInvoiceQrEditorHtml(inv, getInvoiceQrPayload(inv)) : '';
+  var imgSrc = custom || buildInvoiceQrImageUrl(payload);
+  var cap = custom ? 'Custom QR image' : (payload.length > 52 ? payload.slice(0, 49) + '…' : payload);
+  var html = '<div class="invoice-qr-block" id="invoiceQrDisplayBlock">' +
+    '<img src="' + escapeHtml(imgSrc) + '" alt="QR code" class="invoice-qr-img" id="invoiceQrDisplayImg">' +
+    '<div class="invoice-qr-caption" id="invoiceQrDisplayCaption">' + escapeHtml(cap) + '</div></div>';
+  if (opts.editable) html += buildInvoiceQrEditorHtml(inv, payload);
+  return html;
+}
+function getEffectiveInvoiceQrPayload(inv) {
+  if (inv && inv.qrTextOverride != null && inv.qrTextOverride !== undefined) return String(inv.qrTextOverride).trim();
+  return getInvoiceQrPayload(inv);
+}
+function getEffectiveInvoiceQrImage(inv) {
+  if (inv && inv.qrImageOverride) return String(inv.qrImageOverride).trim();
+  if (settings && settings.invoiceQrImage) return String(settings.invoiceQrImage).trim();
+  return '';
+}
+function buildInvoiceQrImageUrl(payload) {
+  if (!payload) return '';
+  return 'https://api.qrserver.com/v1/create-qr-code/?size=140x140&margin=10&data=' + encodeURIComponent(payload);
+}
+function buildInvoiceQrEditorHtml(inv, payload) {
+  var editVal = (inv && inv.qrTextOverride != null && inv.qrTextOverride !== undefined) ? String(inv.qrTextOverride) : (payload || '');
+  return '<div class="invoice-qr-editor post-payment-no-print" id="invoiceQrEditor">' +
+    '<div class="invoice-qr-editor-label">Edit QR</div>' +
+    '<input type="text" class="form-control invoice-qr-edit-input" id="invoiceQrEditText" value="' + escapeHtml(editVal) + '" placeholder="URL or text for QR code">' +
+    '<div class="invoice-qr-editor-actions">' +
+    '<input type="file" accept="image/png,image/jpeg,image/webp,image/gif" id="invoiceQrBrowseFile" style="display:none" onchange="invoiceModalQrBrowseChanged(this)">' +
+    '<button type="button" class="btn btn-sm btn-outline" onclick="document.getElementById(\\'invoiceQrBrowseFile\\').click()">Browse…</button>' +
+    '<button type="button" class="btn btn-sm btn-primary" onclick="applyInvoiceQrEdit()">Apply</button>' +
+    '<button type="button" class="btn btn-sm btn-outline" onclick="resetInvoiceQrEdit()">Reset</button>' +
+    '</div>' +
+    '<p class="invoice-qr-editor-hint">Override QR for this invoice only. Defaults come from Settings.</p>' +
+    '</div>';
+}
+function persistInvoiceQrOverrides(inv) {
+  if (!inv || !inv.id) return;
+  try {
+    if (typeof load === 'function') invoices = load('invoices', invoices);
+    var idx = (invoices || []).findIndex(function(i) { return i && i.id === inv.id; });
+    if (idx < 0) return;
+    if (inv.qrTextOverride != null && inv.qrTextOverride !== undefined) invoices[idx].qrTextOverride = inv.qrTextOverride;
+    else delete invoices[idx].qrTextOverride;
+    if (inv.qrImageOverride) invoices[idx].qrImageOverride = inv.qrImageOverride;
+    else delete invoices[idx].qrImageOverride;
+    save('invoices', invoices);
+  } catch (e) {}
+}
+function refreshInvoiceQrDisplay(inv) {
+  if (!inv && window._activeInvoiceQrCtx) inv = window._activeInvoiceQrCtx.inv;
+  if (!inv) return;
+  var imgEl = document.getElementById('invoiceQrDisplayImg');
+  var capEl = document.getElementById('invoiceQrDisplayCaption');
+  var blockEl = document.getElementById('invoiceQrDisplayBlock');
+  var custom = getEffectiveInvoiceQrImage(inv);
+  var payload = custom ? '' : getEffectiveInvoiceQrPayload(inv);
+  if (!custom && !payload) {
+    if (blockEl) blockEl.style.display = 'none';
+    return;
+  }
+  if (blockEl) blockEl.style.display = '';
+  if (imgEl) imgEl.src = custom || buildInvoiceQrImageUrl(payload);
+  if (capEl) capEl.textContent = custom ? 'Custom QR image' : (payload.length > 52 ? payload.slice(0, 49) + '…' : payload);
+}
+function initInvoiceQrEditor(inv) {
+  if (!inv) return;
+  var txtEl = document.getElementById('invoiceQrEditText');
+  if (!txtEl) return;
+  if (inv.qrTextOverride != null && inv.qrTextOverride !== undefined) txtEl.value = String(inv.qrTextOverride);
+  else txtEl.value = getInvoiceQrPayload(inv);
+}
+window._activeInvoiceQrCtx = null;
+window.applyInvoiceQrEdit = function() {
+  var ctx = window._activeInvoiceQrCtx;
+  if (!ctx || !ctx.inv) return;
+  var inv = ctx.inv;
+  var txtEl = document.getElementById('invoiceQrEditText');
+  var val = txtEl ? txtEl.value.trim() : '';
+  if (val) inv.qrTextOverride = val;
+  else delete inv.qrTextOverride;
+  delete inv.qrImageOverride;
+  var fi = document.getElementById('invoiceQrBrowseFile');
+  if (fi) fi.value = '';
+  persistInvoiceQrOverrides(inv);
+  refreshInvoiceQrDisplay(inv);
+  if (typeof toast === 'function') toast(typeof t === 'function' ? t('msg.settingsSaved') : 'QR updated');
+};
+window.resetInvoiceQrEdit = function() {
+  var ctx = window._activeInvoiceQrCtx;
+  if (!ctx || !ctx.inv) return;
+  var inv = ctx.inv;
+  delete inv.qrTextOverride;
+  delete inv.qrImageOverride;
+  var fi = document.getElementById('invoiceQrBrowseFile');
+  if (fi) fi.value = '';
+  persistInvoiceQrOverrides(inv);
+  initInvoiceQrEditor(inv);
+  refreshInvoiceQrDisplay(inv);
+  if (typeof toast === 'function') toast('QR reset to default');
+};
+window.invoiceModalQrBrowseChanged = function(input) {
+  var ctx = window._activeInvoiceQrCtx;
+  if (!ctx || !ctx.inv) return;
+  var f = input && input.files && input.files[0];
+  if (!f) return;
+  if (f.size > 512000) {
+    if (typeof toast === 'function') toast('Image too large (max 512 KB)');
+    input.value = '';
+    return;
+  }
+  var inv = ctx.inv;
+  var reader = new FileReader();
+  reader.onload = function() {
+    inv.qrImageOverride = reader.result;
+    delete inv.qrTextOverride;
+    var txtEl = document.getElementById('invoiceQrEditText');
+    if (txtEl) txtEl.value = '';
+    persistInvoiceQrOverrides(inv);
+    refreshInvoiceQrDisplay(inv);
+    if (typeof toast === 'function') toast(typeof t === 'function' ? t('msg.settingsSaved') : 'QR image updated');
+  };
+  reader.readAsDataURL(f);
+};"""
+
+OPEN_POST_PAYMENT_OLD = """  body.innerHTML = buildInvoiceFullScreenBodyHtml(useInv, (isPre ? { prepaidMode: true } : null));
+  var printL = typeof t === 'function' ? t('msg.postPaymentPrint') : 'Print';"""
+
+OPEN_POST_PAYMENT_NEW = """  window._activeInvoiceQrCtx = { inv: useInv };
+  body.innerHTML = buildInvoiceFullScreenBodyHtml(useInv, (isPre ? { prepaidMode: true } : null));
+  if (typeof initInvoiceQrEditor === 'function') initInvoiceQrEditor(useInv);
+  var printL = typeof t === 'function' ? t('msg.postPaymentPrint') : 'Print';"""
+
+SETTINGS_QR_FILE_OLD = """        <input type="file" accept="image/png,image/jpeg,image/webp,image/gif" class="form-control" id="sInvoiceQrFile" onchange="invoiceQrFileChanged(this)">
+        <div id="sInvoiceQrPreview" style="margin-top:0.5rem;"></div>
+        <button type="button" class="btn btn-sm btn-outline" style="margin-top:0.35rem;" onclick="clearInvoiceQrImage()">Remove QR image</button>"""
+
+SETTINGS_QR_FILE_NEW = """        <input type="file" accept="image/png,image/jpeg,image/webp,image/gif" id="sInvoiceQrFile" style="display:none" onchange="invoiceQrFileChanged(this)">
+        <div class="invoice-qr-browse-row">
+          <button type="button" class="btn btn-sm btn-outline" onclick="document.getElementById('sInvoiceQrFile').click()">Browse…</button>
+          <button type="button" class="btn btn-sm btn-outline" onclick="clearInvoiceQrImage()">Remove QR image</button>
+        </div>
+        <div id="sInvoiceQrPreview" style="margin-top:0.5rem;"></div>
+        <p style="font-size:0.78rem;color:var(--text-light);margin:0.35rem 0 0;">Default QR for all invoices. Override on a single invoice from the payment receipt screen.</p>"""
+
+BUILD_QR_EDITABLE_OLD = "buildInvoiceBrandHeaderHtml() + buildInvoiceQrHtml(inv) +"
+BUILD_QR_EDITABLE_NEW = "buildInvoiceBrandHeaderHtml() + buildInvoiceQrHtml(inv, { editable: true }) +"
+
 QR_HELPERS_ANCHOR = "window.clearInvoiceLogo = function() {"
 QR_HELPERS_INSERT = """
 function getInvoiceQrPayload(inv) {
@@ -364,17 +656,134 @@ function getInvoiceQrPayload(inv) {
   if (!parts.length) return '';
   return parts.join('|');
 }
-function buildInvoiceQrHtml(inv) {
-  var custom = (settings && settings.invoiceQrImage) ? String(settings.invoiceQrImage).trim() : '';
-  if (custom) {
-    return '<div class="invoice-qr-block"><img src="' + escapeHtml(custom) + '" alt="QR code" class="invoice-qr-img"><div class="invoice-qr-caption">Scan QR</div></div>';
-  }
-  var payload = getInvoiceQrPayload(inv);
-  if (!payload) return '';
-  var url = 'https://api.qrserver.com/v1/create-qr-code/?size=140x140&margin=10&data=' + encodeURIComponent(payload);
-  var cap = payload.length > 52 ? payload.slice(0, 49) + '…' : payload;
-  return '<div class="invoice-qr-block"><img src="' + escapeHtml(url) + '" alt="QR code" class="invoice-qr-img"><div class="invoice-qr-caption">' + escapeHtml(cap) + '</div></div>';
+function buildInvoiceQrHtml(inv, opts) {
+  opts = opts || {};
+  var custom = getEffectiveInvoiceQrImage(inv);
+  var payload = custom ? '' : getEffectiveInvoiceQrPayload(inv);
+  if (!custom && !payload) return opts.editable ? buildInvoiceQrEditorHtml(inv, getInvoiceQrPayload(inv)) : '';
+  var imgSrc = custom || buildInvoiceQrImageUrl(payload);
+  var cap = custom ? 'Custom QR image' : (payload.length > 52 ? payload.slice(0, 49) + '…' : payload);
+  var html = '<div class="invoice-qr-block" id="invoiceQrDisplayBlock">' +
+    '<img src="' + escapeHtml(imgSrc) + '" alt="QR code" class="invoice-qr-img" id="invoiceQrDisplayImg">' +
+    '<div class="invoice-qr-caption" id="invoiceQrDisplayCaption">' + escapeHtml(cap) + '</div></div>';
+  if (opts.editable) html += buildInvoiceQrEditorHtml(inv, payload);
+  return html;
 }
+function getEffectiveInvoiceQrPayload(inv) {
+  if (inv && inv.qrTextOverride != null && inv.qrTextOverride !== undefined) return String(inv.qrTextOverride).trim();
+  return getInvoiceQrPayload(inv);
+}
+function getEffectiveInvoiceQrImage(inv) {
+  if (inv && inv.qrImageOverride) return String(inv.qrImageOverride).trim();
+  if (settings && settings.invoiceQrImage) return String(settings.invoiceQrImage).trim();
+  return '';
+}
+function buildInvoiceQrImageUrl(payload) {
+  if (!payload) return '';
+  return 'https://api.qrserver.com/v1/create-qr-code/?size=140x140&margin=10&data=' + encodeURIComponent(payload);
+}
+function buildInvoiceQrEditorHtml(inv, payload) {
+  var editVal = (inv && inv.qrTextOverride != null && inv.qrTextOverride !== undefined) ? String(inv.qrTextOverride) : (payload || '');
+  return '<div class="invoice-qr-editor post-payment-no-print" id="invoiceQrEditor">' +
+    '<div class="invoice-qr-editor-label">Edit QR</div>' +
+    '<input type="text" class="form-control invoice-qr-edit-input" id="invoiceQrEditText" value="' + escapeHtml(editVal) + '" placeholder="URL or text for QR code">' +
+    '<div class="invoice-qr-editor-actions">' +
+    '<input type="file" accept="image/png,image/jpeg,image/webp,image/gif" id="invoiceQrBrowseFile" style="display:none" onchange="invoiceModalQrBrowseChanged(this)">' +
+    '<button type="button" class="btn btn-sm btn-outline" onclick="document.getElementById(\'invoiceQrBrowseFile\').click()">Browse…</button>' +
+    '<button type="button" class="btn btn-sm btn-primary" onclick="applyInvoiceQrEdit()">Apply</button>' +
+    '<button type="button" class="btn btn-sm btn-outline" onclick="resetInvoiceQrEdit()">Reset</button>' +
+    '</div>' +
+    '<p class="invoice-qr-editor-hint">Override QR for this invoice only. Defaults come from Settings.</p>' +
+    '</div>';
+}
+function persistInvoiceQrOverrides(inv) {
+  if (!inv || !inv.id) return;
+  try {
+    if (typeof load === 'function') invoices = load('invoices', invoices);
+    var idx = (invoices || []).findIndex(function(i) { return i && i.id === inv.id; });
+    if (idx < 0) return;
+    if (inv.qrTextOverride != null && inv.qrTextOverride !== undefined) invoices[idx].qrTextOverride = inv.qrTextOverride;
+    else delete invoices[idx].qrTextOverride;
+    if (inv.qrImageOverride) invoices[idx].qrImageOverride = inv.qrImageOverride;
+    else delete invoices[idx].qrImageOverride;
+    save('invoices', invoices);
+  } catch (e) {}
+}
+function refreshInvoiceQrDisplay(inv) {
+  if (!inv && window._activeInvoiceQrCtx) inv = window._activeInvoiceQrCtx.inv;
+  if (!inv) return;
+  var imgEl = document.getElementById('invoiceQrDisplayImg');
+  var capEl = document.getElementById('invoiceQrDisplayCaption');
+  var blockEl = document.getElementById('invoiceQrDisplayBlock');
+  var custom = getEffectiveInvoiceQrImage(inv);
+  var payload = custom ? '' : getEffectiveInvoiceQrPayload(inv);
+  if (!custom && !payload) {
+    if (blockEl) blockEl.style.display = 'none';
+    return;
+  }
+  if (blockEl) blockEl.style.display = '';
+  if (imgEl) imgEl.src = custom || buildInvoiceQrImageUrl(payload);
+  if (capEl) capEl.textContent = custom ? 'Custom QR image' : (payload.length > 52 ? payload.slice(0, 49) + '…' : payload);
+}
+function initInvoiceQrEditor(inv) {
+  if (!inv) return;
+  var txtEl = document.getElementById('invoiceQrEditText');
+  if (!txtEl) return;
+  if (inv.qrTextOverride != null && inv.qrTextOverride !== undefined) txtEl.value = String(inv.qrTextOverride);
+  else txtEl.value = getInvoiceQrPayload(inv);
+}
+window._activeInvoiceQrCtx = null;
+window.applyInvoiceQrEdit = function() {
+  var ctx = window._activeInvoiceQrCtx;
+  if (!ctx || !ctx.inv) return;
+  var inv = ctx.inv;
+  var txtEl = document.getElementById('invoiceQrEditText');
+  var val = txtEl ? txtEl.value.trim() : '';
+  if (val) inv.qrTextOverride = val;
+  else delete inv.qrTextOverride;
+  delete inv.qrImageOverride;
+  var fi = document.getElementById('invoiceQrBrowseFile');
+  if (fi) fi.value = '';
+  persistInvoiceQrOverrides(inv);
+  refreshInvoiceQrDisplay(inv);
+  if (typeof toast === 'function') toast(typeof t === 'function' ? t('msg.settingsSaved') : 'QR updated');
+};
+window.resetInvoiceQrEdit = function() {
+  var ctx = window._activeInvoiceQrCtx;
+  if (!ctx || !ctx.inv) return;
+  var inv = ctx.inv;
+  delete inv.qrTextOverride;
+  delete inv.qrImageOverride;
+  var fi = document.getElementById('invoiceQrBrowseFile');
+  if (fi) fi.value = '';
+  persistInvoiceQrOverrides(inv);
+  initInvoiceQrEditor(inv);
+  refreshInvoiceQrDisplay(inv);
+  if (typeof toast === 'function') toast('QR reset to default');
+};
+window.invoiceModalQrBrowseChanged = function(input) {
+  var ctx = window._activeInvoiceQrCtx;
+  if (!ctx || !ctx.inv) return;
+  var f = input && input.files && input.files[0];
+  if (!f) return;
+  if (f.size > 512000) {
+    if (typeof toast === 'function') toast('Image too large (max 512 KB)');
+    input.value = '';
+    return;
+  }
+  var inv = ctx.inv;
+  var reader = new FileReader();
+  reader.onload = function() {
+    inv.qrImageOverride = reader.result;
+    delete inv.qrTextOverride;
+    var txtEl = document.getElementById('invoiceQrEditText');
+    if (txtEl) txtEl.value = '';
+    persistInvoiceQrOverrides(inv);
+    refreshInvoiceQrDisplay(inv);
+    if (typeof toast === 'function') toast(typeof t === 'function' ? t('msg.settingsSaved') : 'QR image updated');
+  };
+  reader.readAsDataURL(f);
+};
 function updateInvoiceQrPreview() {
   var el = document.getElementById('sInvoiceQrPreview');
   if (!el) return;
@@ -437,10 +846,23 @@ def _strip_old_invoice_css(content: str) -> str:
 def _is_fully_patched(content: str) -> bool:
     return (
         MARKER in content
-        and "buildInvoiceQrHtml" in content
-        and "sInvoiceQrText" in content
+        and "refreshInvoiceQrDisplay" in content
+        and "invoiceModalQrBrowseChanged" in content
+        and "buildInvoiceQrHtml(inv, { editable: true })" in content
         and f"/* {MARKER} */" in content
     )
+
+
+def _apply_v3_upgrades(content: str) -> str:
+    if V2_BUILD_QR_FN in content and "function buildInvoiceQrHtml(inv, opts)" not in content:
+        content = content.replace(V2_BUILD_QR_FN, V3_QR_FN_BLOCK, 1)
+    if BUILD_QR_EDITABLE_OLD in content:
+        content = content.replace(BUILD_QR_EDITABLE_OLD, BUILD_QR_EDITABLE_NEW, 1)
+    if OPEN_POST_PAYMENT_OLD in content:
+        content = content.replace(OPEN_POST_PAYMENT_OLD, OPEN_POST_PAYMENT_NEW, 1)
+    if SETTINGS_QR_FILE_OLD in content:
+        content = content.replace(SETTINGS_QR_FILE_OLD, SETTINGS_QR_FILE_NEW, 1)
+    return content
 
 
 def patch(content: str) -> str:
@@ -448,7 +870,9 @@ def patch(content: str) -> str:
         print(f"Already patched {MARKER} — skipping")
         return content
 
-    if "function getInvoiceLineItems" not in content:
+    is_partial = "function getInvoiceLineItems" in content or "buildInvoiceQrHtml" in content
+
+    if not is_partial:
         anchor = "function buildInvoiceFullScreenBodyHtml"
         if anchor not in content:
             raise SystemExit("Could not find buildInvoiceFullScreenBodyHtml anchor")
@@ -460,12 +884,18 @@ def patch(content: str) -> str:
             1,
         )
 
-    if BUILD_INVOICE_OLD in content:
-        content = content.replace(BUILD_INVOICE_OLD, BUILD_INVOICE_V2, 1)
-    elif BUILD_INVOICE_V1 in content:
-        content = content.replace(BUILD_INVOICE_V1, BUILD_INVOICE_V2, 1)
-    elif "buildInvoiceQrHtml(inv)" not in content and BUILD_INVOICE_V2 not in content:
-        raise SystemExit("Could not patch buildInvoiceFullScreenBodyHtml for QR")
+    content = _apply_v3_upgrades(content)
+
+    if not is_partial or BUILD_INVOICE_OLD in content:
+        if BUILD_INVOICE_OLD in content:
+            content = content.replace(BUILD_INVOICE_OLD, BUILD_INVOICE_V2, 1)
+        elif BUILD_INVOICE_V1 in content and BUILD_QR_EDITABLE_NEW not in content:
+            content = content.replace(BUILD_INVOICE_V1, BUILD_INVOICE_V2, 1)
+        elif "buildInvoiceQrHtml(inv, { editable: true })" not in content and BUILD_INVOICE_V2 not in content:
+            if "buildInvoiceBrandHeaderHtml()" in content:
+                pass
+            else:
+                raise SystemExit("Could not patch buildInvoiceFullScreenBodyHtml for QR")
 
     if SHOW_DETAIL_OLD in content:
         content = content.replace(SHOW_DETAIL_OLD, SHOW_DETAIL_V2, 1)
@@ -521,7 +951,7 @@ def main() -> int:
         return 1
     text = index.read_text(encoding="utf-8")
     index.write_text(patch(text), encoding="utf-8")
-    print(f"Patched {index} — invoice items table, logo, and QR code")
+    print(f"Patched {index} — invoice items table, logo, QR code, and inline QR editor")
     return 0
 
 
