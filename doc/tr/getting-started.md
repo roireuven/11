@@ -12,4 +12,4 @@ Bu kılavuz yeni bir mülkü minimum adımla sıfırdan günlük operasyonlara t
 
 ## Tam kılavuz
 
-Ayrıntılı adım adım talimatlar için bkz. [English getting started guide](../en/getting-started.md).
+Ayrıntılı adım adım talimatlar için bkz. [English getting started guide](https://hotel-restaurant-minimart.firebaseapp.com/doc/?lang=en#/getting-started).

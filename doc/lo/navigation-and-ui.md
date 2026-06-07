@@ -10,4 +10,4 @@
 | **ເມນູ (☰)** | ຄວາມຊ່ວຍເຫຼືອ → ເອກະສານ | ພາກສ່ວນທຳອິດຢູ່ເທິງແຖບຂ້າງ |
 | **ແຖບດ້ານລຸ່ມ** | Docs | ການນຳທາງດ້ານລຸ່ມ (ມືຖື) |
 
-ສຳລັບລາຍລະອຽດຜັງ, ໂໝດມືດ ແລະ ຕົວເລືອກພາສາ, ເບິ່ງ [English navigation guide](../en/navigation-and-ui.md).
+ສຳລັບລາຍລະອຽດຜັງ, ໂໝດມືດ ແລະ ຕົວເລືອກພາສາ, ເບິ່ງ [English navigation guide](https://hotel-restaurant-minimart.firebaseapp.com/doc/?lang=en#/navigation-and-ui).

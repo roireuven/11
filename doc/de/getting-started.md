@@ -12,4 +12,4 @@ Diese Anleitung führt eine neue Immobilie mit minimalen Schritten vom Start bis
 
 ## Vollständige Anleitung
 
-Für detaillierte Schritt-für-Schritt-Anweisungen siehe die [English getting started guide](../en/getting-started.md).
+Für detaillierte Schritt-für-Schritt-Anweisungen siehe die [English getting started guide](https://hotel-restaurant-minimart.firebaseapp.com/doc/?lang=en#/getting-started).
