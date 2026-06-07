@@ -52,6 +52,9 @@ runPython("scripts/patch-app-features.py");
 console.log("Adding Settings shortcut to top bar...");
 runPython("scripts/patch-app-topbar-settings.py");
 
+console.log("Patching invoice items table and logo...");
+runPython("scripts/patch-app-invoice.py");
+
 console.log("Adding documentation keys to app locale files...");
 runPython("scripts/patch-locale-doc-keys.py");
 
