@@ -46,6 +46,9 @@ runPython("scripts/patch-app-mobile-menu.py");
 console.log("Embedding documentation into app...");
 runPython("scripts/patch-app-embed-docs.py");
 
+console.log("Patching sell flows, audit log, POS nav...");
+runPython("scripts/patch-app-features.py");
+
 console.log("Adding documentation keys to app locale files...");
 runPython("scripts/patch-locale-doc-keys.py");
 
@@ -58,6 +61,12 @@ await mkdir(join(PUBLIC, "doc"), { recursive: true });
 await cp(join(DOC_SRC, "index.html"), join(PUBLIC, "doc", "index.html"));
 await copyDir(join(DOC_SRC, "i18n"), join(PUBLIC, "doc", "i18n"));
 await copyDir(join(DOC_SRC, "en"), join(PUBLIC, "doc", "en"));
+try {
+  await stat(join(DOC_SRC, "en", "assets"));
+  await copyDir(join(DOC_SRC, "en", "assets"), join(PUBLIC, "doc", "en", "assets"));
+} catch {
+  console.warn("  warn: no doc/en/assets/ — run npm run capture:screenshots for screenshots");
+}
 
 const locales = JSON.parse(await readFile(join(DOC_SRC, "i18n", "locales.json"), "utf8"));
 for (const loc of locales) {

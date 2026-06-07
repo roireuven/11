@@ -107,7 +107,7 @@ def write_sidebar(locale: str, messages: dict, dest: Path) -> None:
             if locale == "en" or slug in TRANSLATED_PAGES:
                 lines.append(f"  * [{title}]({slug})")
             else:
-                lines.append(f"  * [{title}](../en/{slug})")
+                lines.append(f"  * [{title}]({slug})")
         lines.append("")
     lines.append(f"* **{msg(messages, locale, 'sec_links')}**")
     lines.append("  * [Live web app ↗](https://hotel-restaurant-minimart.firebaseapp.com/)")

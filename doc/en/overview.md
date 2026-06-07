@@ -11,7 +11,7 @@
 
 Staff use a **single app** with **role-based menus** and **in-app documentation** (Help → Documentation) in 21 languages.
 
-![Dashboard — hotel, restaurant, and mini-mart in one app](assets/screenshots/02-dashboard.png)
+![Dashboard — hotel, restaurant, and mini-mart in one app](/doc/en/assets/screenshots/02-dashboard.png)
 
 > Open **☰ Menu → Help → Documentation** for the full illustrated guide ([Visual guide](visual-guide.md)).
 

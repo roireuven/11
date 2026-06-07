@@ -19,7 +19,18 @@ Define sellable add-ons (spa, laundry, airport transfer, minibar restock, etc.):
 | Price | Default charge (hotel currency) |
 | Active flag | Hide discontinued services |
 
-### Order service on a booking
+### Walk-in sale (cash at desk)
+
+For guests **without** an active booking folio:
+
+1. Open **Services** → service catalog grid
+2. Click **Pay** on the service row (green button)
+3. Confirm cash in the payment modal
+4. Sale posts to **All Transactions** and **Audit Log** (`Sale` / `Service`)
+
+Use this for spa day passes, walk-in laundry, or amenity purchases paid immediately.
+
+### Order service on a booking (room charge)
 
 From an active **Booking**:
 
@@ -31,6 +42,16 @@ From an active **Booking**:
 
 Charges appear on **Invoices** and at **check-out**.
 
+### Service requests (operations queue)
+
+The **Service Requests** grid handles room-service workflows:
+
+| Status | Billing |
+|--------|---------|
+| **Pending / In Progress** | No charge yet |
+| **Completed (with booking)** | Room charge via `processSale` |
+| **Completed (walk-in, no booking)** | Cash payment modal → immediate sale |
+
 ---
 
 ## Invoices
@@ -39,7 +60,16 @@ Charges appear on **Invoices** and at **check-out**.
 
 Central billing view for stays and posted charges.
 
-![Invoices — guest folios and line items](assets/screenshots/10-invoices.png)
+![Invoices — guest folios and line items](/doc/en/assets/screenshots/10-invoices.png)
+
+### Pay invoice (cash)
+
+1. Open **Invoices**
+2. Click **Pay** on an unpaid row
+3. Enter cash received in the modal
+4. Invoice marked **Fully Paid**
+5. A **Hotel** transaction is created and linked in **All Transactions**
+6. **Audit Log** records `Payment` with transaction id
 
 ### Invoice sources
 
@@ -51,13 +81,21 @@ Central billing view for stays and posted charges.
 | **Mini-mart** | Shop items on **Put bill on customer** |
 | **Manual adjustments** | Discounts, waivers |
 
-### Typical invoice fields
+---
 
-- Guest name, room, booking reference
-- Line items with quantity and unit price
-- **Default tax %** and **service tax %** from Settings
-- Currency from hotel profile
-- Payment status (open / paid)
+## Where selling happens in the app
+
+| Module | Sell action | Payment |
+|--------|-------------|---------|
+| **Mini-Mart** | Cart checkout | Cash, Card, Room charge |
+| **Inventory POS** | Sidebar → Inventory POS | Cash, Card, Room charge |
+| **Restaurant** | Table / walk-in checkout | Cash, Card, Room, Table |
+| **Services catalog** | **Pay** button on row | Cash (walk-in) |
+| **Service requests** | Complete request | Cash or Room charge |
+| **Invoices** | **Pay** button | Cash |
+| **Bookings** | Prepay / check-out | Cash, Card |
+
+All completed sales flow through the shared transaction engine and appear in **Reports** by department.
 
 ---
 
@@ -69,64 +107,6 @@ Central billing view for stays and posted charges.
 | **During stay** | Restaurant and mini-mart post to active folio |
 | **Check-out** | Final invoice; room returns to housekeeping workflow |
 
-Confirmation messages include guest name and invoice id, e.g. *"{guest} checked out. Invoice {inv} generated."*
-
-### End-of-stay checklist (Reception)
-
-1. Review **Invoices** for open line items
-2. Settle restaurant/shop room charges if still on active orders
-3. Apply discounts if approved by manager
-4. **Check out** booking
-5. Print or email invoice if your process requires
-
----
-
-## Discounts and waivers
-
-| Action | When to use |
-|--------|-------------|
-| **Discount %** | Promotions, loyalty, manager approval |
-| **Waive fee** | Late checkout penalty, service recovery |
-
-Default discount reason in Settings: *Manager discount* — customize in **Dropdown Lists** if needed.
-
----
-
-## Payment methods
-
-Configure under **Dropdown Lists → Payment methods / Payment types**.
-
-Used for:
-
-- POS walk-in sales (cash/card)
-- Restaurant table payment
-- Invoice settlement at checkout
-
-Ensure methods match your property (cash, card, bank transfer, room charge, etc.).
-
----
-
-## Room charges from F&B and shop
-
-| Module | Flow |
-|--------|------|
-| **Restaurant room service** | Select checked-in guest → order → charge to folio |
-| **Mini-mart Put bill on customer** | Guest picker → cart → bill on active orders → pay at checkout |
-
-Department breakdown in **Reports**:
-
-> Restaurant · Mini-Mart · Hotel (PMS) · POS
-
----
-
-## Shift and tax context
-
-- **Tax rates** — Settings → default tax %, service tax %
-- **Season multipliers** — Settings → peak/off season (room rates)
-- **Shifts** — Dashboard OPEN/CLOSE shift affects POS reporting
-
-See [Reports](reports.md) and [Settings & configuration](settings-and-configuration.md).
-
 ---
 
 ## Related
@@ -134,4 +114,5 @@ See [Reports](reports.md) and [Settings & configuration](settings-and-configurat
 - [Hotel operations](hotel-operations.md)
 - [Restaurant & kitchen](restaurant-and-kitchen.md)
 - [Mini-mart & POS](minimart-and-pos.md)
+- [Accounts & audit](accounts-and-audit.md)
 - [Visual guide](visual-guide.md)

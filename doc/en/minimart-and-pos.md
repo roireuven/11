@@ -2,68 +2,66 @@
 
 Retail sales for on-site shop items, snacks, and amenities — with walk-in or room-charge payment.
 
-**Path:** Sidebar → **Mini-Mart** or bottom nav **POS**
+**Paths:** Sidebar → **Mini-Mart** · **Inventory POS** · bottom nav **POS**
 
-![Mini-mart POS — products, cart, charge to room](assets/screenshots/09-minimart-pos.png)
+![Mini-mart POS — products, cart, charge to room](/doc/en/assets/screenshots/09-minimart-pos.png)
 
-## Guest-attached sales
+---
 
-Before scanning items, choose who the order is for:
+## Two POS modes
+
+| Mode | Path | Best for |
+|------|------|----------|
+| **Mini-Mart** | Sidebar → **Mini-Mart** | Store items (SKU catalog), guest picker, room bills |
+| **Inventory POS** | Sidebar → **Inventory POS** | Direct sales from **Inventory** items marked POS-available |
+
+Mobile bottom nav **POS** opens **Inventory POS** when your role has access; otherwise it opens **Mini-Mart**.
+
+---
+
+## Mini-Mart (store items)
+
+### Guest-attached sales
 
 | Mode | Description |
 |------|-------------|
 | **Walk-in / no guest** | Cash or card sale at till |
 | **Checked-in guest** | Search by room, name, email, phone, booking ID |
 
-Guest picker shows checked-in guests only for room charges.
-
-### Quick add guest
-
-Add a guest profile from the picker if they are not in the directory yet.
-
-## Cart operations
-
-- Add **Store Items** to cart
-- Adjust quantities (+ / −)
-- Stock validation — *"Not enough stock"* if quantity exceeds inventory
-
-## Payment options
+### Payment options
 
 | Method | When to use |
 |--------|-------------|
-| **Cash / Card** | Immediate sale — *"Sale completed"* |
-| **Put bill on customer** | Add to guest's **active orders** (unpaid) — settle later |
+| **Cash / Card** | Immediate sale |
+| **Put bill on customer** | Add to guest's active orders — settle at checkout |
 
-### Room bill flow
+---
 
-1. Select checked-in guest
-2. Add items to cart
-3. **Put bill on customer** — bill moves to active orders (not paid yet)
-4. Settle via **Pay total** on room bill or pay cart with Cash/Card
+## Inventory POS
 
-Toast messages guide each step if cart state is invalid.
+**Path:** Sidebar → **Inventory POS** (Admin, Manager, Receptionist)
 
-## Mini-mart cash title
+Sell items directly from the **Inventory** table:
 
-Walk-in sales display as **Mini-Mart — Cash** on receipts/transactions.
+1. Open **Inventory POS**
+2. Tap items to add to cart (only items with POS enabled)
+3. Choose **Cash**, **Card**, or **Charge to room**
+4. Sale deducts stock and posts to **All Transactions**
 
-## POS bottom navigation
+Use Inventory POS for front-desk sundries, minibar top-ups, or items not in the Store Items catalog.
 
-On mobile, the **POS** bottom-nav button opens the mini-mart interface optimized for quick sales (same underlying module).
+---
 
-## Store items
+## Store items vs inventory
 
-**Path:** Sidebar → **Store Items** (Admin/Manager)
+| Catalog | Module | Used by |
+|---------|--------|---------|
+| **Store Items** | Mini-Mart | Retail SKUs, barcodes, linked inventory |
+| **Inventory** | Inventory POS | Raw stock items with `posAvailable` flag |
 
-Manage SKUs:
+Configure store items under **Store Items**; enable POS on inventory rows under **Inventory**.
 
-- Name, category, price, barcode
-- Stock quantity
-- Linked to inventory tables
-
-## Open bills
-
-Unpaid mini-mart room charges appear in data exports as **Mini-mart open bills** until settled at checkout or pay total.
+---
 
 ## Reports
 
@@ -74,8 +72,10 @@ Sales roll into **Reports** by department:
 - Hotel (PMS)
 - POS
 
+---
+
 ## Related
 
 - [Inventory & catalog](inventory-and-catalog.md)
 - [Services & billing](services-and-billing.md)
-- [Hotel operations](hotel-operations.md) — checked-in guests
+- [Accounts & audit](accounts-and-audit.md)

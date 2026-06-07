@@ -123,7 +123,23 @@
             placeholder: ui.search_placeholder || 'Search docs…',
             noData: ui.search_no_data || 'No results',
             depth: 3
-          }
+          },
+          plugins: [
+            function (hook) {
+              function externalizeLinks(scope) {
+                if (!scope) return;
+                scope.querySelectorAll('a[href^="http://"], a[href^="https://"]').forEach(function (a) {
+                  a.setAttribute('target', '_blank');
+                  a.setAttribute('rel', 'noopener noreferrer');
+                  a.setAttribute('title', ui.open_new_tab || 'Opens in a new tab');
+                });
+              }
+              hook.doneEach(function () {
+                externalizeLinks(document.querySelector('.markdown-section'));
+                externalizeLinks(document.querySelector('.sidebar-nav'));
+              });
+            }
+          ]
         };
 
         var s1 = document.createElement('script');
