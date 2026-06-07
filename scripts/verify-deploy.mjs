@@ -62,6 +62,29 @@ try {
 if (!docHtml.includes("basePath: DOC_ROOT + '/' + DOC_LANG + '/'")) {
   fail("doc site must use absolute DOC_ROOT basePath (prevents SPA HTML in docs panel)");
 }
+if (!docHtml.includes("fixDocAssetUrl")) {
+  fail("doc site missing image URL fix plugin");
+}
+
+let enGuide;
+try {
+  enGuide = await readFile(join(DOC, "en", "getting-started.md"), "utf8");
+} catch {
+  fail("missing public/doc/en/getting-started.md");
+}
+if (enGuide.includes("/doc/en/assets/")) {
+  fail("English docs must use relative assets/ paths (Docsify double-prefix bug)");
+}
+
+let esInstall;
+try {
+  esInstall = await readFile(join(DOC, "es", "installation.md"), "utf8");
+} catch {
+  fail("missing public/doc/es/installation.md — locale fallback pages required for Firebase");
+}
+if (esInstall.startsWith("<!DOCTYPE html>")) {
+  fail("public/doc/es/installation.md must be markdown, not SPA HTML");
+}
 
 const enMd = (await readdir(join(DOC, "en"))).filter((f) => f.endsWith(".md")).length;
 if (enMd < 20) fail(`expected 20+ English doc files, found ${enMd}`);
