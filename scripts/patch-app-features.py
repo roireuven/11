@@ -6,8 +6,11 @@ import re
 import sys
 from pathlib import Path
 
-MARKER = "HRMM-FEATURES-v1"
+MARKER = "HRMM-FEATURES-v2"
 INDEX = Path("public/index.html")
+
+REST_ORDER_TYPE_OLD = "let restOrderType = 'Room Service';"
+REST_ORDER_TYPE_NEW = "let restOrderType = 'Table';"
 
 NO_AUTO_AUDIT_OLD = "const _noAutoAudit = {auditLog:1,bookingLog:1,inventoryLog:1,settings:1};"
 NO_AUTO_AUDIT_NEW = (
@@ -293,9 +296,12 @@ function renderAuditLog() {
 
 
 def patch(content: str) -> str:
-    if MARKER in content and "sellServiceWalkIn" in content and "exportAuditLogCsv" in content:
+    if MARKER in content and "sellServiceWalkIn" in content and "exportAuditLogCsv" in content and REST_ORDER_TYPE_OLD not in content:
         print(f"Already patched {MARKER} — skipping")
         return content
+
+    if REST_ORDER_TYPE_OLD in content:
+        content = content.replace(REST_ORDER_TYPE_OLD, REST_ORDER_TYPE_NEW, 1)
 
     if NO_AUTO_AUDIT_OLD in content:
         content = content.replace(NO_AUTO_AUDIT_OLD, NO_AUTO_AUDIT_NEW, 1)
@@ -336,6 +342,7 @@ def patch(content: str) -> str:
             f"<title>HotelRestaurantMini-MartManagement</title>\n  <!-- {MARKER} -->",
             1,
         )
+    content = re.sub(r"<!-- HRMM-FEATURES-v\d+ -->", f"<!-- {MARKER} -->", content)
 
     return content
 
@@ -349,7 +356,7 @@ def main() -> int:
     text = index.read_text(encoding="utf-8")
     patched = patch(text)
     index.write_text(patched, encoding="utf-8")
-    print(f"Patched {index} — sell flows, audit log filters/export, inventory POS nav")
+    print(f"Patched {index} — sell flows, audit log, inventory POS, restaurant table default")
     return 0
 
 

@@ -8,9 +8,11 @@ Unified F&B module for dine-in, room service, and kitchen display.
 
 ## Order types
 
+**Default view:** **Table / Walk-in** — table floor with all seats visible when you open Restaurant.
+
 | Type | Use case |
 |------|----------|
-| **Table / Walk-in** | Restaurant floor, cash guests |
+| **Table / Walk-in** | Restaurant floor, cash guests *(default)* |
 | **Room Service** | Charge to checked-in guest room |
 
 For room service, select guest from checked-in list (search by room, name, email, phone, booking ID).
