@@ -18,8 +18,15 @@ The deploy bundle (`public/`) contains:
 
 | Path | Source |
 |------|--------|
-| `/` (app) | Synced from live Firebase (`scripts/sync-from-production.sh`) |
-| `/doc/` | Docsify site from repo `doc/` folder |
+| `/` (app) | Synced from live Firebase, then patched for in-app docs |
+| `/doc/` | Docsify site from repo `doc/` folder (26 guides) |
+
+The build patches `public/index.html` to **embed documentation inside the app**:
+
+- Top bar **Documentation** button
+- Sidebar **Help → Documentation**
+- Bottom nav **Docs** button
+- Embedded iframe page at `#page-documentation` → `/doc/#/README`
 
 Build command merges both:
 
@@ -37,6 +44,15 @@ npm install
 firebase login
 npm run deploy
 ```
+
+**Windows (PowerShell):**
+
+```powershell
+cd C:\Users\roire\11
+.\firebase-fix.bat deploy
+```
+
+Or step by step: `npx firebase login` then `npm run deploy`. Sign in as the Google account that owns project **hotel-restaurant-minimart**.
 
 Requires Firebase project **Editor** or **Firebase Hosting Admin** role.
 
