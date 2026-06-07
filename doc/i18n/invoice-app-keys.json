@@ -1,0 +1,653 @@
+{
+  "en": {
+    "invoice": {
+      "billing": "Billing",
+      "transaction": "Transaction",
+      "qrCustomImage": "Custom QR image",
+      "qrScanRestaurant": "Scan to order from restaurant",
+      "qrScanMinimart": "Scan to order from mini-mart",
+      "qrEditLabel": "Edit QR",
+      "qrPlaceholder": "URL or text for QR code",
+      "qrEditHint": "Override QR for this invoice only. Defaults come from Settings.",
+      "qrAlt": "QR code",
+      "browse": "Browse…",
+      "apply": "Apply",
+      "reset": "Reset",
+      "qrResetToast": "QR reset to default",
+      "statusFullyPaid": "Fully Paid",
+      "statusPartiallyPaid": "Partially Paid",
+      "statusUnpaid": "Unpaid"
+    },
+    "msg": {
+      "postPaymentInvoiceTitle": "Payment complete",
+      "prepaidInvoiceTitle": "Prepaid invoice",
+      "prepaidInvoiceTag": "PREPAID",
+      "prepaidInvoiceNote": "Pro forma — payment may still be due (or not yet posted to the folio).",
+      "postPaymentBatchHint": "Settled {n} orders in one payment. This receipt is for the last charge.",
+      "postPaymentPrint": "Print"
+    },
+    "common": {
+      "seeInvoice": "See invoice"
+    }
+  },
+  "fr": {
+    "invoice": {
+      "billing": "Facturation",
+      "transaction": "Transaction",
+      "qrCustomImage": "Image QR personnalisée",
+      "qrScanRestaurant": "Scannez pour commander au restaurant",
+      "qrScanMinimart": "Scannez pour commander au mini-marché",
+      "qrEditLabel": "Modifier le QR",
+      "qrPlaceholder": "URL ou texte pour le code QR",
+      "qrEditHint": "Remplacer le QR pour cette facture uniquement. Les valeurs par défaut viennent des Paramètres.",
+      "qrAlt": "Code QR",
+      "browse": "Parcourir…",
+      "apply": "Appliquer",
+      "reset": "Réinitialiser",
+      "qrResetToast": "QR réinitialisé par défaut",
+      "statusFullyPaid": "Entièrement payé",
+      "statusPartiallyPaid": "Partiellement payé",
+      "statusUnpaid": "Impayé"
+    },
+    "msg": {
+      "postPaymentInvoiceTitle": "Paiement effectué",
+      "prepaidInvoiceTitle": "Facture prépayée",
+      "prepaidInvoiceTag": "PRÉPAYÉ",
+      "prepaidInvoiceNote": "Pro forma — le paiement peut encore être dû (ou pas encore porté au folio).",
+      "postPaymentBatchHint": "{n} commandes réglées en un paiement. Ce reçu concerne le dernier débit.",
+      "postPaymentPrint": "Imprimer"
+    },
+    "common": {
+      "seeInvoice": "Voir la facture"
+    }
+  },
+  "es": {
+    "invoice": {
+      "billing": "Facturación",
+      "transaction": "Transacción",
+      "qrCustomImage": "Imagen QR personalizada",
+      "qrScanRestaurant": "Escanee para pedir en el restaurante",
+      "qrScanMinimart": "Escanee para pedir en la mini tienda",
+      "qrEditLabel": "Editar QR",
+      "qrPlaceholder": "URL o texto para el código QR",
+      "qrEditHint": "Anular el QR solo para esta factura. Los valores predeterminados vienen de Configuración.",
+      "qrAlt": "Código QR",
+      "browse": "Examinar…",
+      "apply": "Aplicar",
+      "reset": "Restablecer",
+      "qrResetToast": "QR restablecido por defecto",
+      "statusFullyPaid": "Pagado por completo",
+      "statusPartiallyPaid": "Pagado parcialmente",
+      "statusUnpaid": "Sin pagar"
+    },
+    "msg": {
+      "postPaymentInvoiceTitle": "Pago completado",
+      "prepaidInvoiceTitle": "Factura prepagada",
+      "prepaidInvoiceTag": "PREPAGADO",
+      "prepaidInvoiceNote": "Pro forma — el pago puede estar pendiente (o aún no registrado en el folio).",
+      "postPaymentBatchHint": "Se liquidaron {n} pedidos en un pago. Este recibo es del último cargo.",
+      "postPaymentPrint": "Imprimir"
+    },
+    "common": {
+      "seeInvoice": "Ver factura"
+    }
+  },
+  "de": {
+    "invoice": {
+      "billing": "Rechnungsadresse",
+      "transaction": "Transaktion",
+      "qrCustomImage": "Benutzerdefiniertes QR-Bild",
+      "qrScanRestaurant": "Scannen, um im Restaurant zu bestellen",
+      "qrScanMinimart": "Scannen, um im Minimarkt zu bestellen",
+      "qrEditLabel": "QR bearbeiten",
+      "qrPlaceholder": "URL oder Text für QR-Code",
+      "qrEditHint": "QR nur für diese Rechnung überschreiben. Standardwerte kommen aus den Einstellungen.",
+      "qrAlt": "QR-Code",
+      "browse": "Durchsuchen…",
+      "apply": "Anwenden",
+      "reset": "Zurücksetzen",
+      "qrResetToast": "QR auf Standard zurückgesetzt",
+      "statusFullyPaid": "Vollständig bezahlt",
+      "statusPartiallyPaid": "Teilweise bezahlt",
+      "statusUnpaid": "Unbezahlt"
+    },
+    "msg": {
+      "postPaymentInvoiceTitle": "Zahlung abgeschlossen",
+      "prepaidInvoiceTitle": "Vorausbezahlte Rechnung",
+      "prepaidInvoiceTag": "VORAUSBEZAHLT",
+      "prepaidInvoiceNote": "Pro forma — Zahlung kann noch ausstehen (oder noch nicht im Folio gebucht).",
+      "postPaymentBatchHint": "{n} Bestellungen in einer Zahlung beglichen. Dieser Beleg gilt für die letzte Belastung.",
+      "postPaymentPrint": "Drucken"
+    },
+    "common": {
+      "seeInvoice": "Rechnung anzeigen"
+    }
+  },
+  "ar": {
+    "invoice": {
+      "billing": "الفوترة",
+      "transaction": "المعاملة",
+      "qrCustomImage": "صورة QR مخصصة",
+      "qrScanRestaurant": "امسح للطلب من المطعم",
+      "qrScanMinimart": "امسح للطلب من المتجر الصغير",
+      "qrEditLabel": "تعديل QR",
+      "qrPlaceholder": "رابط أو نص لرمز QR",
+      "qrEditHint": "تجاوز QR لهذه الفاتورة فقط. القيم الافتراضية من الإعدادات.",
+      "qrAlt": "رمز QR",
+      "browse": "استعراض…",
+      "apply": "تطبيق",
+      "reset": "إعادة تعيين",
+      "qrResetToast": "تمت إعادة QR للافتراضي",
+      "statusFullyPaid": "مدفوع بالكامل",
+      "statusPartiallyPaid": "مدفوع جزئياً",
+      "statusUnpaid": "غير مدفوع"
+    },
+    "msg": {
+      "postPaymentInvoiceTitle": "اكتمل الدفع",
+      "prepaidInvoiceTitle": "فاتورة مدفوعة مسبقاً",
+      "prepaidInvoiceTag": "مدفوع مسبقاً",
+      "prepaidInvoiceNote": "نموذج أولي — قد يكون الدفع مستحقاً (أو لم يُسجّل بعد في الحساب).",
+      "postPaymentBatchHint": "تمت تسوية {n} طلبات في دفعة واحدة. هذا الإيصال للرسوم الأخيرة.",
+      "postPaymentPrint": "طباعة"
+    },
+    "common": {
+      "seeInvoice": "عرض الفاتورة"
+    }
+  },
+  "he": {
+    "invoice": {
+      "billing": "חיוב",
+      "transaction": "עסקה",
+      "qrCustomImage": "תמונת QR מותאמת",
+      "qrScanRestaurant": "סרוק להזמנה מהמסעדה",
+      "qrScanMinimart": "סרוק להזמנה מהמינימארט",
+      "qrEditLabel": "ערוך QR",
+      "qrPlaceholder": "כתובת או טקסט לקוד QR",
+      "qrEditHint": "דרוס QR לחשבונית זו בלבד. ברירות המחדל מהגדרות.",
+      "qrAlt": "קוד QR",
+      "browse": "עיון…",
+      "apply": "החל",
+      "reset": "איפוס",
+      "qrResetToast": "QR אופס לברירת מחדל",
+      "statusFullyPaid": "שולם במלואו",
+      "statusPartiallyPaid": "שולם חלקית",
+      "statusUnpaid": "לא שולם"
+    },
+    "msg": {
+      "postPaymentInvoiceTitle": "התשלום הושלם",
+      "prepaidInvoiceTitle": "חשבונית מראש",
+      "prepaidInvoiceTag": "מראש",
+      "prepaidInvoiceNote": "פרו פורמה — התשלום עדיין עשוי להיות מגיע (או טרם נרשם בפוליו).",
+      "postPaymentBatchHint": "סולקו {n} הזמנות בתשלום אחד. קבלה זו עבור החיוב האחרון.",
+      "postPaymentPrint": "הדפס"
+    },
+    "common": {
+      "seeInvoice": "הצג חשבונית"
+    }
+  },
+  "hi": {
+    "invoice": {
+      "billing": "बिलिंग",
+      "transaction": "लेन-देन",
+      "qrCustomImage": "कस्टम QR छवि",
+      "qrScanRestaurant": "रेस्तरां से ऑर्डर करने के लिए स्कैन करें",
+      "qrScanMinimart": "मिनी-मार्ट से ऑर्डर करने के लिए स्कैन करें",
+      "qrEditLabel": "QR संपादित करें",
+      "qrPlaceholder": "QR कोड के लिए URL या टेक्स्ट",
+      "qrEditHint": "केवल इस चालान के लिए QR बदलें। डिफ़ॉल्ट सेटिंग्स से आते हैं।",
+      "qrAlt": "QR कोड",
+      "browse": "ब्राउज़…",
+      "apply": "लागू करें",
+      "reset": "रीसेट",
+      "qrResetToast": "QR डिफ़ॉल्ट पर रीसेट",
+      "statusFullyPaid": "पूर्ण भुगतान",
+      "statusPartiallyPaid": "आंशिक भुगतान",
+      "statusUnpaid": "अवैतनिक"
+    },
+    "msg": {
+      "postPaymentInvoiceTitle": "भुगतान पूर्ण",
+      "prepaidInvoiceTitle": "प्रीपेड चालान",
+      "prepaidInvoiceTag": "प्रीपेड",
+      "prepaidInvoiceNote": "प्रो फॉर्मा — भुगतान अभी बकाया हो सकता है (या फोलियो में अभी पोस्ट नहीं)।",
+      "postPaymentBatchHint": "एक भुगतान में {n} ऑर्डर निपटाए गए। यह रसीद अंतिम शुल्क के लिए है।",
+      "postPaymentPrint": "प्रिंट"
+    },
+    "common": {
+      "seeInvoice": "चालान देखें"
+    }
+  },
+  "id": {
+    "invoice": {
+      "billing": "Penagihan",
+      "transaction": "Transaksi",
+      "qrCustomImage": "Gambar QR kustom",
+      "qrScanRestaurant": "Pindai untuk pesan dari restoran",
+      "qrScanMinimart": "Pindai untuk pesan dari mini-mart",
+      "qrEditLabel": "Edit QR",
+      "qrPlaceholder": "URL atau teks untuk kode QR",
+      "qrEditHint": "Ganti QR hanya untuk faktur ini. Default dari Pengaturan.",
+      "qrAlt": "Kode QR",
+      "browse": "Telusuri…",
+      "apply": "Terapkan",
+      "reset": "Atur ulang",
+      "qrResetToast": "QR diatur ulang ke default",
+      "statusFullyPaid": "Lunas",
+      "statusPartiallyPaid": "Dibayar sebagian",
+      "statusUnpaid": "Belum dibayar"
+    },
+    "msg": {
+      "postPaymentInvoiceTitle": "Pembayaran selesai",
+      "prepaidInvoiceTitle": "Faktur prabayar",
+      "prepaidInvoiceTag": "PRABAYAR",
+      "prepaidInvoiceNote": "Pro forma — pembayaran mungkin masih jatuh tempo (atau belum diposting ke folio).",
+      "postPaymentBatchHint": "Menyelesaikan {n} pesanan dalam satu pembayaran. Struk ini untuk biaya terakhir.",
+      "postPaymentPrint": "Cetak"
+    },
+    "common": {
+      "seeInvoice": "Lihat faktur"
+    }
+  },
+  "it": {
+    "invoice": {
+      "billing": "Fatturazione",
+      "transaction": "Transazione",
+      "qrCustomImage": "Immagine QR personalizzata",
+      "qrScanRestaurant": "Scansiona per ordinare dal ristorante",
+      "qrScanMinimart": "Scansiona per ordinare dal mini-market",
+      "qrEditLabel": "Modifica QR",
+      "qrPlaceholder": "URL o testo per il codice QR",
+      "qrEditHint": "Sostituisci il QR solo per questa fattura. I default provengono dalle Impostazioni.",
+      "qrAlt": "Codice QR",
+      "browse": "Sfoglia…",
+      "apply": "Applica",
+      "reset": "Reimposta",
+      "qrResetToast": "QR reimpostato ai default",
+      "statusFullyPaid": "Pagato per intero",
+      "statusPartiallyPaid": "Pagato parzialmente",
+      "statusUnpaid": "Non pagato"
+    },
+    "msg": {
+      "postPaymentInvoiceTitle": "Pagamento completato",
+      "prepaidInvoiceTitle": "Fattura prepagata",
+      "prepaidInvoiceTag": "PREPAGATO",
+      "prepaidInvoiceNote": "Pro forma — il pagamento può essere ancora dovuto (o non ancora registrato nel folio).",
+      "postPaymentBatchHint": "Regolate {n} ordini in un unico pagamento. Questa ricevuta è per l'ultimo addebito.",
+      "postPaymentPrint": "Stampa"
+    },
+    "common": {
+      "seeInvoice": "Vedi fattura"
+    }
+  },
+  "ja": {
+    "invoice": {
+      "billing": "請求先",
+      "transaction": "取引",
+      "qrCustomImage": "カスタムQR画像",
+      "qrScanRestaurant": "スキャンしてレストランから注文",
+      "qrScanMinimart": "スキャンしてミニマートから注文",
+      "qrEditLabel": "QRを編集",
+      "qrPlaceholder": "QRコード用のURLまたはテキスト",
+      "qrEditHint": "この請求書のみQRを上書き。デフォルトは設定から取得。",
+      "qrAlt": "QRコード",
+      "browse": "参照…",
+      "apply": "適用",
+      "reset": "リセット",
+      "qrResetToast": "QRをデフォルトにリセット",
+      "statusFullyPaid": "全額支払済",
+      "statusPartiallyPaid": "一部支払済",
+      "statusUnpaid": "未払い"
+    },
+    "msg": {
+      "postPaymentInvoiceTitle": "支払い完了",
+      "prepaidInvoiceTitle": "前払い請求書",
+      "prepaidInvoiceTag": "前払い",
+      "prepaidInvoiceNote": "見積形式 — 支払いが未了の場合があります（またはfolio未記帳）。",
+      "postPaymentBatchHint": "{n}件の注文を一括決済。この領収書は最後の請求分です。",
+      "postPaymentPrint": "印刷"
+    },
+    "common": {
+      "seeInvoice": "請求書を表示"
+    }
+  },
+  "ko": {
+    "invoice": {
+      "billing": "청구",
+      "transaction": "거래",
+      "qrCustomImage": "사용자 QR 이미지",
+      "qrScanRestaurant": "스캔하여 레스토랑에서 주문",
+      "qrScanMinimart": "스캔하여 미니마트에서 주문",
+      "qrEditLabel": "QR 편집",
+      "qrPlaceholder": "QR 코드용 URL 또는 텍스트",
+      "qrEditHint": "이 청구서에만 QR을 덮어씁니다. 기본값은 설정에서 가져옵니다.",
+      "qrAlt": "QR 코드",
+      "browse": "찾아보기…",
+      "apply": "적용",
+      "reset": "재설정",
+      "qrResetToast": "QR이 기본값으로 재설정됨",
+      "statusFullyPaid": "전액 결제",
+      "statusPartiallyPaid": "부분 결제",
+      "statusUnpaid": "미결제"
+    },
+    "msg": {
+      "postPaymentInvoiceTitle": "결제 완료",
+      "prepaidInvoiceTitle": "선불 청구서",
+      "prepaidInvoiceTag": "선불",
+      "prepaidInvoiceNote": "견적서 — 결제가 아직 필요할 수 있습니다(또는 folio에 미기록).",
+      "postPaymentBatchHint": "한 번의 결제로 {n}건의 주문을 정산했습니다. 이 영수증은 마지막 청구분입니다.",
+      "postPaymentPrint": "인쇄"
+    },
+    "common": {
+      "seeInvoice": "청구서 보기"
+    }
+  },
+  "lo": {
+    "invoice": {
+      "billing": "ການເກັບເງິນ",
+      "transaction": "ທຸລະກຳ",
+      "qrCustomImage": "ຮູບ QR ກຳນົດເອງ",
+      "qrScanRestaurant": "ສະແກນເພື່ອສັ່ງຈາກຮ້ານອາຫານ",
+      "qrScanMinimart": "ສະແກນເພື່ອສັ່ງຈາກມິນິມາກ",
+      "qrEditLabel": "ແກ້ໄຂ QR",
+      "qrPlaceholder": "URL ຫຼືຂໍ້ຄວາມສຳລັບ QR",
+      "qrEditHint": "ແທນທີ QR ສຳລັບໃບເກັບເງິນນີ້ເທົ່ານັ້ນ. ຄ່າເລີ່ມຕົນມາຈາກການຕັ້ງຄ່າ.",
+      "qrAlt": "ລະຫັດ QR",
+      "browse": "ເລືອກ…",
+      "apply": "ນຳໃຊ້",
+      "reset": "ຣີເຊັດ",
+      "qrResetToast": "ຣີເຊັດ QR ເປັນຄ່າເລີ່ມຕົນ",
+      "statusFullyPaid": "ຈ່າຍຄົບ",
+      "statusPartiallyPaid": "ຈ່າຍບາງສ່ວນ",
+      "statusUnpaid": "ຍັງບໍ່ຈ່າຍ"
+    },
+    "msg": {
+      "postPaymentInvoiceTitle": "ຈ່າຍເງິນສຳເລັດ",
+      "prepaidInvoiceTitle": "ໃບເກັບເງິນຈ່າຍລ່ວງໜ້າ",
+      "prepaidInvoiceTag": "ຈ່າຍລ່ວງໜ້າ",
+      "prepaidInvoiceNote": "ແບບ pro forma — ອາດຍັງຄ້າງຈ່າຍ (ຫຼືຍັງບໍ່ລົງ folio).",
+      "postPaymentBatchHint": "ຊຳລະ {n} ຄຳສັ່ງໃນການຈ່າຍຄັ້ງດຽວ. ໃບຮັບນີ້ສຳລັບຄ່າໃຊ້ຈ່າຍຄັ້ງສຸດທ້າຍ.",
+      "postPaymentPrint": "ພິມ"
+    },
+    "common": {
+      "seeInvoice": "ເບິ່ງໃບເກັບເງິນ"
+    }
+  },
+  "nl": {
+    "invoice": {
+      "billing": "Facturatie",
+      "transaction": "Transactie",
+      "qrCustomImage": "Aangepaste QR-afbeelding",
+      "qrScanRestaurant": "Scan om te bestellen bij het restaurant",
+      "qrScanMinimart": "Scan om te bestellen bij de minimarkt",
+      "qrEditLabel": "QR bewerken",
+      "qrPlaceholder": "URL of tekst voor QR-code",
+      "qrEditHint": "QR alleen voor deze factuur overschrijven. Standaardwaarden komen uit Instellingen.",
+      "qrAlt": "QR-code",
+      "browse": "Bladeren…",
+      "apply": "Toepassen",
+      "reset": "Resetten",
+      "qrResetToast": "QR teruggezet naar standaard",
+      "statusFullyPaid": "Volledig betaald",
+      "statusPartiallyPaid": "Gedeeltelijk betaald",
+      "statusUnpaid": "Onbetaald"
+    },
+    "msg": {
+      "postPaymentInvoiceTitle": "Betaling voltooid",
+      "prepaidInvoiceTitle": "Vooruitbetaalde factuur",
+      "prepaidInvoiceTag": "VOORUITBETAALD",
+      "prepaidInvoiceNote": "Pro forma — betaling kan nog verschuldigd zijn (of nog niet op folio geboekt).",
+      "postPaymentBatchHint": "{n} bestellingen in één betaling afgehandeld. Dit bonnetje is voor de laatste charge.",
+      "postPaymentPrint": "Afdrukken"
+    },
+    "common": {
+      "seeInvoice": "Factuur bekijken"
+    }
+  },
+  "pl": {
+    "invoice": {
+      "billing": "Rozliczenie",
+      "transaction": "Transakcja",
+      "qrCustomImage": "Niestandardowy obraz QR",
+      "qrScanRestaurant": "Zeskanuj, aby zamówić w restauracji",
+      "qrScanMinimart": "Zeskanuj, aby zamówić w minimarkcie",
+      "qrEditLabel": "Edytuj QR",
+      "qrPlaceholder": "URL lub tekst kodu QR",
+      "qrEditHint": "Nadpisz QR tylko dla tej faktury. Domyślne wartości pochodzą z Ustawień.",
+      "qrAlt": "Kod QR",
+      "browse": "Przeglądaj…",
+      "apply": "Zastosuj",
+      "reset": "Resetuj",
+      "qrResetToast": "QR zresetowany do domyślnego",
+      "statusFullyPaid": "Opłacono w całości",
+      "statusPartiallyPaid": "Opłacono częściowo",
+      "statusUnpaid": "Nieopłacono"
+    },
+    "msg": {
+      "postPaymentInvoiceTitle": "Płatność zakończona",
+      "prepaidInvoiceTitle": "Faktura przedpłacona",
+      "prepaidInvoiceTag": "PRZEDPŁATA",
+      "prepaidInvoiceNote": "Pro forma — płatność może być nadal należna (lub nie zaksięgowana w folio).",
+      "postPaymentBatchHint": "Rozliczono {n} zamówień jedną płatnością. Ten paragon dotyczy ostatniego obciążenia.",
+      "postPaymentPrint": "Drukuj"
+    },
+    "common": {
+      "seeInvoice": "Zobacz fakturę"
+    }
+  },
+  "pt-BR": {
+    "invoice": {
+      "billing": "Cobrança",
+      "transaction": "Transação",
+      "qrCustomImage": "Imagem QR personalizada",
+      "qrScanRestaurant": "Escaneie para pedir no restaurante",
+      "qrScanMinimart": "Escaneie para pedir no mini-mercado",
+      "qrEditLabel": "Editar QR",
+      "qrPlaceholder": "URL ou texto para o código QR",
+      "qrEditHint": "Substituir QR apenas nesta fatura. Padrões vêm das Configurações.",
+      "qrAlt": "Código QR",
+      "browse": "Procurar…",
+      "apply": "Aplicar",
+      "reset": "Redefinir",
+      "qrResetToast": "QR redefinido para o padrão",
+      "statusFullyPaid": "Pago integralmente",
+      "statusPartiallyPaid": "Pago parcialmente",
+      "statusUnpaid": "Não pago"
+    },
+    "msg": {
+      "postPaymentInvoiceTitle": "Pagamento concluído",
+      "prepaidInvoiceTitle": "Fatura pré-paga",
+      "prepaidInvoiceTag": "PRÉ-PAGO",
+      "prepaidInvoiceNote": "Pro forma — o pagamento pode ainda ser devido (ou ainda não lançado no folio).",
+      "postPaymentBatchHint": "Liquidadas {n} encomendas em um pagamento. Este recibo é da última cobrança.",
+      "postPaymentPrint": "Imprimir"
+    },
+    "common": {
+      "seeInvoice": "Ver fatura"
+    }
+  },
+  "ru": {
+    "invoice": {
+      "billing": "Платёжные данные",
+      "transaction": "Транзакция",
+      "qrCustomImage": "Пользовательское изображение QR",
+      "qrScanRestaurant": "Сканируйте, чтобы заказать в ресторане",
+      "qrScanMinimart": "Сканируйте, чтобы заказать в минимаркете",
+      "qrEditLabel": "Изменить QR",
+      "qrPlaceholder": "URL или текст для QR-кода",
+      "qrEditHint": "Заменить QR только для этого счёта. По умолчанию — из Настроек.",
+      "qrAlt": "QR-код",
+      "browse": "Обзор…",
+      "apply": "Применить",
+      "reset": "Сброс",
+      "qrResetToast": "QR сброшен по умолчанию",
+      "statusFullyPaid": "Оплачено полностью",
+      "statusPartiallyPaid": "Оплачено частично",
+      "statusUnpaid": "Не оплачено"
+    },
+    "msg": {
+      "postPaymentInvoiceTitle": "Оплата завершена",
+      "prepaidInvoiceTitle": "Предоплаченный счёт",
+      "prepaidInvoiceTag": "ПРЕДОПЛАТА",
+      "prepaidInvoiceNote": "Pro forma — оплата может быть ещё не произведена (или не проведена в folio).",
+      "postPaymentBatchHint": "Оплачено {n} заказов одним платежом. Этот чек за последнее списание.",
+      "postPaymentPrint": "Печать"
+    },
+    "common": {
+      "seeInvoice": "Просмотр счёта"
+    }
+  },
+  "th": {
+    "invoice": {
+      "billing": "ที่อยู่เรียกเก็บ",
+      "transaction": "ธุรกรรม",
+      "qrCustomImage": "รูป QR ที่กำหนดเอง",
+      "qrScanRestaurant": "สแกนเพื่อสั่งจากร้านอาหาร",
+      "qrScanMinimart": "สแกนเพื่อสั่งจากมินิมาร์ท",
+      "qrEditLabel": "แก้ไข QR",
+      "qrPlaceholder": "URL หรือข้อความสำหรับ QR",
+      "qrEditHint": "แทนที่ QR สำหรับใบแจ้งหนี้นี้เท่านั้น ค่าเริ่มต้นมาจากการตั้งค่า",
+      "qrAlt": "รหัส QR",
+      "browse": "เรียกดู…",
+      "apply": "ใช้",
+      "reset": "รีเซ็ต",
+      "qrResetToast": "รีเซ็ต QR เป็นค่าเริ่มต้น",
+      "statusFullyPaid": "ชำระครบ",
+      "statusPartiallyPaid": "ชำระบางส่วน",
+      "statusUnpaid": "ยังไม่ชำระ"
+    },
+    "msg": {
+      "postPaymentInvoiceTitle": "ชำระเงินเสร็จสิ้น",
+      "prepaidInvoiceTitle": "ใบแจ้งหนี้ชำระล่วงหน้า",
+      "prepaidInvoiceTag": "ชำระล่วงหน้า",
+      "prepaidInvoiceNote": "ใบแจ้งหนี้ชั่วคราว — อาจยังค้างชำระ (หรือยังไม่ลง folio)",
+      "postPaymentBatchHint": "ชำระ {n} ออเดอร์ในครั้งเดียว ใบเสร็จนี้สำหรับรายการสุดท้าย",
+      "postPaymentPrint": "พิมพ์"
+    },
+    "common": {
+      "seeInvoice": "ดูใบแจ้งหนี้"
+    }
+  },
+  "tr": {
+    "invoice": {
+      "billing": "Fatura adresi",
+      "transaction": "İşlem",
+      "qrCustomImage": "Özel QR görseli",
+      "qrScanRestaurant": "Restorandan sipariş için tarayın",
+      "qrScanMinimart": "Mini marketten sipariş için tarayın",
+      "qrEditLabel": "QR düzenle",
+      "qrPlaceholder": "QR kodu için URL veya metin",
+      "qrEditHint": "QR'yi yalnızca bu fatura için geçersiz kılın. Varsayılanlar Ayarlardan gelir.",
+      "qrAlt": "QR kodu",
+      "browse": "Gözat…",
+      "apply": "Uygula",
+      "reset": "Sıfırla",
+      "qrResetToast": "QR varsayılana sıfırlandı",
+      "statusFullyPaid": "Tamamen ödendi",
+      "statusPartiallyPaid": "Kısmen ödendi",
+      "statusUnpaid": "Ödenmedi"
+    },
+    "msg": {
+      "postPaymentInvoiceTitle": "Ödeme tamamlandı",
+      "prepaidInvoiceTitle": "Ön ödemeli fatura",
+      "prepaidInvoiceTag": "ÖN ÖDEMELİ",
+      "prepaidInvoiceNote": "Pro forma — ödeme hâlâ bekliyor olabilir (veya folio'ya henüz işlenmedi).",
+      "postPaymentBatchHint": "Tek ödemede {n} sipariş kapatıldı. Bu makbuz son ücret içindir.",
+      "postPaymentPrint": "Yazdır"
+    },
+    "common": {
+      "seeInvoice": "Faturayı gör"
+    }
+  },
+  "vi": {
+    "invoice": {
+      "billing": "Thanh toán",
+      "transaction": "Giao dịch",
+      "qrCustomImage": "Ảnh QR tùy chỉnh",
+      "qrScanRestaurant": "Quét để đặt món từ nhà hàng",
+      "qrScanMinimart": "Quét để đặt hàng từ cửa hàng tiện lợi",
+      "qrEditLabel": "Sửa QR",
+      "qrPlaceholder": "URL hoặc văn bản cho mã QR",
+      "qrEditHint": "Ghi đè QR chỉ cho hóa đơn này. Mặc định lấy từ Cài đặt.",
+      "qrAlt": "Mã QR",
+      "browse": "Duyệt…",
+      "apply": "Áp dụng",
+      "reset": "Đặt lại",
+      "qrResetToast": "Đã đặt lại QR về mặc định",
+      "statusFullyPaid": "Đã thanh toán đủ",
+      "statusPartiallyPaid": "Thanh toán một phần",
+      "statusUnpaid": "Chưa thanh toán"
+    },
+    "msg": {
+      "postPaymentInvoiceTitle": "Thanh toán hoàn tất",
+      "prepaidInvoiceTitle": "Hóa đơn trả trước",
+      "prepaidInvoiceTag": "TRẢ TRƯỚC",
+      "prepaidInvoiceNote": "Pro forma — thanh toán có thể còn nợ (hoặc chưa ghi vào folio).",
+      "postPaymentBatchHint": "Đã thanh toán {n} đơn trong một lần. Biên lai này cho khoản phí cuối.",
+      "postPaymentPrint": "In"
+    },
+    "common": {
+      "seeInvoice": "Xem hóa đơn"
+    }
+  },
+  "zh-Hans": {
+    "invoice": {
+      "billing": "账单地址",
+      "transaction": "交易",
+      "qrCustomImage": "自定义二维码图片",
+      "qrScanRestaurant": "扫描从餐厅点餐",
+      "qrScanMinimart": "扫描从迷你超市下单",
+      "qrEditLabel": "编辑二维码",
+      "qrPlaceholder": "二维码的 URL 或文本",
+      "qrEditHint": "仅覆盖此发票的二维码。默认值来自设置。",
+      "qrAlt": "二维码",
+      "browse": "浏览…",
+      "apply": "应用",
+      "reset": "重置",
+      "qrResetToast": "二维码已重置为默认",
+      "statusFullyPaid": "已全额支付",
+      "statusPartiallyPaid": "部分支付",
+      "statusUnpaid": "未支付"
+    },
+    "msg": {
+      "postPaymentInvoiceTitle": "付款完成",
+      "prepaidInvoiceTitle": "预付发票",
+      "prepaidInvoiceTag": "预付",
+      "prepaidInvoiceNote": "形式发票 — 可能仍需付款（或尚未记入 folio）。",
+      "postPaymentBatchHint": "一次付款结算 {n} 个订单。此收据为最后一笔费用。",
+      "postPaymentPrint": "打印"
+    },
+    "common": {
+      "seeInvoice": "查看发票"
+    }
+  },
+  "zh-Hant": {
+    "invoice": {
+      "billing": "帳單地址",
+      "transaction": "交易",
+      "qrCustomImage": "自訂 QR 圖片",
+      "qrScanRestaurant": "掃描從餐廳點餐",
+      "qrScanMinimart": "掃描從迷你超市下單",
+      "qrEditLabel": "編輯 QR",
+      "qrPlaceholder": "QR 碼的 URL 或文字",
+      "qrEditHint": "僅覆寫此發票的 QR。預設值來自設定。",
+      "qrAlt": "QR 碼",
+      "browse": "瀏覽…",
+      "apply": "套用",
+      "reset": "重設",
+      "qrResetToast": "QR 已重設為預設",
+      "statusFullyPaid": "已全額付款",
+      "statusPartiallyPaid": "部分付款",
+      "statusUnpaid": "未付款"
+    },
+    "msg": {
+      "postPaymentInvoiceTitle": "付款完成",
+      "prepaidInvoiceTitle": "預付發票",
+      "prepaidInvoiceTag": "預付",
+      "prepaidInvoiceNote": "形式發票 — 可能仍需付款（或尚未記入 folio）。",
+      "postPaymentBatchHint": "一次付款結算 {n} 筆訂單。此收據為最後一筆費用。",
+      "postPaymentPrint": "列印"
+    },
+    "common": {
+      "seeInvoice": "查看發票"
+    }
+  }
+}

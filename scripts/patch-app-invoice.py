@@ -6,7 +6,7 @@ import re
 import sys
 from pathlib import Path
 
-MARKER = "HRMM-INVOICE-v4"
+MARKER = "HRMM-INVOICE-v7"
 INDEX = Path("public/index.html")
 
 CSS = """
@@ -32,6 +32,62 @@ CSS = """
     .invoice-items-table thead th { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--text-light); border-bottom: 2px solid var(--border); }
     .invoice-items-table tbody tr:last-child td { border-bottom: none; }
     /* __HRMM_INVOICE_MARKER__ */
+"""
+
+I18N_HELPERS = """
+function invoiceT(key, fallback) {
+  var v = (typeof t === 'function' ? t(key) : '');
+  return v || fallback;
+}
+function translateInvoicePaymentStatus(status) {
+  var s = String(status || '').trim();
+  if (s === 'Fully Paid') return invoiceT('invoice.statusFullyPaid', 'Fully Paid');
+  if (s === 'Partially Paid') return invoiceT('invoice.statusPartiallyPaid', 'Partially Paid');
+  if (s === 'Unpaid') return invoiceT('invoice.statusUnpaid', 'Unpaid');
+  return s || '\\u2014';
+}
+function buildInvoiceDetailLinesHtml(inv) {
+  if (!inv) return '';
+  var em = '\\u2014';
+  var html = '';
+  html += '<p><strong>' + escapeHtml(invoiceT('g.guest', 'Guest')) + ':</strong> ' + escapeHtml(String(inv.guestName || em)) + '</p>';
+  html += '<p><strong>' + escapeHtml(invoiceT('g.room', 'Room')) + ':</strong> ' + escapeHtml(String(inv.roomNumber || em)) + '</p>';
+  html += '<p><strong>' + escapeHtml(invoiceT('g.date', 'Date')) + ':</strong> ' + escapeHtml(String(fmtDate(inv.date))) + '</p>';
+  html += '<p><strong>' + escapeHtml(invoiceT('g.currency', 'Currency')) + ':</strong> ' + escapeHtml(String(inv.currency || 'USD')) + '</p>';
+  if (inv.billingAddress) html += '<p><strong>' + escapeHtml(invoiceT('invoice.billing', 'Billing')) + ':</strong> ' + escapeHtml(String(inv.billingAddress)) + '</p>';
+  if (inv.bookingId) html += '<p><strong>' + escapeHtml(invoiceT('g.bookingId', 'Booking')) + ':</strong> ' + escapeHtml(String(inv.bookingId)) + '</p>';
+  return html;
+}
+function buildInvoiceTotalsSectionHtml(inv, printMode) {
+  if (!inv) return '';
+  var hrStyle = printMode ? 'margin:1rem 0;border:none;border-top:1px solid #ccc;' : 'margin:1rem 0;border:none;border-top:1px solid var(--border);';
+  var hrBold = printMode ? 'margin:1rem 0;border:none;border-top:2px solid #111;' : 'margin:1rem 0;border:none;border-top:2px solid var(--text);';
+  var statusClass = inv.paymentStatus === 'Fully Paid' ? 'paid' : inv.paymentStatus === 'Partially Paid' ? 'pending' : 'maintenance';
+  var statusLabel = translateInvoicePaymentStatus(inv.paymentStatus);
+  var html = '<hr style="' + hrStyle + '">';
+  html += '<p>' + escapeHtml(invoiceT('g.subtotal', 'Subtotal')) + ': <strong>' + fmt$(inv.subtotal) + '</strong></p>';
+  html += '<p>' + escapeHtml(invoiceT('g.discount', 'Discount')) + ': <strong>-' + fmt$(inv.discountAmount) + '</strong></p>';
+  html += '<p>' + escapeHtml(invoiceT('g.tax', 'Tax')) + ': <strong>' + fmt$(inv.taxTotal) + '</strong></p>';
+  html += '<hr style="' + hrBold + '">';
+  html += '<p style="font-size:1.1rem;"><strong>' + escapeHtml(invoiceT('g.grandTotal', 'Grand Total')) + ': ' + fmt$(inv.grandTotal) + '</strong></p>';
+  if (printMode) {
+    html += '<p>' + escapeHtml(invoiceT('g.paymentStatus', 'Status')) + ': <strong>' + escapeHtml(statusLabel) + '</strong></p>';
+  } else {
+    html += '<p>' + escapeHtml(invoiceT('g.paymentStatus', 'Status')) + ': <span class="status status-' + statusClass + '">' + escapeHtml(statusLabel) + '</span></p>';
+  }
+  if (inv.paymentTransactionId) {
+    var txnStyle = printMode ? 'margin-top:0.5rem;font-size:0.8rem;color:#555;' : 'margin-top:0.5rem;font-size:0.8rem;color:var(--text-light);';
+    html += '<p style="' + txnStyle + '">' + escapeHtml(invoiceT('invoice.transaction', 'Transaction')) + ': ' + escapeHtml(String(inv.paymentTransactionId)) + '</p>';
+  }
+  return html;
+}
+function refreshOpenInvoiceOverlayI18n() {
+  var ov = document.getElementById('postPaymentInvoiceOverlay');
+  if (!ov || !ov.classList.contains('is-visible')) return;
+  var ctx = window._activeInvoiceQrCtx;
+  if (!ctx || !ctx.inv || typeof openPostPaymentInvoiceFullScreen !== 'function') return;
+  openPostPaymentInvoiceFullScreen(ctx.inv, ctx.batchMeta);
+}
 """
 
 HELPERS = """
@@ -104,9 +160,9 @@ function buildInvoiceQrHtml(inv, opts) {
   var payload = custom ? '' : getEffectiveInvoiceQrPayload(inv);
   if (!custom && !payload) return opts.editable ? buildInvoiceQrEditorHtml(inv, getInvoiceQrPayload(inv)) : '';
   var imgSrc = custom || buildInvoiceQrImageUrl(payload);
-  var cap = custom ? 'Custom QR image' : (payload.length > 52 ? payload.slice(0, 49) + '…' : payload);
+  var cap = custom ? invoiceT('invoice.qrCustomImage', 'Custom QR image') : (typeof invoiceQrCaptionForPayload === 'function' ? invoiceQrCaptionForPayload(payload) : (payload.length > 52 ? payload.slice(0, 49) + '…' : payload));
   var html = '<div class="invoice-qr-block" id="invoiceQrDisplayBlock">' +
-    '<img src="' + escapeHtml(imgSrc) + '" alt="QR code" class="invoice-qr-img" id="invoiceQrDisplayImg">' +
+    '<img src="' + escapeHtml(imgSrc) + '" alt="' + escapeHtml(invoiceT('invoice.qrAlt', 'QR code')) + '" class="invoice-qr-img" id="invoiceQrDisplayImg">' +
     '<div class="invoice-qr-caption" id="invoiceQrDisplayCaption">' + escapeHtml(cap) + '</div></div>';
   if (opts.editable) html += buildInvoiceQrEditorHtml(inv, payload);
   return html;
@@ -127,15 +183,15 @@ function buildInvoiceQrImageUrl(payload) {
 function buildInvoiceQrEditorHtml(inv, payload) {
   var editVal = (inv && inv.qrTextOverride != null && inv.qrTextOverride !== undefined) ? String(inv.qrTextOverride) : (payload || '');
   return '<div class="invoice-qr-editor post-payment-no-print" id="invoiceQrEditor">' +
-    '<div class="invoice-qr-editor-label">Edit QR</div>' +
-    '<input type="text" class="form-control invoice-qr-edit-input" id="invoiceQrEditText" value="' + escapeHtml(editVal) + '" placeholder="URL or text for QR code">' +
+    '<div class="invoice-qr-editor-label">' + escapeHtml(invoiceT('invoice.qrEditLabel', 'Edit QR')) + '</div>' +
+    '<input type="text" class="form-control invoice-qr-edit-input" id="invoiceQrEditText" value="' + escapeHtml(editVal) + '" placeholder="' + escapeHtml(invoiceT('invoice.qrPlaceholder', 'URL or text for QR code')) + '">' +
     '<div class="invoice-qr-editor-actions">' +
     '<input type="file" accept="image/png,image/jpeg,image/webp,image/gif" id="invoiceQrBrowseFile" style="display:none" onchange="invoiceModalQrBrowseChanged(this)">' +
-    '<button type="button" class="btn btn-sm btn-outline" onclick="document.getElementById(\'invoiceQrBrowseFile\').click()">Browse…</button>' +
-    '<button type="button" class="btn btn-sm btn-primary" onclick="applyInvoiceQrEdit()">Apply</button>' +
-    '<button type="button" class="btn btn-sm btn-outline" onclick="resetInvoiceQrEdit()">Reset</button>' +
+    '<button type="button" class="btn btn-sm btn-outline" onclick="document.getElementById(\'invoiceQrBrowseFile\').click()">' + escapeHtml(invoiceT('invoice.browse', 'Browse…')) + '</button>' +
+    '<button type="button" class="btn btn-sm btn-primary" onclick="applyInvoiceQrEdit()">' + escapeHtml(invoiceT('invoice.apply', 'Apply')) + '</button>' +
+    '<button type="button" class="btn btn-sm btn-outline" onclick="resetInvoiceQrEdit()">' + escapeHtml(invoiceT('invoice.reset', 'Reset')) + '</button>' +
     '</div>' +
-    '<p class="invoice-qr-editor-hint">Override QR for this invoice only. Defaults come from Settings.</p>' +
+    '<p class="invoice-qr-editor-hint">' + escapeHtml(invoiceT('invoice.qrEditHint', 'Override QR for this invoice only. Defaults come from Settings.')) + '</p>' +
     '</div>';
 }
 function persistInvoiceQrOverrides(inv) {
@@ -165,7 +221,7 @@ function refreshInvoiceQrDisplay(inv) {
   }
   if (blockEl) blockEl.style.display = '';
   if (imgEl) imgEl.src = custom || buildInvoiceQrImageUrl(payload);
-  if (capEl) capEl.textContent = custom ? 'Custom QR image' : (payload.length > 52 ? payload.slice(0, 49) + '…' : payload);
+  if (capEl) capEl.textContent = custom ? invoiceT('invoice.qrCustomImage', 'Custom QR image') : (typeof invoiceQrCaptionForPayload === 'function' ? invoiceQrCaptionForPayload(payload) : (payload.length > 52 ? payload.slice(0, 49) + '…' : payload));
 }
 function initInvoiceQrEditor(inv) {
   if (!inv) return;
@@ -201,7 +257,7 @@ window.resetInvoiceQrEdit = function() {
   persistInvoiceQrOverrides(inv);
   initInvoiceQrEditor(inv);
   refreshInvoiceQrDisplay(inv);
-  if (typeof toast === 'function') toast('QR reset to default');
+  if (typeof toast === 'function') toast(invoiceT('invoice.qrResetToast', 'QR reset to default'));
 };
 window.invoiceModalQrBrowseChanged = function(input) {
   var ctx = window._activeInvoiceQrCtx;
@@ -369,11 +425,18 @@ BUILD_INVOICE_V1 = """function buildInvoiceFullScreenBodyHtml(inv, bodyMeta) {
     (inv.paymentTransactionId ? '<p style="margin-top:0.5rem;font-size:0.8rem;color:var(--text-light);">Transaction: ' + escapeHtml(String(inv.paymentTransactionId)) + '</p>' : '');
 }"""
 
-BUILD_INVOICE_V2 = BUILD_INVOICE_V1.replace(
-    "return pre + buildInvoiceBrandHeaderHtml() +",
-    "return pre + buildInvoiceBrandHeaderHtml() + buildInvoiceQrHtml(inv, { editable: true }) +",
-    1,
-)
+BUILD_INVOICE_V2 = """function buildInvoiceFullScreenBodyHtml(inv, bodyMeta) {
+  if (!inv) return '';
+  var pre = '';
+  if (bodyMeta && bodyMeta.prepaidMode) {
+    pre = '<div class="prepaid-invoice-banner" role="note"><strong>' + (typeof t === 'function' ? t('msg.prepaidInvoiceTag') : 'PREPAID INVOICE') + '</strong><br><span class="prepaid-invoice-sub">' + (typeof t === 'function' ? t('msg.prepaidInvoiceNote') : 'Payment pending; print as pro forma if needed.') + '</span></div>';
+  }
+  var itemsHtml = buildInvoiceItemsTableHtml(inv);
+  return pre + buildInvoiceBrandHeaderHtml() + buildInvoiceQrHtml(inv, { editable: true }) +
+    buildInvoiceDetailLinesHtml(inv) +
+    (itemsHtml ? '<hr style="margin:1rem 0;border:none;border-top:1px solid var(--border);">' + itemsHtml : '') +
+    buildInvoiceTotalsSectionHtml(inv, false);
+}"""
 
 SHOW_DETAIL_OLD = """    <hr style="margin:1rem 0;border:none;border-top:1px solid var(--border);">
     <p>Subtotal: <strong>${fmt$(inv.subtotal)}</strong></p>
@@ -495,9 +558,9 @@ V3_QR_FN_BLOCK = """function buildInvoiceQrHtml(inv, opts) {
   var payload = custom ? '' : getEffectiveInvoiceQrPayload(inv);
   if (!custom && !payload) return opts.editable ? buildInvoiceQrEditorHtml(inv, getInvoiceQrPayload(inv)) : '';
   var imgSrc = custom || buildInvoiceQrImageUrl(payload);
-  var cap = custom ? 'Custom QR image' : (payload.length > 52 ? payload.slice(0, 49) + '…' : payload);
+  var cap = custom ? invoiceT('invoice.qrCustomImage', 'Custom QR image') : (typeof invoiceQrCaptionForPayload === 'function' ? invoiceQrCaptionForPayload(payload) : (payload.length > 52 ? payload.slice(0, 49) + '…' : payload));
   var html = '<div class="invoice-qr-block" id="invoiceQrDisplayBlock">' +
-    '<img src="' + escapeHtml(imgSrc) + '" alt="QR code" class="invoice-qr-img" id="invoiceQrDisplayImg">' +
+    '<img src="' + escapeHtml(imgSrc) + '" alt="' + escapeHtml(invoiceT('invoice.qrAlt', 'QR code')) + '" class="invoice-qr-img" id="invoiceQrDisplayImg">' +
     '<div class="invoice-qr-caption" id="invoiceQrDisplayCaption">' + escapeHtml(cap) + '</div></div>';
   if (opts.editable) html += buildInvoiceQrEditorHtml(inv, payload);
   return html;
@@ -518,15 +581,15 @@ function buildInvoiceQrImageUrl(payload) {
 function buildInvoiceQrEditorHtml(inv, payload) {
   var editVal = (inv && inv.qrTextOverride != null && inv.qrTextOverride !== undefined) ? String(inv.qrTextOverride) : (payload || '');
   return '<div class="invoice-qr-editor post-payment-no-print" id="invoiceQrEditor">' +
-    '<div class="invoice-qr-editor-label">Edit QR</div>' +
-    '<input type="text" class="form-control invoice-qr-edit-input" id="invoiceQrEditText" value="' + escapeHtml(editVal) + '" placeholder="URL or text for QR code">' +
+    '<div class="invoice-qr-editor-label">' + escapeHtml(invoiceT('invoice.qrEditLabel', 'Edit QR')) + '</div>' +
+    '<input type="text" class="form-control invoice-qr-edit-input" id="invoiceQrEditText" value="' + escapeHtml(editVal) + '" placeholder="' + escapeHtml(invoiceT('invoice.qrPlaceholder', 'URL or text for QR code')) + '">' +
     '<div class="invoice-qr-editor-actions">' +
     '<input type="file" accept="image/png,image/jpeg,image/webp,image/gif" id="invoiceQrBrowseFile" style="display:none" onchange="invoiceModalQrBrowseChanged(this)">' +
-    '<button type="button" class="btn btn-sm btn-outline" onclick="document.getElementById(\\'invoiceQrBrowseFile\\').click()">Browse…</button>' +
-    '<button type="button" class="btn btn-sm btn-primary" onclick="applyInvoiceQrEdit()">Apply</button>' +
-    '<button type="button" class="btn btn-sm btn-outline" onclick="resetInvoiceQrEdit()">Reset</button>' +
+    '<button type="button" class="btn btn-sm btn-outline" onclick="document.getElementById(\\'invoiceQrBrowseFile\\').click()">' + escapeHtml(invoiceT('invoice.browse', 'Browse…')) + '</button>' +
+    '<button type="button" class="btn btn-sm btn-primary" onclick="applyInvoiceQrEdit()">' + escapeHtml(invoiceT('invoice.apply', 'Apply')) + '</button>' +
+    '<button type="button" class="btn btn-sm btn-outline" onclick="resetInvoiceQrEdit()">' + escapeHtml(invoiceT('invoice.reset', 'Reset')) + '</button>' +
     '</div>' +
-    '<p class="invoice-qr-editor-hint">Override QR for this invoice only. Defaults come from Settings.</p>' +
+    '<p class="invoice-qr-editor-hint">' + escapeHtml(invoiceT('invoice.qrEditHint', 'Override QR for this invoice only. Defaults come from Settings.')) + '</p>' +
     '</div>';
 }
 function persistInvoiceQrOverrides(inv) {
@@ -556,7 +619,7 @@ function refreshInvoiceQrDisplay(inv) {
   }
   if (blockEl) blockEl.style.display = '';
   if (imgEl) imgEl.src = custom || buildInvoiceQrImageUrl(payload);
-  if (capEl) capEl.textContent = custom ? 'Custom QR image' : (payload.length > 52 ? payload.slice(0, 49) + '…' : payload);
+  if (capEl) capEl.textContent = custom ? invoiceT('invoice.qrCustomImage', 'Custom QR image') : (typeof invoiceQrCaptionForPayload === 'function' ? invoiceQrCaptionForPayload(payload) : (payload.length > 52 ? payload.slice(0, 49) + '…' : payload));
 }
 function initInvoiceQrEditor(inv) {
   if (!inv) return;
@@ -592,7 +655,7 @@ window.resetInvoiceQrEdit = function() {
   persistInvoiceQrOverrides(inv);
   initInvoiceQrEditor(inv);
   refreshInvoiceQrDisplay(inv);
-  if (typeof toast === 'function') toast('QR reset to default');
+  if (typeof toast === 'function') toast(invoiceT('invoice.qrResetToast', 'QR reset to default'));
 };
 window.invoiceModalQrBrowseChanged = function(input) {
   var ctx = window._activeInvoiceQrCtx;
@@ -697,26 +760,15 @@ PRINT_JS_ANCHOR = "function getPostPaymentInvoiceOverlayEl() {"
 PRINT_JS_BLOCK = """
 function buildInvoicePrintBodyHtml(inv, bodyMeta) {
   if (!inv) return '';
-  var g = String(inv.guestName || '—');
-  var r = String(inv.roomNumber || '—');
   var pre = '';
   if (bodyMeta && bodyMeta.prepaidMode) {
     pre = '<div class="prepaid-invoice-banner" role="note"><strong>' + (typeof t === 'function' ? t('msg.prepaidInvoiceTag') : 'PREPAID INVOICE') + '</strong><br><span class="prepaid-invoice-sub">' + (typeof t === 'function' ? t('msg.prepaidInvoiceNote') : 'Payment pending; print as pro forma if needed.') + '</span></div>';
   }
   var itemsHtml = buildInvoiceItemsTableHtml(inv);
   return pre + buildInvoiceBrandHeaderHtml() + buildInvoiceQrHtml(inv) +
-    '<p><strong>Guest:</strong> ' + escapeHtml(g) + '</p><p><strong>Room:</strong> ' + escapeHtml(r) + '</p><p><strong>Date:</strong> ' + escapeHtml(String(fmtDate(inv.date))) + '</p><p><strong>Currency:</strong> ' + escapeHtml(String(inv.currency || 'USD')) + '</p>' +
-    (inv.billingAddress ? '<p><strong>Billing:</strong> ' + escapeHtml(String(inv.billingAddress)) + '</p>' : '') +
-    (inv.bookingId ? '<p><strong>Booking:</strong> ' + escapeHtml(String(inv.bookingId)) + '</p>' : '') +
+    buildInvoiceDetailLinesHtml(inv) +
     (itemsHtml ? '<hr style="margin:1rem 0;border:none;border-top:1px solid #ccc;">' + itemsHtml : '') +
-    '<hr style="margin:1rem 0;border:none;border-top:1px solid #ccc;">' +
-    '<p>Subtotal: <strong>' + fmt$(inv.subtotal) + '</strong></p>' +
-    '<p>Discount: <strong>-' + fmt$(inv.discountAmount) + '</strong></p>' +
-    '<p>Tax: <strong>' + fmt$(inv.taxTotal) + '</strong></p>' +
-    '<hr style="margin:1rem 0;border:none;border-top:2px solid #111;">' +
-    '<p style="font-size:1.1rem;"><strong>Grand Total: ' + fmt$(inv.grandTotal) + '</strong></p>' +
-    '<p>Status: <strong>' + escapeHtml(String(inv.paymentStatus || '—')) + '</strong></p>' +
-    (inv.paymentTransactionId ? '<p style="margin-top:0.5rem;font-size:0.8rem;color:#555;">Transaction: ' + escapeHtml(String(inv.paymentTransactionId)) + '</p>' : '');
+    buildInvoiceTotalsSectionHtml(inv, true);
 }
 function buildInvoicePrintDocumentHtml(inv, batchMeta) {
   var isPre = batchMeta && batchMeta.prepaidInvoice;
@@ -786,6 +838,117 @@ PRINT_MEDIA_NEW = """    @media print {
 
 PRINT_FIX_MARKER = "HRMM-INVOICE-PRINT-v6"
 
+SHOW_DETAIL_I18N_OLD = """window.showInvoiceDetail = function(id) {
+  const inv = invoices.find(i=>i.id===id); if(!inv) return;
+  openModal(`<div class="modal-header"><h2>${inv.invoiceNumber}</h2><button class="modal-close" onclick="closeModal()">&times;</button></div>
+    <div class="modal-body" style="font-size:0.9rem;">
+    <p><strong>Guest:</strong> ${inv.guestName}</p><p><strong>Room:</strong> ${inv.roomNumber}</p><p><strong>Date:</strong> ${fmtDate(inv.date)}</p><p><strong>Currency:</strong> ${inv.currency}</p>
+    ${inv.billingAddress?'<p><strong>Billing:</strong> '+inv.billingAddress+'</p>':''}
+    ${inv.bookingId?'<p><strong>Booking:</strong> '+inv.bookingId+'</p>':''}
+    ${buildInvoiceBrandHeaderHtml()}
+    ${buildInvoiceQrHtml(inv)}
+    ${buildInvoiceItemsTableHtml(inv)}
+    <hr style="margin:1rem 0;border:none;border-top:1px solid var(--border);">
+    <p>Subtotal: <strong>${fmt$(inv.subtotal)}</strong></p>
+    <p>Discount: <strong>-${fmt$(inv.discountAmount)}</strong></p>
+    <p>Tax: <strong>${fmt$(inv.taxTotal)}</strong></p>
+    <hr style="margin:1rem 0;border:none;border-top:2px solid var(--text);">
+    <p style="font-size:1.1rem;"><strong>Grand Total: ${fmt$(inv.grandTotal)}</strong></p>
+    <p>Status: <span class="status status-${inv.paymentStatus==='Fully Paid'?'paid':inv.paymentStatus==='Partially Paid'?'pending':'maintenance'}">${inv.paymentStatus}</span></p>
+    ${inv.paymentTransactionId?'<p style="margin-top:0.5rem;font-size:0.8rem;color:var(--text-light);">Transaction: '+inv.paymentTransactionId+'</p>':''}</div>
+    <div class="modal-footer"><button class="btn btn-outline" onclick="closeModal()">Close</button><button class="btn btn-outline" onclick="closeModal();if(typeof seeInvoiceFromGridDetail==='function')seeInvoiceFromGridDetail('${inv.id}')">${t('common.seeInvoice')}</button>${inv.paymentStatus!=='Fully Paid'?`<button class="btn btn-success" onclick="payInvoice('${inv.id}')">${t('msg.payWithCash')}</button>`:''}</div>`);
+};"""
+
+SHOW_DETAIL_I18N_NEW = """window.showInvoiceDetail = function(id) {
+  const inv = invoices.find(i=>i.id===id); if(!inv) return;
+  openModal(`<div class="modal-header"><h2>${inv.invoiceNumber}</h2><button class="modal-close" onclick="closeModal()">&times;</button></div>
+    <div class="modal-body" style="font-size:0.9rem;">
+    ${typeof buildInvoiceDetailLinesHtml === 'function' ? buildInvoiceDetailLinesHtml(inv) : ''}
+    ${buildInvoiceBrandHeaderHtml()}
+    ${buildInvoiceQrHtml(inv)}
+    ${buildInvoiceItemsTableHtml(inv)}
+    ${typeof buildInvoiceTotalsSectionHtml === 'function' ? buildInvoiceTotalsSectionHtml(inv, false) : ''}</div>
+    <div class="modal-footer"><button class="btn btn-outline" onclick="closeModal()">${t('common.close')}</button><button class="btn btn-outline" onclick="closeModal();if(typeof seeInvoiceFromGridDetail==='function')seeInvoiceFromGridDetail('${inv.id}')">${t('common.seeInvoice')}</button>${inv.paymentStatus!=='Fully Paid'?`<button class="btn btn-success" onclick="payInvoice('${inv.id}')">${t('msg.payWithCash')}</button>`:''}</div>`);
+};"""
+
+FINISH_LOCALE_OLD = """      if (page === 'dashboard' && typeof updateDashChart === 'function') {
+        setTimeout(function() { try { updateDashChart(); } catch (e) {} }, 80);
+      }
+    }
+  }
+}"""
+
+FINISH_LOCALE_NEW = """      if (page === 'dashboard' && typeof updateDashChart === 'function') {
+        setTimeout(function() { try { updateDashChart(); } catch (e) {} }, 80);
+      }
+    }
+  }
+  if (typeof refreshOpenInvoiceOverlayI18n === 'function') refreshOpenInvoiceOverlayI18n();
+}"""
+
+BUILD_INVOICE_V4_BODY_OLD = """  return pre + buildInvoiceBrandHeaderHtml() + buildInvoiceQrHtml(inv, { editable: true }) +
+    '<p><strong>Guest:</strong> ' + escapeHtml(g) + '</p><p><strong>Room:</strong> ' + escapeHtml(r) + '</p><p><strong>Date:</strong> ' + escapeHtml(String(fmtDate(inv.date))) + '</p><p><strong>Currency:</strong> ' + escapeHtml(String(inv.currency || 'USD')) + '</p>' +
+    (inv.billingAddress ? '<p><strong>Billing:</strong> ' + escapeHtml(String(inv.billingAddress)) + '</p>' : '') +
+    (inv.bookingId ? '<p><strong>Booking:</strong> ' + escapeHtml(String(inv.bookingId)) + '</p>' : '') +
+    (itemsHtml ? '<hr style="margin:1rem 0;border:none;border-top:1px solid var(--border);">' + itemsHtml : '') +
+    '<hr style="margin:1rem 0;border:none;border-top:1px solid var(--border);">' +
+    '<p>Subtotal: <strong>' + fmt$(inv.subtotal) + '</strong></p>' +
+    '<p>Discount: <strong>-' + fmt$(inv.discountAmount) + '</strong></p>' +
+    '<p>Tax: <strong>' + fmt$(inv.taxTotal) + '</strong></p>' +
+    '<hr style="margin:1rem 0;border:none;border-top:2px solid var(--text);">' +
+    '<p style="font-size:1.1rem;"><strong>Grand Total: ' + fmt$(inv.grandTotal) + '</strong></p>' +
+    '<p>Status: <span class="status status-' + (inv.paymentStatus === 'Fully Paid' ? 'paid' : inv.paymentStatus === 'Partially Paid' ? 'pending' : 'maintenance') + '">' + escapeHtml(String(inv.paymentStatus || '—')) + '</span></p>' +
+    (inv.paymentTransactionId ? '<p style="margin-top:0.5rem;font-size:0.8rem;color:var(--text-light);">Transaction: ' + escapeHtml(String(inv.paymentTransactionId)) + '</p>' : '');
+}"""
+
+BUILD_INVOICE_V4_BODY_NEW = """  return pre + buildInvoiceBrandHeaderHtml() + buildInvoiceQrHtml(inv, { editable: true }) +
+    buildInvoiceDetailLinesHtml(inv) +
+    (itemsHtml ? '<hr style="margin:1rem 0;border:none;border-top:1px solid var(--border);">' + itemsHtml : '') +
+    buildInvoiceTotalsSectionHtml(inv, false);
+}"""
+
+BUILD_PRINT_BODY_OLD = """  return pre + buildInvoiceBrandHeaderHtml() + buildInvoiceQrHtml(inv, { editable: true }) +
+    '<p><strong>Guest:</strong> ' + escapeHtml(g) + '</p><p><strong>Room:</strong> ' + escapeHtml(r) + '</p><p><strong>Date:</strong> ' + escapeHtml(String(fmtDate(inv.date))) + '</p><p><strong>Currency:</strong> ' + escapeHtml(String(inv.currency || 'USD')) + '</p>' +
+    (inv.billingAddress ? '<p><strong>Billing:</strong> ' + escapeHtml(String(inv.billingAddress)) + '</p>' : '') +
+    (inv.bookingId ? '<p><strong>Booking:</strong> ' + escapeHtml(String(inv.bookingId)) + '</p>' : '') +
+    (itemsHtml ? '<hr style="margin:1rem 0;border:none;border-top:1px solid #ccc;">' + itemsHtml : '') +
+    '<hr style="margin:1rem 0;border:none;border-top:1px solid #ccc;">' +
+    '<p>Subtotal: <strong>' + fmt$(inv.subtotal) + '</strong></p>' +
+    '<p>Discount: <strong>-' + fmt$(inv.discountAmount) + '</strong></p>' +
+    '<p>Tax: <strong>' + fmt$(inv.taxTotal) + '</strong></p>' +
+    '<hr style="margin:1rem 0;border:none;border-top:2px solid #111;">' +
+    '<p style="font-size:1.1rem;"><strong>Grand Total: ' + fmt$(inv.grandTotal) + '</strong></p>' +
+    '<p>Status: <strong>' + escapeHtml(String(inv.paymentStatus || '—')) + '</strong></p>' +
+    (inv.paymentTransactionId ? '<p style="margin-top:0.5rem;font-size:0.8rem;color:#555;">Transaction: ' + escapeHtml(String(inv.paymentTransactionId)) + '</p>' : '');
+}"""
+
+BUILD_PRINT_BODY_OLD_ALT = """  return pre + buildInvoiceBrandHeaderHtml() + buildInvoiceQrHtml(inv) +
+    '<p><strong>Guest:</strong> ' + escapeHtml(g) + '</p><p><strong>Room:</strong> ' + escapeHtml(r) + '</p><p><strong>Date:</strong> ' + escapeHtml(String(fmtDate(inv.date))) + '</p><p><strong>Currency:</strong> ' + escapeHtml(String(inv.currency || 'USD')) + '</p>' +
+    (inv.billingAddress ? '<p><strong>Billing:</strong> ' + escapeHtml(String(inv.billingAddress)) + '</p>' : '') +
+    (inv.bookingId ? '<p><strong>Booking:</strong> ' + escapeHtml(String(inv.bookingId)) + '</p>' : '') +
+    (itemsHtml ? '<hr style="margin:1rem 0;border:none;border-top:1px solid #ccc;">' + itemsHtml : '') +
+    '<hr style="margin:1rem 0;border:none;border-top:1px solid #ccc;">' +
+    '<p>Subtotal: <strong>' + fmt$(inv.subtotal) + '</strong></p>' +
+    '<p>Discount: <strong>-' + fmt$(inv.discountAmount) + '</strong></p>' +
+    '<p>Tax: <strong>' + fmt$(inv.taxTotal) + '</strong></p>' +
+    '<hr style="margin:1rem 0;border:none;border-top:2px solid #111;">' +
+    '<p style="font-size:1.1rem;"><strong>Grand Total: ' + fmt$(inv.grandTotal) + '</strong></p>' +
+    '<p>Status: <strong>' + escapeHtml(String(inv.paymentStatus || '—')) + '</strong></p>' +
+    (inv.paymentTransactionId ? '<p style="margin-top:0.5rem;font-size:0.8rem;color:#555;">Transaction: ' + escapeHtml(String(inv.paymentTransactionId)) + '</p>' : '');
+}"""
+
+BUILD_PRINT_BODY_PARTIAL_OLD = """  return pre + buildInvoiceBrandHeaderHtml() + buildInvoiceQrHtml(inv, { editable: true }) +
+    buildInvoiceDetailLinesHtml(inv) +
+    (itemsHtml ? '<hr style="margin:1rem 0;border:none;border-top:1px solid #ccc;">' + itemsHtml : '') +
+    buildInvoiceTotalsSectionHtml(inv, true);
+}"""
+
+BUILD_PRINT_BODY_NEW = """  return pre + buildInvoiceBrandHeaderHtml() + buildInvoiceQrHtml(inv) +
+    buildInvoiceDetailLinesHtml(inv) +
+    (itemsHtml ? '<hr style="margin:1rem 0;border:none;border-top:1px solid #ccc;">' + itemsHtml : '') +
+    buildInvoiceTotalsSectionHtml(inv, true);
+}"""
+
 QR_HELPERS_ANCHOR = "window.clearInvoiceLogo = function() {"
 QR_HELPERS_INSERT = """
 function getInvoiceQrPayload(inv) {
@@ -807,9 +970,9 @@ function buildInvoiceQrHtml(inv, opts) {
   var payload = custom ? '' : getEffectiveInvoiceQrPayload(inv);
   if (!custom && !payload) return opts.editable ? buildInvoiceQrEditorHtml(inv, getInvoiceQrPayload(inv)) : '';
   var imgSrc = custom || buildInvoiceQrImageUrl(payload);
-  var cap = custom ? 'Custom QR image' : (payload.length > 52 ? payload.slice(0, 49) + '…' : payload);
+  var cap = custom ? invoiceT('invoice.qrCustomImage', 'Custom QR image') : (typeof invoiceQrCaptionForPayload === 'function' ? invoiceQrCaptionForPayload(payload) : (payload.length > 52 ? payload.slice(0, 49) + '…' : payload));
   var html = '<div class="invoice-qr-block" id="invoiceQrDisplayBlock">' +
-    '<img src="' + escapeHtml(imgSrc) + '" alt="QR code" class="invoice-qr-img" id="invoiceQrDisplayImg">' +
+    '<img src="' + escapeHtml(imgSrc) + '" alt="' + escapeHtml(invoiceT('invoice.qrAlt', 'QR code')) + '" class="invoice-qr-img" id="invoiceQrDisplayImg">' +
     '<div class="invoice-qr-caption" id="invoiceQrDisplayCaption">' + escapeHtml(cap) + '</div></div>';
   if (opts.editable) html += buildInvoiceQrEditorHtml(inv, payload);
   return html;
@@ -830,15 +993,15 @@ function buildInvoiceQrImageUrl(payload) {
 function buildInvoiceQrEditorHtml(inv, payload) {
   var editVal = (inv && inv.qrTextOverride != null && inv.qrTextOverride !== undefined) ? String(inv.qrTextOverride) : (payload || '');
   return '<div class="invoice-qr-editor post-payment-no-print" id="invoiceQrEditor">' +
-    '<div class="invoice-qr-editor-label">Edit QR</div>' +
-    '<input type="text" class="form-control invoice-qr-edit-input" id="invoiceQrEditText" value="' + escapeHtml(editVal) + '" placeholder="URL or text for QR code">' +
+    '<div class="invoice-qr-editor-label">' + escapeHtml(invoiceT('invoice.qrEditLabel', 'Edit QR')) + '</div>' +
+    '<input type="text" class="form-control invoice-qr-edit-input" id="invoiceQrEditText" value="' + escapeHtml(editVal) + '" placeholder="' + escapeHtml(invoiceT('invoice.qrPlaceholder', 'URL or text for QR code')) + '">' +
     '<div class="invoice-qr-editor-actions">' +
     '<input type="file" accept="image/png,image/jpeg,image/webp,image/gif" id="invoiceQrBrowseFile" style="display:none" onchange="invoiceModalQrBrowseChanged(this)">' +
-    '<button type="button" class="btn btn-sm btn-outline" onclick="document.getElementById(\'invoiceQrBrowseFile\').click()">Browse…</button>' +
-    '<button type="button" class="btn btn-sm btn-primary" onclick="applyInvoiceQrEdit()">Apply</button>' +
-    '<button type="button" class="btn btn-sm btn-outline" onclick="resetInvoiceQrEdit()">Reset</button>' +
+    '<button type="button" class="btn btn-sm btn-outline" onclick="document.getElementById(\'invoiceQrBrowseFile\').click()">' + escapeHtml(invoiceT('invoice.browse', 'Browse…')) + '</button>' +
+    '<button type="button" class="btn btn-sm btn-primary" onclick="applyInvoiceQrEdit()">' + escapeHtml(invoiceT('invoice.apply', 'Apply')) + '</button>' +
+    '<button type="button" class="btn btn-sm btn-outline" onclick="resetInvoiceQrEdit()">' + escapeHtml(invoiceT('invoice.reset', 'Reset')) + '</button>' +
     '</div>' +
-    '<p class="invoice-qr-editor-hint">Override QR for this invoice only. Defaults come from Settings.</p>' +
+    '<p class="invoice-qr-editor-hint">' + escapeHtml(invoiceT('invoice.qrEditHint', 'Override QR for this invoice only. Defaults come from Settings.')) + '</p>' +
     '</div>';
 }
 function persistInvoiceQrOverrides(inv) {
@@ -868,7 +1031,7 @@ function refreshInvoiceQrDisplay(inv) {
   }
   if (blockEl) blockEl.style.display = '';
   if (imgEl) imgEl.src = custom || buildInvoiceQrImageUrl(payload);
-  if (capEl) capEl.textContent = custom ? 'Custom QR image' : (payload.length > 52 ? payload.slice(0, 49) + '…' : payload);
+  if (capEl) capEl.textContent = custom ? invoiceT('invoice.qrCustomImage', 'Custom QR image') : (typeof invoiceQrCaptionForPayload === 'function' ? invoiceQrCaptionForPayload(payload) : (payload.length > 52 ? payload.slice(0, 49) + '…' : payload));
 }
 function initInvoiceQrEditor(inv) {
   if (!inv) return;
@@ -904,7 +1067,7 @@ window.resetInvoiceQrEdit = function() {
   persistInvoiceQrOverrides(inv);
   initInvoiceQrEditor(inv);
   refreshInvoiceQrDisplay(inv);
-  if (typeof toast === 'function') toast('QR reset to default');
+  if (typeof toast === 'function') toast(invoiceT('invoice.qrResetToast', 'QR reset to default'));
 };
 window.invoiceModalQrBrowseChanged = function(input) {
   var ctx = window._activeInvoiceQrCtx;
@@ -991,14 +1154,46 @@ def _strip_old_invoice_css(content: str) -> str:
 def _is_fully_patched(content: str) -> bool:
     return (
         MARKER in content
+        and "function invoiceT" in content
+        and "refreshOpenInvoiceOverlayI18n" in content
         and "refreshInvoiceQrDisplay" in content
         and "invoiceModalQrBrowseChanged" in content
         and "buildInvoiceQrHtml(inv, { editable: true })" in content
+        and "buildInvoiceDetailLinesHtml" in content
         and "hrmmInvoicePrintFrame" in content
         and PRINT_FIX_MARKER in content
         and "buildInvoicePrintBodyHtml" in content
         and f"/* {MARKER} */" in content
     )
+
+
+def _apply_v7_i18n(content: str) -> str:
+    if "function invoiceT" not in content:
+        anchor = "function getInvoiceLineItems"
+        if anchor in content:
+            content = content.replace(anchor, I18N_HELPERS + anchor, 1)
+        else:
+            anchor2 = "function buildInvoiceFullScreenBodyHtml"
+            if anchor2 in content:
+                content = content.replace(anchor2, I18N_HELPERS + anchor2, 1)
+
+    if BUILD_INVOICE_V4_BODY_OLD in content:
+        content = content.replace(BUILD_INVOICE_V4_BODY_OLD, BUILD_INVOICE_V4_BODY_NEW, 1)
+
+    if BUILD_PRINT_BODY_OLD in content:
+        content = content.replace(BUILD_PRINT_BODY_OLD, BUILD_PRINT_BODY_NEW, 1)
+    elif BUILD_PRINT_BODY_OLD_ALT in content:
+        content = content.replace(BUILD_PRINT_BODY_OLD_ALT, BUILD_PRINT_BODY_NEW, 1)
+    elif BUILD_PRINT_BODY_PARTIAL_OLD in content:
+        content = content.replace(BUILD_PRINT_BODY_PARTIAL_OLD, BUILD_PRINT_BODY_NEW, 1)
+
+    if SHOW_DETAIL_I18N_OLD in content:
+        content = content.replace(SHOW_DETAIL_I18N_OLD, SHOW_DETAIL_I18N_NEW, 1)
+
+    if FINISH_LOCALE_OLD in content and "refreshOpenInvoiceOverlayI18n" not in content.split(FINISH_LOCALE_OLD, 1)[1][:120]:
+        content = content.replace(FINISH_LOCALE_OLD, FINISH_LOCALE_NEW, 1)
+
+    return content
 
 
 def _apply_print_fix(content: str) -> str:
@@ -1048,6 +1243,7 @@ def _apply_v3_upgrades(content: str) -> str:
 def patch(content: str) -> str:
     content = _apply_print_fix(content)
     content = _apply_print_window(content)
+    content = _apply_v7_i18n(content)
 
     if _is_fully_patched(content):
         print(f"Already patched {MARKER} — skipping")
@@ -1059,7 +1255,7 @@ def patch(content: str) -> str:
         anchor = "function buildInvoiceFullScreenBodyHtml"
         if anchor not in content:
             raise SystemExit("Could not find buildInvoiceFullScreenBodyHtml anchor")
-        content = content.replace(anchor, HELPERS + anchor, 1)
+        content = content.replace(anchor, I18N_HELPERS + HELPERS + anchor, 1)
     elif "buildInvoiceQrHtml" not in content and QR_HELPERS_ANCHOR in content:
         content = content.replace(
             QR_HELPERS_ANCHOR,
@@ -1134,7 +1330,7 @@ def main() -> int:
         return 1
     text = index.read_text(encoding="utf-8")
     index.write_text(patch(text), encoding="utf-8")
-    print(f"Patched {index} — invoice items table, logo, QR editor, and print layout fix")
+    print(f"Patched {index} — invoice i18n, items table, logo, QR editor, and print layout")
     return 0
 
 

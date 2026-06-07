@@ -95,8 +95,8 @@ function isLegacyInvoiceQrPayload(text) {
 function invoiceQrCaptionForPayload(payload) {
   var s = String(payload == null ? '' : payload).trim();
   if (!s) return '';
-  if (s.indexOf('guestOrder=restaurant') >= 0) return 'Scan to order from restaurant';
-  if (s.indexOf('guestOrder=minimart') >= 0) return 'Scan to order from mini-mart';
+  if (s.indexOf('guestOrder=restaurant') >= 0) return (typeof t === 'function' ? t('invoice.qrScanRestaurant') : 'Scan to order from restaurant');
+  if (s.indexOf('guestOrder=minimart') >= 0) return (typeof t === 'function' ? t('invoice.qrScanMinimart') : 'Scan to order from mini-mart');
   return s.length > 52 ? s.slice(0, 49) + '…' : s;
 }
 function buildGuestOrderUrl(dept, inv) {
@@ -187,11 +187,27 @@ function buildGuestRestaurantOrderUrl(inv) {
   return base + '?' + q;
 }"""
 
-INVOICE_QR_URL_BUILD_NEW = """function invoiceQrCaptionForPayload(payload) {
+INVOICE_QR_CAPTION_LEGACY = """function invoiceQrCaptionForPayload(payload) {
   var s = String(payload == null ? '' : payload).trim();
   if (!s) return '';
   if (s.indexOf('guestOrder=restaurant') >= 0) return 'Scan to order from restaurant';
   if (s.indexOf('guestOrder=minimart') >= 0) return 'Scan to order from mini-mart';
+  return s.length > 52 ? s.slice(0, 49) + '…' : s;
+}"""
+
+INVOICE_QR_CAPTION_I18N = """function invoiceQrCaptionForPayload(payload) {
+  var s = String(payload == null ? '' : payload).trim();
+  if (!s) return '';
+  if (s.indexOf('guestOrder=restaurant') >= 0) return (typeof t === 'function' ? t('invoice.qrScanRestaurant') : 'Scan to order from restaurant');
+  if (s.indexOf('guestOrder=minimart') >= 0) return (typeof t === 'function' ? t('invoice.qrScanMinimart') : 'Scan to order from mini-mart');
+  return s.length > 52 ? s.slice(0, 49) + '…' : s;
+}"""
+
+INVOICE_QR_URL_BUILD_NEW = """function invoiceQrCaptionForPayload(payload) {
+  var s = String(payload == null ? '' : payload).trim();
+  if (!s) return '';
+  if (s.indexOf('guestOrder=restaurant') >= 0) return (typeof t === 'function' ? t('invoice.qrScanRestaurant') : 'Scan to order from restaurant');
+  if (s.indexOf('guestOrder=minimart') >= 0) return (typeof t === 'function' ? t('invoice.qrScanMinimart') : 'Scan to order from mini-mart');
   return s.length > 52 ? s.slice(0, 49) + '…' : s;
 }
 function buildGuestOrderUrl(dept, inv) {
@@ -243,11 +259,11 @@ GET_EFFECTIVE_QR_PAYLOAD_NEW = """function getEffectiveInvoiceQrPayload(inv) {
 
 BUILD_QR_CAPTION_OLD = """  var cap = custom ? 'Custom QR image' : (payload.length > 52 ? payload.slice(0, 49) + '…' : payload);"""
 
-BUILD_QR_CAPTION_NEW = """  var cap = custom ? 'Custom QR image' : invoiceQrCaptionForPayload(payload);"""
+BUILD_QR_CAPTION_NEW = """  var cap = custom ? (typeof invoiceT === 'function' ? invoiceT('invoice.qrCustomImage', 'Custom QR image') : 'Custom QR image') : invoiceQrCaptionForPayload(payload);"""
 
 REFRESH_QR_CAPTION_OLD = """  if (capEl) capEl.textContent = custom ? 'Custom QR image' : (payload.length > 52 ? payload.slice(0, 49) + '…' : payload);"""
 
-REFRESH_QR_CAPTION_NEW = """  if (capEl) capEl.textContent = custom ? 'Custom QR image' : invoiceQrCaptionForPayload(payload);"""
+REFRESH_QR_CAPTION_NEW = """  if (capEl) capEl.textContent = custom ? (typeof invoiceT === 'function' ? invoiceT('invoice.qrCustomImage', 'Custom QR image') : 'Custom QR image') : invoiceQrCaptionForPayload(payload);"""
 
 ENSURE_GUEST_SETTING_V1 = """(function ensureGuestQrOrderSettingDefault() {
   try {
@@ -1132,6 +1148,25 @@ INIT_AUTOLOGIN_FIXED = """  if (typeof tryBootGuestOrderFromUrl === 'function' &
   if (typeof hotelIsSetupComplete === 'function' && !hotelIsSetupComplete()) { return; }"""
 
 
+def _apply_invoice_qr_i18n(content: str) -> str:
+    if INVOICE_QR_CAPTION_LEGACY in content and "invoice.qrScanRestaurant" not in content.split(INVOICE_QR_CAPTION_LEGACY, 1)[0][-200:]:
+        content = content.replace(INVOICE_QR_CAPTION_LEGACY, INVOICE_QR_CAPTION_I18N, 1)
+    legacy_single = """function invoiceQrCaptionForPayload(payload) {
+  var s = String(payload == null ? '' : payload).trim();
+  if (!s) return '';
+  if (s.indexOf('guestOrder=restaurant') >= 0) return 'Scan to order from restaurant';
+  return s.length > 52 ? s.slice(0, 49) + '…' : s;
+}"""
+    if legacy_single in content and "invoice.qrScanRestaurant" not in content:
+        content = content.replace(legacy_single, INVOICE_QR_CAPTION_I18N, 1)
+    if "custom ? 'Custom QR image' : invoiceQrCaptionForPayload" in content:
+        content = content.replace(
+            "custom ? 'Custom QR image' : invoiceQrCaptionForPayload",
+            "custom ? (typeof invoiceT === 'function' ? invoiceT('invoice.qrCustomImage', 'Custom QR image') : 'Custom QR image') : invoiceQrCaptionForPayload",
+        )
+    return content
+
+
 def _repair_order_qr(content: str) -> str:
     """Always run — fixes corrupted incremental upgrades (missing staff JS core, stale boot)."""
     if "function guestOrderQrBuildUrl" not in content and STAFF_HANDLERS_START in content:
@@ -1410,6 +1445,7 @@ def patch(content: str) -> str:
     else:
         print(f"Already patched {MARKER} — running integrity repair")
 
+    content = _apply_invoice_qr_i18n(content)
     content = _repair_order_qr(content)
     return content
 
