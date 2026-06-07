@@ -621,10 +621,81 @@ window.invoiceModalQrBrowseChanged = function(input) {
 OPEN_POST_PAYMENT_OLD = """  body.innerHTML = buildInvoiceFullScreenBodyHtml(useInv, (isPre ? { prepaidMode: true } : null));
   var printL = typeof t === 'function' ? t('msg.postPaymentPrint') : 'Print';"""
 
-OPEN_POST_PAYMENT_NEW = """  window._activeInvoiceQrCtx = { inv: useInv };
+OPEN_POST_PAYMENT_NEW = """  window._activeInvoiceQrCtx = { inv: useInv, batchMeta: batchMeta, isPre: !!isPre };
   body.innerHTML = buildInvoiceFullScreenBodyHtml(useInv, (isPre ? { prepaidMode: true } : null));
   if (typeof initInvoiceQrEditor === 'function') initInvoiceQrEditor(useInv);
   var printL = typeof t === 'function' ? t('msg.postPaymentPrint') : 'Print';"""
+
+OPEN_POST_PAYMENT_V2_OLD = """  window._activeInvoiceQrCtx = { inv: useInv };
+  body.innerHTML = buildInvoiceFullScreenBodyHtml(useInv, (isPre ? { prepaidMode: true } : null));
+  if (typeof initInvoiceQrEditor === 'function') initInvoiceQrEditor(useInv);
+  var printL = typeof t === 'function' ? t('msg.postPaymentPrint') : 'Print';"""
+
+PRINT_ONCLICK_OLD = """  document.getElementById('postPaymentInvoicePrint').onclick = function() { window.print(); };"""
+PRINT_ONCLICK_NEW = """  document.getElementById('postPaymentInvoicePrint').onclick = function() { if (typeof printPostPaymentInvoice === 'function') printPostPaymentInvoice(); else window.print(); };"""
+
+PRINT_JS_ANCHOR = "function getPostPaymentInvoiceOverlayEl() {"
+PRINT_JS_BLOCK = """
+function buildInvoicePrintBodyHtml(inv, bodyMeta) {
+  if (!inv) return '';
+  var g = String(inv.guestName || '—');
+  var r = String(inv.roomNumber || '—');
+  var pre = '';
+  if (bodyMeta && bodyMeta.prepaidMode) {
+    pre = '<div class="prepaid-invoice-banner" role="note"><strong>' + (typeof t === 'function' ? t('msg.prepaidInvoiceTag') : 'PREPAID INVOICE') + '</strong><br><span class="prepaid-invoice-sub">' + (typeof t === 'function' ? t('msg.prepaidInvoiceNote') : 'Payment pending; print as pro forma if needed.') + '</span></div>';
+  }
+  var itemsHtml = buildInvoiceItemsTableHtml(inv);
+  return pre + buildInvoiceBrandHeaderHtml() + buildInvoiceQrHtml(inv) +
+    '<p><strong>Guest:</strong> ' + escapeHtml(g) + '</p><p><strong>Room:</strong> ' + escapeHtml(r) + '</p><p><strong>Date:</strong> ' + escapeHtml(String(fmtDate(inv.date))) + '</p><p><strong>Currency:</strong> ' + escapeHtml(String(inv.currency || 'USD')) + '</p>' +
+    (inv.billingAddress ? '<p><strong>Billing:</strong> ' + escapeHtml(String(inv.billingAddress)) + '</p>' : '') +
+    (inv.bookingId ? '<p><strong>Booking:</strong> ' + escapeHtml(String(inv.bookingId)) + '</p>' : '') +
+    (itemsHtml ? '<hr style="margin:1rem 0;border:none;border-top:1px solid #ccc;">' + itemsHtml : '') +
+    '<hr style="margin:1rem 0;border:none;border-top:1px solid #ccc;">' +
+    '<p>Subtotal: <strong>' + fmt$(inv.subtotal) + '</strong></p>' +
+    '<p>Discount: <strong>-' + fmt$(inv.discountAmount) + '</strong></p>' +
+    '<p>Tax: <strong>' + fmt$(inv.taxTotal) + '</strong></p>' +
+    '<hr style="margin:1rem 0;border:none;border-top:2px solid #111;">' +
+    '<p style="font-size:1.1rem;"><strong>Grand Total: ' + fmt$(inv.grandTotal) + '</strong></p>' +
+    '<p>Status: <strong>' + escapeHtml(String(inv.paymentStatus || '—')) + '</strong></p>' +
+    (inv.paymentTransactionId ? '<p style="margin-top:0.5rem;font-size:0.8rem;color:#555;">Transaction: ' + escapeHtml(String(inv.paymentTransactionId)) + '</p>' : '');
+}
+function buildInvoicePrintDocumentHtml(inv, batchMeta) {
+  var isPre = batchMeta && batchMeta.prepaidInvoice;
+  var title = isPre
+    ? (typeof t === 'function' ? t('msg.prepaidInvoiceTitle') : 'Prepaid invoice')
+    : (typeof t === 'function' ? t('msg.postPaymentInvoiceTitle') : 'Payment complete');
+  var bodyHtml = buildInvoicePrintBodyHtml(inv, (isPre ? { prepaidMode: true } : null));
+  var css = 'body{font-family:system-ui,-apple-system,Segoe UI,sans-serif;margin:0;padding:12mm;color:#111;background:#fff;line-height:1.45;}' +
+    'h1{font-size:1.15rem;margin:0 0 12px;padding-bottom:8px;border-bottom:2px solid #1a73e8;}' +
+    '.invoice-brand-block{text-align:center;margin-bottom:12px;}.invoice-brand-block img{max-height:80px;max-width:240px;object-fit:contain;}' +
+    '.invoice-brand-name{font-size:1.15rem;font-weight:700;margin:0.35rem 0 0;}' +
+    '.invoice-qr-block{text-align:center;margin:12px 0;}.invoice-qr-img{width:132px;height:132px;object-fit:contain;}' +
+    '.invoice-qr-caption{font-size:0.72rem;color:#555;margin-top:4px;word-break:break-word;}' +
+    '.invoice-items-table{width:100%;border-collapse:collapse;margin:12px 0;font-size:0.85rem;}' +
+    '.invoice-items-table th,.invoice-items-table td{padding:6px;border-bottom:1px solid #ccc;text-align:left;}' +
+    '.invoice-items-table th:last-child,.invoice-items-table td:last-child{text-align:right;}' +
+    '.invoice-items-table th:nth-child(2),.invoice-items-table td:nth-child(2),.invoice-items-table th:nth-child(3),.invoice-items-table td:nth-child(3){text-align:center;}' +
+    '.prepaid-invoice-banner{background:#fff8e1;border:1px solid #e6b800;border-radius:8px;padding:10px;margin-bottom:12px;}' +
+    'p{margin:0.35rem 0;} strong{color:#111;} img{-webkit-print-color-adjust:exact;print-color-adjust:exact;}';
+  return '<!DOCTYPE html><html><head><meta charset="utf-8"><title>' + escapeHtml(title) + ' · ' + escapeHtml(String(inv.invoiceNumber || '—')) + '</title><style>' + css + '</style></head><body>' +
+    '<h1>' + escapeHtml(title) + ' · ' + escapeHtml(String(inv.invoiceNumber || '—')) + '</h1>' + bodyHtml + '</body></html>';
+}
+window.printPostPaymentInvoice = function() {
+  var ctx = window._activeInvoiceQrCtx;
+  if (!ctx || !ctx.inv) { window.print(); return; }
+  var html = buildInvoicePrintDocumentHtml(ctx.inv, ctx.batchMeta || (ctx.isPre ? { prepaidInvoice: true } : null));
+  var w = window.open('', '_blank', 'noopener,noreferrer');
+  if (!w) { window.print(); return; }
+  w.document.open();
+  w.document.write(html);
+  w.document.close();
+  w.focus();
+  setTimeout(function() {
+    try { w.print(); } catch (e) { window.print(); }
+    setTimeout(function() { try { w.close(); } catch (e2) {} }, 600);
+  }, 350);
+};
+"""
 
 SETTINGS_QR_FILE_OLD = """        <input type="file" accept="image/png,image/jpeg,image/webp,image/gif" class="form-control" id="sInvoiceQrFile" onchange="invoiceQrFileChanged(this)">
         <div id="sInvoiceQrPreview" style="margin-top:0.5rem;"></div>
@@ -644,7 +715,7 @@ BUILD_QR_EDITABLE_NEW = "buildInvoiceBrandHeaderHtml() + buildInvoiceQrHtml(inv,
 PRINT_MEDIA_OLD = """    @media print { .post-payment-invoice-hd, .post-payment-invoice-ft, .prepaid-invoice-banner { -webkit-print-color-adjust: exact; print-color-adjust: exact; } body * { visibility: hidden; } .post-payment-invoice-overlay, .post-payment-invoice-overlay * { visibility: visible; } .post-payment-invoice-overlay { position: absolute; inset: 0; display: block !important; background: #fff; backdrop-filter: none; padding: 0; } .post-payment-invoice-card { max-width: none; box-shadow: none; border: none; } .post-payment-no-print { display: none !important; } }"""
 
 PRINT_MEDIA_NEW = """    @media print {
-      /* HRMM-INVOICE-PRINT-v4 — expand body instead of clipping scroll area */
+      /* HRMM-INVOICE-PRINT-v5 — dedicated print window; keep overlay rules as fallback */
       .post-payment-invoice-hd, .prepaid-invoice-banner, .invoice-brand-block, .invoice-qr-block {
         -webkit-print-color-adjust: exact; print-color-adjust: exact;
       }
@@ -668,7 +739,7 @@ PRINT_MEDIA_NEW = """    @media print {
       .invoice-items-table { break-inside: avoid; page-break-inside: avoid; }
     }"""
 
-PRINT_FIX_MARKER = "HRMM-INVOICE-PRINT-v4"
+PRINT_FIX_MARKER = "HRMM-INVOICE-PRINT-v5"
 
 QR_HELPERS_ANCHOR = "window.clearInvoiceLogo = function() {"
 QR_HELPERS_INSERT = """
@@ -879,6 +950,8 @@ def _is_fully_patched(content: str) -> bool:
         and "invoiceModalQrBrowseChanged" in content
         and "buildInvoiceQrHtml(inv, { editable: true })" in content
         and PRINT_FIX_MARKER in content
+        and "printPostPaymentInvoice" in content
+        and "buildInvoicePrintBodyHtml" in content
         and f"/* {MARKER} */" in content
     )
 
@@ -886,6 +959,22 @@ def _is_fully_patched(content: str) -> bool:
 def _apply_print_fix(content: str) -> str:
     if PRINT_MEDIA_OLD in content:
         content = content.replace(PRINT_MEDIA_OLD, PRINT_MEDIA_NEW, 1)
+    elif "HRMM-INVOICE-PRINT-v4" in content and PRINT_FIX_MARKER not in content:
+        content = content.replace(
+            "/* HRMM-INVOICE-PRINT-v4 — expand body instead of clipping scroll area */",
+            "/* HRMM-INVOICE-PRINT-v5 — dedicated print window; keep overlay rules as fallback */",
+            1,
+        )
+    return content
+
+
+def _apply_print_window(content: str) -> str:
+    if PRINT_JS_ANCHOR in content and "function buildInvoicePrintBodyHtml" not in content:
+        content = content.replace(PRINT_JS_ANCHOR, PRINT_JS_BLOCK + PRINT_JS_ANCHOR, 1)
+    if OPEN_POST_PAYMENT_V2_OLD in content:
+        content = content.replace(OPEN_POST_PAYMENT_V2_OLD, OPEN_POST_PAYMENT_NEW, 1)
+    if PRINT_ONCLICK_OLD in content:
+        content = content.replace(PRINT_ONCLICK_OLD, PRINT_ONCLICK_NEW, 1)
     return content
 
 
@@ -903,6 +992,7 @@ def _apply_v3_upgrades(content: str) -> str:
 
 def patch(content: str) -> str:
     content = _apply_print_fix(content)
+    content = _apply_print_window(content)
 
     if _is_fully_patched(content):
         print(f"Already patched {MARKER} — skipping")

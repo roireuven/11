@@ -55,8 +55,11 @@ if (!html.includes("HRMM-TOPBAR-SETTINGS-v3")) {
 if (!html.includes("getInvoiceLineItems") || !html.includes("refreshInvoiceQrDisplay") || !html.includes("HRMM-INVOICE-v4")) {
   fail("app missing invoice items table, logo, and QR patch (HRMM-INVOICE-v4)");
 }
-if (!html.includes("HRMM-INVOICE-PRINT-v4")) {
+if (!html.includes("HRMM-INVOICE-PRINT-v5")) {
   fail("app missing invoice print layout fix");
+}
+if (!html.includes("printPostPaymentInvoice") || !html.includes("buildInvoicePrintBodyHtml")) {
+  fail("app missing dedicated invoice print window");
 }
 
 let docHtml;
