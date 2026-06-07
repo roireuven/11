@@ -50,6 +50,7 @@ function renderGuestMiniMartOrder() {
     if (guestMartCtx.guest) bits.push(guestMartCtx.guest);
     if (guestMartCtx.room) bits.push('Room ' + guestMartCtx.room);
     if (guestMartCtx.table) bits.push(String(guestMartCtx.table));
+    if (guestMartCtx.booking) bits.push('Booking ' + guestMartCtx.booking);
     sub.textContent = bits.length ? bits.join(' · ') : 'Browse items and submit your order';
   }
   if (guestMartSubmitted) {
@@ -61,7 +62,7 @@ function renderGuestMiniMartOrder() {
   var searchQ = String(guestOrderMenuSearch || '').trim();
   var searchHtml = '<div class="guest-rest-search"><input type="search" class="form-control" placeholder="Search items…" value="' + guestRestEsc(searchQ) + '" oninput="guestOrderMenuSearch=this.value;renderGuestOrderScreen()" autocomplete="off"></div>';
   var tabs = '<div class="guest-rest-tabs">' + categories.map(function(c) {
-    return '<button type="button" class="btn btn-sm ' + (guestMartMenuFilter === c ? 'btn-primary' : 'btn-outline') + '" onclick="guestMartMenuFilter=\'' + String(c).replace(/'/g, "\\'") + '\';renderGuestMiniMartOrder()">' + guestRestEsc(c === 'All' ? 'All' : c) + '</button>';
+    return '<button type="button" class="btn btn-sm ' + (guestMartMenuFilter === c ? 'btn-primary' : 'btn-outline') + '" onclick="guestMartMenuFilter=\'' + String(c).replace(/'/g, "\\'") + '\';renderGuestOrderScreen()">' + guestRestEsc(c === 'All' ? 'All' : c) + '</button>';
   }).join('') + '</div>';
   var filtered = (guestMartMenuFilter === 'All' ? storeItems : storeItems.filter(function(m) { return m && m.category === guestMartMenuFilter; })).filter(function(m) {
     return m && m.available !== false && (typeof rowDataVisible !== 'function' || rowDataVisible(m)) && guestRestMenuMatchesSearch(m, searchQ);
@@ -82,8 +83,17 @@ function renderGuestMiniMartOrder() {
   if (!cartHtml) cartHtml = '<div class="guest-rest-cart-empty">Tap items to add them to your cart</div>';
   var tax = Math.round((subtotal * (taxRate / 100)) * 100) / 100;
   var grandTotal = Math.round((subtotal + tax) * 100) / 100;
-  var mobileBar = guestRestMobileBarHtml(guestMartCart.length, grandTotal, 'guestMartSubmitOrder', 'Submit', guestMartCart.length > 0);
-  body.innerHTML = '<div class="guest-rest-layout"><section class="guest-rest-panel"><h2>Items</h2>' + searchHtml + tabs + menuHtml + '</section><section class="guest-rest-panel guest-rest-cart-panel" id="guestRestCartPanel"><h2>Your cart <span class="guest-rest-count">' + guestMartCart.length + '</span></h2><div class="guest-rest-cart-items">' + cartHtml + '</div><div class="guest-rest-totals"><div><span>Subtotal</span><span>' + fmt$(subtotal) + '</span></div><div><span>Tax (' + taxRate + '%)</span><span>' + fmt$(tax) + '</span></div><div class="guest-rest-grand"><span>Total</span><span>' + fmt$(grandTotal) + '</span></div></div><button type="button" class="btn btn-primary guest-rest-submit" ' + (guestMartCart.length ? '' : 'disabled') + ' onclick="guestMartSubmitOrder()">Submit order</button></section></div>' + mobileBar;
+  var canSubmit = guestMartCart.length > 0;
+  var mobileBar = guestRestMobileBarHtml(guestMartCart.length, grandTotal, 'guestMartSubmitOrder', 'Submit order', canSubmit);
+  body.innerHTML =
+    '<div class="guest-rest-layout">' +
+      '<section class="guest-rest-panel"><h2>Shop</h2>' + searchHtml + tabs + menuHtml + '</section>' +
+      '<section class="guest-rest-panel guest-rest-cart-panel" id="guestRestCartPanel"><h2>Your cart <span class="guest-rest-count">' + guestMartCart.length + '</span></h2>' +
+        '<div class="guest-rest-cart-items">' + cartHtml + '</div>' +
+        '<div class="guest-rest-totals"><div><span>Subtotal</span><span>' + fmt$(subtotal) + '</span></div><div><span>Tax (' + taxRate + '%)</span><span>' + fmt$(tax) + '</span></div><div class="guest-rest-grand"><span>Total</span><span>' + fmt$(grandTotal) + '</span></div></div>' +
+        '<button type="button" class="btn btn-primary guest-rest-submit" ' + (canSubmit ? '' : 'disabled') + ' onclick="guestMartSubmitOrder()">Submit order</button>' +
+      '</section>' +
+    '</div>' + mobileBar;
 }
 window.guestMartAddToCart = function(id) {
   ensureGuestMiniMartStoreLoaded();
@@ -158,6 +168,66 @@ window.showGuestOrderScreen = function(dept, ctx) {
   bindGuestOrderCloseOnce();
 };
 """
+
+# Standalone repair block — must match renderGuestMiniMartOrder() inside GUEST_ORDER_PARSE_AND_BOOT_V4.
+RENDER_GUEST_MINIMART_ORDER_V7 = r"""function renderGuestMiniMartOrder() {
+  var body = document.getElementById('guestRestOrderBody');
+  var sub = document.getElementById('guestRestOrderSub');
+  var title = document.getElementById('guestRestOrderTitle');
+  if (!body) return;
+  ensureGuestMiniMartStoreLoaded();
+  var hn = (settings && settings.hotelName) ? String(settings.hotelName) : 'Mini-Mart';
+  if (title) title.textContent = hn + ' — Shop';
+  if (sub) {
+    var bits = [];
+    if (guestMartCtx.guest) bits.push(guestMartCtx.guest);
+    if (guestMartCtx.room) bits.push('Room ' + guestMartCtx.room);
+    if (guestMartCtx.table) bits.push(String(guestMartCtx.table));
+    if (guestMartCtx.booking) bits.push('Booking ' + guestMartCtx.booking);
+    sub.textContent = bits.length ? bits.join(' · ') : 'Browse items and submit your order';
+  }
+  if (guestMartSubmitted) {
+    body.innerHTML = '<div class="guest-rest-success"><div class="guest-rest-success-icon" aria-hidden="true">✓</div><h2>Order submitted!</h2><p>Your mini-mart order was sent. Staff will prepare it for pickup or delivery.</p><button type="button" class="btn btn-primary" onclick="guestMartStartNewOrder()">Order more</button></div>';
+    return;
+  }
+  var taxRate = parseFloat(settings && (settings.surcharge || settings.taxRate)) || 7;
+  var categories = ['All'].concat(typeof getStoreCategories === 'function' ? getStoreCategories() : []);
+  var searchQ = String(guestOrderMenuSearch || '').trim();
+  var searchHtml = '<div class="guest-rest-search"><input type="search" class="form-control" placeholder="Search items…" value="' + guestRestEsc(searchQ) + '" oninput="guestOrderMenuSearch=this.value;renderGuestOrderScreen()" autocomplete="off"></div>';
+  var tabs = '<div class="guest-rest-tabs">' + categories.map(function(c) {
+    return '<button type="button" class="btn btn-sm ' + (guestMartMenuFilter === c ? 'btn-primary' : 'btn-outline') + '" onclick="guestMartMenuFilter=\'' + String(c).replace(/'/g, "\\'") + '\';renderGuestOrderScreen()">' + guestRestEsc(c === 'All' ? 'All' : c) + '</button>';
+  }).join('') + '</div>';
+  var filtered = (guestMartMenuFilter === 'All' ? storeItems : storeItems.filter(function(m) { return m && m.category === guestMartMenuFilter; })).filter(function(m) {
+    return m && m.available !== false && (typeof rowDataVisible !== 'function' || rowDataVisible(m)) && guestRestMenuMatchesSearch(m, searchQ);
+  });
+  var menuHtml = '<div class="guest-rest-menu-grid">';
+  filtered.forEach(function(m) {
+    var idEsc = String(m.id).replace(/'/g, "\\'");
+    menuHtml += guestRestMenuCardHtml(m, idEsc, 'guestMartAddToCart', true);
+  });
+  if (!filtered.length) menuHtml += '<div class="guest-rest-empty">No items available right now.</div>';
+  menuHtml += '</div>';
+  var cartHtml = '', subtotal = 0;
+  guestMartCart.forEach(function(ci, idx) {
+    var line = (parseFloat(ci.unitPrice) || 0) * (parseInt(ci.qty, 10) || 0);
+    subtotal += line;
+    cartHtml += '<div class="guest-rest-cart-row"><span>' + guestRestEsc(ci.name) + '</span><div class="guest-rest-qty"><button type="button" onclick="guestMartCartQty(' + idx + ',-1)">−</button><span>' + ci.qty + '</span><button type="button" onclick="guestMartCartQty(' + idx + ',1)">+</button></div><span>' + fmt$(line) + '</span><button type="button" class="guest-rest-remove" onclick="guestMartCartRemove(' + idx + ')">✕</button></div>';
+  });
+  if (!cartHtml) cartHtml = '<div class="guest-rest-cart-empty">Tap items to add them to your cart</div>';
+  var tax = Math.round((subtotal * (taxRate / 100)) * 100) / 100;
+  var grandTotal = Math.round((subtotal + tax) * 100) / 100;
+  var canSubmit = guestMartCart.length > 0;
+  var mobileBar = guestRestMobileBarHtml(guestMartCart.length, grandTotal, 'guestMartSubmitOrder', 'Submit order', canSubmit);
+  body.innerHTML =
+    '<div class="guest-rest-layout">' +
+      '<section class="guest-rest-panel"><h2>Shop</h2>' + searchHtml + tabs + menuHtml + '</section>' +
+      '<section class="guest-rest-panel guest-rest-cart-panel" id="guestRestCartPanel"><h2>Your cart <span class="guest-rest-count">' + guestMartCart.length + '</span></h2>' +
+        '<div class="guest-rest-cart-items">' + cartHtml + '</div>' +
+        '<div class="guest-rest-totals"><div><span>Subtotal</span><span>' + fmt$(subtotal) + '</span></div><div><span>Tax (' + taxRate + '%)</span><span>' + fmt$(tax) + '</span></div><div class="guest-rest-grand"><span>Total</span><span>' + fmt$(grandTotal) + '</span></div></div>' +
+        '<button type="button" class="btn btn-primary guest-rest-submit" ' + (canSubmit ? '' : 'disabled') + ' onclick="guestMartSubmitOrder()">Submit order</button>' +
+      '</section>' +
+    '</div>' + mobileBar;
+}"""
 
 GUEST_ORDER_BOOT_V4 = r"""
 window.showGuestRestaurantOrderScreen = function(ctx) {

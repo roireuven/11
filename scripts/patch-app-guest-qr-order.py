@@ -8,19 +8,19 @@ import sys
 from pathlib import Path
 
 
-def _load_v4_fragments() -> tuple[str, str]:
+def _load_v4_fragments() -> tuple[str, str, str]:
     frag_path = Path(__file__).resolve().parent / "_guest_order_v4_fragments.py"
     spec = importlib.util.spec_from_file_location("_guest_order_v4_fragments", frag_path)
     if spec is None or spec.loader is None:
         raise SystemExit(f"Missing guest order v4 fragments: {frag_path}")
     mod = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(mod)
-    return mod.GUEST_ORDER_PARSE_AND_BOOT_V4, mod.GUEST_ORDER_BOOT_V4
+    return mod.GUEST_ORDER_PARSE_AND_BOOT_V4, mod.GUEST_ORDER_BOOT_V4, mod.RENDER_GUEST_MINIMART_ORDER_V7
 
 
-GUEST_ORDER_PARSE_AND_BOOT_V4, GUEST_ORDER_BOOT_V4 = _load_v4_fragments()
+GUEST_ORDER_PARSE_AND_BOOT_V4, GUEST_ORDER_BOOT_V4, RENDER_GUEST_MINIMART_ORDER_V7 = _load_v4_fragments()
 
-MARKER = "HRMM-GUEST-QR-ORDER-v6"
+MARKER = "HRMM-GUEST-QR-ORDER-v7"
 INDEX = Path("public/index.html")
 
 GET_INVOICE_QR_PAYLOAD_OLD = """function getInvoiceQrPayload(inv) {
@@ -150,6 +150,192 @@ function getInvoiceQrPayload(inv) {
   if (!parts.length) return '';
   return parts.join('|');
 }"""
+
+GET_INVOICE_QR_PAYLOAD_V3 = """function guestQrRestaurantOrderEnabled() {
+  return !(settings && (settings.invoiceQrIncludeRestaurantOrder === false || settings.invoiceQrIncludeRestaurantOrder === '0' || settings.invoiceQrIncludeRestaurantOrder === 0));
+}
+function guestQrMinimartOrderEnabled() {
+  return !(settings && (settings.invoiceQrIncludeMinimartOrder === false || settings.invoiceQrIncludeMinimartOrder === '0' || settings.invoiceQrIncludeMinimartOrder === 0));
+}
+function guestQrOrderOnInvoiceEnabled() {
+  return guestQrRestaurantOrderEnabled() || guestQrMinimartOrderEnabled();
+}
+function isLegacyInvoiceQrPayload(text) {
+  var s = String(text == null ? '' : text).trim();
+  if (!s) return false;
+  if (/^INV:/.test(s) || /\\|TXN:/.test(s) || /\\|TOTAL:/.test(s)) return true;
+  if (/^TOTAL:/.test(s)) return true;
+  return false;
+}
+function invoiceQrCaptionForPayload(payload) {
+  var s = String(payload == null ? '' : payload).trim();
+  if (!s) return '';
+  if (s.indexOf('guestOrder=restaurant') >= 0) return (typeof t === 'function' ? t('invoice.qrScanRestaurant') : 'Scan to order from restaurant');
+  if (s.indexOf('guestOrder=minimart') >= 0) return (typeof t === 'function' ? t('invoice.qrScanMinimart') : 'Scan to order from mini-mart');
+  return s.length > 52 ? s.slice(0, 49) + '…' : s;
+}
+function buildGuestOrderUrl(dept, inv) {
+  var deptKey = dept === 'minimart' ? 'minimart' : 'restaurant';
+  var base = '';
+  if (settings && settings.invoiceQrText) {
+    var custom = String(settings.invoiceQrText).trim();
+    if (/^https?:\\/\\//i.test(custom)) base = custom.split('#')[0].split('?')[0];
+  }
+  if (!base) {
+    try { base = location.origin + (location.pathname || '/'); } catch (e) { base = ''; }
+  }
+  if (!base) return '';
+  try { base = String(base).split('#')[0]; } catch (e) {}
+  var params = new URLSearchParams();
+  params.set('guestOrder', deptKey);
+  if (inv) {
+    var roomVal = inv.roomNumber != null ? String(inv.roomNumber).trim() : '';
+    var tableVal = inv.tableNumber != null ? String(inv.tableNumber).trim() : '';
+    if (!tableVal && roomVal && /^table\\b/i.test(roomVal)) tableVal = roomVal;
+    if (tableVal && tableVal !== '—') params.set('table', tableVal);
+    else if (roomVal && roomVal !== '—' && !/^table\\b/i.test(roomVal)) params.set('room', roomVal);
+    if (inv.guestName != null && String(inv.guestName).trim() !== '' && String(inv.guestName).trim() !== '—') params.set('guest', String(inv.guestName).trim());
+    if (inv.bookingId != null && String(inv.bookingId).trim() !== '') params.set('booking', String(inv.bookingId).trim());
+  }
+  var q = params.toString();
+  if (base.indexOf('?') >= 0) {
+    var parts = base.split('?');
+    return parts[0] + '?' + q;
+  }
+  return base + '?' + q;
+}
+function buildGuestRestaurantOrderUrl(inv) {
+  return buildGuestOrderUrl('restaurant', inv);
+}
+function buildInvoiceGuestOrderQrBlock(url, caption) {
+  if (!url) return '';
+  var cap = caption || '';
+  return '<div class="invoice-qr-block invoice-guest-order-qr"><img src="' + escapeHtml(buildInvoiceQrImageUrl(url)) + '" alt="' + escapeHtml(cap) + '" class="invoice-qr-img"><div class="invoice-qr-caption">' + escapeHtml(cap) + '</div></div>';
+}
+function buildInvoiceGuestOrderQrsHtml(inv) {
+  if (!guestQrOrderOnInvoiceEnabled()) return '';
+  if (inv && inv.qrTextOverride != null && inv.qrTextOverride !== undefined && String(inv.qrTextOverride).trim()) return '';
+  if (inv && inv.qrImageOverride) return '';
+  var html = '<div class="invoice-guest-order-qrs" id="invoiceQrDisplayBlock">';
+  if (guestQrRestaurantOrderEnabled()) {
+    var u1 = buildGuestOrderUrl('restaurant', inv);
+    var c1 = typeof t === 'function' ? t('invoice.qrScanRestaurant') : 'Scan to order from restaurant';
+    if (u1) html += buildInvoiceGuestOrderQrBlock(u1, c1);
+  }
+  if (guestQrMinimartOrderEnabled()) {
+    var u2 = buildGuestOrderUrl('minimart', inv);
+    var c2 = typeof t === 'function' ? t('invoice.qrScanMinimart') : 'Scan to order from mini-mart';
+    if (u2) html += buildInvoiceGuestOrderQrBlock(u2, c2);
+  }
+  html += '</div>';
+  return html.indexOf('invoice-guest-order-qr') >= 0 ? html : '';
+}
+function getInvoiceQrPayload(inv) {
+  if (guestQrOrderOnInvoiceEnabled()) return '';
+  var base = (settings && settings.invoiceQrText) ? String(settings.invoiceQrText).trim() : '';
+  var includeDetails = !(settings && (settings.invoiceQrIncludeDetails === false || settings.invoiceQrIncludeDetails === '0' || settings.invoiceQrIncludeDetails === 0));
+  var parts = [];
+  if (base) parts.push(base);
+  if (includeDetails && inv) {
+    if (inv.invoiceNumber) parts.push('INV:' + String(inv.invoiceNumber));
+    if (inv.paymentTransactionId) parts.push('TXN:' + String(inv.paymentTransactionId));
+    if (inv.grandTotal != null && inv.grandTotal !== '') parts.push('TOTAL:' + String(inv.grandTotal));
+  }
+  if (!parts.length) return '';
+  return parts.join('|');
+}"""
+
+BUILD_INVOICE_QR_HTML_HEAD_OLD = """function buildInvoiceQrHtml(inv, opts) {
+  opts = opts || {};
+  var custom = getEffectiveInvoiceQrImage(inv);
+  var payload = custom ? '' : getEffectiveInvoiceQrPayload(inv);
+  if (!custom && !payload) return opts.editable ? buildInvoiceQrEditorHtml(inv, getInvoiceQrPayload(inv)) : '';"""
+
+BUILD_INVOICE_QR_HTML_HEAD_NEW = """function buildInvoiceQrHtml(inv, opts) {
+  opts = opts || {};
+  var custom = getEffectiveInvoiceQrImage(inv);
+  if (!custom && typeof buildInvoiceGuestOrderQrsHtml === 'function') {
+    var guestQrs = buildInvoiceGuestOrderQrsHtml(inv);
+    if (guestQrs) {
+      var ghtml = guestQrs;
+      if (opts.editable) ghtml += buildInvoiceQrEditorHtml(inv, getInvoiceQrPayload(inv));
+      return ghtml;
+    }
+  }
+  var payload = custom ? '' : getEffectiveInvoiceQrPayload(inv);
+  if (!custom && !payload) return opts.editable ? buildInvoiceQrEditorHtml(inv, getInvoiceQrPayload(inv)) : '';"""
+
+REFRESH_INVOICE_QR_OLD = """function refreshInvoiceQrDisplay(inv) {
+  if (!inv && window._activeInvoiceQrCtx) inv = window._activeInvoiceQrCtx.inv;
+  if (!inv) return;
+  var imgEl = document.getElementById('invoiceQrDisplayImg');"""
+
+REFRESH_INVOICE_QR_NEW = """function refreshInvoiceQrDisplay(inv) {
+  if (!inv && window._activeInvoiceQrCtx) inv = window._activeInvoiceQrCtx.inv;
+  if (!inv) return;
+  if (!getEffectiveInvoiceQrImage(inv) && typeof buildInvoiceGuestOrderQrsHtml === 'function' && buildInvoiceGuestOrderQrsHtml(inv)) return;
+  var imgEl = document.getElementById('invoiceQrDisplayImg');"""
+
+SETTINGS_QR_DETAILS_V3 = """        <label style="margin-top:0.5rem;display:flex;align-items:center;gap:0.35rem;font-weight:500;font-size:0.88rem;">
+          <input type="checkbox" id="sInvoiceQrGuestOrderRest" ${(s.invoiceQrIncludeRestaurantOrder===false||s.invoiceQrIncludeRestaurantOrder==='0'||s.invoiceQrIncludeRestaurantOrder===0)?'':'checked'} onchange="updateInvoiceQrPreview()">
+          Invoice QR — restaurant order (scan to order food)
+        </label>
+        <label style="margin-top:0.5rem;display:flex;align-items:center;gap:0.35rem;font-weight:500;font-size:0.88rem;">
+          <input type="checkbox" id="sInvoiceQrGuestOrderMart" ${(s.invoiceQrIncludeMinimartOrder===false||s.invoiceQrIncludeMinimartOrder==='0'||s.invoiceQrIncludeMinimartOrder===0)?'':'checked'} onchange="updateInvoiceQrPreview()">
+          Invoice QR — mini-mart order (scan to shop)
+        </label>
+        <label style="margin-top:0.5rem;display:flex;align-items:center;gap:0.35rem;font-weight:500;font-size:0.88rem;opacity:0.85;">
+          <input type="checkbox" id="sInvoiceQrDetails" ${(s.invoiceQrIncludeDetails===false||s.invoiceQrIncludeDetails==='0'||s.invoiceQrIncludeDetails===0)?'':'checked'} onchange="updateInvoiceQrPreview()">
+          Include invoice number &amp; total in QR (only when guest order QR is off)
+        </label>
+        <p style="font-size:0.78rem;color:var(--text-light);margin:0.35rem 0 0;">When guest order QR is on, invoices show scan-to-order codes for restaurant and/or mini-mart (room/guest from the invoice). Staff can also print Mart QR from the bottom nav.</p>"""
+
+SAVE_SETTINGS_QR_V3 = """  if (document.getElementById('sInvoiceQrText')) settings.invoiceQrText = document.getElementById('sInvoiceQrText').value.trim();
+  if (document.getElementById('sInvoiceQrGuestOrderRest')) settings.invoiceQrIncludeRestaurantOrder = document.getElementById('sInvoiceQrGuestOrderRest').checked;
+  if (document.getElementById('sInvoiceQrGuestOrderMart')) settings.invoiceQrIncludeMinimartOrder = document.getElementById('sInvoiceQrGuestOrderMart').checked;
+  if (document.getElementById('sInvoiceQrGuestOrder')) settings.invoiceQrIncludeRestaurantOrder = document.getElementById('sInvoiceQrGuestOrder').checked;
+  if (document.getElementById('sInvoiceQrDetails')) settings.invoiceQrIncludeDetails = document.getElementById('sInvoiceQrDetails').checked;
+  settings.maxGuests = parseInt(document.getElementById('sMaxG').value)||3;"""
+
+ENSURE_GUEST_SETTING_V3 = """(function ensureGuestQrOrderSettingDefault() {
+  try {
+    var mk = (typeof DB_KEY !== 'undefined' ? DB_KEY : 'hotel_mgr_') + 'guestQrOrderForceEnabledV3';
+    var done = false;
+    try {
+      if (typeof settings !== 'undefined' && settings && settings.invoiceQrIncludeRestaurantOrder === undefined) {
+        settings.invoiceQrIncludeRestaurantOrder = true;
+        if (typeof save === 'function') save('settings', settings);
+      }
+      if (typeof settings !== 'undefined' && settings && settings.invoiceQrIncludeMinimartOrder === undefined) {
+        settings.invoiceQrIncludeMinimartOrder = true;
+        if (typeof save === 'function') save('settings', settings);
+      }
+      if (typeof HotelDB !== 'undefined' && HotelDB && typeof HotelDB.loadSetting === 'function') {
+        done = HotelDB.loadSetting('guestQrOrderForceEnabledV3') === '1';
+      }
+      if (!done && typeof settings !== 'undefined' && settings) {
+        settings.invoiceQrIncludeRestaurantOrder = true;
+        settings.invoiceQrIncludeMinimartOrder = true;
+        if (typeof save === 'function') save('settings', settings);
+        if (typeof HotelDB !== 'undefined' && HotelDB && typeof HotelDB.saveSetting === 'function') {
+          try { HotelDB.saveSetting('guestQrOrderForceEnabledV3', '1'); } catch (e) {}
+        }
+      }
+    } catch (e) {}
+  } catch (e) {}
+})();"""
+
+INIT_AUTOLOGIN_DUP_OLD = """  if (typeof tryBootGuestOrderFromUrl === 'function' && tryBootGuestOrderFromUrl()) { return; }
+  if (typeof tryBootGuestOrderFromUrl === 'function' && tryBootGuestOrderFromUrl()) { return; }
+  if (typeof tryBootGuestOrderFromUrl === 'function' && tryBootGuestOrderFromUrl()) { return; }
+  if (typeof tryBootGuestRestaurantOrder === 'function' && tryBootGuestRestaurantOrder()) { return; }"""
+
+INIT_AUTOLOGIN_DUP_ALT = """  if (typeof tryBootGuestOrderFromUrl === 'function' && tryBootGuestOrderFromUrl()) { return; }
+  if (typeof tryBootGuestOrderFromUrl === 'function' && tryBootGuestOrderFromUrl()) { return; }
+  if (typeof tryBootGuestOrderFromUrl === 'function' && tryBootGuestOrderFromUrl()) { return; }"""
+
+INIT_AUTOLOGIN_DUP_NEW = """  if (typeof tryBootGuestOrderFromUrl === 'function' && tryBootGuestOrderFromUrl()) { return; }
+  if (typeof tryBootGuestRestaurantOrder === 'function' && tryBootGuestRestaurantOrder()) { return; }"""
 
 INVOICE_QR_URL_BUILD_OLD = """function invoiceQrCaptionForPayload(payload) {
   var s = String(payload == null ? '' : payload).trim();
@@ -503,6 +689,8 @@ CSS = """
     body.dark-mode .guest-order-qr-preview { background: rgba(0,0,0,0.15); }
     .guest-order-qr-actions { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.5rem; }
     .guest-order-qr-actions .btn { flex: 1 1 140px; justify-content: center; min-height: 42px; }
+    .invoice-guest-order-qrs { display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center; margin: 0.75rem 0 1rem; }
+    .invoice-guest-order-qrs .invoice-guest-order-qr { flex: 1 1 140px; max-width: 220px; }
     /* __HRMM_GUEST_QR_MARKER__ */
 """
 
@@ -1148,6 +1336,51 @@ INIT_AUTOLOGIN_FIXED = """  if (typeof tryBootGuestOrderFromUrl === 'function' &
   if (typeof hotelIsSetupComplete === 'function' && !hotelIsSetupComplete()) { return; }"""
 
 
+def _apply_v7_upgrades(content: str) -> str:
+    if GET_INVOICE_QR_PAYLOAD_V2 in content and "guestQrMinimartOrderEnabled" not in content:
+        content = content.replace(GET_INVOICE_QR_PAYLOAD_V2, GET_INVOICE_QR_PAYLOAD_V3, 1)
+    elif "function buildGuestOrderUrl" in content and "buildInvoiceGuestOrderQrsHtml" not in content:
+        if GET_INVOICE_QR_PAYLOAD_V1 in content:
+            content = content.replace(GET_INVOICE_QR_PAYLOAD_V1, GET_INVOICE_QR_PAYLOAD_V3, 1)
+
+    if BUILD_INVOICE_QR_HTML_HEAD_OLD in content and "buildInvoiceGuestOrderQrsHtml" not in content.split("function buildInvoiceQrHtml", 1)[1][:400]:
+        content = content.replace(BUILD_INVOICE_QR_HTML_HEAD_OLD, BUILD_INVOICE_QR_HTML_HEAD_NEW, 1)
+
+    if REFRESH_INVOICE_QR_OLD in content and "buildInvoiceGuestOrderQrsHtml(inv)) return" not in content:
+        content = content.replace(REFRESH_INVOICE_QR_OLD, REFRESH_INVOICE_QR_NEW, 1)
+
+    if SETTINGS_QR_DETAILS_V2 in content and "sInvoiceQrGuestOrderMart" not in content:
+        content = content.replace(SETTINGS_QR_DETAILS_V2, SETTINGS_QR_DETAILS_V3, 1)
+    elif SETTINGS_QR_DETAILS_V1 in content and "sInvoiceQrGuestOrderMart" not in content:
+        content = content.replace(SETTINGS_QR_DETAILS_V1, SETTINGS_QR_DETAILS_V3, 1)
+
+    if SAVE_SETTINGS_QR_NEW in content and "sInvoiceQrGuestOrderMart" not in content:
+        content = content.replace(SAVE_SETTINGS_QR_NEW, SAVE_SETTINGS_QR_V3, 1)
+
+    if ENSURE_GUEST_SETTING_V2 in content and "invoiceQrIncludeMinimartOrder" not in content:
+        content = content.replace(ENSURE_GUEST_SETTING_V2, ENSURE_GUEST_SETTING_V3, 1)
+
+    if INIT_AUTOLOGIN_DUP_OLD in content:
+        content = content.replace(INIT_AUTOLOGIN_DUP_OLD, INIT_AUTOLOGIN_DUP_NEW, 1)
+    elif INIT_AUTOLOGIN_DUP_ALT in content:
+        content = content.replace(INIT_AUTOLOGIN_DUP_ALT, INIT_AUTOLOGIN_DUP_NEW, 1)
+
+    mart_fn = re.search(
+        r"function renderGuestMiniMartOrder\(\) \{.*?\n\}\nwindow\.guestMartAddToCart",
+        content,
+        flags=re.DOTALL,
+    )
+    if mart_fn and "Search items" not in mart_fn.group(0):
+        content = content.replace(
+            mart_fn.group(0),
+            RENDER_GUEST_MINIMART_ORDER_V7 + "\nwindow.guestMartAddToCart",
+            1,
+        )
+
+    content = re.sub(r"HRMM-GUEST-QR-ORDER-v\d+", MARKER, content)
+    return content
+
+
 def _apply_invoice_qr_i18n(content: str) -> str:
     if INVOICE_QR_CAPTION_LEGACY in content and "invoice.qrScanRestaurant" not in content.split(INVOICE_QR_CAPTION_LEGACY, 1)[0][-200:]:
         content = content.replace(INVOICE_QR_CAPTION_LEGACY, INVOICE_QR_CAPTION_I18N, 1)
@@ -1218,9 +1451,13 @@ def _is_fully_patched(content: str) -> bool:
         and "var guestOrderQrStaffCtx" in content
         and "guestRestMenuCardHtml" in content
         and "tryBootGuestOrderFromUrl" in content
+        and "buildInvoiceGuestOrderQrsHtml" in content
+        and "guestQrMinimartOrderEnabled" in content
         and 'data-bnav="guestorder-rest"' in content
         and 'data-bnav="guestorder-mart"' in content
         and STALE_BOOT_BLOCK not in content
+        and "function renderGuestMiniMartOrder()" in content
+        and "Search items" in content.split("function renderGuestMiniMartOrder()", 1)[1][:2500]
     )
 
 
@@ -1321,7 +1558,7 @@ def _apply_v5_upgrades(content: str) -> str:
             1,
         )
 
-    if "var searchQ = String(guestOrderMenuSearch" not in content and "function renderGuestMiniMartOrder()" in content:
+    if "var searchQ = String(guestOrderMenuSearch" not in content.split("function renderGuestMiniMartOrder()", 1)[1][:900] and "function renderGuestMiniMartOrder()" in content:
         content = content.replace(
             "  var categories = ['All'].concat(typeof getStoreCategories === 'function' ? getStoreCategories() : []);\n  var tabs = '<div class=\"guest-rest-tabs\">'",
             "  var categories = ['All'].concat(typeof getStoreCategories === 'function' ? getStoreCategories() : []);\n  var searchQ = String(guestOrderMenuSearch || '').trim();\n  var searchHtml = '<div class=\"guest-rest-search\"><input type=\"search\" class=\"form-control\" placeholder=\"Search items…\" value=\"' + guestRestEsc(searchQ) + '\" oninput=\"guestOrderMenuSearch=this.value;renderGuestOrderScreen()\" autocomplete=\"off\"></div>';\n  var tabs = '<div class=\"guest-rest-tabs\">'",
@@ -1372,8 +1609,10 @@ def _apply_v4_upgrades(content: str) -> str:
 
 
 def _apply_qr_payload_upgrade(content: str) -> str:
+    if GET_INVOICE_QR_PAYLOAD_V2 in content and "guestQrMinimartOrderEnabled" not in content:
+        return content.replace(GET_INVOICE_QR_PAYLOAD_V2, GET_INVOICE_QR_PAYLOAD_V3, 1)
     if GET_INVOICE_QR_PAYLOAD_V1 in content:
-        return content.replace(GET_INVOICE_QR_PAYLOAD_V1, GET_INVOICE_QR_PAYLOAD_V2, 1)
+        return content.replace(GET_INVOICE_QR_PAYLOAD_V1, GET_INVOICE_QR_PAYLOAD_V3, 1)
     if GET_INVOICE_QR_PAYLOAD_OLD in content:
         return content.replace(GET_INVOICE_QR_PAYLOAD_OLD, GET_INVOICE_QR_PAYLOAD_V2, 1)
     if "function guestQrRestaurantOrderEnabled()" in content and "isLegacyInvoiceQrPayload" not in content:
@@ -1445,6 +1684,7 @@ def patch(content: str) -> str:
     else:
         print(f"Already patched {MARKER} — running integrity repair")
 
+    content = _apply_v7_upgrades(content)
     content = _apply_invoice_qr_i18n(content)
     content = _repair_order_qr(content)
     return content

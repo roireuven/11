@@ -67,11 +67,18 @@ if (!html.includes("hrmmInvoicePrintFrame") || !html.includes("buildInvoicePrint
 if (!html.includes("HRMM-SHIFTS-v1") || !html.includes("migrateShiftsClosedByDefault")) {
   fail("app missing shifts-closed-by-default patch (HRMM-SHIFTS-v1)");
 }
-if (!html.includes("HRMM-GUEST-QR-ORDER-v6") || !html.includes("function guestOrderQrBuildUrl") || !html.includes('data-bnav="guestorder-rest"')) {
-  fail("app missing guest QR order patch (HRMM-GUEST-QR-ORDER-v6)");
+if (!html.includes("HRMM-GUEST-QR-ORDER-v7") || !html.includes("function guestOrderQrBuildUrl") || !html.includes('data-bnav="guestorder-rest"')) {
+  fail("app missing guest QR order patch (HRMM-GUEST-QR-ORDER-v7)");
 }
 if (!html.includes("buildGuestOrderUrl") || !html.includes("guestMartSubmitOrder") || !html.includes("var guestOrderQrStaffCtx")) {
   fail("app missing guest order QR staff helpers");
+}
+if (!html.includes("buildInvoiceGuestOrderQrsHtml") || !html.includes("guestQrMinimartOrderEnabled")) {
+  fail("app missing dual invoice guest order QR (HRMM-GUEST-QR-ORDER-v7)");
+}
+const martChunk = html.split("function renderGuestMiniMartOrder()")[1] || "";
+if (!martChunk.includes("Search items") || !martChunk.includes("guestRestMobileBarHtml")) {
+  fail("app missing complete mini-mart guest order UI");
 }
 if (html.includes("parseGuestRestaurantOrderParams();") && html.includes("window.tryBootGuestOrderFromUrl = function()") && html.includes("var params = parseGuestRestaurantOrderParams();")) {
   fail("app has stale duplicate guest QR boot block");
