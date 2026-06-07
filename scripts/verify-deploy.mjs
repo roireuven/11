@@ -34,6 +34,7 @@ const checks = [
   ['id="topbarDocBtn"', "app missing top bar Documentation button"],
   ['id="topbarSettingsBtn"', "app missing top bar Settings button"],
   ['data-bnav="documentation"', "app missing bottom nav Documentation link"],
+  ['data-bnav="settings"', "app missing bottom nav Settings link"],
   ['class="hrmm-doc-nav"', "app missing hamburger menu Documentation link"],
   ['embed=1', "app missing in-app embedded documentation (embed=1)"],
   ["'/doc/?lang='", "app iframe must use absolute /doc/ path (Firebase rewrite bug)"],
