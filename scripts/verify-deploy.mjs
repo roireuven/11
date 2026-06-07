@@ -35,12 +35,23 @@ const checks = [
   ['data-bnav="documentation"', "app missing bottom nav Documentation link"],
   ['class="hrmm-doc-nav"', "app missing hamburger menu Documentation link"],
   ['embed=1', "app missing in-app embedded documentation (embed=1)"],
+  ["'/doc/?lang='", "app iframe must use absolute /doc/ path (Firebase rewrite bug)"],
   ["renderDocumentation", "app missing documentation page"],
   ['data-page="documentation"', "app missing sidebar Documentation link"],
 ];
 
 for (const [needle, msg] of checks) {
   if (!html.includes(needle)) fail(msg);
+}
+
+let docHtml;
+try {
+  docHtml = await readFile(join(DOC, "index.html"), "utf8");
+} catch {
+  fail("missing public/doc/index.html");
+}
+if (!docHtml.includes("basePath: DOC_ROOT + '/' + DOC_LANG + '/'")) {
+  fail("doc site must use absolute DOC_ROOT basePath (prevents SPA HTML in docs panel)");
 }
 
 const enMd = (await readdir(join(DOC, "en"))).filter((f) => f.endsWith(".md")).length;
