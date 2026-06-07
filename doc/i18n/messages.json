@@ -93,7 +93,8 @@
     "ui_search": "Search docs…",
     "ui_no_results": "No results",
     "ui_language": "Language",
-    "ui_open_tab": "Open in new tab ↗"
+    "ui_open_tab": "Open in new tab ↗",
+    "doc_login_hint": "Help & documentation available inside the app after sign-in (☰ Menu → Help)."
   },
   "es": {
     "home_title": "HotelRestaurantMini-MartManagement — Documentación",
@@ -189,7 +190,8 @@
     "ui_search": "Buscar en la documentación…",
     "ui_no_results": "Sin resultados",
     "ui_language": "Idioma",
-    "ui_open_tab": "Abrir en nueva pestaña ↗"
+    "ui_open_tab": "Abrir en nueva pestaña ↗",
+    "doc_login_hint": "Ayuda y documentación disponibles dentro de la aplicación después de iniciar sesión (☰ Menú → Ayuda)."
   },
   "fr": {
     "home_title": "HotelRestaurantMini-MartManagement — Documentation",
@@ -285,7 +287,8 @@
     "ui_search": "Rechercher dans la documentation…",
     "ui_no_results": "Aucun résultat",
     "ui_language": "Langue",
-    "ui_open_tab": "Ouvrir dans un nouvel onglet ↗"
+    "ui_open_tab": "Ouvrir dans un nouvel onglet ↗",
+    "doc_login_hint": "Aide et documentation disponibles dans l'application après connexion (☰ Menu → Aide)."
   },
   "de": {
     "home_title": "HotelRestaurantMini-MartManagement — Dokumentation",
@@ -381,7 +384,8 @@
     "ui_search": "Dokumentation durchsuchen…",
     "ui_no_results": "Keine Ergebnisse",
     "ui_language": "Sprache",
-    "ui_open_tab": "In neuem Tab öffnen ↗"
+    "ui_open_tab": "In neuem Tab öffnen ↗",
+    "doc_login_hint": "Hilfe und Dokumentation in der App nach der Anmeldung (☰ Menü → Hilfe)."
   },
   "ja": {
     "home_title": "HotelRestaurantMini-MartManagement — ドキュメント",
@@ -477,7 +481,8 @@
     "ui_search": "ドキュメントを検索…",
     "ui_no_results": "結果なし",
     "ui_language": "言語",
-    "ui_open_tab": "新しいタブで開く ↗"
+    "ui_open_tab": "新しいタブで開く ↗",
+    "doc_login_hint": "サインイン後、アプリ内でヘルプとドキュメントを利用できます（☰ メニュー → ヘルプ）。"
   },
   "ko": {
     "home_title": "HotelRestaurantMini-MartManagement — 문서",
@@ -573,7 +578,8 @@
     "ui_search": "문서 검색…",
     "ui_no_results": "결과 없음",
     "ui_language": "언어",
-    "ui_open_tab": "새 탭에서 열기 ↗"
+    "ui_open_tab": "새 탭에서 열기 ↗",
+    "doc_login_hint": "로그인 후 앱 내부에서 도움말 및 문서를 이용할 수 있습니다(☰ 메뉴 → 도움말)."
   },
   "ar": {
     "home_title": "HotelRestaurantMini-MartManagement — التوثيق",
@@ -669,7 +675,8 @@
     "ui_search": "البحث في التوثيق…",
     "ui_no_results": "لا توجد نتائج",
     "ui_language": "اللغة",
-    "ui_open_tab": "فتح في علامة تبويب جديدة ↗"
+    "ui_open_tab": "فتح في علامة تبويب جديدة ↗",
+    "doc_login_hint": "المساعدة والتوثيق متاحان داخل التطبيق بعد تسجيل الدخول (☰ القائمة → مساعدة)."
   },
   "hi": {
     "home_title": "HotelRestaurantMini-MartManagement — दस्तावेज़",
@@ -765,7 +772,8 @@
     "ui_search": "दस्तावेज़ खोजें…",
     "ui_no_results": "कोई परिणाम नहीं",
     "ui_language": "भाषा",
-    "ui_open_tab": "नए टैब में खोलें ↗"
+    "ui_open_tab": "नए टैब में खोलें ↗",
+    "doc_login_hint": "साइन इन के बाद ऐप के अंदर सहायता और दस्तावेज़ उपलब्ध (☰ मेनू → सहायता)।"
   },
   "th": {
     "home_title": "HotelRestaurantMini-MartManagement — เอกสาร",
@@ -861,7 +869,8 @@
     "ui_search": "ค้นหาเอกสาร…",
     "ui_no_results": "ไม่พบผลลัพธ์",
     "ui_language": "ภาษา",
-    "ui_open_tab": "เปิดในแท็บใหม่ ↗"
+    "ui_open_tab": "เปิดในแท็บใหม่ ↗",
+    "doc_login_hint": "ความช่วยเหลือและเอกสารอยู่ในแอปหลังเข้าสู่ระบบ (☰ เมนู → ความช่วยเหลือ)"
   },
   "vi": {
     "home_title": "HotelRestaurantMini-MartManagement — Tài liệu",
@@ -957,7 +966,8 @@
     "ui_search": "Tìm trong tài liệu…",
     "ui_no_results": "Không có kết quả",
     "ui_language": "Ngôn ngữ",
-    "ui_open_tab": "Mở trong tab mới ↗"
+    "ui_open_tab": "Mở trong tab mới ↗",
+    "doc_login_hint": "Trợ giúp và tài liệu có trong ứng dụng sau khi đăng nhập (☰ Menu → Trợ giúp)."
   },
   "id": {
     "home_title": "HotelRestaurantMini-MartManagement — Dokumentasi",
@@ -1053,7 +1063,8 @@
     "ui_search": "Cari dokumentasi…",
     "ui_no_results": "Tidak ada hasil",
     "ui_language": "Bahasa",
-    "ui_open_tab": "Buka di tab baru ↗"
+    "ui_open_tab": "Buka di tab baru ↗",
+    "doc_login_hint": "Bantuan & dokumentasi tersedia di dalam aplikasi setelah masuk (☰ Menu → Bantuan)."
   },
   "tr": {
     "home_title": "HotelRestaurantMini-MartManagement — Dokümantasyon",
@@ -1149,7 +1160,8 @@
     "ui_search": "Dokümantasyonda ara…",
     "ui_no_results": "Sonuç yok",
     "ui_language": "Dil",
-    "ui_open_tab": "Yeni sekmede aç ↗"
+    "ui_open_tab": "Yeni sekmede aç ↗",
+    "doc_login_hint": "Oturum açtıktan sonra uygulama içinde yardım ve dokümantasyon (☰ Menü → Yardım)."
   },
   "ru": {
     "home_title": "HotelRestaurantMini-MartManagement — Документация",
@@ -1245,7 +1257,8 @@
     "ui_search": "Поиск в документации…",
     "ui_no_results": "Нет результатов",
     "ui_language": "Язык",
-    "ui_open_tab": "Открыть в новой вкладке ↗"
+    "ui_open_tab": "Открыть в новой вкладке ↗",
+    "doc_login_hint": "Справка и документация в приложении после входа (☰ Меню → Справка)."
   },
   "it": {
     "home_title": "HotelRestaurantMini-MartManagement — Documentazione",
@@ -1341,7 +1354,8 @@
     "ui_search": "Cerca nella documentazione…",
     "ui_no_results": "Nessun risultato",
     "ui_language": "Lingua",
-    "ui_open_tab": "Apri in nuova scheda ↗"
+    "ui_open_tab": "Apri in nuova scheda ↗",
+    "doc_login_hint": "Guida e documentazione nell'app dopo l'accesso (☰ Menu → Aiuto)."
   },
   "nl": {
     "home_title": "HotelRestaurantMini-MartManagement — Documentatie",
@@ -1437,7 +1451,8 @@
     "ui_search": "Documentatie doorzoeken…",
     "ui_no_results": "Geen resultaten",
     "ui_language": "Taal",
-    "ui_open_tab": "Openen in nieuw tabblad ↗"
+    "ui_open_tab": "Openen in nieuw tabblad ↗",
+    "doc_login_hint": "Help en documentatie in de app na aanmelden (☰ Menu → Help)."
   },
   "pl": {
     "home_title": "HotelRestaurantMini-MartManagement — Dokumentacja",
@@ -1533,7 +1548,8 @@
     "ui_search": "Szukaj w dokumentacji…",
     "ui_no_results": "Brak wyników",
     "ui_language": "Język",
-    "ui_open_tab": "Otwórz w nowej karcie ↗"
+    "ui_open_tab": "Otwórz w nowej karcie ↗",
+    "doc_login_hint": "Pomoc i dokumentacja w aplikacji po zalogowaniu (☰ Menu → Pomoc)."
   },
   "he": {
     "home_title": "HotelRestaurantMini-MartManagement — תיעוד",
@@ -1629,7 +1645,8 @@
     "ui_search": "חיפוש בתיעוד…",
     "ui_no_results": "אין תוצאות",
     "ui_language": "שפה",
-    "ui_open_tab": "פתח בלשונית חדשה ↗"
+    "ui_open_tab": "פתח בלשונית חדשה ↗",
+    "doc_login_hint": "עזרה ותיעוד זמינים בתוך האפליקציה לאחר התחברות (☰ תפריט → עזרה)."
   },
   "lo": {
     "home_title": "HotelRestaurantMini-MartManagement — ເອກະສານ",
@@ -1725,7 +1742,8 @@
     "ui_search": "ຄົ້ນຫາເອກະສານ…",
     "ui_no_results": "ບໍ່ມີຜົນລັບ",
     "ui_language": "ພາສາ",
-    "ui_open_tab": "ເປີດໃນແທັບໃໝ່ ↗"
+    "ui_open_tab": "ເປີດໃນແທັບໃໝ່ ↗",
+    "doc_login_hint": "ຄວາມຊ່ວຍເຫຼືອ ແລະ ເອກະສານຢູ່ໃນແອັບຫຼັງເຂົ້າສູ່ລະບົບ (☰ ເມນູ → ຄວາມຊ່ວຍເຫຼືອ)"
   },
   "pt-BR": {
     "home_title": "HotelRestaurantMini-MartManagement — Documentação",
@@ -1821,7 +1839,8 @@
     "ui_search": "Pesquisar na documentação…",
     "ui_no_results": "Nenhum resultado",
     "ui_language": "Idioma",
-    "ui_open_tab": "Abrir em nova aba ↗"
+    "ui_open_tab": "Abrir em nova aba ↗",
+    "doc_login_hint": "Ajuda e documentação dentro do app após entrar (☰ Menu → Ajuda)."
   },
   "zh-Hans": {
     "home_title": "HotelRestaurantMini-MartManagement — 文档",
@@ -1917,7 +1936,8 @@
     "ui_search": "搜索文档…",
     "ui_no_results": "无结果",
     "ui_language": "语言",
-    "ui_open_tab": "在新标签页中打开 ↗"
+    "ui_open_tab": "在新标签页中打开 ↗",
+    "doc_login_hint": "登录后在应用内查看帮助和文档（☰ 菜单 → 帮助）。"
   },
   "zh-Hant": {
     "home_title": "HotelRestaurantMini-MartManagement — 文件",
@@ -2013,6 +2033,7 @@
     "ui_search": "搜尋文件…",
     "ui_no_results": "無結果",
     "ui_language": "語言",
-    "ui_open_tab": "在新分頁中開啟 ↗"
+    "ui_open_tab": "在新分頁中開啟 ↗",
+    "doc_login_hint": "登入後在應用程式內查看說明與文件（☰ 選單 → 說明）。"
   }
 }

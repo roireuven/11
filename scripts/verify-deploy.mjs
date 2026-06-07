@@ -34,7 +34,7 @@ const checks = [
   ['id="topbarDocBtn"', "app missing top bar Documentation button"],
   ['data-bnav="documentation"', "app missing bottom nav Documentation link"],
   ['class="hrmm-doc-nav"', "app missing hamburger menu Documentation link"],
-  ["getDocUiLocale", "app missing locale-aware documentation embed"],
+  ['embed=1', "app missing in-app embedded documentation (embed=1)"],
   ["renderDocumentation", "app missing documentation page"],
   ['data-page="documentation"', "app missing sidebar Documentation link"],
 ];

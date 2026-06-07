@@ -20,7 +20,7 @@ APP_KEY_MAP = {
     ("bnav", "documentation"): "bnav_docs",
     ("doc", "toolbarTitle"): "home_title",
     ("doc", "openNewTab"): "ui_open_tab",
-    ("doc", "loginLink"): "doc_label",
+    ("doc", "loginHint"): "doc_login_hint",
 }
 
 
