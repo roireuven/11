@@ -38,6 +38,8 @@ Fields include:
 
 **Path:** Sidebar → **Bookings**
 
+![Bookings module — guest stays and actions](assets/screenshots/bookings.png)
+
 ### Create booking
 
 1. Click **Add New Booking**

@@ -4,6 +4,8 @@ Unified F&B module for dine-in, room service, and kitchen display.
 
 **Path:** Sidebar → **Restaurant** (or **Kitchen** for kitchen role)
 
+![Restaurant — table floor and order queue](assets/screenshots/restaurant.png)
+
 ## Order types
 
 | Type | Use case |

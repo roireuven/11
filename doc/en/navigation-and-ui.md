@@ -1,13 +1,19 @@
 # Navigation & UI
 
-## Layout
+This guide explains how to move around **HotelRestaurantMini-MartManagement** on desktop, tablet, and phone.
+
+## Layout overview
 
 The app is a **single-page application (SPA)** with:
 
-- **Top bar** — page title, Documentation button, language picker, dark mode, user menu, logout
+- **Top bar** — page title, **Documentation** button, language picker, dark mode, user menu, logout
 - **Sidebar** (☰ Menu) — full module list grouped by section
-- **Main content** — active module (or embedded documentation viewer)
-- **Bottom navigation** (mobile) — Dashboard, POS, Bookings, Docs, Menu
+- **Main content** — active module (or **embedded documentation** viewer)
+- **Bottom navigation** (mobile) — Dashboard, POS, Bookings, **Docs**, Menu
+
+![Dashboard — top bar, shifts, and bottom navigation](assets/screenshots/dashboard.png)
+
+---
 
 ## Sidebar sections
 
@@ -23,6 +29,17 @@ The app is a **single-page application (SPA)** with:
 
 Hidden sections collapse automatically when no visible links remain for your role.
 
+### Opening the sidebar
+
+| Device | Action |
+|--------|--------|
+| Desktop | Click **☰** (hamburger) top-left |
+| Mobile | Tap **Menu** in bottom nav |
+
+![Help section at top of sidebar — Documentation link](assets/screenshots/help-menu.png)
+
+---
+
 ## Mobile bottom nav
 
 | Button | Action |
@@ -30,64 +47,85 @@ Hidden sections collapse automatically when no visible links remain for your rol
 | **Dashboard** | Open dashboard |
 | **POS** | Opens Mini-Mart POS-style view |
 | **Bookings** | Open bookings |
-| **Docs** | Open in-app documentation (embedded `/doc/` viewer) |
+| **Docs** | Open in-app documentation (embedded viewer) |
 | **Menu** | Toggle sidebar |
 
-## Documentation (in-app)
+Kitchen role may see a reduced bottom nav (Restaurant + Docs + Menu).
 
-Documentation is **inside the app** — full guides open in an embedded viewer.
+---
+
+## Documentation (embedded in the app)
+
+Documentation is **inside the software** — not a separate website tab.
 
 | Location | Label | Action |
 |----------|-------|--------|
-| **Top bar** | Documentation | Opens embedded docs page (`navToPage('documentation')`) |
+| **Top bar** | Documentation | Opens embedded help panel |
 | **Hamburger menu (☰)** | Help → Documentation | First section at top of sidebar |
 | **Bottom bar** | Docs | Bottom navigation (mobile) |
-| **Login screen** | Documentation ↗ | Opens `/doc/` in a new tab before sign-in |
+| **Login screen** | Hint text | Help available after sign-in via ☰ Menu → Help |
 
-Available to **all roles**. Docs open in your **current app language** (21 locales). Use **Open in new tab ↗** for the full Docsify site with language switcher.
+![Documentation embedded inside the app](assets/screenshots/documentation-embed.png)
 
-See [Multilingual documentation](multilingual-documentation.md) for locale list and fallback behavior.
+- Opens in your **current app language** (21 locales)
+- See [Multilingual documentation](multilingual-documentation.md) and [Visual guide](visual-guide.md)
 
-Standalone URL: [https://hotel-restaurant-minimart.firebaseapp.com/doc/](https://hotel-restaurant-minimart.firebaseapp.com/doc/)
+---
 
-The POS bottom-nav button routes to the mini-mart/sales interface for quick till operations.
+## Top bar controls
+
+| Control | Purpose |
+|---------|---------|
+| **← Back** | Return from drill-down views |
+| **Documentation** | In-app help |
+| **Localization / language** | Change UI language |
+| **🌙 / ☀** | Dark / light mode |
+| **User avatar** | Shows role name |
+| **Logout** | End session |
+
+---
 
 ## Dark mode
 
-Toggle with the **🌙 / ☀** button in the top bar. Preference is saved in settings and `localStorage`.
+Toggle with the **🌙 / ☀** button. Preference is saved in settings and `localStorage`.
+
+---
 
 ## Language selection
 
-Two ways to change language:
+| When | How |
+|------|-----|
+| Before login | Interface language dropdown on sign-in screen |
+| After login | Top bar locale selector |
 
-1. **Login screen** — Interface language dropdown
-2. **Top bar** — locale selector (also under Localization menu)
+See [Localization](localization.md).
 
-Language applies to menus, labels, and common UI text. RTL layout is used for **Arabic** and **Hebrew**.
-
-See [Localization](localization.md) for the full language list.
+---
 
 ## Kitchen vs Restaurant label
 
-When signed in as **Kitchen**, the sidebar link `restaurant` displays as **Kitchen** with a kitchen icon, but uses the same underlying order queue as Restaurant.
+**Kitchen** role sees the Restaurant module labeled **Kitchen** — same queue, restricted payment actions.
+
+---
+
+## Shift indicators (Dashboard)
+
+| Shift | Action |
+|-------|--------|
+| Restaurant / Mini-mart / Hotel | OPEN SHIFT / CLOSE SHIFT on Dashboard |
+
+See [Reports](reports.md).
+
+---
 
 ## Printing
 
-Print-friendly CSS hides sidebar, top bar, and bottom nav when printing invoices or reports.
+Print-friendly CSS hides navigation chrome when printing invoices or reports.
 
-## Accessibility
-
-- Skip links and ARIA labels on key controls
-- `.visually-hidden` class for screen-reader-only text
-- Large touch targets on housekeeping buttons for tablet use
-
-## Tips
-
-- Use **← back** in the top bar when drilling into sub-views
-- **Badge** on Rooms shows open maintenance ticket count
-- Active sidebar item is highlighted in blue
+---
 
 ## Related
 
+- [Visual guide (screenshots)](visual-guide.md)
 - [User roles & permissions](user-roles-and-permissions.md)
-- [Localization](localization.md)
+- [Getting started](getting-started.md)
