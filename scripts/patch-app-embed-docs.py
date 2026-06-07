@@ -6,7 +6,7 @@ import re
 import sys
 from pathlib import Path
 
-MARKER = "HRMM-DOCS-EMBED-v5"
+MARKER = "HRMM-DOCS-EMBED-v6"
 INDEX = Path("public/index.html")
 
 SIDEBAR_LINK = """
@@ -26,12 +26,9 @@ TOPBAR_BTN = """
 PAGE_DIV = '      <div class="page" id="page-documentation"></div>\n'
 
 CSS = """
-    /* HRMM embedded documentation */
+    /* HRMM embedded documentation — full in-app panel (not a separate site) */
     .doc-embed-wrap { display: flex; flex-direction: column; height: calc(100vh - 4.5rem); min-height: 420px; margin: -0.5rem -0.75rem 0; }
-    .doc-embed-toolbar { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; padding: 0.5rem 0.75rem; background: var(--card-bg); border-bottom: 1px solid var(--border); }
-    .doc-embed-toolbar a { font-size: 0.82rem; font-weight: 600; color: var(--primary); text-decoration: none; }
-    .doc-embed-toolbar a:hover { text-decoration: underline; }
-    .doc-embed-frame { flex: 1; width: 100%; border: none; background: #fff; min-height: 360px; }
+    .doc-embed-frame { flex: 1; width: 100%; border: none; background: var(--card-bg, #fff); min-height: 360px; }
     body.dark-mode .doc-embed-frame { background: #1a1a2e; }
     #topbarDocBtn { flex-shrink: 0; }
     .bottom-nav-item[data-bnav="documentation"] .bnav-label { max-width: 3.5rem; }
@@ -60,16 +57,10 @@ function renderDocumentation() {
   var el = document.getElementById('page-documentation');
   if (!el) return;
   var loc = getDocUiLocale() || 'en';
-  var docBase = 'doc/?lang=' + encodeURIComponent(loc) + '#/README';
-  var title = (typeof t === 'function' && t('doc.toolbarTitle') !== 'doc.toolbarTitle') ? t('doc.toolbarTitle') : 'HotelRestaurantMini-MartManagement — Documentation';
-  var openTab = (typeof t === 'function' && t('doc.openNewTab') !== 'doc.openNewTab') ? t('doc.openNewTab') : 'Open in new tab ↗';
+  var src = 'doc/?lang=' + encodeURIComponent(loc) + '&embed=1#/README';
   el.innerHTML =
     '<div class="doc-embed-wrap">' +
-      '<div class="doc-embed-toolbar">' +
-        '<span style="font-weight:700;color:var(--text);">' + title + '</span>' +
-        '<a href="doc/?lang=' + encodeURIComponent(loc) + '" target="_blank" rel="noopener">' + openTab + '</a>' +
-      '</div>' +
-      '<iframe class="doc-embed-frame" title="Documentation" src="' + docBase + '" loading="lazy"></iframe>' +
+      '<iframe class="doc-embed-frame" title="Documentation" src="' + src + '" loading="lazy"></iframe>' +
     '</div>';
 }
 window.openDocumentation = function() { navToPage('documentation'); };
@@ -227,9 +218,8 @@ def _patch_core(content: str) -> str:
 
     login_anchor = 'id="btnFirstTimeSetup"'
     login_doc = (
-        '<p class="hrmm-login-doc" style="text-align:center;margin:0.75rem 0 0;">'
-        '<a href="doc/" target="_blank" rel="noopener" style="font-weight:600;color:var(--primary);" '
-        'data-i18n="doc.loginLink">Documentation ↗</a></p>\n        '
+        '<p class="hrmm-login-doc" style="text-align:center;margin:0.75rem 0 0;font-size:0.88rem;color:var(--text-muted,#64748b);" '
+        'data-i18n="doc.loginHint">Help &amp; documentation available inside the app after sign-in (☰ Menu → Help).</p>\n        '
     )
     if login_anchor in content and "hrmm-login-doc" not in content:
         content = content.replace(
@@ -242,29 +232,28 @@ def _patch_core(content: str) -> str:
 
 
 def patch(content: str) -> str:
-    # Upgrade renderDocumentation to v5 (locale-aware iframe)
-    if "getDocUiLocale" not in content and "function renderDocumentation()" in content:
-        content = re.sub(
-            r"function getDocUiLocale\(\)[\s\S]*?window\.openDocumentation = function\(\) \{ navToPage\('documentation'\); \};",
-            RENDER_FN.strip(),
-            content,
-            count=1,
+    # Upgrade renderDocumentation to v6 (full in-app panel)
+    old_render = re.search(
+        r"function getDocUiLocale\(\)[\s\S]*?window\.openDocumentation = function\(\) \{ navToPage\('documentation'\); \};",
+        content,
+    )
+    if old_render and "embed=1" not in old_render.group(0):
+        content = content.replace(old_render.group(0), RENDER_FN.strip(), 1)
+    elif "function renderDocumentation()" in content and "getDocUiLocale" not in content:
+        content = content.replace(
+            "function renderPage(page) {",
+            RENDER_FN + "\nfunction renderPage(page) {",
+            1,
         )
-        if "getDocUiLocale" not in content and "function renderDocumentation()" in content:
-            content = content.replace(
-                "function renderPage(page) {",
-                RENDER_FN + "\nfunction renderPage(page) {",
-                1,
-            )
 
     if (
         MARKER in content
         and 'data-bnav="documentation" onclick' in content
         and 'id="topbarDocBtn"' in content
         and 'nav.sectionHelp' in content
-        and 'getDocUiLocale' in content
+        and 'embed=1' in content
     ):
-        print("Already patched v5 — skipping")
+        print("Already patched v6 — skipping")
         return content
 
     content = _patch_core(content)
@@ -291,7 +280,7 @@ def main() -> int:
     text = index.read_text(encoding="utf-8")
     patched = patch(text)
     index.write_text(patched, encoding="utf-8")
-    print(f"Patched {index} — multilingual docs in Help menu, top bar, and bottom nav")
+    print(f"Patched {index} — documentation embedded inside app (Help menu, top bar, bottom nav)")
     return 0
 
 

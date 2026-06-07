@@ -18,6 +18,11 @@
     }
     #hrmm-doc-lang-wrap select { font-size: 0.82rem; padding: 0.25rem 0.4rem; border-radius: 6px; border: 1px solid #cbd5e1; max-width: 11rem; }
     html[dir="rtl"] #hrmm-doc-lang-wrap { right: auto; left: 0; border-radius: 0 0 8px 0; }
+    body.hrmm-embed #hrmm-doc-lang-wrap { display: none !important; }
+    body.hrmm-embed .sidebar-toggle { display: none; }
+    body.hrmm-embed main { height: 100vh; }
+    body.hrmm-embed .content { padding-top: 0; }
+    body.hrmm-embed .markdown-section { max-width: 52rem; }
   </style>
 </head>
 <body>
@@ -35,6 +40,8 @@
       Promise.all([loadJson('i18n/locales.json'), loadJson('i18n/ui.json')]).then(function (res) {
         var LOCALES = res[0];
         var UI = res[1];
+        var EMBED = new URLSearchParams(location.search).get('embed') === '1';
+        if (EMBED) document.body.classList.add('hrmm-embed');
         var SUPPORTED = LOCALES.map(function (l) { return l.code; });
 
         function normalizeLang(code) {
@@ -121,6 +128,7 @@
           location.href = url.toString();
         });
         wrap.hidden = false;
+        if (EMBED) wrap.hidden = true;
 
         window.addEventListener('message', function (ev) {
           if (!ev.data || ev.data.type !== 'hrmm-set-doc-lang') return;
