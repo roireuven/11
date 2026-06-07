@@ -20,7 +20,7 @@ def _load_v4_fragments() -> tuple[str, str]:
 
 GUEST_ORDER_PARSE_AND_BOOT_V4, GUEST_ORDER_BOOT_V4 = _load_v4_fragments()
 
-MARKER = "HRMM-GUEST-QR-ORDER-v4"
+MARKER = "HRMM-GUEST-QR-ORDER-v5"
 INDEX = Path("public/index.html")
 
 GET_INVOICE_QR_PAYLOAD_OLD = """function getInvoiceQrPayload(inv) {
@@ -352,8 +352,65 @@ GUEST_ORDER_JS = """
 /* HRMM guest QR restaurant order */
 var guestRestCart = [];
 var guestRestMenuFilter = 'All';
+var guestOrderMenuSearch = '';
 var guestRestCtx = { room: '', guest: '', booking: '', table: '' };
 var guestRestSubmitted = false;
+"""
+
+GUEST_ORDER_MENU_HELPERS = """
+function guestRestAttrEsc(s) {
+  if (typeof escAttr === 'function') return escAttr(s);
+  return guestRestEsc(s);
+}
+function guestRestProductImageUrl(item, isStore) {
+  if (!item) return '';
+  var imgU = item.imageUrl != null ? String(item.imageUrl).trim() : '';
+  if (imgU) return imgU;
+  if (!isStore && item.image != null && String(item.image).trim()) return String(item.image).trim();
+  if (isStore && item.image != null && /^https?:\\/\\//i.test(String(item.image))) return String(item.image).trim();
+  return '';
+}
+function guestRestItemImageBlock(item, isStore) {
+  var imgU = guestRestProductImageUrl(item, !!isStore);
+  var ico = isStore
+    ? (typeof getStoreItemDisplayIcon === 'function' ? getStoreItemDisplayIcon(item) : '\\uD83D\\uDED2')
+    : (typeof getMenuItemDisplayIcon === 'function' ? getMenuItemDisplayIcon(item) : '\\uD83C\\uDF7D\\uFE0F');
+  if (imgU) {
+    return '<div class="grmc-img" aria-hidden="true"><img src="' + guestRestAttrEsc(imgU) + '" alt="" loading="lazy" decoding="async" onerror="this.parentNode.classList.add(\\'grmc-img-err\\');this.remove();" /><span class="grmc-img-ico">' + ico + '</span></div>';
+  }
+  return '<div class="grmc-img grmc-img-ph" aria-hidden="true">' + ico + '</div>';
+}
+function guestRestMenuCardHtml(item, idEsc, addFn, isStore) {
+  var desc = item.description && String(item.description).trim();
+  var descHtml = desc ? '<span class="grmc-desc">' + guestRestEsc(desc.length > 52 ? desc.slice(0, 49) + '\\u2026' : desc) + '</span>' : '';
+  return '<button type="button" class="guest-rest-menu-card" onclick="' + addFn + '(\\'' + idEsc + '\\')">' +
+    guestRestItemImageBlock(item, isStore) +
+    '<span class="grmc-body"><span class="grmc-name">' + guestRestEsc(item.name) + '</span>' +
+    '<span class="grmc-meta">' + guestRestEsc(item.category || '') + '</span>' +
+    descHtml +
+    '<span class="grmc-price">' + fmt$(item.price) + '</span></span></button>';
+}
+function guestRestMenuMatchesSearch(item, q) {
+  if (!q) return true;
+  q = String(q).toLowerCase();
+  var hay = (String(item.name || '') + ' ' + String(item.category || '') + ' ' + String(item.description || '')).toLowerCase();
+  return hay.indexOf(q) >= 0;
+}
+window.guestRestScrollToCart = function() {
+  var el = document.getElementById('guestRestCartPanel');
+  if (el && el.scrollIntoView) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+};
+function guestRestMobileBarHtml(cartLen, grandTotal, submitFn, submitLabel, canSubmit) {
+  if (!cartLen) return '';
+  return '<div class="guest-rest-mobile-bar">' +
+    '<button type="button" class="guest-rest-mobile-bar-main" onclick="guestRestScrollToCart()">' +
+      '<span class="guest-rest-mobile-bar-count">' + cartLen + ' item' + (cartLen === 1 ? '' : 's') + '</span>' +
+      '<span class="guest-rest-mobile-bar-total">' + fmt$(grandTotal) + '</span>' +
+      '<span class="guest-rest-mobile-bar-hint">View cart</span>' +
+    '</button>' +
+    '<button type="button" class="btn btn-primary guest-rest-mobile-bar-go" ' + (canSubmit ? '' : 'disabled') + ' onclick="' + submitFn + '()">' + submitLabel + '</button>' +
+  '</div>';
+}
 """
 
 CSS = """
@@ -377,12 +434,36 @@ CSS = """
     .guest-rest-panel h2 { margin: 0 0 0.65rem; font-size: 1rem; display: flex; align-items: center; gap: 0.35rem; }
     .guest-rest-count { font-size: 0.75rem; background: var(--primary); color: #fff; border-radius: 999px; padding: 0.1rem 0.45rem; }
     .guest-rest-tabs { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-bottom: 0.65rem; }
-    .guest-rest-menu-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 0.5rem; }
-    .guest-rest-menu-card { display: flex; flex-direction: column; align-items: flex-start; text-align: left; gap: 0.15rem; border: 1px solid var(--border); border-radius: 10px; padding: 0.65rem; background: var(--card-bg, #fff); cursor: pointer; min-height: 88px; }
+    .guest-rest-search { margin-bottom: 0.65rem; }
+    .guest-rest-search input { width: 100%; min-height: 42px; border-radius: 10px; }
+    .guest-rest-menu-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.55rem; }
+    @media (min-width: 480px) { .guest-rest-menu-grid { grid-template-columns: repeat(3, 1fr); gap: 0.65rem; } }
+    @media (min-width: 768px) { .guest-rest-menu-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (min-width: 900px) { .guest-rest-menu-grid { grid-template-columns: repeat(3, 1fr); } }
+    .guest-rest-menu-card { display: flex; flex-direction: column; align-items: stretch; text-align: left; gap: 0; border: 1px solid var(--border); border-radius: 12px; padding: 0; background: var(--card-bg, #fff); cursor: pointer; overflow: hidden; min-height: 0; }
     .guest-rest-menu-card:active { transform: scale(0.98); }
-    .grmc-name { font-weight: 600; font-size: 0.88rem; line-height: 1.25; }
-    .grmc-meta { font-size: 0.72rem; color: var(--text-light); }
-    .grmc-price { font-size: 0.85rem; color: var(--primary); font-weight: 700; margin-top: auto; }
+    .guest-rest-menu-card .grmc-img { position: relative; width: 100%; aspect-ratio: 4 / 3; background: linear-gradient(180deg, #e8e8e8, #f5f5f5); display: flex; align-items: center; justify-content: center; overflow: hidden; }
+    .guest-rest-menu-card .grmc-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .guest-rest-menu-card .grmc-img .grmc-img-ico { position: absolute; right: 4px; bottom: 4px; font-size: 1.1rem; line-height: 1; z-index: 1; text-shadow: 0 0 4px #fff, 0 0 2px #fff; pointer-events: none; }
+    .guest-rest-menu-card .grmc-img.grmc-img-ph { font-size: 2rem; }
+    .guest-rest-menu-card .grmc-img.grmc-img-err { min-height: 72px; }
+    .guest-rest-menu-card .grmc-body { display: flex; flex-direction: column; gap: 0.1rem; padding: 0.5rem 0.55rem 0.6rem; flex: 1; }
+    .grmc-name { font-weight: 600; font-size: 0.82rem; line-height: 1.25; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    .grmc-meta { font-size: 0.68rem; color: var(--text-light); }
+    .grmc-desc { font-size: 0.68rem; color: var(--text-light); line-height: 1.3; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    .grmc-price { font-size: 0.88rem; color: var(--primary); font-weight: 700; margin-top: auto; padding-top: 0.15rem; }
+    .guest-rest-cart-panel { scroll-margin-top: 72px; }
+    .guest-rest-mobile-bar { display: none; }
+    @media (max-width: 767px) {
+      .guest-rest-mobile-bar { display: flex; position: fixed; left: 0; right: 0; bottom: 0; z-index: 10060; gap: 0.5rem; padding: 0.55rem 0.75rem calc(0.55rem + env(safe-area-inset-bottom, 0px)); background: rgba(255,255,255,0.96); border-top: 1px solid var(--border); box-shadow: 0 -4px 16px rgba(0,0,0,0.08); backdrop-filter: blur(8px); }
+      body.dark-mode .guest-rest-mobile-bar { background: rgba(26,32,44,0.96); }
+      .guest-rest-mobile-bar-main { flex: 1; display: flex; flex-direction: column; align-items: flex-start; justify-content: center; min-height: 44px; border: 1px solid var(--border); border-radius: 10px; background: var(--card-bg, #fff); padding: 0.35rem 0.65rem; cursor: pointer; text-align: left; }
+      .guest-rest-mobile-bar-count { font-size: 0.72rem; color: var(--text-light); }
+      .guest-rest-mobile-bar-total { font-size: 1rem; font-weight: 700; color: var(--primary); line-height: 1.2; }
+      .guest-rest-mobile-bar-hint { font-size: 0.68rem; color: var(--text-light); }
+      .guest-rest-mobile-bar-go { flex: 0 0 auto; min-width: 110px; min-height: 44px; justify-content: center; }
+      .guest-rest-order-shell { padding-bottom: calc(5.5rem + env(safe-area-inset-bottom, 0px)); }
+    }
     .guest-rest-empty, .guest-rest-cart-empty { grid-column: 1 / -1; text-align: center; color: var(--text-light); padding: 1.5rem 0.5rem; font-size: 0.88rem; }
     .guest-rest-cart-items { max-height: 240px; overflow: auto; margin-bottom: 0.65rem; }
     .guest-rest-cart-row { display: grid; grid-template-columns: 1fr auto auto auto; gap: 0.35rem; align-items: center; padding: 0.35rem 0; border-bottom: 1px solid var(--border); font-size: 0.85rem; }
@@ -799,6 +880,7 @@ function ensureGuestRestaurantWorkPeriod() {
 function guestRestEsc(s) {
   return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
+""" + GUEST_ORDER_MENU_HELPERS + """
 function renderGuestRestaurantOrder() {
   var body = document.getElementById('guestRestOrderBody');
   var sub = document.getElementById('guestRestOrderSub');
@@ -821,17 +903,19 @@ function renderGuestRestaurantOrder() {
   }
   var taxRate = parseFloat(settings && (settings.serviceTax || settings.taxRate)) || 7;
   var categories = ['All'].concat(typeof getMenuCategories === 'function' ? getMenuCategories() : []);
+  var searchQ = String(guestOrderMenuSearch || '').trim();
+  var searchHtml = '<div class="guest-rest-search"><input type="search" class="form-control" placeholder="Search menu…" value="' + guestRestEsc(searchQ) + '" oninput="guestOrderMenuSearch=this.value;renderGuestOrderScreen()" autocomplete="off"></div>';
   var tabs = '<div class="guest-rest-tabs">' + categories.map(function(c) {
     var lab = c === 'All' ? 'All' : c;
     return '<button type="button" class="btn btn-sm ' + (guestRestMenuFilter === c ? 'btn-primary' : 'btn-outline') + '" onclick="guestRestMenuFilter=\\'' + String(c).replace(/'/g, "\\\\'") + '\\';renderGuestRestaurantOrder()">' + guestRestEsc(lab) + '</button>';
   }).join('') + '</div>';
   var filtered = (guestRestMenuFilter === 'All' ? menuItems : menuItems.filter(function(m) { return m && m.category === guestRestMenuFilter; })).filter(function(m) {
-    return m && m.available !== false && (typeof rowDataVisible !== 'function' || rowDataVisible(m));
+    return m && m.available !== false && (typeof rowDataVisible !== 'function' || rowDataVisible(m)) && guestRestMenuMatchesSearch(m, searchQ);
   });
   var menuHtml = '<div class="guest-rest-menu-grid">';
   filtered.forEach(function(m) {
     var idEsc = String(m.id).replace(/'/g, "\\\\'");
-    menuHtml += '<button type="button" class="guest-rest-menu-card" onclick="guestRestAddToCart(\\'' + idEsc + '\\')"><span class="grmc-name">' + guestRestEsc(m.name) + '</span><span class="grmc-meta">' + guestRestEsc(m.category || '') + '</span><span class="grmc-price">' + fmt$(m.price) + '</span></button>';
+    menuHtml += guestRestMenuCardHtml(m, idEsc, 'guestRestAddToCart', false);
   });
   if (!filtered.length) menuHtml += '<div class="guest-rest-empty">No menu items available right now.</div>';
   menuHtml += '</div>';
@@ -846,16 +930,17 @@ function renderGuestRestaurantOrder() {
   var tax = Math.round((subtotal * (taxRate / 100)) * 100) / 100;
   var grandTotal = Math.round((subtotal + tax) * 100) / 100;
   var canSend = guestRestCart.length > 0;
+  var mobileBar = guestRestMobileBarHtml(guestRestCart.length, grandTotal, 'guestRestSubmitOrder', 'Send order', canSend);
   body.innerHTML =
     '<div class="guest-rest-layout">' +
-      '<section class="guest-rest-panel"><h2>Menu</h2>' + tabs + menuHtml + '</section>' +
-      '<section class="guest-rest-panel guest-rest-cart-panel"><h2>Your order <span class="guest-rest-count">' + guestRestCart.length + '</span></h2>' +
+      '<section class="guest-rest-panel"><h2>Menu</h2>' + searchHtml + tabs + menuHtml + '</section>' +
+      '<section class="guest-rest-panel guest-rest-cart-panel" id="guestRestCartPanel"><h2>Your order <span class="guest-rest-count">' + guestRestCart.length + '</span></h2>' +
         '<div class="guest-rest-cart-items">' + cartHtml + '</div>' +
         '<div class="guest-rest-totals"><div><span>Subtotal</span><span>' + fmt$(subtotal) + '</span></div><div><span>Tax (' + taxRate + '%)</span><span>' + fmt$(tax) + '</span></div><div class="guest-rest-grand"><span>Total</span><span>' + fmt$(grandTotal) + '</span></div></div>' +
         '<label class="guest-rest-notes-label">Notes (optional)<input type="text" class="form-control" id="guestRestOrderNotes" placeholder="Allergies, preferences…"></label>' +
         '<button type="button" class="btn btn-primary guest-rest-submit" ' + (canSend ? '' : 'disabled') + ' onclick="guestRestSubmitOrder()">Send to kitchen</button>' +
       '</section>' +
-    '</div>';
+    '</div>' + mobileBar;
 }
 window.guestRestAddToCart = function(menuItemId) {
   ensureGuestRestaurantMenuLoaded();
@@ -915,13 +1000,85 @@ window.guestRestSubmitOrder = function() {
 """ + GUEST_ORDER_PARSE_AND_BOOT_V4 + GUEST_ORDER_BOOT_V4
 
 
+CSS_V4_MENU_OLD = """    .guest-rest-tabs { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-bottom: 0.65rem; }
+    .guest-rest-menu-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 0.5rem; }
+    .guest-rest-menu-card { display: flex; flex-direction: column; align-items: flex-start; text-align: left; gap: 0.15rem; border: 1px solid var(--border); border-radius: 10px; padding: 0.65rem; background: var(--card-bg, #fff); cursor: pointer; min-height: 88px; }
+    .guest-rest-menu-card:active { transform: scale(0.98); }
+    .grmc-name { font-weight: 600; font-size: 0.88rem; line-height: 1.25; }
+    .grmc-meta { font-size: 0.72rem; color: var(--text-light); }
+    .grmc-price { font-size: 0.85rem; color: var(--primary); font-weight: 700; margin-top: auto; }"""
+
+CSS_V5_MENU_NEW = """    .guest-rest-tabs { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-bottom: 0.65rem; }
+    .guest-rest-search { margin-bottom: 0.65rem; }
+    .guest-rest-search input { width: 100%; min-height: 42px; border-radius: 10px; }
+    .guest-rest-menu-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.55rem; }
+    @media (min-width: 480px) { .guest-rest-menu-grid { grid-template-columns: repeat(3, 1fr); gap: 0.65rem; } }
+    @media (min-width: 768px) { .guest-rest-menu-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (min-width: 900px) { .guest-rest-menu-grid { grid-template-columns: repeat(3, 1fr); } }
+    .guest-rest-menu-card { display: flex; flex-direction: column; align-items: stretch; text-align: left; gap: 0; border: 1px solid var(--border); border-radius: 12px; padding: 0; background: var(--card-bg, #fff); cursor: pointer; overflow: hidden; min-height: 0; }
+    .guest-rest-menu-card:active { transform: scale(0.98); }
+    .guest-rest-menu-card .grmc-img { position: relative; width: 100%; aspect-ratio: 4 / 3; background: linear-gradient(180deg, #e8e8e8, #f5f5f5); display: flex; align-items: center; justify-content: center; overflow: hidden; }
+    .guest-rest-menu-card .grmc-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .guest-rest-menu-card .grmc-img .grmc-img-ico { position: absolute; right: 4px; bottom: 4px; font-size: 1.1rem; line-height: 1; z-index: 1; text-shadow: 0 0 4px #fff, 0 0 2px #fff; pointer-events: none; }
+    .guest-rest-menu-card .grmc-img.grmc-img-ph { font-size: 2rem; }
+    .guest-rest-menu-card .grmc-img.grmc-img-err { min-height: 72px; }
+    .guest-rest-menu-card .grmc-body { display: flex; flex-direction: column; gap: 0.1rem; padding: 0.5rem 0.55rem 0.6rem; flex: 1; }
+    .grmc-name { font-weight: 600; font-size: 0.82rem; line-height: 1.25; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    .grmc-meta { font-size: 0.68rem; color: var(--text-light); }
+    .grmc-desc { font-size: 0.68rem; color: var(--text-light); line-height: 1.3; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    .grmc-price { font-size: 0.88rem; color: var(--primary); font-weight: 700; margin-top: auto; padding-top: 0.15rem; }
+    .guest-rest-cart-panel { scroll-margin-top: 72px; }
+    .guest-rest-mobile-bar { display: none; }
+    @media (max-width: 767px) {
+      .guest-rest-mobile-bar { display: flex; position: fixed; left: 0; right: 0; bottom: 0; z-index: 10060; gap: 0.5rem; padding: 0.55rem 0.75rem calc(0.55rem + env(safe-area-inset-bottom, 0px)); background: rgba(255,255,255,0.96); border-top: 1px solid var(--border); box-shadow: 0 -4px 16px rgba(0,0,0,0.08); backdrop-filter: blur(8px); }
+      body.dark-mode .guest-rest-mobile-bar { background: rgba(26,32,44,0.96); }
+      .guest-rest-mobile-bar-main { flex: 1; display: flex; flex-direction: column; align-items: flex-start; justify-content: center; min-height: 44px; border: 1px solid var(--border); border-radius: 10px; background: var(--card-bg, #fff); padding: 0.35rem 0.65rem; cursor: pointer; text-align: left; }
+      .guest-rest-mobile-bar-count { font-size: 0.72rem; color: var(--text-light); }
+      .guest-rest-mobile-bar-total { font-size: 1rem; font-weight: 700; color: var(--primary); line-height: 1.2; }
+      .guest-rest-mobile-bar-hint { font-size: 0.68rem; color: var(--text-light); }
+      .guest-rest-mobile-bar-go { flex: 0 0 auto; min-width: 110px; min-height: 44px; justify-content: center; }
+      .guest-rest-order-shell { padding-bottom: calc(5.5rem + env(safe-area-inset-bottom, 0px)); }
+    }"""
+
+GUEST_ORDER_JS_V4 = """var guestRestCart = [];
+var guestRestMenuFilter = 'All';
+var guestRestCtx = { room: '', guest: '', booking: '', table: '' };
+var guestRestSubmitted = false;"""
+
+GUEST_ORDER_JS_V5 = """var guestRestCart = [];
+var guestRestMenuFilter = 'All';
+var guestOrderMenuSearch = '';
+var guestRestCtx = { room: '', guest: '', booking: '', table: '' };
+var guestRestSubmitted = false;"""
+
+REST_MENU_CARD_V4 = """    menuHtml += '<button type="button" class="guest-rest-menu-card" onclick="guestRestAddToCart(\\'' + idEsc + '\\')"><span class="grmc-name">' + guestRestEsc(m.name) + '</span><span class="grmc-meta">' + guestRestEsc(m.category || '') + '</span><span class="grmc-price">' + fmt$(m.price) + '</span></button>';"""
+
+REST_MENU_CARD_V5 = """    menuHtml += guestRestMenuCardHtml(m, idEsc, 'guestRestAddToCart', false);"""
+
+MART_MENU_CARD_V4 = """    menuHtml += '<button type="button" class="guest-rest-menu-card" onclick="guestMartAddToCart(\\'' + idEsc + '\\')"><span class="grmc-name">' + guestRestEsc(m.name) + '</span><span class="grmc-meta">' + guestRestEsc(m.category || '') + '</span><span class="grmc-price">' + fmt$(m.price) + '</span></button>';"""
+
+MART_MENU_CARD_V5 = """    menuHtml += guestRestMenuCardHtml(m, idEsc, 'guestMartAddToCart', true);"""
+
+REST_FILTER_V4 = """    return m && m.available !== false && (typeof rowDataVisible !== 'function' || rowDataVisible(m));
+  });"""
+
+REST_FILTER_V5 = """    return m && m.available !== false && (typeof rowDataVisible !== 'function' || rowDataVisible(m)) && guestRestMenuMatchesSearch(m, searchQ);
+  });"""
+
+MART_FILTER_V4 = """    return m && m.available !== false && (typeof rowDataVisible !== 'function' || rowDataVisible(m));
+  });"""
+
+MART_FILTER_V5 = """    return m && m.available !== false && (typeof rowDataVisible !== 'function' || rowDataVisible(m)) && guestRestMenuMatchesSearch(m, searchQ);
+  });"""
+
+
 def _is_fully_patched(content: str) -> bool:
     return (
         MARKER in content
+        and "guestRestMenuCardHtml" in content
+        and "guest-rest-mobile-bar" in content
         and "tryBootGuestOrderFromUrl" in content
-        and "guestMartCart" in content
         and "guestOrderQrSetDept" in content
-        and "guestOrderQrPickRoom" in content
         and 'data-bnav="guestorder"' in content
     )
 
@@ -961,6 +1118,82 @@ def _apply_v3_upgrades(content: str) -> str:
             "    .guest-order-qr-actions { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.5rem; }\n"
             "    .guest-order-qr-actions .btn { flex: 1 1 140px; justify-content: center; min-height: 42px; }\n"
             "    /* __HRMM_GUEST_QR_MARKER__ */",
+            1,
+        )
+
+    return content
+
+
+def _apply_v5_upgrades(content: str) -> str:
+    content = re.sub(r"HRMM-GUEST-QR-ORDER-v4", MARKER, content)
+
+    if CSS_V4_MENU_OLD in content and ".guest-rest-search" not in content:
+        content = content.replace(CSS_V4_MENU_OLD, CSS_V5_MENU_NEW, 1)
+
+    if GUEST_ORDER_JS_V4 in content and "guestOrderMenuSearch" not in content:
+        content = content.replace(GUEST_ORDER_JS_V4, GUEST_ORDER_JS_V5, 1)
+
+    if "function guestRestMenuCardHtml" not in content and "function guestRestEsc(s)" in content:
+        content = content.replace(
+            "function guestRestEsc(s) {\n  return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\"/g, '&quot;');\n}",
+            "function guestRestEsc(s) {\n  return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\"/g, '&quot;');\n}"
+            + GUEST_ORDER_MENU_HELPERS,
+            1,
+        )
+
+    if REST_MENU_CARD_V4 in content:
+        content = content.replace(REST_MENU_CARD_V4, REST_MENU_CARD_V5, 1)
+
+    if MART_MENU_CARD_V4 in content:
+        content = content.replace(MART_MENU_CARD_V4, MART_MENU_CARD_V5, 1)
+
+    if REST_FILTER_V4 in content and "guestRestMenuMatchesSearch" in content:
+        content = content.replace(REST_FILTER_V4, REST_FILTER_V5, 1)
+
+    if MART_FILTER_V4 in content and "guestRestMenuMatchesSearch" in content:
+        content = content.replace(MART_FILTER_V4, MART_FILTER_V5, 1)
+
+    if "var searchQ = String(guestOrderMenuSearch" not in content and "function renderGuestRestaurantOrder()" in content:
+        content = content.replace(
+            "  var categories = ['All'].concat(typeof getMenuCategories === 'function' ? getMenuCategories() : []);\n  var tabs = '<div class=\"guest-rest-tabs\">'",
+            "  var categories = ['All'].concat(typeof getMenuCategories === 'function' ? getMenuCategories() : []);\n  var searchQ = String(guestOrderMenuSearch || '').trim();\n  var searchHtml = '<div class=\"guest-rest-search\"><input type=\"search\" class=\"form-control\" placeholder=\"Search menu…\" value=\"' + guestRestEsc(searchQ) + '\" oninput=\"guestOrderMenuSearch=this.value;renderGuestOrderScreen()\" autocomplete=\"off\"></div>';\n  var tabs = '<div class=\"guest-rest-tabs\">'",
+            1,
+        )
+        content = content.replace(
+            "      '<section class=\"guest-rest-panel\"><h2>Menu</h2>' + tabs + menuHtml + '</section>' +",
+            "      '<section class=\"guest-rest-panel\"><h2>Menu</h2>' + searchHtml + tabs + menuHtml + '</section>' +",
+            1,
+        )
+        content = content.replace(
+            "      '<section class=\"guest-rest-panel guest-rest-cart-panel\"><h2>Your order",
+            "      '<section class=\"guest-rest-panel guest-rest-cart-panel\" id=\"guestRestCartPanel\"><h2>Your order",
+            1,
+        )
+        content = content.replace(
+            "  var canSend = guestRestCart.length > 0;\n  body.innerHTML =",
+            "  var canSend = guestRestCart.length > 0;\n  var mobileBar = guestRestMobileBarHtml(guestRestCart.length, grandTotal, 'guestRestSubmitOrder', 'Send order', canSend);\n  body.innerHTML =",
+            1,
+        )
+        content = content.replace(
+            "      '</section>' +\n    '</div>';\n}\nwindow.guestRestAddToCart = function(menuItemId) {",
+            "      '</section>' +\n    '</div>' + mobileBar;\n}\nwindow.guestRestAddToCart = function(menuItemId) {",
+            1,
+        )
+
+    if "var searchQ = String(guestOrderMenuSearch" not in content and "function renderGuestMiniMartOrder()" in content:
+        content = content.replace(
+            "  var categories = ['All'].concat(typeof getStoreCategories === 'function' ? getStoreCategories() : []);\n  var tabs = '<div class=\"guest-rest-tabs\">'",
+            "  var categories = ['All'].concat(typeof getStoreCategories === 'function' ? getStoreCategories() : []);\n  var searchQ = String(guestOrderMenuSearch || '').trim();\n  var searchHtml = '<div class=\"guest-rest-search\"><input type=\"search\" class=\"form-control\" placeholder=\"Search items…\" value=\"' + guestRestEsc(searchQ) + '\" oninput=\"guestOrderMenuSearch=this.value;renderGuestOrderScreen()\" autocomplete=\"off\"></div>';\n  var tabs = '<div class=\"guest-rest-tabs\">'",
+            1,
+        )
+        content = content.replace(
+            "body.innerHTML = '<div class=\"guest-rest-layout\"><section class=\"guest-rest-panel\"><h2>Items</h2>' + tabs + menuHtml + '</section><section class=\"guest-rest-panel guest-rest-cart-panel\"><h2>Your cart",
+            "  var mobileBar = guestRestMobileBarHtml(guestMartCart.length, grandTotal, 'guestMartSubmitOrder', 'Submit', guestMartCart.length > 0);\n  body.innerHTML = '<div class=\"guest-rest-layout\"><section class=\"guest-rest-panel\"><h2>Items</h2>' + searchHtml + tabs + menuHtml + '</section><section class=\"guest-rest-panel guest-rest-cart-panel\" id=\"guestRestCartPanel\"><h2>Your cart",
+            1,
+        )
+        content = content.replace(
+            "onclick=\"guestMartSubmitOrder()\">Submit order</button></section></div>';\n}\nwindow.guestMartAddToCart = function(id) {",
+            "onclick=\"guestMartSubmitOrder()\">Submit order</button></section></div>' + mobileBar;\n}\nwindow.guestMartAddToCart = function(id) {",
             1,
         )
 
@@ -1070,6 +1303,7 @@ def patch(content: str) -> str:
 
     content = _apply_v3_upgrades(content)
     content = _apply_v4_upgrades(content)
+    content = _apply_v5_upgrades(content)
 
     return content
 

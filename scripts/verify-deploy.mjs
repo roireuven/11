@@ -64,11 +64,11 @@ if (!html.includes("hrmmInvoicePrintFrame") || !html.includes("buildInvoicePrint
 if (!html.includes("HRMM-SHIFTS-v1") || !html.includes("migrateShiftsClosedByDefault")) {
   fail("app missing shifts-closed-by-default patch (HRMM-SHIFTS-v1)");
 }
-if (!html.includes("HRMM-GUEST-QR-ORDER-v4") || !html.includes("tryBootGuestOrderFromUrl") || !html.includes("guestMartCart") || !html.includes("guestOrderQrSetDept")) {
-  fail("app missing guest QR order patch (HRMM-GUEST-QR-ORDER-v4)");
+if (!html.includes("HRMM-GUEST-QR-ORDER-v5") || !html.includes("guestRestMenuCardHtml") || !html.includes("guest-rest-mobile-bar")) {
+  fail("app missing guest QR order patch (HRMM-GUEST-QR-ORDER-v5)");
 }
-if (!html.includes("buildGuestOrderUrl") || !html.includes("guestMartSubmitOrder")) {
-  fail("app missing guest mini-mart QR order flow");
+if (!html.includes("buildGuestOrderUrl") || !html.includes("guestMartSubmitOrder") || !html.includes(".grmc-img")) {
+  fail("app missing guest mini-mart QR order flow with menu images");
 }
 if (!html.includes('data-bnav="guestorder"')) {
   fail("app missing bottom nav Order QR button for guest restaurant ordering");

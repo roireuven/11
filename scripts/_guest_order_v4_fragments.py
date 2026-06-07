@@ -58,16 +58,18 @@ function renderGuestMiniMartOrder() {
   }
   var taxRate = parseFloat(settings && (settings.surcharge || settings.taxRate)) || 7;
   var categories = ['All'].concat(typeof getStoreCategories === 'function' ? getStoreCategories() : []);
+  var searchQ = String(guestOrderMenuSearch || '').trim();
+  var searchHtml = '<div class="guest-rest-search"><input type="search" class="form-control" placeholder="Search items…" value="' + guestRestEsc(searchQ) + '" oninput="guestOrderMenuSearch=this.value;renderGuestOrderScreen()" autocomplete="off"></div>';
   var tabs = '<div class="guest-rest-tabs">' + categories.map(function(c) {
     return '<button type="button" class="btn btn-sm ' + (guestMartMenuFilter === c ? 'btn-primary' : 'btn-outline') + '" onclick="guestMartMenuFilter=\'' + String(c).replace(/'/g, "\\'") + '\';renderGuestMiniMartOrder()">' + guestRestEsc(c === 'All' ? 'All' : c) + '</button>';
   }).join('') + '</div>';
   var filtered = (guestMartMenuFilter === 'All' ? storeItems : storeItems.filter(function(m) { return m && m.category === guestMartMenuFilter; })).filter(function(m) {
-    return m && m.available !== false && (typeof rowDataVisible !== 'function' || rowDataVisible(m));
+    return m && m.available !== false && (typeof rowDataVisible !== 'function' || rowDataVisible(m)) && guestRestMenuMatchesSearch(m, searchQ);
   });
   var menuHtml = '<div class="guest-rest-menu-grid">';
   filtered.forEach(function(m) {
     var idEsc = String(m.id).replace(/'/g, "\\'");
-    menuHtml += '<button type="button" class="guest-rest-menu-card" onclick="guestMartAddToCart(\'' + idEsc + '\')"><span class="grmc-name">' + guestRestEsc(m.name) + '</span><span class="grmc-meta">' + guestRestEsc(m.category || '') + '</span><span class="grmc-price">' + fmt$(m.price) + '</span></button>';
+    menuHtml += guestRestMenuCardHtml(m, idEsc, 'guestMartAddToCart', true);
   });
   if (!filtered.length) menuHtml += '<div class="guest-rest-empty">No items available right now.</div>';
   menuHtml += '</div>';
@@ -80,7 +82,8 @@ function renderGuestMiniMartOrder() {
   if (!cartHtml) cartHtml = '<div class="guest-rest-cart-empty">Tap items to add them to your cart</div>';
   var tax = Math.round((subtotal * (taxRate / 100)) * 100) / 100;
   var grandTotal = Math.round((subtotal + tax) * 100) / 100;
-  body.innerHTML = '<div class="guest-rest-layout"><section class="guest-rest-panel"><h2>Items</h2>' + tabs + menuHtml + '</section><section class="guest-rest-panel guest-rest-cart-panel"><h2>Your cart <span class="guest-rest-count">' + guestMartCart.length + '</span></h2><div class="guest-rest-cart-items">' + cartHtml + '</div><div class="guest-rest-totals"><div><span>Subtotal</span><span>' + fmt$(subtotal) + '</span></div><div><span>Tax (' + taxRate + '%)</span><span>' + fmt$(tax) + '</span></div><div class="guest-rest-grand"><span>Total</span><span>' + fmt$(grandTotal) + '</span></div></div><button type="button" class="btn btn-primary guest-rest-submit" ' + (guestMartCart.length ? '' : 'disabled') + ' onclick="guestMartSubmitOrder()">Submit order</button></section></div>';
+  var mobileBar = guestRestMobileBarHtml(guestMartCart.length, grandTotal, 'guestMartSubmitOrder', 'Submit', guestMartCart.length > 0);
+  body.innerHTML = '<div class="guest-rest-layout"><section class="guest-rest-panel"><h2>Items</h2>' + searchHtml + tabs + menuHtml + '</section><section class="guest-rest-panel guest-rest-cart-panel" id="guestRestCartPanel"><h2>Your cart <span class="guest-rest-count">' + guestMartCart.length + '</span></h2><div class="guest-rest-cart-items">' + cartHtml + '</div><div class="guest-rest-totals"><div><span>Subtotal</span><span>' + fmt$(subtotal) + '</span></div><div><span>Tax (' + taxRate + '%)</span><span>' + fmt$(tax) + '</span></div><div class="guest-rest-grand"><span>Total</span><span>' + fmt$(grandTotal) + '</span></div></div><button type="button" class="btn btn-primary guest-rest-submit" ' + (guestMartCart.length ? '' : 'disabled') + ' onclick="guestMartSubmitOrder()">Submit order</button></section></div>' + mobileBar;
 }
 window.guestMartAddToCart = function(id) {
   ensureGuestMiniMartStoreLoaded();
