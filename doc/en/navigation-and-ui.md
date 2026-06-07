@@ -44,7 +44,9 @@ Documentation is **inside the app** — full guides open in an embedded viewer.
 | **Bottom bar** | Docs | Bottom navigation (mobile) |
 | **Login screen** | Documentation ↗ | Opens `/doc/` in a new tab before sign-in |
 
-Available to **all roles**. Use **Open in new tab ↗** inside the docs page for `/doc/`.
+Available to **all roles**. Docs open in your **current app language** (21 locales). Use **Open in new tab ↗** for the full Docsify site with language switcher.
+
+See [Multilingual documentation](multilingual-documentation.md) for locale list and fallback behavior.
 
 Standalone URL: [https://hotel-restaurant-minimart.firebaseapp.com/doc/](https://hotel-restaurant-minimart.firebaseapp.com/doc/)
 

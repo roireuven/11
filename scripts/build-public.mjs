@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /** Build public/ for Firebase deploy — works on Windows without bash. */
-import { cp, mkdir, readdir, rm } from "node:fs/promises";
+import { cp, mkdir, readdir, rm, stat, readFile } from "node:fs/promises";
 import { spawnSync } from "node:child_process";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -28,6 +28,16 @@ function runPython(rel) {
   if (r.status !== 0) process.exit(r.status ?? 1);
 }
 
+async function copyDir(src, dest) {
+  await mkdir(dest, { recursive: true });
+  for (const name of await readdir(src)) {
+    const s = join(src, name);
+    const d = join(dest, name);
+    if ((await stat(s)).isDirectory()) await copyDir(s, d);
+    else await cp(s, d);
+  }
+}
+
 runNodeScript("scripts/sync-from-production.mjs");
 
 console.log("Patching mobile top bar...");
@@ -36,20 +46,35 @@ runPython("scripts/patch-app-mobile-menu.py");
 console.log("Embedding documentation into app...");
 runPython("scripts/patch-app-embed-docs.py");
 
+console.log("Adding documentation keys to app locale files...");
+runPython("scripts/patch-locale-doc-keys.py");
+
+console.log("Generating multilingual documentation (21 locales)...");
+runPython("scripts/generate-doc-locales.py");
+
 console.log("Copying documentation site to public/doc/...");
 await rm(join(PUBLIC, "doc"), { recursive: true, force: true });
 await mkdir(join(PUBLIC, "doc"), { recursive: true });
 await cp(join(DOC_SRC, "index.html"), join(PUBLIC, "doc", "index.html"));
-await cp(join(DOC_SRC, "_sidebar.md"), join(PUBLIC, "doc", "_sidebar.md"));
-const mdFiles = (await readdir(DOC_SRC)).filter((f) => f.endsWith(".md"));
-for (const f of mdFiles) {
-  await cp(join(DOC_SRC, f), join(PUBLIC, "doc", f));
+await copyDir(join(DOC_SRC, "i18n"), join(PUBLIC, "doc", "i18n"));
+await copyDir(join(DOC_SRC, "en"), join(PUBLIC, "doc", "en"));
+
+const locales = JSON.parse(await readFile(join(DOC_SRC, "i18n", "locales.json"), "utf8"));
+for (const loc of locales) {
+  if (loc.code === "en") continue;
+  const src = join(DOC_SRC, loc.code);
+  try {
+    await stat(src);
+    await copyDir(src, join(PUBLIC, "doc", loc.code));
+  } catch {
+    console.warn(`  warn: missing doc locale folder ${loc.code}`);
+  }
 }
 
-const docCount = mdFiles.length + 2;
+const enMd = (await readdir(join(PUBLIC, "doc", "en"))).filter((f) => f.endsWith(".md")).length;
 console.log("Build complete.");
 console.log(`  App:  ${join(PUBLIC, "index.html")} (Documentation in Help menu, top bar, bottom nav)`);
-console.log(`  Docs: ${join(PUBLIC, "doc")} (${docCount} files at /doc/)`);
+console.log(`  Docs: ${join(PUBLIC, "doc")} (${locales.length} locales, ${enMd} English guides)`);
 console.log("");
 console.log("  npm run verify   — check bundle");
 console.log("  npm run deploy   — build + verify + upload to Firebase");

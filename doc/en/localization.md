@@ -1,6 +1,6 @@
 # Localization
 
-HotelRestaurantMini-MartManagement supports **22 interface languages** with optional RTL layout.
+HotelRestaurantMini-MartManagement supports **21 interface languages** with optional RTL layout.
 
 ## Supported locales
 

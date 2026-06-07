@@ -6,7 +6,7 @@ import re
 import sys
 from pathlib import Path
 
-MARKER = "HRMM-DOCS-EMBED-v4"
+MARKER = "HRMM-DOCS-EMBED-v5"
 INDEX = Path("public/index.html")
 
 SIDEBAR_LINK = """
@@ -43,18 +43,33 @@ CSS = """
 """
 
 RENDER_FN = """
+function getDocUiLocale() {
+  try {
+    if (typeof getCurrentUiLocale === 'function') return getCurrentUiLocale();
+    var keys = Object.keys(localStorage || {});
+    for (var i = 0; i < keys.length; i++) {
+      if (keys[i].indexOf('uiLocale') >= 0) {
+        var v = localStorage.getItem(keys[i]);
+        if (v) return v;
+      }
+    }
+  } catch (e) {}
+  return 'en';
+}
 function renderDocumentation() {
   var el = document.getElementById('page-documentation');
   if (!el) return;
-  var docBase = 'doc/';
-  var home = docBase + '#/README';
+  var loc = getDocUiLocale() || 'en';
+  var docBase = 'doc/?lang=' + encodeURIComponent(loc) + '#/README';
+  var title = (typeof t === 'function' && t('doc.toolbarTitle') !== 'doc.toolbarTitle') ? t('doc.toolbarTitle') : 'HotelRestaurantMini-MartManagement — Documentation';
+  var openTab = (typeof t === 'function' && t('doc.openNewTab') !== 'doc.openNewTab') ? t('doc.openNewTab') : 'Open in new tab ↗';
   el.innerHTML =
     '<div class="doc-embed-wrap">' +
       '<div class="doc-embed-toolbar">' +
-        '<span style="font-weight:700;color:var(--text);">HotelRestaurantMini-MartManagement — Documentation</span>' +
-        '<a href="' + docBase + '" target="_blank" rel="noopener">Open in new tab ↗</a>' +
+        '<span style="font-weight:700;color:var(--text);">' + title + '</span>' +
+        '<a href="doc/?lang=' + encodeURIComponent(loc) + '" target="_blank" rel="noopener">' + openTab + '</a>' +
       '</div>' +
-      '<iframe class="doc-embed-frame" title="Documentation" src="' + home + '" loading="lazy"></iframe>' +
+      '<iframe class="doc-embed-frame" title="Documentation" src="' + docBase + '" loading="lazy"></iframe>' +
     '</div>';
 }
 window.openDocumentation = function() { navToPage('documentation'); };
@@ -213,8 +228,8 @@ def _patch_core(content: str) -> str:
     login_anchor = 'id="btnFirstTimeSetup"'
     login_doc = (
         '<p class="hrmm-login-doc" style="text-align:center;margin:0.75rem 0 0;">'
-        '<a href="doc/" target="_blank" rel="noopener" style="font-weight:600;color:var(--primary);">'
-        'Documentation ↗</a></p>\n        '
+        '<a href="doc/" target="_blank" rel="noopener" style="font-weight:600;color:var(--primary);" '
+        'data-i18n="doc.loginLink">Documentation ↗</a></p>\n        '
     )
     if login_anchor in content and "hrmm-login-doc" not in content:
         content = content.replace(
@@ -227,13 +242,29 @@ def _patch_core(content: str) -> str:
 
 
 def patch(content: str) -> str:
+    # Upgrade renderDocumentation to v5 (locale-aware iframe)
+    if "getDocUiLocale" not in content and "function renderDocumentation()" in content:
+        content = re.sub(
+            r"function getDocUiLocale\(\)[\s\S]*?window\.openDocumentation = function\(\) \{ navToPage\('documentation'\); \};",
+            RENDER_FN.strip(),
+            content,
+            count=1,
+        )
+        if "getDocUiLocale" not in content and "function renderDocumentation()" in content:
+            content = content.replace(
+                "function renderPage(page) {",
+                RENDER_FN + "\nfunction renderPage(page) {",
+                1,
+            )
+
     if (
         MARKER in content
         and 'data-bnav="documentation" onclick' in content
         and 'id="topbarDocBtn"' in content
         and 'nav.sectionHelp' in content
+        and 'getDocUiLocale' in content
     ):
-        print("Already patched v4 — skipping")
+        print("Already patched v5 — skipping")
         return content
 
     content = _patch_core(content)
@@ -260,7 +291,7 @@ def main() -> int:
     text = index.read_text(encoding="utf-8")
     patched = patch(text)
     index.write_text(patched, encoding="utf-8")
-    print(f"Patched {index} — docs in Help menu, top bar, and bottom nav")
+    print(f"Patched {index} — multilingual docs in Help menu, top bar, and bottom nav")
     return 0
 
 

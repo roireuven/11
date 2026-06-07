@@ -7,36 +7,135 @@
   <title>HotelRestaurantMini-MartManagement — Docs</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsify@4/lib/themes/vue.css" />
   <style>
-    :root {
-      --theme-color: #2563eb;
-      --sidebar-width: 18rem;
-    }
-    .app-name-link img { max-height: 2rem; }
+    :root { --theme-color: #2563eb; --sidebar-width: 18rem; }
     .markdown-section a { text-decoration: none; border-bottom: 1px solid rgba(37, 99, 235, 0.25); }
     .markdown-section a:hover { border-bottom-color: var(--theme-color); }
     .sidebar-nav > ul > li > p > strong { color: #64748b; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.06em; }
+    #hrmm-doc-lang-wrap {
+      position: fixed; top: 0; right: 0; z-index: 9999;
+      padding: 0.45rem 0.65rem; background: rgba(255,255,255,0.95);
+      border-bottom-left-radius: 8px; box-shadow: 0 1px 6px rgba(0,0,0,0.08);
+    }
+    #hrmm-doc-lang-wrap select { font-size: 0.82rem; padding: 0.25rem 0.4rem; border-radius: 6px; border: 1px solid #cbd5e1; max-width: 11rem; }
+    html[dir="rtl"] #hrmm-doc-lang-wrap { right: auto; left: 0; border-radius: 0 0 8px 0; }
   </style>
 </head>
 <body>
+  <div id="hrmm-doc-lang-wrap" hidden>
+    <label id="hrmm-doc-lang-label" for="hrmm-doc-lang" style="font-size:0.72rem;color:#64748b;margin-right:0.35rem;">Language</label>
+    <select id="hrmm-doc-lang" aria-label="Documentation language"></select>
+  </div>
   <div id="app">Loading documentation…</div>
   <script>
-    window.$docsify = {
-      name: 'HotelRestaurantMini-MartManagement',
-      repo: 'roireuven/11',
-      homepage: 'README.md',
-      loadSidebar: '_sidebar.md',
-      subMaxLevel: 2,
-      relativePath: true,
-      routerMode: 'hash',
-      auto2heading: true,
-      search: {
-        placeholder: 'Search docs…',
-        noData: 'No results',
-        depth: 3
+    (function () {
+      function loadJson(url) {
+        return fetch(url).then(function (r) { if (!r.ok) throw new Error(url); return r.json(); });
       }
-    };
+
+      Promise.all([loadJson('i18n/locales.json'), loadJson('i18n/ui.json')]).then(function (res) {
+        var LOCALES = res[0];
+        var UI = res[1];
+        var SUPPORTED = LOCALES.map(function (l) { return l.code; });
+
+        function normalizeLang(code) {
+          if (!code) return 'en';
+          if (SUPPORTED.indexOf(code) >= 0) return code;
+          var base = String(code).split('-')[0];
+          var hit = SUPPORTED.filter(function (c) { return c === base || c.indexOf(base + '-') === 0; });
+          return hit.length ? hit[0] : 'en';
+        }
+
+        function readLang() {
+          var q = new URLSearchParams(location.search).get('lang');
+          if (q) return normalizeLang(q);
+          try {
+            var stored = localStorage.getItem('hrmm_doc_lang');
+            if (stored) return normalizeLang(stored);
+          } catch (e) {}
+          return 'en';
+        }
+
+        var DOC_LANG = readLang();
+        try { localStorage.setItem('hrmm_doc_lang', DOC_LANG); } catch (e) {}
+
+        var localeMeta = LOCALES.find(function (l) { return l.code === DOC_LANG; }) || { rtl: false, native: DOC_LANG };
+        document.documentElement.lang = DOC_LANG;
+        document.documentElement.dir = localeMeta.rtl ? 'rtl' : 'ltr';
+
+        var ui = UI[DOC_LANG] || UI.en || {};
+        document.getElementById('app').textContent = ui.loading || 'Loading documentation…';
+
+        function buildAlias() {
+          var alias = {};
+          SUPPORTED.forEach(function (loc) {
+            if (loc === 'en') return;
+            alias['/' + loc + '/(.+)'] = '/en/$1';
+          });
+          return alias;
+        }
+
+        window.$docsify = {
+          name: 'HotelRestaurantMini-MartManagement',
+          repo: 'roireuven/11',
+          basePath: DOC_LANG + '/',
+          homepage: 'README.md',
+          loadSidebar: '_sidebar.md',
+          subMaxLevel: 2,
+          relativePath: true,
+          routerMode: 'hash',
+          auto2heading: true,
+          alias: buildAlias(),
+          search: {
+            placeholder: ui.search_placeholder || 'Search docs…',
+            noData: ui.search_no_data || 'No results',
+            depth: 3
+          }
+        };
+
+        var s1 = document.createElement('script');
+        s1.src = 'https://cdn.jsdelivr.net/npm/docsify@4/lib/docsify.min.js';
+        s1.onload = function () {
+          var s2 = document.createElement('script');
+          s2.src = 'https://cdn.jsdelivr.net/npm/docsify@4/lib/plugins/search.min.js';
+          document.body.appendChild(s2);
+        };
+        document.body.appendChild(s1);
+
+        var wrap = document.getElementById('hrmm-doc-lang-wrap');
+        var label = document.getElementById('hrmm-doc-lang-label');
+        var sel = document.getElementById('hrmm-doc-lang');
+        label.textContent = (ui.language || 'Language') + ':';
+        LOCALES.forEach(function (loc) {
+          var opt = document.createElement('option');
+          opt.value = loc.code;
+          opt.textContent = loc.native + ' (' + loc.code + ')';
+          if (loc.code === DOC_LANG) opt.selected = true;
+          sel.appendChild(opt);
+        });
+        sel.addEventListener('change', function () {
+          var next = normalizeLang(sel.value);
+          try { localStorage.setItem('hrmm_doc_lang', next); } catch (e) {}
+          var url = new URL(location.href);
+          url.searchParams.set('lang', next);
+          url.hash = '#/README';
+          location.href = url.toString();
+        });
+        wrap.hidden = false;
+
+        window.addEventListener('message', function (ev) {
+          if (!ev.data || ev.data.type !== 'hrmm-set-doc-lang') return;
+          var next = normalizeLang(ev.data.lang);
+          if (next === DOC_LANG) return;
+          try { localStorage.setItem('hrmm_doc_lang', next); } catch (e) {}
+          var url = new URL(location.href);
+          url.searchParams.set('lang', next);
+          url.hash = '#/README';
+          location.href = url.toString();
+        });
+      }).catch(function (err) {
+        document.getElementById('app').textContent = 'Failed to load documentation: ' + err.message;
+      });
+    })();
   </script>
-  <script src="https://cdn.jsdelivr.net/npm/docsify@4/lib/docsify.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/docsify@4/lib/plugins/search.min.js"></script>
 </body>
 </html>

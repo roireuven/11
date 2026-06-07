@@ -1,0 +1,149 @@
+{
+  "en": {
+    "loading": "Loading documentation…",
+    "search_placeholder": "Search docs…",
+    "search_no_data": "No results",
+    "language": "Language",
+    "open_new_tab": "Open in new tab ↗"
+  },
+  "es": {
+    "loading": "Cargando documentación…",
+    "search_placeholder": "Buscar en la documentación…",
+    "search_no_data": "Sin resultados",
+    "language": "Idioma",
+    "open_new_tab": "Abrir en nueva pestaña ↗"
+  },
+  "fr": {
+    "loading": "Chargement de la documentation…",
+    "search_placeholder": "Rechercher dans la documentation…",
+    "search_no_data": "Aucun résultat",
+    "language": "Langue",
+    "open_new_tab": "Ouvrir dans un nouvel onglet ↗"
+  },
+  "de": {
+    "loading": "Dokumentation wird geladen…",
+    "search_placeholder": "Dokumentation durchsuchen…",
+    "search_no_data": "Keine Ergebnisse",
+    "language": "Sprache",
+    "open_new_tab": "In neuem Tab öffnen ↗"
+  },
+  "ja": {
+    "loading": "ドキュメントを読み込み中…",
+    "search_placeholder": "ドキュメントを検索…",
+    "search_no_data": "結果なし",
+    "language": "言語",
+    "open_new_tab": "新しいタブで開く ↗"
+  },
+  "ko": {
+    "loading": "문서 로딩 중…",
+    "search_placeholder": "문서 검색…",
+    "search_no_data": "결과 없음",
+    "language": "언어",
+    "open_new_tab": "새 탭에서 열기 ↗"
+  },
+  "ar": {
+    "loading": "جارٍ تحميل التوثيق…",
+    "search_placeholder": "البحث في التوثيق…",
+    "search_no_data": "لا توجد نتائج",
+    "language": "اللغة",
+    "open_new_tab": "فتح في علامة تبويب جديدة ↗"
+  },
+  "hi": {
+    "loading": "दस्तावेज़ लोड हो रहा है…",
+    "search_placeholder": "दस्तावेज़ खोजें…",
+    "search_no_data": "कोई परिणाम नहीं",
+    "language": "भाषा",
+    "open_new_tab": "नए टैब में खोलें ↗"
+  },
+  "th": {
+    "loading": "กำลังโหลดเอกสาร…",
+    "search_placeholder": "ค้นหาเอกสาร…",
+    "search_no_data": "ไม่พบผลลัพธ์",
+    "language": "ภาษา",
+    "open_new_tab": "เปิดในแท็บใหม่ ↗"
+  },
+  "vi": {
+    "loading": "Đang tải tài liệu…",
+    "search_placeholder": "Tìm trong tài liệu…",
+    "search_no_data": "Không có kết quả",
+    "language": "Ngôn ngữ",
+    "open_new_tab": "Mở trong tab mới ↗"
+  },
+  "id": {
+    "loading": "Memuat dokumentasi…",
+    "search_placeholder": "Cari dokumentasi…",
+    "search_no_data": "Tidak ada hasil",
+    "language": "Bahasa",
+    "open_new_tab": "Buka di tab baru ↗"
+  },
+  "tr": {
+    "loading": "Dokümantasyon yükleniyor…",
+    "search_placeholder": "Dokümantasyonda ara…",
+    "search_no_data": "Sonuç yok",
+    "language": "Dil",
+    "open_new_tab": "Yeni sekmede aç ↗"
+  },
+  "ru": {
+    "loading": "Загрузка документации…",
+    "search_placeholder": "Поиск в документации…",
+    "search_no_data": "Нет результатов",
+    "language": "Язык",
+    "open_new_tab": "Открыть в новой вкладке ↗"
+  },
+  "it": {
+    "loading": "Caricamento documentazione…",
+    "search_placeholder": "Cerca nella documentazione…",
+    "search_no_data": "Nessun risultato",
+    "language": "Lingua",
+    "open_new_tab": "Apri in nuova scheda ↗"
+  },
+  "nl": {
+    "loading": "Documentatie laden…",
+    "search_placeholder": "Documentatie doorzoeken…",
+    "search_no_data": "Geen resultaten",
+    "language": "Taal",
+    "open_new_tab": "Openen in nieuw tabblad ↗"
+  },
+  "pl": {
+    "loading": "Ładowanie dokumentacji…",
+    "search_placeholder": "Szukaj w dokumentacji…",
+    "search_no_data": "Brak wyników",
+    "language": "Język",
+    "open_new_tab": "Otwórz w nowej karcie ↗"
+  },
+  "he": {
+    "loading": "טוען תיעוד…",
+    "search_placeholder": "חיפוש בתיעוד…",
+    "search_no_data": "אין תוצאות",
+    "language": "שפה",
+    "open_new_tab": "פתח בלשונית חדשה ↗"
+  },
+  "lo": {
+    "loading": "ກຳລັງໂຫຼດເອກະສານ…",
+    "search_placeholder": "ຄົ້ນຫາເອກະສານ…",
+    "search_no_data": "ບໍ່ມີຜົນລັບ",
+    "language": "ພາສາ",
+    "open_new_tab": "ເປີດໃນແທັບໃໝ່ ↗"
+  },
+  "pt-BR": {
+    "loading": "Carregando documentação…",
+    "search_placeholder": "Pesquisar na documentação…",
+    "search_no_data": "Nenhum resultado",
+    "language": "Idioma",
+    "open_new_tab": "Abrir em nova aba ↗"
+  },
+  "zh-Hans": {
+    "loading": "正在加载文档…",
+    "search_placeholder": "搜索文档…",
+    "search_no_data": "无结果",
+    "language": "语言",
+    "open_new_tab": "在新标签页中打开 ↗"
+  },
+  "zh-Hant": {
+    "loading": "正在載入文件…",
+    "search_placeholder": "搜尋文件…",
+    "search_no_data": "無結果",
+    "language": "語言",
+    "open_new_tab": "在新分頁中開啟 ↗"
+  }
+}
