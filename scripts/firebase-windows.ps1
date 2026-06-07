@@ -35,16 +35,20 @@ if (-not (Get-Command node -ErrorAction SilentlyContinue)) {
 $nodeVer = node -v
 Write-Ok "Node $nodeVer"
 
-# Git Bash (needed for npm run build / deploy)
-Write-Step "Checking Git Bash (required for build)..."
-$bash = Get-Command bash -ErrorAction SilentlyContinue
-if (-not $bash) {
-    Write-Warn "bash not found. Install Git for Windows: https://git-scm.com/download/win"
-    Write-Warn "Then reopen PowerShell and run this script again."
-    if ($Deploy) { Write-Err "Cannot deploy without bash (build scripts use shell)." }
-} else {
-    Write-Ok "bash found at $($bash.Source)"
+# Python (needed for app patches)
+Write-Step "Checking Python..."
+$python = $null
+foreach ($cmd in @("python", "py", "python3")) {
+    if (Get-Command $cmd -ErrorAction SilentlyContinue) { $python = $cmd; break }
 }
+if (-not $python) {
+    Write-Warn "Python not found. Install from https://python.org/downloads/ (check Add to PATH)."
+    if ($Deploy) { Write-Err "Cannot deploy without Python (app patch scripts)." }
+} else {
+    Write-Ok "Python found ($python)"
+}
+
+# Git Bash optional (build uses Node.js)
 
 # npm install
 Write-Step "Installing npm dependencies..."
