@@ -1,12 +1,26 @@
 #!/usr/bin/env python3
-"""Guest QR scan → restaurant self-order screen (restaurant only, not mini-mart)."""
+"""Guest QR scan → restaurant or mini-mart self-order screen."""
 from __future__ import annotations
 
+import importlib.util
 import re
 import sys
 from pathlib import Path
 
-MARKER = "HRMM-GUEST-QR-ORDER-v3"
+
+def _load_v4_fragments() -> tuple[str, str]:
+    frag_path = Path(__file__).resolve().parent / "_guest_order_v4_fragments.py"
+    spec = importlib.util.spec_from_file_location("_guest_order_v4_fragments", frag_path)
+    if spec is None or spec.loader is None:
+        raise SystemExit(f"Missing guest order v4 fragments: {frag_path}")
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod.GUEST_ORDER_PARSE_AND_BOOT_V4, mod.GUEST_ORDER_BOOT_V4
+
+
+GUEST_ORDER_PARSE_AND_BOOT_V4, GUEST_ORDER_BOOT_V4 = _load_v4_fragments()
+
+MARKER = "HRMM-GUEST-QR-ORDER-v4"
 INDEX = Path("public/index.html")
 
 GET_INVOICE_QR_PAYLOAD_OLD = """function getInvoiceQrPayload(inv) {
@@ -82,6 +96,65 @@ function invoiceQrCaptionForPayload(payload) {
   var s = String(payload == null ? '' : payload).trim();
   if (!s) return '';
   if (s.indexOf('guestOrder=restaurant') >= 0) return 'Scan to order from restaurant';
+  if (s.indexOf('guestOrder=minimart') >= 0) return 'Scan to order from mini-mart';
+  return s.length > 52 ? s.slice(0, 49) + '…' : s;
+}
+function buildGuestOrderUrl(dept, inv) {
+  var deptKey = dept === 'minimart' ? 'minimart' : 'restaurant';
+  var base = '';
+  if (settings && settings.invoiceQrText) {
+    var custom = String(settings.invoiceQrText).trim();
+    if (/^https?:\\/\\//i.test(custom)) base = custom.split('#')[0].split('?')[0];
+  }
+  if (!base) {
+    try { base = location.origin + (location.pathname || '/'); } catch (e) { base = ''; }
+  }
+  if (!base) return '';
+  try { base = String(base).split('#')[0]; } catch (e) {}
+  var params = new URLSearchParams();
+  params.set('guestOrder', deptKey);
+  if (inv) {
+    var roomVal = inv.roomNumber != null ? String(inv.roomNumber).trim() : '';
+    var tableVal = inv.tableNumber != null ? String(inv.tableNumber).trim() : '';
+    if (!tableVal && roomVal && /^table\\b/i.test(roomVal)) tableVal = roomVal;
+    if (tableVal && tableVal !== '—') params.set('table', tableVal);
+    else if (roomVal && roomVal !== '—' && !/^table\\b/i.test(roomVal)) params.set('room', roomVal);
+    if (inv.guestName != null && String(inv.guestName).trim() !== '' && String(inv.guestName).trim() !== '—') params.set('guest', String(inv.guestName).trim());
+    if (inv.bookingId != null && String(inv.bookingId).trim() !== '') params.set('booking', String(inv.bookingId).trim());
+  }
+  var q = params.toString();
+  if (base.indexOf('?') >= 0) {
+    var parts = base.split('?');
+    return parts[0] + '?' + q;
+  }
+  return base + '?' + q;
+}
+function buildGuestRestaurantOrderUrl(inv) {
+  return buildGuestOrderUrl('restaurant', inv);
+}
+function getInvoiceQrPayload(inv) {
+  if (guestQrRestaurantOrderEnabled()) {
+    var orderUrl = buildGuestRestaurantOrderUrl(inv);
+    if (orderUrl) return orderUrl;
+  }
+  var base = (settings && settings.invoiceQrText) ? String(settings.invoiceQrText).trim() : '';
+  var includeDetails = !(settings && (settings.invoiceQrIncludeDetails === false || settings.invoiceQrIncludeDetails === '0' || settings.invoiceQrIncludeDetails === 0));
+  if (guestQrRestaurantOrderEnabled()) includeDetails = false;
+  var parts = [];
+  if (base && !guestQrRestaurantOrderEnabled()) parts.push(base);
+  if (includeDetails && inv) {
+    if (inv.invoiceNumber) parts.push('INV:' + String(inv.invoiceNumber));
+    if (inv.paymentTransactionId) parts.push('TXN:' + String(inv.paymentTransactionId));
+    if (inv.grandTotal != null && inv.grandTotal !== '') parts.push('TOTAL:' + String(inv.grandTotal));
+  }
+  if (!parts.length) return '';
+  return parts.join('|');
+}"""
+
+INVOICE_QR_URL_BUILD_OLD = """function invoiceQrCaptionForPayload(payload) {
+  var s = String(payload == null ? '' : payload).trim();
+  if (!s) return '';
+  if (s.indexOf('guestOrder=restaurant') >= 0) return 'Scan to order from restaurant';
   return s.length > 52 ? s.slice(0, 49) + '…' : s;
 }
 function buildGuestRestaurantOrderUrl(inv) {
@@ -112,24 +185,47 @@ function buildGuestRestaurantOrderUrl(inv) {
     return parts[0] + '?' + q;
   }
   return base + '?' + q;
+}"""
+
+INVOICE_QR_URL_BUILD_NEW = """function invoiceQrCaptionForPayload(payload) {
+  var s = String(payload == null ? '' : payload).trim();
+  if (!s) return '';
+  if (s.indexOf('guestOrder=restaurant') >= 0) return 'Scan to order from restaurant';
+  if (s.indexOf('guestOrder=minimart') >= 0) return 'Scan to order from mini-mart';
+  return s.length > 52 ? s.slice(0, 49) + '…' : s;
 }
-function getInvoiceQrPayload(inv) {
-  if (guestQrRestaurantOrderEnabled()) {
-    var orderUrl = buildGuestRestaurantOrderUrl(inv);
-    if (orderUrl) return orderUrl;
+function buildGuestOrderUrl(dept, inv) {
+  var deptKey = dept === 'minimart' ? 'minimart' : 'restaurant';
+  var base = '';
+  if (settings && settings.invoiceQrText) {
+    var custom = String(settings.invoiceQrText).trim();
+    if (/^https?:\\/\\//i.test(custom)) base = custom.split('#')[0].split('?')[0];
   }
-  var base = (settings && settings.invoiceQrText) ? String(settings.invoiceQrText).trim() : '';
-  var includeDetails = !(settings && (settings.invoiceQrIncludeDetails === false || settings.invoiceQrIncludeDetails === '0' || settings.invoiceQrIncludeDetails === 0));
-  if (guestQrRestaurantOrderEnabled()) includeDetails = false;
-  var parts = [];
-  if (base && !guestQrRestaurantOrderEnabled()) parts.push(base);
-  if (includeDetails && inv) {
-    if (inv.invoiceNumber) parts.push('INV:' + String(inv.invoiceNumber));
-    if (inv.paymentTransactionId) parts.push('TXN:' + String(inv.paymentTransactionId));
-    if (inv.grandTotal != null && inv.grandTotal !== '') parts.push('TOTAL:' + String(inv.grandTotal));
+  if (!base) {
+    try { base = location.origin + (location.pathname || '/'); } catch (e) { base = ''; }
   }
-  if (!parts.length) return '';
-  return parts.join('|');
+  if (!base) return '';
+  try { base = String(base).split('#')[0]; } catch (e) {}
+  var params = new URLSearchParams();
+  params.set('guestOrder', deptKey);
+  if (inv) {
+    var roomVal = inv.roomNumber != null ? String(inv.roomNumber).trim() : '';
+    var tableVal = inv.tableNumber != null ? String(inv.tableNumber).trim() : '';
+    if (!tableVal && roomVal && /^table\\b/i.test(roomVal)) tableVal = roomVal;
+    if (tableVal && tableVal !== '—') params.set('table', tableVal);
+    else if (roomVal && roomVal !== '—' && !/^table\\b/i.test(roomVal)) params.set('room', roomVal);
+    if (inv.guestName != null && String(inv.guestName).trim() !== '' && String(inv.guestName).trim() !== '—') params.set('guest', String(inv.guestName).trim());
+    if (inv.bookingId != null && String(inv.bookingId).trim() !== '') params.set('booking', String(inv.bookingId).trim());
+  }
+  var q = params.toString();
+  if (base.indexOf('?') >= 0) {
+    var parts = base.split('?');
+    return parts[0] + '?' + q;
+  }
+  return base + '?' + q;
+}
+function buildGuestRestaurantOrderUrl(inv) {
+  return buildGuestOrderUrl('restaurant', inv);
 }"""
 
 GET_EFFECTIVE_QR_PAYLOAD_OLD = """function getEffectiveInvoiceQrPayload(inv) {
@@ -248,6 +344,7 @@ INIT_AUTOLOGIN_OLD = """(function initAutologinIfSetupComplete() {
   if (typeof hotelIsSetupComplete === 'function' && !hotelIsSetupComplete()) { return; }"""
 
 INIT_AUTOLOGIN_NEW = """(function initAutologinIfSetupComplete() {
+  if (typeof tryBootGuestOrderFromUrl === 'function' && tryBootGuestOrderFromUrl()) { return; }
   if (typeof tryBootGuestRestaurantOrder === 'function' && tryBootGuestRestaurantOrder()) { return; }
   if (typeof hotelIsSetupComplete === 'function' && !hotelIsSetupComplete()) { return; }"""
 
@@ -339,7 +436,7 @@ RBAC_BNAV_SETTINGS_GUEST = """  var bnavSettings = document.querySelector('#bott
   }
   var bnavGuestOrder = document.querySelector('#bottomNav [data-bnav="guestorder"]');
   if (bnavGuestOrder) {
-    var canGuestOrder = allowed === null || (Array.isArray(allowed) && allowed.indexOf('restaurant') >= 0);
+    var canGuestOrder = allowed === null || (Array.isArray(allowed) && (allowed.indexOf('restaurant') >= 0 || allowed.indexOf('minimart') >= 0));
     bnavGuestOrder.style.display = canGuestOrder ? '' : 'none';
   }
 }"""
@@ -361,7 +458,7 @@ I18N_BNAV_NEW = """  "bnav": {
     "documentation": "Docs"
   },"""
 
-GUEST_ORDER_STAFF_JS = """
+GUEST_ORDER_STAFF_JS_V3 = """
 var guestOrderQrStaffCtx = { mode: 'room', room: '', guest: '', booking: '', table: '' };
 function guestOrderQrInvFromCtx(ctx) {
   ctx = ctx || guestOrderQrStaffCtx;
@@ -470,7 +567,197 @@ window.guestOrderQrOpenCustomerScreen = function() {
 };
 """
 
-GUEST_ORDER_JS_BODY = ENSURE_GUEST_SETTING_V2 + """
+GUEST_ORDER_STAFF_JS = """
+var guestOrderQrStaffCtx = { dept: 'restaurant', mode: 'room', room: '', guest: '', booking: '', table: '' };
+function guestOrderQrInvFromCtx(ctx) {
+  ctx = ctx || guestOrderQrStaffCtx;
+  return {
+    roomNumber: ctx.room || '',
+    guestName: ctx.guest || '',
+    bookingId: ctx.booking || '',
+    tableNumber: ctx.table || ''
+  };
+}
+function guestOrderQrBuildUrl(ctx) {
+  ctx = ctx || guestOrderQrStaffCtx;
+  return buildGuestOrderUrl(ctx.dept === 'minimart' ? 'minimart' : 'restaurant', guestOrderQrInvFromCtx(ctx));
+}
+function guestOrderQrListRooms() {
+  var pickable = typeof getBookingsForGuestPicker === 'function' ? getBookingsForGuestPicker() : [];
+  var rooms = {};
+  pickable.forEach(function(b) {
+    if (!b) return;
+    var r = String(b.roomNumber != null ? b.roomNumber : '').trim();
+    if (r && r !== '—') rooms[r] = true;
+  });
+  return Object.keys(rooms).sort(function(a, b) {
+    var na = parseInt(a, 10), nb = parseInt(b, 10);
+    if (!isNaN(na) && !isNaN(nb) && String(na) === a && String(nb) === b) return na - nb;
+    return a.localeCompare(b);
+  });
+}
+function guestOrderQrListBookingsForRoom(room) {
+  var pickable = typeof getBookingsForGuestPicker === 'function' ? getBookingsForGuestPicker() : [];
+  room = String(room || '').trim();
+  if (!room) return [];
+  return pickable.filter(function(b) {
+    if (!b) return false;
+    return String(b.roomNumber != null ? b.roomNumber : '').trim() === room;
+  });
+}
+function guestOrderQrListTables() {
+  if (typeof restSortedTables === 'function') return restSortedTables();
+  try { restaurantTables = load('restaurantTables', restaurantTables); } catch (e) {}
+  if (!Array.isArray(restaurantTables)) return [];
+  return restaurantTables.slice();
+}
+function guestOrderQrHasCustomerContext(ctx) {
+  ctx = ctx || guestOrderQrStaffCtx;
+  if ((ctx.mode || 'room') === 'walkin') return !!(String(ctx.table || '').trim() || String(ctx.guest || '').trim());
+  return !!(String(ctx.room || '').trim() && String(ctx.guest || '').trim());
+}
+function guestOrderQrRefreshPreview() {
+  var img = document.getElementById('guestOrderQrImg');
+  var cap = document.getElementById('guestOrderQrCaption');
+  var link = document.getElementById('guestOrderQrLink');
+  var url = guestOrderQrHasCustomerContext() ? guestOrderQrBuildUrl(guestOrderQrStaffCtx) : '';
+  if (img) img.src = url ? buildInvoiceQrImageUrl(url) : '';
+  if (cap) cap.textContent = url ? invoiceQrCaptionForPayload(url) : 'Select room/guest or table';
+  if (link) link.value = url || '';
+}
+window.guestOrderQrSetDept = function(dept) {
+  guestOrderQrStaffCtx.dept = dept === 'minimart' ? 'minimart' : 'restaurant';
+  if (typeof openGuestOrderQrModal === 'function') openGuestOrderQrModal(true);
+};
+window.guestOrderQrSetMode = function(mode) {
+  guestOrderQrStaffCtx.mode = mode === 'walkin' ? 'walkin' : 'room';
+  if (typeof openGuestOrderQrModal === 'function') openGuestOrderQrModal(true);
+};
+window.guestOrderQrPickRoom = function(room) {
+  guestOrderQrStaffCtx.room = room ? String(room).trim() : '';
+  guestOrderQrStaffCtx.guest = '';
+  guestOrderQrStaffCtx.booking = '';
+  var list = guestOrderQrListBookingsForRoom(guestOrderQrStaffCtx.room);
+  if (list.length === 1) {
+    guestOrderQrStaffCtx.guest = String(list[0].guestName || '');
+    guestOrderQrStaffCtx.booking = String(list[0].bookingId || list[0].id || '');
+  }
+  if (typeof openGuestOrderQrModal === 'function') openGuestOrderQrModal(true);
+  else guestOrderQrRefreshPreview();
+};
+window.guestOrderQrPickGuestBooking = function(bookingRowId) {
+  guestOrderQrStaffCtx.guest = '';
+  guestOrderQrStaffCtx.booking = '';
+  if (bookingRowId) {
+    var b = (bookings || []).find(function(x) { return x && x.id === bookingRowId; });
+    if (b) {
+      guestOrderQrStaffCtx.room = String(b.roomNumber || guestOrderQrStaffCtx.room || '');
+      guestOrderQrStaffCtx.guest = String(b.guestName || '');
+      guestOrderQrStaffCtx.booking = String(b.bookingId || b.id || '');
+    }
+  }
+  guestOrderQrRefreshPreview();
+};
+window.guestOrderQrPickTable = function(val) {
+  guestOrderQrStaffCtx.table = val ? String(val).trim() : '';
+  guestOrderQrStaffCtx.room = '';
+  guestOrderQrStaffCtx.booking = '';
+  guestOrderQrRefreshPreview();
+};
+window.guestOrderQrApplyWalkin = function() {
+  var nameEl = document.getElementById('guestOrderQrWalkName');
+  guestOrderQrStaffCtx.guest = nameEl ? nameEl.value.trim() : '';
+  guestOrderQrStaffCtx.room = '';
+  guestOrderQrStaffCtx.booking = '';
+  guestOrderQrRefreshPreview();
+};
+window.openGuestOrderQrModal = function(keepState) {
+  if (!keepState) {
+    guestOrderQrStaffCtx = { dept: guestOrderQrStaffCtx.dept || 'restaurant', mode: 'room', room: '', guest: '', booking: '', table: '' };
+  }
+  var dept = guestOrderQrStaffCtx.dept === 'minimart' ? 'minimart' : 'restaurant';
+  var mode = guestOrderQrStaffCtx.mode || 'room';
+  var deptLabel = dept === 'minimart' ? 'mini-mart' : 'restaurant';
+  var rooms = guestOrderQrListRooms();
+  var roomOpts = '<option value="">— Select room —</option>';
+  rooms.forEach(function(r) {
+    var sel = guestOrderQrStaffCtx.room === r ? ' selected' : '';
+    roomOpts += '<option value="' + escapeHtml(r) + '"' + sel + '>' + escapeHtml(r) + '</option>';
+  });
+  var guestList = guestOrderQrStaffCtx.room ? guestOrderQrListBookingsForRoom(guestOrderQrStaffCtx.room) : [];
+  var guestOpts = '<option value="">— Select guest —</option>';
+  guestList.forEach(function(b) {
+    var bid = String(b.bookingId || b.id || '');
+    var sel = guestOrderQrStaffCtx.booking && bid === String(guestOrderQrStaffCtx.booking) ? ' selected' : '';
+    guestOpts += '<option value="' + escapeHtml(String(b.id)) + '"' + sel + '>' + escapeHtml(String(b.guestName || 'Guest')) + '</option>';
+  });
+  var tables = guestOrderQrListTables();
+  var tableOpts = '<option value="">— Select table —</option>';
+  var knownTable = false;
+  tables.forEach(function(t) {
+    var lab = t && t.label ? String(t.label).trim() : '';
+    if (!lab) return;
+    if (guestOrderQrStaffCtx.table === lab) knownTable = true;
+    var sel = guestOrderQrStaffCtx.table === lab ? ' selected' : '';
+    tableOpts += '<option value="' + escapeHtml(lab) + '"' + sel + '>' + escapeHtml(lab) + '</option>';
+  });
+  if (guestOrderQrStaffCtx.table && !knownTable) {
+    tableOpts += '<option value="' + escapeHtml(guestOrderQrStaffCtx.table) + '" selected>' + escapeHtml(guestOrderQrStaffCtx.table) + '</option>';
+  }
+  var html = '<div class="modal-hd"><h2>Customer order QR</h2><button type="button" class="modal-close" onclick="closeModal()">&times;</button></div>' +
+    '<div class="modal-body guest-order-qr-modal">' +
+    '<p class="guest-order-qr-lead">Create a QR so customers can self-order from the ' + deptLabel + ' on their phone (room guest or walk-in).</p>' +
+    '<div class="rest-order-type" style="margin-bottom:0.65rem;">' +
+      '<button type="button" class="btn ' + (dept === 'restaurant' ? 'btn-primary' : 'btn-outline') + '" onclick="guestOrderQrSetDept(\\'restaurant\\')">Restaurant</button>' +
+      '<button type="button" class="btn ' + (dept === 'minimart' ? 'btn-primary' : 'btn-outline') + '" onclick="guestOrderQrSetDept(\\'minimart\\')">Mini-Mart</button>' +
+    '</div>' +
+    '<div class="rest-order-type" style="margin-bottom:0.75rem;">' +
+      '<button type="button" class="btn ' + (mode === 'room' ? 'btn-primary' : 'btn-outline') + '" onclick="guestOrderQrSetMode(\\'room\\')">Room guest</button>' +
+      '<button type="button" class="btn ' + (mode === 'walkin' ? 'btn-primary' : 'btn-outline') + '" onclick="guestOrderQrSetMode(\\'walkin\\')">Walk-in / table</button>' +
+    '</div>';
+  if (mode === 'room') {
+    html += '<div class="form-row"><div class="form-group"><label>Room</label><select class="form-control" id="guestOrderQrRoomPick" onchange="guestOrderQrPickRoom(this.value)">' + roomOpts + '</select></div>' +
+      '<div class="form-group"><label>Guest</label><select class="form-control" id="guestOrderQrGuestPick" onchange="guestOrderQrPickGuestBooking(this.value)"' + (guestOrderQrStaffCtx.room ? '' : ' disabled') + '>' + guestOpts + '</select></div></div>';
+  } else {
+    html += '<div class="form-row"><div class="form-group"><label>Table</label><select class="form-control" id="guestOrderQrTablePick" onchange="guestOrderQrPickTable(this.value)">' + tableOpts + '</select></div>' +
+      '<div class="form-group"><label>Customer name (optional)</label><input type="text" class="form-control" id="guestOrderQrWalkName" value="' + escapeHtml(guestOrderQrStaffCtx.guest) + '" placeholder="Walk-in customer" oninput="guestOrderQrApplyWalkin()"></div></div>';
+  }
+  html += '<div class="guest-order-qr-preview"><img id="guestOrderQrImg" class="invoice-qr-img" alt="Order QR code">' +
+    '<div id="guestOrderQrCaption" class="invoice-qr-caption">Scan to order</div></div>' +
+    '<div class="form-group"><label>Order link</label><input type="text" class="form-control" id="guestOrderQrLink" readonly onclick="this.select()"></div>' +
+    '<div class="guest-order-qr-actions">' +
+      '<button type="button" class="btn btn-primary" onclick="guestOrderQrOpenCustomerScreen()">Open order screen</button>' +
+      '<button type="button" class="btn btn-outline" onclick="guestOrderQrCopyLink()">Copy link</button>' +
+    '</div></div>';
+  openModal(html);
+  guestOrderQrRefreshPreview();
+};
+window.guestOrderQrCopyLink = function() {
+  var url = guestOrderQrBuildUrl(guestOrderQrStaffCtx);
+  if (!url || !guestOrderQrHasCustomerContext()) { if (typeof toast === 'function') toast('Select room/guest or table first'); return; }
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(url).then(function() { if (typeof toast === 'function') toast('Link copied'); }).catch(function() {
+      var el = document.getElementById('guestOrderQrLink');
+      if (el) { el.value = url; el.select(); try { document.execCommand('copy'); if (typeof toast === 'function') toast('Link copied'); } catch (e) {} }
+    });
+  } else {
+    var el = document.getElementById('guestOrderQrLink');
+    if (el) { el.value = url; el.select(); try { document.execCommand('copy'); if (typeof toast === 'function') toast('Link copied'); } catch (e) {} }
+  }
+};
+window.guestOrderQrOpenCustomerScreen = function() {
+  if (!guestOrderQrHasCustomerContext()) { if (typeof toast === 'function') toast('Select room/guest or table first'); return; }
+  closeModal();
+  showGuestOrderScreen(guestOrderQrStaffCtx.dept === 'minimart' ? 'minimart' : 'restaurant', {
+    room: guestOrderQrStaffCtx.room || '',
+    guest: guestOrderQrStaffCtx.guest || '',
+    booking: guestOrderQrStaffCtx.booking || '',
+    table: guestOrderQrStaffCtx.table || ''
+  });
+};
+"""
+
+GUEST_ORDER_JS_BODY_V3_TAIL = """
 function parseGuestRestaurantOrderParams() {
   var sp = (typeof window.hotelBootUrlParams === 'function') ? window.hotelBootUrlParams() : new URLSearchParams(typeof location !== 'undefined' && location.search ? location.search : '');
   if (sp.get('guestOrder') !== 'restaurant') return null;
@@ -481,6 +768,9 @@ function parseGuestRestaurantOrderParams() {
     table: sp.get('table') || ''
   };
 }
+"""
+
+GUEST_ORDER_JS_BODY = ENSURE_GUEST_SETTING_V2 + """
 function ensureGuestRestaurantMenuLoaded() {
   try {
     if (typeof load === 'function') menuItems = load('menuItems', menuItems);
@@ -622,53 +912,17 @@ window.guestRestSubmitOrder = function() {
   guestRestSubmitted = true;
   renderGuestRestaurantOrder();
 };
-window.showGuestRestaurantOrderScreen = function(ctx) {
-  guestRestCtx = ctx || guestRestCtx || { room: '', guest: '', booking: '', table: '' };
-  guestRestSubmitted = false;
-  var ov = document.getElementById('guestRestOrderOverlay');
-  var lo = document.getElementById('loginOverlay');
-  var so = document.getElementById('setupOverlay');
-  var app = document.getElementById('app');
-  if (lo) lo.classList.add('hidden');
-  if (so) so.classList.add('hidden');
-  if (app) app.style.display = 'none';
-  if (typeof showBottomNav === 'function') showBottomNav(false);
-  if (ov) {
-    ov.classList.remove('hidden');
-    ov.setAttribute('aria-hidden', 'false');
-  }
-  document.body.classList.add('guest-rest-order-mode');
-  renderGuestRestaurantOrder();
-};
-window.tryBootGuestRestaurantOrder = function() {
-  var params = parseGuestRestaurantOrderParams();
-  if (!params) return false;
-  guestRestCtx = params;
-  try {
-    showGuestRestaurantOrderScreen(params);
-    var closeBtn = document.getElementById('guestRestOrderCloseBtn');
-    if (closeBtn && !closeBtn._guestRestBound) {
-      closeBtn._guestRestBound = true;
-      closeBtn.addEventListener('click', function() {
-        try { history.replaceState(null, '', location.pathname || '/'); } catch (e) {}
-        location.reload();
-      });
-    }
-  } catch (e) {
-    try { console.warn('guest QR boot', e); } catch (e2) {}
-    return false;
-  }
-  return true;
-};
-"""
+""" + GUEST_ORDER_PARSE_AND_BOOT_V4 + GUEST_ORDER_BOOT_V4
 
 
 def _is_fully_patched(content: str) -> bool:
     return (
         MARKER in content
-        and "guestOrderQrStaffCtx" in content
+        and "tryBootGuestOrderFromUrl" in content
+        and "guestMartCart" in content
+        and "guestOrderQrSetDept" in content
+        and "guestOrderQrPickRoom" in content
         and 'data-bnav="guestorder"' in content
-        and "tryBootGuestRestaurantOrder" in content
     )
 
 
@@ -709,6 +963,36 @@ def _apply_v3_upgrades(content: str) -> str:
             "    /* __HRMM_GUEST_QR_MARKER__ */",
             1,
         )
+
+    return content
+
+
+def _apply_v4_upgrades(content: str) -> str:
+    content = re.sub(r"HRMM-GUEST-QR-ORDER-v3", MARKER, content)
+
+    if INIT_AUTOLOGIN_OLD in content and "tryBootGuestOrderFromUrl()" not in content.split(INIT_AUTOLOGIN_OLD, 1)[1][:160]:
+        content = content.replace(INIT_AUTOLOGIN_OLD, INIT_AUTOLOGIN_NEW, 1)
+
+    if GUEST_ORDER_STAFF_JS_V3 in content and "guestOrderQrSetDept" not in content:
+        content = content.replace(GUEST_ORDER_STAFF_JS_V3, GUEST_ORDER_STAFF_JS, 1)
+
+    boot_anchor = "window.showGuestRestaurantOrderScreen = function(ctx) {"
+    if boot_anchor in content and "tryBootGuestOrderFromUrl" not in content:
+        start = content.find(boot_anchor)
+        if start >= 0:
+            end = content.find("\n};", start)
+            if end >= 0:
+                end = content.find("\n};", end + 3)
+                if end >= 0:
+                    content = content[:start] + GUEST_ORDER_PARSE_AND_BOOT_V4 + GUEST_ORDER_BOOT_V4 + content[end + 4 :]
+
+    if "function parseGuestRestaurantOrderParams()" in content and "function parseGuestOrderParams()" not in content:
+        content = content.replace(GUEST_ORDER_JS_BODY_V3_TAIL, "", 1)
+
+    if INVOICE_QR_URL_BUILD_OLD in content and "buildGuestOrderUrl" not in content:
+        content = content.replace(INVOICE_QR_URL_BUILD_OLD, INVOICE_QR_URL_BUILD_NEW, 1)
+    elif "buildGuestOrderUrl" not in content:
+        content = _apply_qr_payload_upgrade(content)
 
     return content
 
@@ -766,7 +1050,7 @@ def patch(content: str) -> str:
     elif ENSURE_GUEST_SETTING_V1 in content and ENSURE_GUEST_SETTING_V2 not in content:
         content = content.replace(ENSURE_GUEST_SETTING_V1, ENSURE_GUEST_SETTING_V2, 1)
 
-    if INIT_AUTOLOGIN_OLD in content and "tryBootGuestRestaurantOrder()" not in content.split(INIT_AUTOLOGIN_OLD, 1)[1][:120]:
+    if INIT_AUTOLOGIN_OLD in content and "tryBootGuestOrderFromUrl()" not in content.split(INIT_AUTOLOGIN_OLD, 1)[1][:160]:
         content = content.replace(INIT_AUTOLOGIN_OLD, INIT_AUTOLOGIN_NEW, 1)
 
     if "/* __HRMM_GUEST_QR_MARKER__ */" not in content:
@@ -785,6 +1069,7 @@ def patch(content: str) -> str:
         )
 
     content = _apply_v3_upgrades(content)
+    content = _apply_v4_upgrades(content)
 
     return content
 
@@ -797,7 +1082,7 @@ def main() -> int:
         return 1
     text = index.read_text(encoding="utf-8")
     index.write_text(patch(text), encoding="utf-8")
-    print(f"Patched {index} — guest QR restaurant self-order")
+    print(f"Patched {index} — guest QR restaurant & mini-mart self-order")
     return 0
 
 
