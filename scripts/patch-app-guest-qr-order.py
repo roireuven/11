@@ -6,7 +6,7 @@ import re
 import sys
 from pathlib import Path
 
-MARKER = "HRMM-GUEST-QR-ORDER-v2"
+MARKER = "HRMM-GUEST-QR-ORDER-v3"
 INDEX = Path("public/index.html")
 
 GET_INVOICE_QR_PAYLOAD_OLD = """function getInvoiceQrPayload(inv) {
@@ -302,7 +302,172 @@ CSS = """
     .guest-rest-success-icon { width: 64px; height: 64px; border-radius: 50%; background: #e8f5e9; color: #2e7d32; font-size: 2rem; line-height: 64px; margin: 0 auto 1rem; }
     .guest-rest-success h2 { margin: 0 0 0.5rem; }
     .guest-rest-success p { color: var(--text-light); margin: 0 0 1rem; line-height: 1.45; }
+    .bottom-nav-item[data-bnav="guestorder"] .bnav-label { max-width: 3.5rem; }
+    .guest-order-qr-modal { max-width: 420px; }
+    .guest-order-qr-lead { font-size: 0.85rem; color: var(--text-light); margin: 0 0 0.75rem; line-height: 1.45; }
+    .guest-order-qr-preview { text-align: center; margin: 0.75rem 0 1rem; padding: 0.65rem; border: 1px dashed var(--border); border-radius: 10px; background: rgba(255,255,255,0.5); }
+    body.dark-mode .guest-order-qr-preview { background: rgba(0,0,0,0.15); }
+    .guest-order-qr-actions { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.5rem; }
+    .guest-order-qr-actions .btn { flex: 1 1 140px; justify-content: center; min-height: 42px; }
     /* __HRMM_GUEST_QR_MARKER__ */
+"""
+
+BOTTOM_NAV_DOCS_BTN = """    <button class="bottom-nav-item" data-bnav="documentation" onclick="bnav('documentation')"><span class="bnav-icon">&#128214;</span><span class="bnav-label" data-i18n="bnav.documentation">Docs</span></button>"""
+
+BOTTOM_NAV_WITH_GUEST_ORDER = """    <button class="bottom-nav-item" data-bnav="guestorder" onclick="openGuestOrderQrModal()"><span class="bnav-icon">&#128279;</span><span class="bnav-label" data-i18n="bnav.guestOrder">Order QR</span></button>
+    <button class="bottom-nav-item" data-bnav="documentation" onclick="bnav('documentation')"><span class="bnav-icon">&#128214;</span><span class="bnav-label" data-i18n="bnav.documentation">Docs</span></button>"""
+
+BNAV_FN_OLD = """window.bnav = function(page) {
+  if (currentRole === 'Kitchen' && page !== 'restaurant' && page !== 'documentation') {"""
+
+BNAV_FN_NEW = """window.bnav = function(page) {
+  if (page === 'guestorder') {
+    if (typeof openGuestOrderQrModal === 'function') openGuestOrderQrModal();
+    return;
+  }
+  if (currentRole === 'Kitchen' && page !== 'restaurant' && page !== 'documentation' && page !== 'guestorder') {"""
+
+RBAC_BNAV_SETTINGS_TAIL = """  var bnavSettings = document.querySelector('#bottomNav [data-bnav="settings"]');
+  if (bnavSettings) {
+    bnavSettings.style.display = canSettings ? '' : 'none';
+  }
+}"""
+
+RBAC_BNAV_SETTINGS_GUEST = """  var bnavSettings = document.querySelector('#bottomNav [data-bnav="settings"]');
+  if (bnavSettings) {
+    bnavSettings.style.display = canSettings ? '' : 'none';
+  }
+  var bnavGuestOrder = document.querySelector('#bottomNav [data-bnav="guestorder"]');
+  if (bnavGuestOrder) {
+    var canGuestOrder = allowed === null || (Array.isArray(allowed) && allowed.indexOf('restaurant') >= 0);
+    bnavGuestOrder.style.display = canGuestOrder ? '' : 'none';
+  }
+}"""
+
+I18N_BNAV_OLD = """  "bnav": {
+    "dashboard": "Dashboard",
+    "pos": "POS",
+    "bookings": "Bookings",
+    "menu": "Menu",
+    "documentation": "Docs"
+  },"""
+
+I18N_BNAV_NEW = """  "bnav": {
+    "dashboard": "Dashboard",
+    "pos": "POS",
+    "bookings": "Bookings",
+    "guestOrder": "Order QR",
+    "menu": "Menu",
+    "documentation": "Docs"
+  },"""
+
+GUEST_ORDER_STAFF_JS = """
+var guestOrderQrStaffCtx = { mode: 'room', room: '', guest: '', booking: '', table: '' };
+function guestOrderQrInvFromCtx(ctx) {
+  ctx = ctx || guestOrderQrStaffCtx;
+  return {
+    roomNumber: ctx.room || '',
+    guestName: ctx.guest || '',
+    bookingId: ctx.booking || '',
+    tableNumber: ctx.table || ''
+  };
+}
+function guestOrderQrBuildUrl(ctx) {
+  return buildGuestRestaurantOrderUrl(guestOrderQrInvFromCtx(ctx));
+}
+function guestOrderQrRefreshPreview() {
+  var img = document.getElementById('guestOrderQrImg');
+  var cap = document.getElementById('guestOrderQrCaption');
+  var link = document.getElementById('guestOrderQrLink');
+  var url = guestOrderQrBuildUrl(guestOrderQrStaffCtx);
+  if (img) img.src = url ? buildInvoiceQrImageUrl(url) : '';
+  if (cap) cap.textContent = url ? invoiceQrCaptionForPayload(url) : 'Add customer details';
+  if (link) link.value = url || '';
+}
+window.guestOrderQrSetMode = function(mode) {
+  guestOrderQrStaffCtx.mode = mode === 'walkin' ? 'walkin' : 'room';
+  if (typeof openGuestOrderQrModal === 'function') openGuestOrderQrModal(true);
+};
+window.guestOrderQrPickBooking = function(val) {
+  guestOrderQrStaffCtx.room = '';
+  guestOrderQrStaffCtx.guest = '';
+  guestOrderQrStaffCtx.booking = '';
+  if (val) {
+    var b = (bookings || []).find(function(x) { return x && x.id === val; });
+    if (b) {
+      guestOrderQrStaffCtx.room = String(b.roomNumber || '');
+      guestOrderQrStaffCtx.guest = String(b.guestName || '');
+      guestOrderQrStaffCtx.booking = String(b.bookingId || '');
+    }
+  }
+  guestOrderQrRefreshPreview();
+};
+window.guestOrderQrApplyWalkin = function() {
+  var nameEl = document.getElementById('guestOrderQrWalkName');
+  var tableEl = document.getElementById('guestOrderQrWalkTable');
+  guestOrderQrStaffCtx.guest = nameEl ? nameEl.value.trim() : '';
+  guestOrderQrStaffCtx.table = tableEl ? tableEl.value.trim() : '';
+  guestOrderQrStaffCtx.room = '';
+  guestOrderQrStaffCtx.booking = '';
+  guestOrderQrRefreshPreview();
+};
+window.openGuestOrderQrModal = function() {
+  var pickable = typeof getBookingsForGuestPicker === 'function' ? getBookingsForGuestPicker() : [];
+  var opts = '<option value="">— Select room / guest —</option>';
+  pickable.forEach(function(b) {
+    if (!b) return;
+    var sel = '';
+    if (guestOrderQrStaffCtx.booking && String(b.bookingId) === String(guestOrderQrStaffCtx.booking)) sel = ' selected';
+    opts += '<option value="' + escapeHtml(String(b.id)) + '"' + sel + '>' + escapeHtml(String(b.roomNumber) + ' — ' + String(b.guestName)) + '</option>';
+  });
+  var mode = guestOrderQrStaffCtx.mode || 'room';
+  var html = '<div class="modal-hd"><h2>Customer order QR</h2><button type="button" class="modal-close" onclick="closeModal()">&times;</button></div>' +
+    '<div class="modal-body guest-order-qr-modal">' +
+    '<p class="guest-order-qr-lead">Create a QR code so a customer can order from the restaurant themselves (scan with phone).</p>' +
+    '<div class="rest-order-type" style="margin-bottom:0.75rem;">' +
+      '<button type="button" class="btn ' + (mode === 'room' ? 'btn-primary' : 'btn-outline') + '" onclick="guestOrderQrSetMode(\\'room\\')">Room guest</button>' +
+      '<button type="button" class="btn ' + (mode === 'walkin' ? 'btn-primary' : 'btn-outline') + '" onclick="guestOrderQrSetMode(\\'walkin\\')">Walk-in / table</button>' +
+    '</div>';
+  if (mode === 'room') {
+    html += '<div class="form-group"><label>Guest / room</label><select class="form-control" id="guestOrderQrBookingPick" onchange="guestOrderQrPickBooking(this.value)">' + opts + '</select></div>';
+  } else {
+    html += '<div class="form-row"><div class="form-group"><label>Customer name</label><input type="text" class="form-control" id="guestOrderQrWalkName" value="' + escapeHtml(guestOrderQrStaffCtx.guest) + '" placeholder="Customer name" oninput="guestOrderQrApplyWalkin()"></div>' +
+      '<div class="form-group"><label>Table</label><input type="text" class="form-control" id="guestOrderQrWalkTable" value="' + escapeHtml(guestOrderQrStaffCtx.table) + '" placeholder="Table 1" oninput="guestOrderQrApplyWalkin()"></div></div>';
+  }
+  html += '<div class="guest-order-qr-preview"><img id="guestOrderQrImg" class="invoice-qr-img" alt="Order QR code">' +
+    '<div id="guestOrderQrCaption" class="invoice-qr-caption">Scan to order from restaurant</div></div>' +
+    '<div class="form-group"><label>Order link</label><input type="text" class="form-control" id="guestOrderQrLink" readonly onclick="this.select()"></div>' +
+    '<div class="guest-order-qr-actions">' +
+      '<button type="button" class="btn btn-primary" onclick="guestOrderQrOpenCustomerScreen()">Open order screen</button>' +
+      '<button type="button" class="btn btn-outline" onclick="guestOrderQrCopyLink()">Copy link</button>' +
+    '</div></div>';
+  openModal(html);
+  guestOrderQrRefreshPreview();
+};
+window.guestOrderQrCopyLink = function() {
+  var url = guestOrderQrBuildUrl(guestOrderQrStaffCtx);
+  if (!url) { if (typeof toast === 'function') toast('Add customer details first'); return; }
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(url).then(function() { if (typeof toast === 'function') toast('Link copied'); }).catch(function() {
+      var el = document.getElementById('guestOrderQrLink');
+      if (el) { el.value = url; el.select(); try { document.execCommand('copy'); if (typeof toast === 'function') toast('Link copied'); } catch (e) {} }
+    });
+  } else {
+    var el = document.getElementById('guestOrderQrLink');
+    if (el) { el.value = url; el.select(); try { document.execCommand('copy'); if (typeof toast === 'function') toast('Link copied'); } catch (e) {} }
+  }
+};
+window.guestOrderQrOpenCustomerScreen = function() {
+  var url = guestOrderQrBuildUrl(guestOrderQrStaffCtx);
+  if (!url) { if (typeof toast === 'function') toast('Add customer details first'); return; }
+  closeModal();
+  showGuestRestaurantOrderScreen({
+    room: guestOrderQrStaffCtx.room || '',
+    guest: guestOrderQrStaffCtx.guest || '',
+    booking: guestOrderQrStaffCtx.booking || '',
+    table: guestOrderQrStaffCtx.table || ''
+  });
+};
 """
 
 GUEST_ORDER_JS_BODY = ENSURE_GUEST_SETTING_V2 + """
@@ -499,7 +664,53 @@ window.tryBootGuestRestaurantOrder = function() {
 
 
 def _is_fully_patched(content: str) -> bool:
-    return MARKER in content and "isLegacyInvoiceQrPayload" in content and "tryBootGuestRestaurantOrder" in content
+    return (
+        MARKER in content
+        and "guestOrderQrStaffCtx" in content
+        and 'data-bnav="guestorder"' in content
+        and "tryBootGuestRestaurantOrder" in content
+    )
+
+
+def _apply_v3_upgrades(content: str) -> str:
+    if BOTTOM_NAV_DOCS_BTN in content and 'data-bnav="guestorder"' not in content:
+        content = content.replace(BOTTOM_NAV_DOCS_BTN, BOTTOM_NAV_WITH_GUEST_ORDER, 1)
+
+    if BNAV_FN_OLD in content and "page === 'guestorder'" not in content.split("window.bnav = function(page)", 1)[1][:400]:
+        content = content.replace(BNAV_FN_OLD, BNAV_FN_NEW, 1)
+
+    if RBAC_BNAV_SETTINGS_TAIL in content and "bnavGuestOrder" not in content:
+        content = content.replace(RBAC_BNAV_SETTINGS_TAIL, RBAC_BNAV_SETTINGS_GUEST, 1)
+
+    if I18N_BNAV_OLD in content and '"guestOrder"' not in content.split(I18N_BNAV_OLD, 1)[0][-80:]:
+        content = content.replace(I18N_BNAV_OLD, I18N_BNAV_NEW, 1)
+
+    if "guestOrderQrStaffCtx" not in content and "window.tryBootGuestRestaurantOrder = function()" in content:
+        content = content.replace(
+            "window.tryBootGuestRestaurantOrder = function() {",
+            GUEST_ORDER_STAFF_JS + "\nwindow.tryBootGuestRestaurantOrder = function() {",
+            1,
+        )
+    elif "guestOrderQrStaffCtx" not in content and "tryBootGuestRestaurantOrder" in content:
+        anchor = "/* Autologin after all data and i18n helpers are ready. Never show login on top of the first-time setup overlay. */"
+        if anchor in content:
+            content = content.replace(anchor, GUEST_ORDER_STAFF_JS + anchor, 1)
+
+    if "guest-order-qr-modal" not in content and "/* __HRMM_GUEST_QR_MARKER__ */" in content:
+        content = content.replace(
+            "    /* __HRMM_GUEST_QR_MARKER__ */",
+            "    .bottom-nav-item[data-bnav=\"guestorder\"] .bnav-label { max-width: 3.5rem; }\n"
+            "    .guest-order-qr-modal { max-width: 420px; }\n"
+            "    .guest-order-qr-lead { font-size: 0.85rem; color: var(--text-light); margin: 0 0 0.75rem; line-height: 1.45; }\n"
+            "    .guest-order-qr-preview { text-align: center; margin: 0.75rem 0 1rem; padding: 0.65rem; border: 1px dashed var(--border); border-radius: 10px; background: rgba(255,255,255,0.5); }\n"
+            "    body.dark-mode .guest-order-qr-preview { background: rgba(0,0,0,0.15); }\n"
+            "    .guest-order-qr-actions { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.5rem; }\n"
+            "    .guest-order-qr-actions .btn { flex: 1 1 140px; justify-content: center; min-height: 42px; }\n"
+            "    /* __HRMM_GUEST_QR_MARKER__ */",
+            1,
+        )
+
+    return content
 
 
 def _apply_qr_payload_upgrade(content: str) -> str:
@@ -549,7 +760,7 @@ def patch(content: str) -> str:
     if autologin_anchor in content and "tryBootGuestRestaurantOrder" not in content:
         content = content.replace(
             autologin_anchor,
-            GUEST_ORDER_JS + GUEST_ORDER_JS_BODY + autologin_anchor,
+            GUEST_ORDER_JS + GUEST_ORDER_JS_BODY + GUEST_ORDER_STAFF_JS + autologin_anchor,
             1,
         )
     elif ENSURE_GUEST_SETTING_V1 in content and ENSURE_GUEST_SETTING_V2 not in content:
@@ -572,6 +783,8 @@ def patch(content: str) -> str:
             f"<title>HotelRestaurantMini-MartManagement</title>\n  <!-- {MARKER} -->",
             1,
         )
+
+    content = _apply_v3_upgrades(content)
 
     return content
 
