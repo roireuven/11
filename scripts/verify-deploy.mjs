@@ -64,11 +64,14 @@ if (!html.includes("hrmmInvoicePrintFrame") || !html.includes("buildInvoicePrint
 if (!html.includes("HRMM-SHIFTS-v1") || !html.includes("migrateShiftsClosedByDefault")) {
   fail("app missing shifts-closed-by-default patch (HRMM-SHIFTS-v1)");
 }
-if (!html.includes("HRMM-GUEST-QR-ORDER-v5") || !html.includes("guestRestMenuCardHtml") || !html.includes("guest-rest-mobile-bar")) {
-  fail("app missing guest QR order patch (HRMM-GUEST-QR-ORDER-v5)");
+if (!html.includes("HRMM-GUEST-QR-ORDER-v6") || !html.includes("function guestOrderQrBuildUrl") || !html.includes('data-bnav="guestorder-rest"')) {
+  fail("app missing guest QR order patch (HRMM-GUEST-QR-ORDER-v6)");
 }
-if (!html.includes("buildGuestOrderUrl") || !html.includes("guestMartSubmitOrder") || !html.includes(".grmc-img")) {
-  fail("app missing guest mini-mart QR order flow with menu images");
+if (!html.includes("buildGuestOrderUrl") || !html.includes("guestMartSubmitOrder") || !html.includes("var guestOrderQrStaffCtx")) {
+  fail("app missing guest order QR staff helpers");
+}
+if (html.includes("parseGuestRestaurantOrderParams();") && html.includes("window.tryBootGuestOrderFromUrl = function()") && html.includes("var params = parseGuestRestaurantOrderParams();")) {
+  fail("app has stale duplicate guest QR boot block");
 }
 if (!html.includes('data-bnav="guestorder"')) {
   fail("app missing bottom nav Order QR button for guest restaurant ordering");

@@ -20,7 +20,7 @@ def _load_v4_fragments() -> tuple[str, str]:
 
 GUEST_ORDER_PARSE_AND_BOOT_V4, GUEST_ORDER_BOOT_V4 = _load_v4_fragments()
 
-MARKER = "HRMM-GUEST-QR-ORDER-v5"
+MARKER = "HRMM-GUEST-QR-ORDER-v6"
 INDEX = Path("public/index.html")
 
 GET_INVOICE_QR_PAYLOAD_OLD = """function getInvoiceQrPayload(inv) {
@@ -492,18 +492,33 @@ CSS = """
 
 BOTTOM_NAV_DOCS_BTN = """    <button class="bottom-nav-item" data-bnav="documentation" onclick="bnav('documentation')"><span class="bnav-icon">&#128214;</span><span class="bnav-label" data-i18n="bnav.documentation">Docs</span></button>"""
 
-BOTTOM_NAV_WITH_GUEST_ORDER = """    <button class="bottom-nav-item" data-bnav="guestorder" onclick="openGuestOrderQrModal()"><span class="bnav-icon">&#128279;</span><span class="bnav-label" data-i18n="bnav.guestOrder">Order QR</span></button>
+BOTTOM_NAV_WITH_GUEST_ORDER = """    <button class="bottom-nav-item" data-bnav="guestorder-rest" onclick="openGuestOrderQrModal('restaurant')"><span class="bnav-icon">&#127869;</span><span class="bnav-label" data-i18n="bnav.guestOrderRest">Rest QR</span></button>
+    <button class="bottom-nav-item" data-bnav="guestorder-mart" onclick="openGuestOrderQrModal('minimart')"><span class="bnav-icon">&#128722;</span><span class="bnav-label" data-i18n="bnav.guestOrderMart">Mart QR</span></button>
+    <button class="bottom-nav-item" data-bnav="documentation" onclick="bnav('documentation')"><span class="bnav-icon">&#128214;</span><span class="bnav-label" data-i18n="bnav.documentation">Docs</span></button>"""
+
+BOTTOM_NAV_SINGLE_GUEST_ORDER = """    <button class="bottom-nav-item" data-bnav="guestorder" onclick="openGuestOrderQrModal()"><span class="bnav-icon">&#128279;</span><span class="bnav-label" data-i18n="bnav.guestOrder">Order QR</span></button>
     <button class="bottom-nav-item" data-bnav="documentation" onclick="bnav('documentation')"><span class="bnav-icon">&#128214;</span><span class="bnav-label" data-i18n="bnav.documentation">Docs</span></button>"""
 
 BNAV_FN_OLD = """window.bnav = function(page) {
   if (currentRole === 'Kitchen' && page !== 'restaurant' && page !== 'documentation') {"""
 
-BNAV_FN_NEW = """window.bnav = function(page) {
+BNAV_FN_GUEST_SINGLE = """window.bnav = function(page) {
   if (page === 'guestorder') {
     if (typeof openGuestOrderQrModal === 'function') openGuestOrderQrModal();
     return;
   }
   if (currentRole === 'Kitchen' && page !== 'restaurant' && page !== 'documentation' && page !== 'guestorder') {"""
+
+BNAV_FN_NEW = """window.bnav = function(page) {
+  if (page === 'guestorder' || page === 'guestorder-rest') {
+    if (typeof openGuestOrderQrModal === 'function') openGuestOrderQrModal('restaurant');
+    return;
+  }
+  if (page === 'guestorder-mart') {
+    if (typeof openGuestOrderQrModal === 'function') openGuestOrderQrModal('minimart');
+    return;
+  }
+  if (currentRole === 'Kitchen' && page !== 'restaurant' && page !== 'documentation' && page !== 'guestorder' && page !== 'guestorder-rest' && page !== 'guestorder-mart') {"""
 
 RBAC_BNAV_SETTINGS_TAIL = """  var bnavSettings = document.querySelector('#bottomNav [data-bnav="settings"]');
   if (bnavSettings) {
@@ -512,6 +527,27 @@ RBAC_BNAV_SETTINGS_TAIL = """  var bnavSettings = document.querySelector('#botto
 }"""
 
 RBAC_BNAV_SETTINGS_GUEST = """  var bnavSettings = document.querySelector('#bottomNav [data-bnav="settings"]');
+  if (bnavSettings) {
+    bnavSettings.style.display = canSettings ? '' : 'none';
+  }
+  var bnavGuestOrderRest = document.querySelector('#bottomNav [data-bnav="guestorder-rest"]');
+  if (bnavGuestOrderRest) {
+    var canRestQr = allowed === null || (Array.isArray(allowed) && allowed.indexOf('restaurant') >= 0);
+    bnavGuestOrderRest.style.display = canRestQr ? '' : 'none';
+  }
+  var bnavGuestOrderMart = document.querySelector('#bottomNav [data-bnav="guestorder-mart"]');
+  if (bnavGuestOrderMart) {
+    var canMartQr = allowed === null || (Array.isArray(allowed) && allowed.indexOf('minimart') >= 0);
+    bnavGuestOrderMart.style.display = canMartQr ? '' : 'none';
+  }
+  var bnavGuestOrder = document.querySelector('#bottomNav [data-bnav="guestorder"]');
+  if (bnavGuestOrder) {
+    var canGuestOrder = allowed === null || (Array.isArray(allowed) && (allowed.indexOf('restaurant') >= 0 || allowed.indexOf('minimart') >= 0));
+    bnavGuestOrder.style.display = canGuestOrder ? '' : 'none';
+  }
+}"""
+
+RBAC_BNAV_SETTINGS_GUEST_SINGLE = """  var bnavSettings = document.querySelector('#bottomNav [data-bnav="settings"]');
   if (bnavSettings) {
     bnavSettings.style.display = canSettings ? '' : 'none';
   }
@@ -535,6 +571,8 @@ I18N_BNAV_NEW = """  "bnav": {
     "pos": "POS",
     "bookings": "Bookings",
     "guestOrder": "Order QR",
+    "guestOrderRest": "Rest QR",
+    "guestOrderMart": "Mart QR",
     "menu": "Menu",
     "documentation": "Docs"
   },"""
@@ -752,13 +790,23 @@ window.guestOrderQrApplyWalkin = function() {
   guestOrderQrStaffCtx.booking = '';
   guestOrderQrRefreshPreview();
 };
-window.openGuestOrderQrModal = function(keepState) {
-  if (!keepState) {
+window.openGuestOrderQrModal = function(deptOrKeepState) {
+  if (!guestOrderQrStaffCtx || typeof guestOrderQrStaffCtx !== 'object') {
+    guestOrderQrStaffCtx = { dept: 'restaurant', mode: 'room', room: '', guest: '', booking: '', table: '' };
+  }
+  if (deptOrKeepState === 'restaurant' || deptOrKeepState === 'minimart') {
+    guestOrderQrStaffCtx.dept = deptOrKeepState;
+    guestOrderQrStaffCtx.mode = 'room';
+    guestOrderQrStaffCtx.room = '';
+    guestOrderQrStaffCtx.guest = '';
+    guestOrderQrStaffCtx.booking = '';
+    guestOrderQrStaffCtx.table = '';
+  } else if (deptOrKeepState !== true) {
     guestOrderQrStaffCtx = { dept: guestOrderQrStaffCtx.dept || 'restaurant', mode: 'room', room: '', guest: '', booking: '', table: '' };
   }
   var dept = guestOrderQrStaffCtx.dept === 'minimart' ? 'minimart' : 'restaurant';
   var mode = guestOrderQrStaffCtx.mode || 'room';
-  var deptLabel = dept === 'minimart' ? 'mini-mart' : 'restaurant';
+  var deptLabel = dept === 'minimart' ? 'Mini-Mart' : 'Restaurant';
   var rooms = guestOrderQrListRooms();
   var roomOpts = '<option value="">— Select room —</option>';
   rooms.forEach(function(r) {
@@ -785,12 +833,12 @@ window.openGuestOrderQrModal = function(keepState) {
   if (guestOrderQrStaffCtx.table && !knownTable) {
     tableOpts += '<option value="' + escapeHtml(guestOrderQrStaffCtx.table) + '" selected>' + escapeHtml(guestOrderQrStaffCtx.table) + '</option>';
   }
-  var html = '<div class="modal-hd"><h2>Customer order QR</h2><button type="button" class="modal-close" onclick="closeModal()">&times;</button></div>' +
+  var html = '<div class="modal-hd"><h2>' + deptLabel + ' order QR</h2><button type="button" class="modal-close" onclick="closeModal()">&times;</button></div>' +
     '<div class="modal-body guest-order-qr-modal">' +
-    '<p class="guest-order-qr-lead">Create a QR so customers can self-order from the ' + deptLabel + ' on their phone (room guest or walk-in).</p>' +
+    '<p class="guest-order-qr-lead">Scan this QR so the customer can self-order from the ' + deptLabel.toLowerCase() + '. Pick a room guest or a walk-in table below.</p>' +
     '<div class="rest-order-type" style="margin-bottom:0.65rem;">' +
-      '<button type="button" class="btn ' + (dept === 'restaurant' ? 'btn-primary' : 'btn-outline') + '" onclick="guestOrderQrSetDept(\\'restaurant\\')">Restaurant</button>' +
-      '<button type="button" class="btn ' + (dept === 'minimart' ? 'btn-primary' : 'btn-outline') + '" onclick="guestOrderQrSetDept(\\'minimart\\')">Mini-Mart</button>' +
+      '<button type="button" class="btn ' + (dept === 'restaurant' ? 'btn-primary' : 'btn-outline') + '" onclick="guestOrderQrSetDept(\\'restaurant\\')">Restaurant QR</button>' +
+      '<button type="button" class="btn ' + (dept === 'minimart' ? 'btn-primary' : 'btn-outline') + '" onclick="guestOrderQrSetDept(\\'minimart\\')">Mini-Mart QR</button>' +
     '</div>' +
     '<div class="rest-order-type" style="margin-bottom:0.75rem;">' +
       '<button type="button" class="btn ' + (mode === 'room' ? 'btn-primary' : 'btn-outline') + '" onclick="guestOrderQrSetMode(\\'room\\')">Room guest</button>' +
@@ -1071,15 +1119,73 @@ MART_FILTER_V4 = """    return m && m.available !== false && (typeof rowDataVisi
 MART_FILTER_V5 = """    return m && m.available !== false && (typeof rowDataVisible !== 'function' || rowDataVisible(m)) && guestRestMenuMatchesSearch(m, searchQ);
   });"""
 
+STAFF_HANDLERS_START = "window.guestOrderQrSetMode = function(mode) {"
+
+STALE_BOOT_BLOCK = """window.tryBootGuestRestaurantOrder = function() {
+  var params = parseGuestRestaurantOrderParams();"""
+
+INIT_AUTOLOGIN_BROKEN = """  if (typeof tryBootGuestRestaurantOrder === 'function' && tryBootGuestRestaurantOrder()) { return; }
+  if (typeof hotelIsSetupComplete === 'function' && !hotelIsSetupComplete()) { return; }"""
+
+INIT_AUTOLOGIN_FIXED = """  if (typeof tryBootGuestOrderFromUrl === 'function' && tryBootGuestOrderFromUrl()) { return; }
+  if (typeof tryBootGuestRestaurantOrder === 'function' && tryBootGuestRestaurantOrder()) { return; }
+  if (typeof hotelIsSetupComplete === 'function' && !hotelIsSetupComplete()) { return; }"""
+
+
+def _repair_order_qr(content: str) -> str:
+    """Always run — fixes corrupted incremental upgrades (missing staff JS core, stale boot)."""
+    if "function guestOrderQrBuildUrl" not in content and STAFF_HANDLERS_START in content:
+        start = content.find(STAFF_HANDLERS_START)
+        open_screen = content.find("window.guestOrderQrOpenCustomerScreen = function()", start)
+        if open_screen >= 0:
+            end = content.find("\n};", open_screen)
+            if end >= 0:
+                content = content[:start] + GUEST_ORDER_STAFF_JS.strip() + "\n" + content[end + 4 :]
+
+    if STALE_BOOT_BLOCK in content and "window.tryBootGuestOrderFromUrl = function()" in content:
+        idx = content.find(STALE_BOOT_BLOCK)
+        end = content.find("\n};", idx)
+        if end >= 0:
+            content = content[:idx] + content[end + 4 :]
+
+    if INIT_AUTOLOGIN_BROKEN in content:
+        content = content.replace(INIT_AUTOLOGIN_BROKEN, INIT_AUTOLOGIN_FIXED, 1)
+
+    if INIT_AUTOLOGIN_OLD in content and "tryBootGuestOrderFromUrl()" not in content.split(INIT_AUTOLOGIN_OLD, 1)[1][:200]:
+        content = content.replace(INIT_AUTOLOGIN_OLD, INIT_AUTOLOGIN_NEW, 1)
+
+    if BOTTOM_NAV_SINGLE_GUEST_ORDER in content and 'data-bnav="guestorder-rest"' not in content:
+        content = content.replace(BOTTOM_NAV_SINGLE_GUEST_ORDER, BOTTOM_NAV_WITH_GUEST_ORDER, 1)
+
+    if BNAV_FN_GUEST_SINGLE in content and "guestorder-mart" not in content.split("window.bnav = function(page)", 1)[1][:500]:
+        content = content.replace(BNAV_FN_GUEST_SINGLE, BNAV_FN_NEW, 1)
+
+    if RBAC_BNAV_SETTINGS_GUEST_SINGLE in content and "bnavGuestOrderRest" not in content:
+        content = content.replace(RBAC_BNAV_SETTINGS_GUEST_SINGLE, RBAC_BNAV_SETTINGS_GUEST, 1)
+
+    content = re.sub(r"HRMM-GUEST-QR-ORDER-v\d+", MARKER, content)
+    if "<!-- HRMM-GUEST-QR-ORDER" not in content and MARKER not in content:
+        content = content.replace(
+            "<title>HotelRestaurantMini-MartManagement</title>",
+            f"<title>HotelRestaurantMini-MartManagement</title>\n  <!-- {MARKER} -->",
+            1,
+        )
+    elif f"<!-- {MARKER} -->" not in content:
+        content = re.sub(r"<!-- HRMM-GUEST-QR-ORDER-v\d+ -->", f"<!-- {MARKER} -->", content)
+
+    return content
+
 
 def _is_fully_patched(content: str) -> bool:
     return (
         MARKER in content
+        and "function guestOrderQrBuildUrl" in content
+        and "var guestOrderQrStaffCtx" in content
         and "guestRestMenuCardHtml" in content
-        and "guest-rest-mobile-bar" in content
         and "tryBootGuestOrderFromUrl" in content
-        and "guestOrderQrSetDept" in content
-        and 'data-bnav="guestorder"' in content
+        and 'data-bnav="guestorder-rest"' in content
+        and 'data-bnav="guestorder-mart"' in content
+        and STALE_BOOT_BLOCK not in content
     )
 
 
@@ -1241,70 +1347,70 @@ def _apply_qr_payload_upgrade(content: str) -> str:
 
 
 def patch(content: str) -> str:
-    if _is_fully_patched(content):
-        print(f"Already patched {MARKER} — skipping")
-        return content
+    if not _is_fully_patched(content):
+        content = _apply_qr_payload_upgrade(content)
 
-    content = _apply_qr_payload_upgrade(content)
+        if GET_EFFECTIVE_QR_PAYLOAD_OLD in content and "isLegacyInvoiceQrPayload" not in content.split(GET_EFFECTIVE_QR_PAYLOAD_OLD, 1)[0][-200:]:
+            content = content.replace(GET_EFFECTIVE_QR_PAYLOAD_OLD, GET_EFFECTIVE_QR_PAYLOAD_NEW, 1)
 
-    if GET_EFFECTIVE_QR_PAYLOAD_OLD in content and "isLegacyInvoiceQrPayload" not in content.split(GET_EFFECTIVE_QR_PAYLOAD_OLD, 1)[0][-200:]:
-        content = content.replace(GET_EFFECTIVE_QR_PAYLOAD_OLD, GET_EFFECTIVE_QR_PAYLOAD_NEW, 1)
+        if BUILD_QR_CAPTION_OLD in content:
+            content = content.replace(BUILD_QR_CAPTION_OLD, BUILD_QR_CAPTION_NEW, 1)
 
-    if BUILD_QR_CAPTION_OLD in content:
-        content = content.replace(BUILD_QR_CAPTION_OLD, BUILD_QR_CAPTION_NEW, 1)
+        if REFRESH_QR_CAPTION_OLD in content:
+            content = content.replace(REFRESH_QR_CAPTION_OLD, REFRESH_QR_CAPTION_NEW, 1)
 
-    if REFRESH_QR_CAPTION_OLD in content:
-        content = content.replace(REFRESH_QR_CAPTION_OLD, REFRESH_QR_CAPTION_NEW, 1)
+        if ENSURE_GUEST_SETTING_V1 in content:
+            content = content.replace(ENSURE_GUEST_SETTING_V1, ENSURE_GUEST_SETTING_V2, 1)
 
-    if ENSURE_GUEST_SETTING_V1 in content:
-        content = content.replace(ENSURE_GUEST_SETTING_V1, ENSURE_GUEST_SETTING_V2, 1)
+        if UPDATE_QR_PREVIEW_OLD in content:
+            content = content.replace(UPDATE_QR_PREVIEW_OLD, UPDATE_QR_PREVIEW_NEW, 1)
 
-    if UPDATE_QR_PREVIEW_OLD in content:
-        content = content.replace(UPDATE_QR_PREVIEW_OLD, UPDATE_QR_PREVIEW_NEW, 1)
+        if SETTINGS_QR_DETAILS_OLD in content:
+            content = content.replace(SETTINGS_QR_DETAILS_OLD, SETTINGS_QR_DETAILS_V2, 1)
+        elif SETTINGS_QR_DETAILS_V1 in content:
+            content = content.replace(SETTINGS_QR_DETAILS_V1, SETTINGS_QR_DETAILS_V2, 1)
 
-    if SETTINGS_QR_DETAILS_OLD in content:
-        content = content.replace(SETTINGS_QR_DETAILS_OLD, SETTINGS_QR_DETAILS_V2, 1)
-    elif SETTINGS_QR_DETAILS_V1 in content:
-        content = content.replace(SETTINGS_QR_DETAILS_V1, SETTINGS_QR_DETAILS_V2, 1)
+        if SAVE_SETTINGS_QR_OLD in content and "sInvoiceQrGuestOrder" not in content.split(SAVE_SETTINGS_QR_OLD, 1)[1][:120]:
+            content = content.replace(SAVE_SETTINGS_QR_OLD, SAVE_SETTINGS_QR_NEW, 1)
 
-    if SAVE_SETTINGS_QR_OLD in content and "sInvoiceQrGuestOrder" not in content.split(SAVE_SETTINGS_QR_OLD, 1)[1][:120]:
-        content = content.replace(SAVE_SETTINGS_QR_OLD, SAVE_SETTINGS_QR_NEW, 1)
+        if LOGIN_OVERLAY_END in content and 'id="guestRestOrderOverlay"' not in content:
+            content = content.replace(LOGIN_OVERLAY_END, GUEST_OVERLAY_HTML, 1)
 
-    if LOGIN_OVERLAY_END in content and 'id="guestRestOrderOverlay"' not in content:
-        content = content.replace(LOGIN_OVERLAY_END, GUEST_OVERLAY_HTML, 1)
+        autologin_anchor = "/* Autologin after all data and i18n helpers are ready. Never show login on top of the first-time setup overlay. */"
+        if autologin_anchor in content and "tryBootGuestRestaurantOrder" not in content:
+            content = content.replace(
+                autologin_anchor,
+                GUEST_ORDER_JS + GUEST_ORDER_JS_BODY + GUEST_ORDER_STAFF_JS + autologin_anchor,
+                1,
+            )
+        elif ENSURE_GUEST_SETTING_V1 in content and ENSURE_GUEST_SETTING_V2 not in content:
+            content = content.replace(ENSURE_GUEST_SETTING_V1, ENSURE_GUEST_SETTING_V2, 1)
 
-    autologin_anchor = "/* Autologin after all data and i18n helpers are ready. Never show login on top of the first-time setup overlay. */"
-    if autologin_anchor in content and "tryBootGuestRestaurantOrder" not in content:
-        content = content.replace(
-            autologin_anchor,
-            GUEST_ORDER_JS + GUEST_ORDER_JS_BODY + GUEST_ORDER_STAFF_JS + autologin_anchor,
-            1,
-        )
-    elif ENSURE_GUEST_SETTING_V1 in content and ENSURE_GUEST_SETTING_V2 not in content:
-        content = content.replace(ENSURE_GUEST_SETTING_V1, ENSURE_GUEST_SETTING_V2, 1)
+        if INIT_AUTOLOGIN_OLD in content and "tryBootGuestOrderFromUrl()" not in content.split(INIT_AUTOLOGIN_OLD, 1)[1][:160]:
+            content = content.replace(INIT_AUTOLOGIN_OLD, INIT_AUTOLOGIN_NEW, 1)
 
-    if INIT_AUTOLOGIN_OLD in content and "tryBootGuestOrderFromUrl()" not in content.split(INIT_AUTOLOGIN_OLD, 1)[1][:160]:
-        content = content.replace(INIT_AUTOLOGIN_OLD, INIT_AUTOLOGIN_NEW, 1)
+        if "/* __HRMM_GUEST_QR_MARKER__ */" not in content:
+            content = content.replace(
+                "  </style>\n</head>",
+                CSS + "\n  </style>\n</head>",
+                1,
+            )
 
-    if "/* __HRMM_GUEST_QR_MARKER__ */" not in content:
-        content = content.replace(
-            "  </style>\n</head>",
-            CSS + "\n  </style>\n</head>",
-            1,
-        )
+        content = re.sub(r"<!-- HRMM-GUEST-QR-ORDER-v\d+ -->", f"<!-- {MARKER} -->", content)
+        if MARKER not in content:
+            content = content.replace(
+                "<title>HotelRestaurantMini-MartManagement</title>",
+                f"<title>HotelRestaurantMini-MartManagement</title>\n  <!-- {MARKER} -->",
+                1,
+            )
 
-    content = re.sub(r"<!-- HRMM-GUEST-QR-ORDER-v\d+ -->", f"<!-- {MARKER} -->", content)
-    if MARKER not in content:
-        content = content.replace(
-            "<title>HotelRestaurantMini-MartManagement</title>",
-            f"<title>HotelRestaurantMini-MartManagement</title>\n  <!-- {MARKER} -->",
-            1,
-        )
+        content = _apply_v3_upgrades(content)
+        content = _apply_v4_upgrades(content)
+        content = _apply_v5_upgrades(content)
+    else:
+        print(f"Already patched {MARKER} — running integrity repair")
 
-    content = _apply_v3_upgrades(content)
-    content = _apply_v4_upgrades(content)
-    content = _apply_v5_upgrades(content)
-
+    content = _repair_order_qr(content)
     return content
 
 
