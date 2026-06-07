@@ -3,6 +3,7 @@
 * **入门**
   * [概述](overview.md)
   * [入门](getting-started.md)
+  * [Visual guide (screenshots)](visual-guide.md)
   * [安装](installation.md)
   * [首次设置](first-time-setup.md)
   * [演示凭据](demo-credentials.md)
@@ -23,6 +24,7 @@
   * [设置与配置](settings-and-configuration.md)
   * [备份、恢复与数据](backup-restore-and-data.md)
   * [本地化](localization.md)
+  * [Multilingual documentation](multilingual-documentation.md)
   * [数据模型](data-model.md)
 
 * **技术**
@@ -34,4 +36,4 @@
 
 * **链接**
   * [Live web app ↗](https://hotel-restaurant-minimart.firebaseapp.com/)
-  * [APK landing ↗](https://roireuven.github.io/11/)
+  * [APK landing (GitHub) ↗](https://roireuven.github.io/11/)

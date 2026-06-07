@@ -4,7 +4,7 @@ Retail sales for on-site shop items, snacks, and amenities — with walk-in or r
 
 **Paths:** Sidebar → **Mini-Mart** · **Inventory POS** · bottom nav **POS**
 
-![Mini-mart POS — products, cart, charge to room](/doc/en/assets/screenshots/09-minimart-pos.png)
+![Mini-mart POS — products, cart, charge to room](assets/screenshots/09-minimart-pos.png)
 
 ---
 

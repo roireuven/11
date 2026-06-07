@@ -3,6 +3,7 @@
 * **Memulai**
   * [Ikhtisar](overview.md)
   * [Memulai](getting-started.md)
+  * [Visual guide (screenshots)](visual-guide.md)
   * [Instalasi](installation.md)
   * [Penyiapan pertama kali](first-time-setup.md)
   * [Kredensial demo](demo-credentials.md)
@@ -23,6 +24,7 @@
   * [Pengaturan & konfigurasi](settings-and-configuration.md)
   * [Cadangan, pemulihan & data](backup-restore-and-data.md)
   * [Lokalisasi](localization.md)
+  * [Multilingual documentation](multilingual-documentation.md)
   * [Model data](data-model.md)
 
 * **Teknis**
@@ -34,4 +36,4 @@
 
 * **Tautan**
   * [Live web app ↗](https://hotel-restaurant-minimart.firebaseapp.com/)
-  * [APK landing ↗](https://roireuven.github.io/11/)
+  * [APK landing (GitHub) ↗](https://roireuven.github.io/11/)

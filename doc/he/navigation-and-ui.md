@@ -10,4 +10,4 @@
 | **תפריט (☰)** | עזרה → תיעוד | המקטע הראשון בראש סרגל הצד |
 | **סרגל תחתון** | Docs | ניווט תחתון (מובייל) |
 
-לפרטי פריסה, מצב כהה ובורר שפה, ראו את [English navigation guide](../en/navigation-and-ui.md).
+לפרטי פריסה, מצב כהה ובורר שפה, ראו את [English navigation guide](https://hotel-restaurant-minimart.firebaseapp.com/doc/?lang=en#/navigation-and-ui).
