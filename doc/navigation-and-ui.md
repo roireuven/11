@@ -4,15 +4,16 @@
 
 The app is a **single-page application (SPA)** with:
 
-- **Top bar** — page title, back button, language picker, dark mode, user menu, logout
+- **Top bar** — page title, Documentation button, language picker, dark mode, user menu, logout
 - **Sidebar** (☰ Menu) — full module list grouped by section
-- **Main content** — active module
-- **Bottom navigation** (mobile) — quick access to Dashboard, POS, Bookings, Menu
+- **Main content** — active module (or embedded documentation viewer)
+- **Bottom navigation** (mobile) — Dashboard, POS, Bookings, Docs, Menu
 
 ## Sidebar sections
 
 | Section | Modules |
 |---------|---------|
+| **Help** | Documentation (embedded user guide) |
 | **Main** | Dashboard, Rooms, Bookings, Guests |
 | **Operations** | Housekeeping, Maintenance |
 | **Services** | Services, Invoices, Inventory, Mini-Mart |
@@ -29,6 +30,7 @@ Hidden sections collapse automatically when no visible links remain for your rol
 | **Dashboard** | Open dashboard |
 | **POS** | Opens Mini-Mart POS-style view |
 | **Bookings** | Open bookings |
+| **Docs** | Open in-app documentation (embedded `/doc/` viewer) |
 | **Menu** | Toggle sidebar |
 
 ## Documentation (in-app)
@@ -37,10 +39,10 @@ Documentation is **inside the app** — full guides open in an embedded viewer.
 
 | Location | Label | Action |
 |----------|-------|--------|
-| **Top bar** | Documentation | Next to Localization |
-| **Hamburger menu (☰)** | Documentation | Main section, under Dashboard |
+| **Top bar** | Documentation | Opens embedded docs page (`navToPage('documentation')`) |
+| **Hamburger menu (☰)** | Help → Documentation | First section at top of sidebar |
 | **Bottom bar** | Docs | Bottom navigation (mobile) |
-| **Login screen** | Documentation ↗ | Before sign-in |
+| **Login screen** | Documentation ↗ | Opens `/doc/` in a new tab before sign-in |
 
 Available to **all roles**. Use **Open in new tab ↗** inside the docs page for `/doc/`.
 
