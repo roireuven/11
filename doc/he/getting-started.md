@@ -12,4 +12,4 @@
 
 ## מדריך מלא
 
-להוראות מפורטות שלב אחר שלב, ראו את [English getting started guide](../en/getting-started.md).
+להוראות מפורטות שלב אחר שלב, ראו את [English getting started guide](https://hotel-restaurant-minimart.firebaseapp.com/doc/?lang=en#/getting-started).

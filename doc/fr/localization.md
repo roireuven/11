@@ -30,4 +30,4 @@ HotelRestaurantMini-MartManagement prend en charge **21 langues d'interface** av
 
 La documentation est disponible dans toutes les langues de l'interface. Les pages non encore traduites renvoient à la source anglaise.
 
-Pour changer de langue, RTL et emplacement des fichiers de langue, consultez le [English localization guide](../en/localization.md).
+Pour changer de langue, RTL et emplacement des fichiers de langue, consultez le [English localization guide](https://hotel-restaurant-minimart.firebaseapp.com/doc/?lang=en#/localization).

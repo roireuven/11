@@ -10,4 +10,4 @@
 | **Меню-гамбургер (☰)** | Справка → Документация | Первый раздел вверху боковой панели |
 | **Нижняя панель** | Docs | Нижняя навигация (мобильная) |
 
-Подробности макета, тёмный режим и выбор языка см. в [English navigation guide](../en/navigation-and-ui.md).
+Подробности макета, тёмный режим и выбор языка см. в [English navigation guide](https://hotel-restaurant-minimart.firebaseapp.com/doc/?lang=en#/navigation-and-ui).

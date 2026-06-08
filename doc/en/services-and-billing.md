@@ -60,7 +60,7 @@ The **Service Requests** grid handles room-service workflows:
 
 Central billing view for stays and posted charges.
 
-![Invoices — guest folios and line items](/doc/en/assets/screenshots/10-invoices.png)
+![Invoices — guest folios and line items](assets/screenshots/10-invoices.png)
 
 ### Pay invoice (cash)
 
