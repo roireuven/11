@@ -3,6 +3,7 @@
 * **Premiers pas**
   * [Vue d'ensemble](overview.md)
   * [Premiers pas](getting-started.md)
+  * [Visual guide (screenshots)](visual-guide.md)
   * [Installation](installation.md)
   * [Configuration initiale](first-time-setup.md)
   * [Identifiants de démonstration](demo-credentials.md)
@@ -23,6 +24,7 @@
   * [Paramètres et configuration](settings-and-configuration.md)
   * [Sauvegarde, restauration et données](backup-restore-and-data.md)
   * [Localisation](localization.md)
+  * [Multilingual documentation](multilingual-documentation.md)
   * [Modèle de données](data-model.md)
 
 * **Technique**
@@ -34,4 +36,4 @@
 
 * **Liens**
   * [Live web app ↗](https://hotel-restaurant-minimart.firebaseapp.com/)
-  * [APK landing ↗](https://roireuven.github.io/11/)
+  * [APK landing (GitHub) ↗](https://roireuven.github.io/11/)

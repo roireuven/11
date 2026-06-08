@@ -6,7 +6,7 @@ This guide covers the **hotel / PMS** modules: rooms, bookings, guests, housekee
 
 **Path:** Sidebar → **Rooms**
 
-![Rooms grid — occupancy and housekeeping status](/doc/en/assets/screenshots/05-rooms.png)
+![Rooms grid — occupancy and housekeeping status](assets/screenshots/05-rooms.png)
 
 ### Room overview
 
@@ -40,7 +40,7 @@ Fields include:
 
 **Path:** Sidebar → **Bookings**
 
-![Bookings module — guest stays and actions](/doc/en/assets/screenshots/06-bookings.png)
+![Bookings module — guest stays and actions](assets/screenshots/06-bookings.png)
 
 ### Create booking
 
@@ -79,7 +79,7 @@ Guests link to bookings and room charges across restaurant and mini-mart.
 
 **Path:** Sidebar → **Housekeeping**
 
-![Housekeeping board by floor](/doc/en/assets/screenshots/07-housekeeping.png)
+![Housekeeping board by floor](assets/screenshots/07-housekeeping.png)
 
 ### Housekeeping board
 
