@@ -1,7 +1,7 @@
 {
   "en": {
     "home_title": "HotelRestaurantMini-MartManagement — Documentation",
-    "home_subtitle": "Complete documentation for **HotelRestaurantMini-MartManagement** (v2.0), an all-in-one property management system for **hotel**, **restaurant**, **mini-mart**, and **POS** operations.",
+    "home_subtitle": "Complete documentation for **HotelRestaurantMini-MartManagement** (v2.1), an all-in-one property management system for **hotel**, **restaurant**, **mini-mart**, and **POS** operations — including guest QR self-order and QR Orders Report.",
     "english_fallback_note": "Some pages are only available in English; links point to the English version.",
     "browse_online": "Browse online (Firebase)",
     "inside_app": "Inside the app",
@@ -27,6 +27,7 @@
     "sec_links": "Links",
     "page_overview": "Overview",
     "page_getting_started": "Getting started",
+    "page_visual_guide": "Visual guide (screenshots)",
     "page_installation": "Installation",
     "page_first_time_setup": "First-time setup",
     "page_demo_credentials": "Demo credentials",
@@ -36,6 +37,7 @@
     "page_services": "Services & billing",
     "page_restaurant": "Restaurant & kitchen",
     "page_minimart": "Mini-mart & POS",
+    "page_guest_qr_orders": "Guest QR orders",
     "page_inventory": "Inventory & catalog",
     "page_guest_portal": "Guest portal",
     "page_reports": "Reports",
@@ -43,6 +45,7 @@
     "page_settings": "Settings & configuration",
     "page_backup": "Backup, restore & data",
     "page_localization": "Localization",
+    "page_multilingual_docs": "Multilingual documentation",
     "page_data_model": "Data model",
     "page_architecture": "Architecture",
     "page_deployment": "Deployment",

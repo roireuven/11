@@ -9,4 +9,4 @@
 - **मिनी-मार्ट और POS** — दुकान बिक्री, कमरे शुल्क, टिल संचालन
 - **प्रशासन** — सेटिंग्स, खाते, रिपोर्ट, बैकअप, स्थानीयकरण
 
-दर्शक और क्षमता तालिकाओं सहित पूर्ण अवलोकन के लिए, देखें [English overview](../en/overview.md).
+दर्शक और क्षमता तालिकाओं सहित पूर्ण अवलोकन के लिए, देखें [English overview](https://hotel-restaurant-minimart.firebaseapp.com/doc/?lang=en#/overview).

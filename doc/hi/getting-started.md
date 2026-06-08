@@ -12,4 +12,4 @@
 
 ## पूर्ण गाइड
 
-विस्तृत चरण-दर-चरण निर्देशों के लिए, देखें [English getting started guide](../en/getting-started.md).
+विस्तृत चरण-दर-चरण निर्देशों के लिए, देखें [English getting started guide](https://hotel-restaurant-minimart.firebaseapp.com/doc/?lang=en#/getting-started).
