@@ -28,10 +28,35 @@ def _load_v11_staff_js() -> str:
     return mod.GUEST_QR_STAFF_JS_V11
 
 
+def _load_v12_table_order_fragments() -> tuple[str, str, str, str, str, str]:
+    frag_path = Path(__file__).resolve().parent / "_guest_qr_table_order_v12_fragments.py"
+    spec = importlib.util.spec_from_file_location("_guest_qr_table_order_v12_fragments", frag_path)
+    if spec is None or spec.loader is None:
+        raise SystemExit(f"Missing guest QR table order v12 fragments: {frag_path}")
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return (
+        mod.GUEST_REST_TABLE_ORDER_HELPERS_V12,
+        mod.GUEST_REST_SUBMIT_ORDER_V12,
+        mod.REST_TABLE_LABEL_MATCH_V12,
+        mod.REST_GET_ORDERS_TABLE_OLD,
+        mod.REST_APPLY_FILTER_TABLE_MATCH_OLD,
+        mod.REST_APPLY_FILTER_TABLE_MATCH_NEW,
+    )
+
+
 GUEST_ORDER_PARSE_AND_BOOT_V4, GUEST_ORDER_BOOT_V4, RENDER_GUEST_MINIMART_ORDER_V8 = _load_v4_fragments()
 GUEST_QR_STAFF_JS_V11 = _load_v11_staff_js()
+(
+    GUEST_REST_TABLE_ORDER_HELPERS_V12,
+    GUEST_REST_SUBMIT_ORDER_V12,
+    REST_TABLE_LABEL_MATCH_V12,
+    REST_GET_ORDERS_TABLE_OLD,
+    REST_APPLY_FILTER_TABLE_MATCH_OLD,
+    REST_APPLY_FILTER_TABLE_MATCH_NEW,
+) = _load_v12_table_order_fragments()
 
-MARKER = "HRMM-GUEST-QR-ORDER-v11"
+MARKER = "HRMM-GUEST-QR-ORDER-v12"
 INDEX = Path("public/index.html")
 
 GET_INVOICE_QR_PAYLOAD_OLD = """function getInvoiceQrPayload(inv) {
@@ -1240,42 +1265,13 @@ window.guestRestCartRemove = function(idx) {
   guestRestCart.splice(idx, 1);
   renderGuestRestaurantOrder();
 };
+""" + GUEST_REST_TABLE_ORDER_HELPERS_V12 + """
 window.guestRestStartNewOrder = function() {
   guestRestSubmitted = false;
   guestRestCart = [];
   renderGuestRestaurantOrder();
 };
-window.guestRestSubmitOrder = function() {
-  if (!guestRestCart.length) return;
-  ensureGuestRestaurantMenuLoaded();
-  var wp = ensureGuestRestaurantWorkPeriod();
-  if (!wp) { if (typeof toast === 'function') toast('Could not start restaurant shift'); return; }
-  var taxRate = parseFloat(settings && (settings.serviceTax || settings.taxRate)) || 7;
-  var items = guestRestCart.map(function(ci) {
-    return { menuItemId: ci.menuItemId, name: ci.name, qty: ci.qty, unitPrice: ci.unitPrice, total: (parseFloat(ci.unitPrice) || 0) * (parseInt(ci.qty, 10) || 0) };
-  });
-  var subtotal = items.reduce(function(s, i) { return s + i.total; }, 0);
-  var tax = Math.round((subtotal * (taxRate / 100)) * 100) / 100;
-  var grandTotal = Math.round((subtotal + tax) * 100) / 100;
-  var notesEl = document.getElementById('guestRestOrderNotes');
-  var notes = notesEl ? notesEl.value : '';
-  var tableNumber = guestRestCtx.orderNum ? ('Order #' + guestRestCtx.orderNum) : (guestRestCtx.table ? String(guestRestCtx.table) : (guestRestCtx.room ? ('Room ' + guestRestCtx.room) : 'QR Guest'));
-  var order = {
-    id: genId(), timestamp: new Date().toISOString(), orderNumber: nextOrderNumber(),
-    roomNumber: guestRestCtx.orderNum ? String(guestRestCtx.orderNum) : (guestRestCtx.room || ''),
-    guestName: guestRestCtx.orderNum ? ('Order #' + guestRestCtx.orderNum) : (guestRestCtx.guest || 'Guest'),
-    bookingId: guestRestCtx.booking || '', guestOrderNum: guestRestCtx.orderNum || '',
-    tableNumber: tableNumber, items: items, subtotal: subtotal, tax: tax, grandTotal: grandTotal,
-    status: 'Preparing', paidBy: 'Pending', staffName: 'Guest (QR scan)', notes: notes, workPeriodId: wp.id,
-    diningFlow: 'kitchen', guestQrOrder: true, source: 'guestQr'
-  };
-  restaurantOrders.push(order);
-  try { save('restaurantOrders', restaurantOrders); } catch (e) {}
-  try { if (typeof logAudit === 'function') logAudit('New Order', 'Restaurant', order.orderNumber, 'Guest QR order: ' + fmt$(grandTotal) + ' (' + tableNumber + ')'); } catch (e) {}
-  guestRestCart = [];
-  guestRestSubmitted = true;
-  renderGuestRestaurantOrder();
-};
+""" + GUEST_REST_SUBMIT_ORDER_V12 + """
 """ + GUEST_ORDER_PARSE_AND_BOOT_V4 + GUEST_ORDER_BOOT_V4
 
 
@@ -1698,6 +1694,36 @@ def _apply_v11_table_pick(content: str) -> str:
     return content
 
 
+def _replace_guest_rest_submit_v12(content: str) -> str:
+    """Replace guestRestSubmitOrder with table-merge version."""
+    if "guestRestFindTableMergeTarget" in content:
+        return content
+    if "window.guestRestSubmitOrder = function()" not in content:
+        return content
+    if "function guestRestFindTableMergeTarget" not in content:
+        anchor = "window.guestRestStartNewOrder = function()"
+        if anchor in content:
+            content = content.replace(anchor, GUEST_REST_TABLE_ORDER_HELPERS_V12.strip() + "\n" + anchor, 1)
+    content = re.sub(
+        r"window\.guestRestSubmitOrder = function\(\) \{[\s\S]*?\n\};",
+        GUEST_REST_SUBMIT_ORDER_V12.strip(),
+        content,
+        count=1,
+    )
+    return content
+
+
+def _apply_v12_table_order_link(content: str) -> str:
+    """Table QR guest orders merge into restaurant table active orders."""
+    if REST_GET_ORDERS_TABLE_OLD in content and "function restTableLabelsMatch" not in content:
+        content = content.replace(REST_GET_ORDERS_TABLE_OLD, REST_TABLE_LABEL_MATCH_V12.strip(), 1)
+    if REST_APPLY_FILTER_TABLE_MATCH_OLD in content:
+        content = content.replace(REST_APPLY_FILTER_TABLE_MATCH_OLD, REST_APPLY_FILTER_TABLE_MATCH_NEW, 1)
+    content = _replace_guest_rest_submit_v12(content)
+    content = re.sub(r"HRMM-GUEST-QR-ORDER-v\d+", MARKER, content)
+    return content
+
+
 def _apply_native_order_select(content: str) -> str:
     """Use native browser dropdown for order # picker (custom csel sits under fullscreen modal)."""
     needle = 'id="guestOrderQrOrderNumPick" data-native-select="1"'
@@ -1810,6 +1836,7 @@ def _is_fully_patched(content: str) -> bool:
         and "Search items" in content.split("function renderGuestMiniMartOrder()", 1)[1][:2500]
         and "guestOrderQrPickOrderNum" in content
         and "guestOrderQrSetPickMode" in content
+        and "guestRestFindTableMergeTarget" in content
     )
 
 
@@ -2044,6 +2071,7 @@ def patch(content: str) -> str:
     content = _apply_i18n_v10(content)
     content = _apply_native_order_select(content)
     content = _apply_v11_table_pick(content)
+    content = _apply_v12_table_order_link(content)
     content = _repair_order_qr(content)
     return content
 

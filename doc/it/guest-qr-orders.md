@@ -22,9 +22,13 @@ Staff picks order #1–60 → QR generated → Guest scans → Self-order screen
 | 2 | Staff | Print or display QR (or copy link / open preview) |
 | 3 | Guest | Scan QR with phone camera → opens guest order screen |
 | 4 | Guest | Browse menu or store items, add to cart, submit |
-| 5 | Staff | Order appears in Restaurant or Mini-Mart queue tagged with that order number |
+| 5 | Staff | Order appears on the **table active orders** (table QR) or in the queue tagged with that **order number** |
 
-Order numbers **1–60** replace room/guest context for QR self-ordering. Each slot can hold one active QR order at a time (see **QR Orders Report** board).
+**Table QR:** guest items are added to that table’s active bill in Restaurant → Table view (floor tile, active orders list, and open-bill modal). Multiple guest submissions merge into the same open kitchen order when the table already has one in progress.
+
+**Order number QR:** numbers **1–60** replace room/guest context. Each slot can hold one active QR order at a time (see **QR Orders Report** board).
+
+**Note:** Orders save in the browser or device where the guest submits. Staff see table orders on the same property data store (same device, another tab, or synced Android app).
 
 ---
 
