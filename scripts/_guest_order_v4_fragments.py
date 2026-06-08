@@ -5,7 +5,7 @@ function parseGuestOrderParams() {
   var sp = (typeof window.hotelBootUrlParams === 'function') ? window.hotelBootUrlParams() : new URLSearchParams(typeof location !== 'undefined' && location.search ? location.search : '');
   var go = sp.get('guestOrder');
   if (go !== 'restaurant' && go !== 'minimart') return null;
-  return { dept: go, room: sp.get('room') || '', guest: sp.get('guest') || '', booking: sp.get('booking') || '', table: sp.get('table') || '' };
+  return { dept: go, room: sp.get('room') || '', guest: sp.get('guest') || '', booking: sp.get('booking') || '', table: sp.get('table') || '', orderNum: sp.get('orderNum') || '' };
 }
 function parseGuestRestaurantOrderParams() {
   var p = parseGuestOrderParams();
@@ -15,7 +15,7 @@ function parseGuestRestaurantOrderParams() {
 window._guestOrderDept = 'restaurant';
 var guestMartCart = [];
 var guestMartMenuFilter = 'All';
-var guestMartCtx = { room: '', guest: '', booking: '', table: '' };
+var guestMartCtx = { room: '', guest: '', booking: '', table: '', orderNum: '' };
 var guestMartSubmitted = false;
 function ensureGuestMiniMartStoreLoaded() {
   try { if (typeof load === 'function') storeItems = load('storeItems', storeItems); } catch (e) {}
@@ -47,10 +47,13 @@ function renderGuestMiniMartOrder() {
   if (title) title.textContent = hn + ' — Shop';
   if (sub) {
     var bits = [];
-    if (guestMartCtx.guest) bits.push(guestMartCtx.guest);
-    if (guestMartCtx.room) bits.push('Room ' + guestMartCtx.room);
-    if (guestMartCtx.table) bits.push(String(guestMartCtx.table));
-    if (guestMartCtx.booking) bits.push('Booking ' + guestMartCtx.booking);
+    if (guestMartCtx.orderNum) bits.push('Order number ' + guestMartCtx.orderNum);
+    else {
+      if (guestMartCtx.guest) bits.push(guestMartCtx.guest);
+      if (guestMartCtx.room) bits.push('Room ' + guestMartCtx.room);
+      if (guestMartCtx.table) bits.push(String(guestMartCtx.table));
+      if (guestMartCtx.booking) bits.push('Booking ' + guestMartCtx.booking);
+    }
     sub.textContent = bits.length ? bits.join(' · ') : 'Browse items and submit your order';
   }
   if (guestMartSubmitted) {
@@ -121,7 +124,10 @@ window.guestMartSubmitOrder = function() {
   var orderNum = typeof martNextMiniMartOrderNumber === 'function' ? martNextMiniMartOrderNumber() : ('MM-' + Date.now());
   var order = {
     id: genId(), orderNumber: orderNum, timestamp: new Date().toISOString(),
-    roomNumber: guestMartCtx.room || '—', guestName: guestMartCtx.guest || 'Walk-in', bookingId: guestMartCtx.booking || '',
+    roomNumber: guestMartCtx.orderNum ? String(guestMartCtx.orderNum) : (guestMartCtx.room || '—'),
+    guestName: guestMartCtx.orderNum ? ('Order #' + guestMartCtx.orderNum) : (guestMartCtx.guest || 'Walk-in'),
+    bookingId: guestMartCtx.booking || '',
+    guestOrderNum: guestMartCtx.orderNum || '',
     source: 'guestQr', items: lines, subtotal: totals.subtotal, tax: totals.taxAmount, grandTotal: totals.grandTotal,
     status: 'Open', paidBy: 'Pending', staffName: 'Guest (QR scan)', guestQrOrder: true
   };
@@ -148,7 +154,7 @@ window.showGuestOrderScreen = function(dept, ctx) {
   window._guestOrderDept = dept === 'minimart' ? 'minimart' : 'restaurant';
   ctx = ctx || {};
   if (window._guestOrderDept === 'minimart') {
-    guestMartCtx = { room: ctx.room || '', guest: ctx.guest || '', booking: ctx.booking || '', table: ctx.table || '' };
+    guestMartCtx = { room: ctx.room || '', guest: ctx.guest || '', booking: ctx.booking || '', table: ctx.table || '', orderNum: ctx.orderNum || '' };
     guestMartSubmitted = false;
   } else {
     guestRestCtx = { room: ctx.room || '', guest: ctx.guest || '', booking: ctx.booking || '', table: ctx.table || '' };
@@ -170,7 +176,7 @@ window.showGuestOrderScreen = function(dept, ctx) {
 """
 
 # Standalone repair block — must match renderGuestMiniMartOrder() inside GUEST_ORDER_PARSE_AND_BOOT_V4.
-RENDER_GUEST_MINIMART_ORDER_V7 = r"""function renderGuestMiniMartOrder() {
+RENDER_GUEST_MINIMART_ORDER_V8 = r"""function renderGuestMiniMartOrder() {
   var body = document.getElementById('guestRestOrderBody');
   var sub = document.getElementById('guestRestOrderSub');
   var title = document.getElementById('guestRestOrderTitle');
@@ -180,10 +186,13 @@ RENDER_GUEST_MINIMART_ORDER_V7 = r"""function renderGuestMiniMartOrder() {
   if (title) title.textContent = hn + ' — Shop';
   if (sub) {
     var bits = [];
-    if (guestMartCtx.guest) bits.push(guestMartCtx.guest);
-    if (guestMartCtx.room) bits.push('Room ' + guestMartCtx.room);
-    if (guestMartCtx.table) bits.push(String(guestMartCtx.table));
-    if (guestMartCtx.booking) bits.push('Booking ' + guestMartCtx.booking);
+    if (guestMartCtx.orderNum) bits.push('Order number ' + guestMartCtx.orderNum);
+    else {
+      if (guestMartCtx.guest) bits.push(guestMartCtx.guest);
+      if (guestMartCtx.room) bits.push('Room ' + guestMartCtx.room);
+      if (guestMartCtx.table) bits.push(String(guestMartCtx.table));
+      if (guestMartCtx.booking) bits.push('Booking ' + guestMartCtx.booking);
+    }
     sub.textContent = bits.length ? bits.join(' · ') : 'Browse items and submit your order';
   }
   if (guestMartSubmitted) {

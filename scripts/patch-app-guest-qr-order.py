@@ -15,12 +15,12 @@ def _load_v4_fragments() -> tuple[str, str, str]:
         raise SystemExit(f"Missing guest order v4 fragments: {frag_path}")
     mod = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(mod)
-    return mod.GUEST_ORDER_PARSE_AND_BOOT_V4, mod.GUEST_ORDER_BOOT_V4, mod.RENDER_GUEST_MINIMART_ORDER_V7
+    return mod.GUEST_ORDER_PARSE_AND_BOOT_V4, mod.GUEST_ORDER_BOOT_V4, mod.RENDER_GUEST_MINIMART_ORDER_V8
 
 
-GUEST_ORDER_PARSE_AND_BOOT_V4, GUEST_ORDER_BOOT_V4, RENDER_GUEST_MINIMART_ORDER_V7 = _load_v4_fragments()
+GUEST_ORDER_PARSE_AND_BOOT_V4, GUEST_ORDER_BOOT_V4, RENDER_GUEST_MINIMART_ORDER_V8 = _load_v4_fragments()
 
-MARKER = "HRMM-GUEST-QR-ORDER-v7"
+MARKER = "HRMM-GUEST-QR-ORDER-v8"
 INDEX = Path("public/index.html")
 
 GET_INVOICE_QR_PAYLOAD_OLD = """function getInvoiceQrPayload(inv) {
@@ -189,13 +189,28 @@ function buildGuestOrderUrl(dept, inv) {
   var params = new URLSearchParams();
   params.set('guestOrder', deptKey);
   if (inv) {
-    var roomVal = inv.roomNumber != null ? String(inv.roomNumber).trim() : '';
-    var tableVal = inv.tableNumber != null ? String(inv.tableNumber).trim() : '';
-    if (!tableVal && roomVal && /^table\\b/i.test(roomVal)) tableVal = roomVal;
-    if (tableVal && tableVal !== '—') params.set('table', tableVal);
-    else if (roomVal && roomVal !== '—' && !/^table\\b/i.test(roomVal)) params.set('room', roomVal);
-    if (inv.guestName != null && String(inv.guestName).trim() !== '' && String(inv.guestName).trim() !== '—') params.set('guest', String(inv.guestName).trim());
-    if (inv.bookingId != null && String(inv.bookingId).trim() !== '') params.set('booking', String(inv.bookingId).trim());
+    if (deptKey === 'minimart') {
+      var orderNumVal = inv.orderNum != null ? String(inv.orderNum).trim() : '';
+      if (orderNumVal && orderNumVal !== '—') {
+        params.set('orderNum', orderNumVal);
+      } else {
+        var roomVal = inv.roomNumber != null ? String(inv.roomNumber).trim() : '';
+        var tableVal = inv.tableNumber != null ? String(inv.tableNumber).trim() : '';
+        if (!tableVal && roomVal && /^table\\b/i.test(roomVal)) tableVal = roomVal;
+        if (tableVal && tableVal !== '—') params.set('table', tableVal);
+        else if (roomVal && roomVal !== '—' && !/^table\\b/i.test(roomVal)) params.set('room', roomVal);
+        if (inv.guestName != null && String(inv.guestName).trim() !== '' && String(inv.guestName).trim() !== '—') params.set('guest', String(inv.guestName).trim());
+        if (inv.bookingId != null && String(inv.bookingId).trim() !== '') params.set('booking', String(inv.bookingId).trim());
+      }
+    } else {
+      var roomVal = inv.roomNumber != null ? String(inv.roomNumber).trim() : '';
+      var tableVal = inv.tableNumber != null ? String(inv.tableNumber).trim() : '';
+      if (!tableVal && roomVal && /^table\\b/i.test(roomVal)) tableVal = roomVal;
+      if (tableVal && tableVal !== '—') params.set('table', tableVal);
+      else if (roomVal && roomVal !== '—' && !/^table\\b/i.test(roomVal)) params.set('room', roomVal);
+      if (inv.guestName != null && String(inv.guestName).trim() !== '' && String(inv.guestName).trim() !== '—') params.set('guest', String(inv.guestName).trim());
+      if (inv.bookingId != null && String(inv.bookingId).trim() !== '') params.set('booking', String(inv.bookingId).trim());
+    }
   }
   var q = params.toString();
   if (base.indexOf('?') >= 0) {
@@ -891,9 +906,12 @@ window.guestOrderQrOpenCustomerScreen = function() {
 """
 
 GUEST_ORDER_STAFF_JS = """
-var guestOrderQrStaffCtx = { dept: 'restaurant', mode: 'room', room: '', guest: '', booking: '', table: '' };
+var guestOrderQrStaffCtx = { dept: 'restaurant', mode: 'room', room: '', guest: '', booking: '', table: '', orderNum: '' };
 function guestOrderQrInvFromCtx(ctx) {
   ctx = ctx || guestOrderQrStaffCtx;
+  if (ctx.dept === 'minimart') {
+    return { orderNum: ctx.orderNum || '' };
+  }
   return {
     roomNumber: ctx.room || '',
     guestName: ctx.guest || '',
@@ -936,8 +954,16 @@ function guestOrderQrListTables() {
 }
 function guestOrderQrHasCustomerContext(ctx) {
   ctx = ctx || guestOrderQrStaffCtx;
+  if (ctx.dept === 'minimart') {
+    var n = parseInt(String(ctx.orderNum || '').trim(), 10);
+    return n >= 1 && n <= 60;
+  }
   if ((ctx.mode || 'room') === 'walkin') return !!(String(ctx.table || '').trim() || String(ctx.guest || '').trim());
   return !!(String(ctx.room || '').trim() && String(ctx.guest || '').trim());
+}
+function guestOrderQrMissingContextHint(ctx) {
+  ctx = ctx || guestOrderQrStaffCtx;
+  return ctx.dept === 'minimart' ? 'Select order number first' : 'Select room/guest or table first';
 }
 function guestOrderQrRefreshPreview() {
   var img = document.getElementById('guestOrderQrImg');
@@ -945,11 +971,18 @@ function guestOrderQrRefreshPreview() {
   var link = document.getElementById('guestOrderQrLink');
   var url = guestOrderQrHasCustomerContext() ? guestOrderQrBuildUrl(guestOrderQrStaffCtx) : '';
   if (img) img.src = url ? buildInvoiceQrImageUrl(url) : '';
-  if (cap) cap.textContent = url ? invoiceQrCaptionForPayload(url) : 'Select room/guest or table';
+  var hint = guestOrderQrStaffCtx.dept === 'minimart' ? 'Select order number' : 'Select room/guest or table';
+  if (cap) cap.textContent = url ? invoiceQrCaptionForPayload(url) : hint;
   if (link) link.value = url || '';
 }
 window.guestOrderQrSetDept = function(dept) {
   guestOrderQrStaffCtx.dept = dept === 'minimart' ? 'minimart' : 'restaurant';
+  guestOrderQrStaffCtx.mode = 'room';
+  guestOrderQrStaffCtx.room = '';
+  guestOrderQrStaffCtx.guest = '';
+  guestOrderQrStaffCtx.booking = '';
+  guestOrderQrStaffCtx.table = '';
+  guestOrderQrStaffCtx.orderNum = '';
   if (typeof openGuestOrderQrModal === 'function') openGuestOrderQrModal(true);
 };
 window.guestOrderQrSetMode = function(mode) {
@@ -994,9 +1027,13 @@ window.guestOrderQrApplyWalkin = function() {
   guestOrderQrStaffCtx.booking = '';
   guestOrderQrRefreshPreview();
 };
+window.guestOrderQrPickOrderNum = function(val) {
+  guestOrderQrStaffCtx.orderNum = val ? String(val).trim() : '';
+  guestOrderQrRefreshPreview();
+};
 window.openGuestOrderQrModal = function(deptOrKeepState) {
   if (!guestOrderQrStaffCtx || typeof guestOrderQrStaffCtx !== 'object') {
-    guestOrderQrStaffCtx = { dept: 'restaurant', mode: 'room', room: '', guest: '', booking: '', table: '' };
+    guestOrderQrStaffCtx = { dept: 'restaurant', mode: 'room', room: '', guest: '', booking: '', table: '', orderNum: '' };
   }
   if (deptOrKeepState === 'restaurant' || deptOrKeepState === 'minimart') {
     guestOrderQrStaffCtx.dept = deptOrKeepState;
@@ -1005,8 +1042,9 @@ window.openGuestOrderQrModal = function(deptOrKeepState) {
     guestOrderQrStaffCtx.guest = '';
     guestOrderQrStaffCtx.booking = '';
     guestOrderQrStaffCtx.table = '';
+    guestOrderQrStaffCtx.orderNum = '';
   } else if (deptOrKeepState !== true) {
-    guestOrderQrStaffCtx = { dept: guestOrderQrStaffCtx.dept || 'restaurant', mode: 'room', room: '', guest: '', booking: '', table: '' };
+    guestOrderQrStaffCtx = { dept: guestOrderQrStaffCtx.dept || 'restaurant', mode: 'room', room: '', guest: '', booking: '', table: '', orderNum: '' };
   }
   var dept = guestOrderQrStaffCtx.dept === 'minimart' ? 'minimart' : 'restaurant';
   var mode = guestOrderQrStaffCtx.mode || 'room';
@@ -1037,23 +1075,35 @@ window.openGuestOrderQrModal = function(deptOrKeepState) {
   if (guestOrderQrStaffCtx.table && !knownTable) {
     tableOpts += '<option value="' + escapeHtml(guestOrderQrStaffCtx.table) + '" selected>' + escapeHtml(guestOrderQrStaffCtx.table) + '</option>';
   }
+  var orderNumOpts = '<option value="">— Select order number —</option>';
+  for (var on = 1; on <= 60; on++) {
+    var onSel = String(guestOrderQrStaffCtx.orderNum) === String(on) ? ' selected' : '';
+    orderNumOpts += '<option value="' + on + '"' + onSel + '>Order number ' + on + '</option>';
+  }
+  var leadText = dept === 'minimart'
+    ? 'Scan this QR so the customer can self-order from the mini-mart. Pick an order number (1–60) below.'
+    : 'Scan this QR so the customer can self-order from the restaurant. Pick a room guest or a walk-in table below.';
   var html = '<div class="modal-hd"><h2>' + deptLabel + ' order QR</h2><button type="button" class="modal-close" onclick="closeModal()">&times;</button></div>' +
     '<div class="modal-body guest-order-qr-modal">' +
-    '<p class="guest-order-qr-lead">Scan this QR so the customer can self-order from the ' + deptLabel.toLowerCase() + '. Pick a room guest or a walk-in table below.</p>' +
+    '<p class="guest-order-qr-lead">' + leadText + '</p>' +
     '<div class="rest-order-type" style="margin-bottom:0.65rem;">' +
       '<button type="button" class="btn ' + (dept === 'restaurant' ? 'btn-primary' : 'btn-outline') + '" onclick="guestOrderQrSetDept(\\'restaurant\\')">Restaurant QR</button>' +
       '<button type="button" class="btn ' + (dept === 'minimart' ? 'btn-primary' : 'btn-outline') + '" onclick="guestOrderQrSetDept(\\'minimart\\')">Mini-Mart QR</button>' +
-    '</div>' +
-    '<div class="rest-order-type" style="margin-bottom:0.75rem;">' +
+    '</div>';
+  if (dept === 'minimart') {
+    html += '<div class="form-group"><label>Order number</label><select class="form-control" id="guestOrderQrOrderNumPick" onchange="guestOrderQrPickOrderNum(this.value)">' + orderNumOpts + '</select></div>';
+  } else {
+    html += '<div class="rest-order-type" style="margin-bottom:0.75rem;">' +
       '<button type="button" class="btn ' + (mode === 'room' ? 'btn-primary' : 'btn-outline') + '" onclick="guestOrderQrSetMode(\\'room\\')">Room guest</button>' +
       '<button type="button" class="btn ' + (mode === 'walkin' ? 'btn-primary' : 'btn-outline') + '" onclick="guestOrderQrSetMode(\\'walkin\\')">Walk-in / table</button>' +
     '</div>';
-  if (mode === 'room') {
-    html += '<div class="form-row"><div class="form-group"><label>Room</label><select class="form-control" id="guestOrderQrRoomPick" onchange="guestOrderQrPickRoom(this.value)">' + roomOpts + '</select></div>' +
-      '<div class="form-group"><label>Guest</label><select class="form-control" id="guestOrderQrGuestPick" onchange="guestOrderQrPickGuestBooking(this.value)"' + (guestOrderQrStaffCtx.room ? '' : ' disabled') + '>' + guestOpts + '</select></div></div>';
-  } else {
-    html += '<div class="form-row"><div class="form-group"><label>Table</label><select class="form-control" id="guestOrderQrTablePick" onchange="guestOrderQrPickTable(this.value)">' + tableOpts + '</select></div>' +
-      '<div class="form-group"><label>Customer name (optional)</label><input type="text" class="form-control" id="guestOrderQrWalkName" value="' + escapeHtml(guestOrderQrStaffCtx.guest) + '" placeholder="Walk-in customer" oninput="guestOrderQrApplyWalkin()"></div></div>';
+    if (mode === 'room') {
+      html += '<div class="form-row"><div class="form-group"><label>Room</label><select class="form-control" id="guestOrderQrRoomPick" onchange="guestOrderQrPickRoom(this.value)">' + roomOpts + '</select></div>' +
+        '<div class="form-group"><label>Guest</label><select class="form-control" id="guestOrderQrGuestPick" onchange="guestOrderQrPickGuestBooking(this.value)"' + (guestOrderQrStaffCtx.room ? '' : ' disabled') + '>' + guestOpts + '</select></div></div>';
+    } else {
+      html += '<div class="form-row"><div class="form-group"><label>Table</label><select class="form-control" id="guestOrderQrTablePick" onchange="guestOrderQrPickTable(this.value)">' + tableOpts + '</select></div>' +
+        '<div class="form-group"><label>Customer name (optional)</label><input type="text" class="form-control" id="guestOrderQrWalkName" value="' + escapeHtml(guestOrderQrStaffCtx.guest) + '" placeholder="Walk-in customer" oninput="guestOrderQrApplyWalkin()"></div></div>';
+    }
   }
   html += '<div class="guest-order-qr-preview"><img id="guestOrderQrImg" class="invoice-qr-img" alt="Order QR code">' +
     '<div id="guestOrderQrCaption" class="invoice-qr-caption">Scan to order</div></div>' +
@@ -1067,7 +1117,7 @@ window.openGuestOrderQrModal = function(deptOrKeepState) {
 };
 window.guestOrderQrCopyLink = function() {
   var url = guestOrderQrBuildUrl(guestOrderQrStaffCtx);
-  if (!url || !guestOrderQrHasCustomerContext()) { if (typeof toast === 'function') toast('Select room/guest or table first'); return; }
+  if (!url || !guestOrderQrHasCustomerContext()) { if (typeof toast === 'function') toast(guestOrderQrMissingContextHint()); return; }
   if (navigator.clipboard && navigator.clipboard.writeText) {
     navigator.clipboard.writeText(url).then(function() { if (typeof toast === 'function') toast('Link copied'); }).catch(function() {
       var el = document.getElementById('guestOrderQrLink');
@@ -1079,13 +1129,14 @@ window.guestOrderQrCopyLink = function() {
   }
 };
 window.guestOrderQrOpenCustomerScreen = function() {
-  if (!guestOrderQrHasCustomerContext()) { if (typeof toast === 'function') toast('Select room/guest or table first'); return; }
+  if (!guestOrderQrHasCustomerContext()) { if (typeof toast === 'function') toast(guestOrderQrMissingContextHint()); return; }
   closeModal();
   showGuestOrderScreen(guestOrderQrStaffCtx.dept === 'minimart' ? 'minimart' : 'restaurant', {
     room: guestOrderQrStaffCtx.room || '',
     guest: guestOrderQrStaffCtx.guest || '',
     booking: guestOrderQrStaffCtx.booking || '',
-    table: guestOrderQrStaffCtx.table || ''
+    table: guestOrderQrStaffCtx.table || '',
+    orderNum: guestOrderQrStaffCtx.orderNum || ''
   });
 };
 """
@@ -1373,7 +1424,108 @@ def _apply_v7_upgrades(content: str) -> str:
     if mart_fn and "Search items" not in mart_fn.group(0):
         content = content.replace(
             mart_fn.group(0),
-            RENDER_GUEST_MINIMART_ORDER_V7 + "\nwindow.guestMartAddToCart",
+            RENDER_GUEST_MINIMART_ORDER_V8 + "\nwindow.guestMartAddToCart",
+            1,
+        )
+
+    content = re.sub(r"HRMM-GUEST-QR-ORDER-v\d+", MARKER, content)
+    return content
+
+
+BUILD_GUEST_ORDER_URL_INV_OLD = """  if (inv) {
+    var roomVal = inv.roomNumber != null ? String(inv.roomNumber).trim() : '';
+    var tableVal = inv.tableNumber != null ? String(inv.tableNumber).trim() : '';
+    if (!tableVal && roomVal && /^table\\b/i.test(roomVal)) tableVal = roomVal;
+    if (tableVal && tableVal !== '—') params.set('table', tableVal);
+    else if (roomVal && roomVal !== '—' && !/^table\\b/i.test(roomVal)) params.set('room', roomVal);
+    if (inv.guestName != null && String(inv.guestName).trim() !== '' && String(inv.guestName).trim() !== '—') params.set('guest', String(inv.guestName).trim());
+    if (inv.bookingId != null && String(inv.bookingId).trim() !== '') params.set('booking', String(inv.bookingId).trim());
+  }"""
+
+BUILD_GUEST_ORDER_URL_INV_NEW = """  if (inv) {
+    if (deptKey === 'minimart') {
+      var orderNumVal = inv.orderNum != null ? String(inv.orderNum).trim() : '';
+      if (orderNumVal && orderNumVal !== '—') {
+        params.set('orderNum', orderNumVal);
+      } else {
+        var roomVal = inv.roomNumber != null ? String(inv.roomNumber).trim() : '';
+        var tableVal = inv.tableNumber != null ? String(inv.tableNumber).trim() : '';
+        if (!tableVal && roomVal && /^table\\b/i.test(roomVal)) tableVal = roomVal;
+        if (tableVal && tableVal !== '—') params.set('table', tableVal);
+        else if (roomVal && roomVal !== '—' && !/^table\\b/i.test(roomVal)) params.set('room', roomVal);
+        if (inv.guestName != null && String(inv.guestName).trim() !== '' && String(inv.guestName).trim() !== '—') params.set('guest', String(inv.guestName).trim());
+        if (inv.bookingId != null && String(inv.bookingId).trim() !== '') params.set('booking', String(inv.bookingId).trim());
+      }
+    } else {
+      var roomVal = inv.roomNumber != null ? String(inv.roomNumber).trim() : '';
+      var tableVal = inv.tableNumber != null ? String(inv.tableNumber).trim() : '';
+      if (!tableVal && roomVal && /^table\\b/i.test(roomVal)) tableVal = roomVal;
+      if (tableVal && tableVal !== '—') params.set('table', tableVal);
+      else if (roomVal && roomVal !== '—' && !/^table\\b/i.test(roomVal)) params.set('room', roomVal);
+      if (inv.guestName != null && String(inv.guestName).trim() !== '' && String(inv.guestName).trim() !== '—') params.set('guest', String(inv.guestName).trim());
+      if (inv.bookingId != null && String(inv.bookingId).trim() !== '') params.set('booking', String(inv.bookingId).trim());
+    }
+  }"""
+
+PARSE_GUEST_ORDER_PARAMS_OLD = "return { dept: go, room: sp.get('room') || '', guest: sp.get('guest') || '', booking: sp.get('booking') || '', table: sp.get('table') || '' };"
+PARSE_GUEST_ORDER_PARAMS_NEW = "return { dept: go, room: sp.get('room') || '', guest: sp.get('guest') || '', booking: sp.get('booking') || '', table: sp.get('table') || '', orderNum: sp.get('orderNum') || '' };"
+
+GUEST_MART_CTX_OLD = "var guestMartCtx = { room: '', guest: '', booking: '', table: '' };"
+GUEST_MART_CTX_NEW = "var guestMartCtx = { room: '', guest: '', booking: '', table: '', orderNum: '' };"
+
+
+def _replace_guest_order_staff_js(content: str) -> str:
+    start = content.find("var guestOrderQrStaffCtx")
+    if start < 0:
+        return content
+    end_marker = "window.guestOrderQrOpenCustomerScreen = function()"
+    end = content.find(end_marker, start)
+    if end < 0:
+        return content
+    end = content.find("\n};", end)
+    if end < 0:
+        return content
+    return content[:start] + GUEST_ORDER_STAFF_JS.strip() + "\n" + content[end + 4 :]
+
+
+def _apply_v8_upgrades(content: str) -> str:
+    if "guestOrderQrPickOrderNum" not in content:
+        content = _replace_guest_order_staff_js(content)
+
+    if BUILD_GUEST_ORDER_URL_INV_OLD in content and "params.set('orderNum'" not in content.split("function buildGuestOrderUrl", 1)[1][:1200]:
+        content = content.replace(BUILD_GUEST_ORDER_URL_INV_OLD, BUILD_GUEST_ORDER_URL_INV_NEW, 1)
+
+    if PARSE_GUEST_ORDER_PARAMS_OLD in content:
+        content = content.replace(PARSE_GUEST_ORDER_PARAMS_OLD, PARSE_GUEST_ORDER_PARAMS_NEW, 1)
+
+    if GUEST_MART_CTX_OLD in content:
+        content = content.replace(GUEST_MART_CTX_OLD, GUEST_MART_CTX_NEW, 1)
+
+    mart_chunk = content.split("function renderGuestMiniMartOrder()", 1)
+    if len(mart_chunk) > 1 and "guestMartCtx.orderNum" not in mart_chunk[1][:1200]:
+        mart_fn = re.search(
+            r"function renderGuestMiniMartOrder\(\) \{.*?\n\}\nwindow\.guestMartAddToCart",
+            content,
+            flags=re.DOTALL,
+        )
+        if mart_fn:
+            content = content.replace(
+                mart_fn.group(0),
+                RENDER_GUEST_MINIMART_ORDER_V8 + "\nwindow.guestMartAddToCart",
+                1,
+            )
+
+    if "guestMartCtx = { room: ctx.room" in content and "orderNum: ctx.orderNum" not in content:
+        content = content.replace(
+            "guestMartCtx = { room: ctx.room || '', guest: ctx.guest || '', booking: ctx.booking || '', table: ctx.table || '' };",
+            "guestMartCtx = { room: ctx.room || '', guest: ctx.guest || '', booking: ctx.booking || '', table: ctx.table || '', orderNum: ctx.orderNum || '' };",
+            1,
+        )
+
+    if "guestOrderNum: guestMartCtx.orderNum" not in content and "window.guestMartSubmitOrder = function()" in content:
+        content = content.replace(
+            "roomNumber: guestMartCtx.room || '—', guestName: guestMartCtx.guest || 'Walk-in', bookingId: guestMartCtx.booking || '',",
+            "roomNumber: guestMartCtx.orderNum ? String(guestMartCtx.orderNum) : (guestMartCtx.room || '—'),\n    guestName: guestMartCtx.orderNum ? ('Order #' + guestMartCtx.orderNum) : (guestMartCtx.guest || 'Walk-in'),\n    bookingId: guestMartCtx.booking || '',\n    guestOrderNum: guestMartCtx.orderNum || '',",
             1,
         )
 
@@ -1458,6 +1610,7 @@ def _is_fully_patched(content: str) -> bool:
         and STALE_BOOT_BLOCK not in content
         and "function renderGuestMiniMartOrder()" in content
         and "Search items" in content.split("function renderGuestMiniMartOrder()", 1)[1][:2500]
+        and "guestOrderQrPickOrderNum" in content
     )
 
 
@@ -1685,6 +1838,7 @@ def patch(content: str) -> str:
         print(f"Already patched {MARKER} — running integrity repair")
 
     content = _apply_v7_upgrades(content)
+    content = _apply_v8_upgrades(content)
     content = _apply_invoice_qr_i18n(content)
     content = _repair_order_qr(content)
     return content
