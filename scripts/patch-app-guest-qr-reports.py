@@ -293,7 +293,7 @@ window.openGuestQrOrdersReport = function(dept) {
     '</div>' +
     '<h3 class="guest-qr-report-subhd">All QR scan orders (spreadsheet)</h3>' +
     '<div id="guestQrReportGrid"></div></div>';
-  openModal(html);
+  openShellModal(html, { wide: true });
   if (typeof XGrid !== 'undefined') {
     new XGrid('guestQrReportGrid', {
       columns: [

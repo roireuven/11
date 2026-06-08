@@ -866,7 +866,7 @@ window.openGuestOrderQrModal = function() {
       '<button type="button" class="btn btn-primary" onclick="guestOrderQrOpenCustomerScreen()">Open order screen</button>' +
       '<button type="button" class="btn btn-outline" onclick="guestOrderQrCopyLink()">Copy link</button>' +
     '</div></div>';
-  openModal(html);
+  openShellModal(html);
   guestOrderQrRefreshPreview();
 };
 window.guestOrderQrCopyLink = function() {
@@ -1072,7 +1072,7 @@ window.openGuestOrderQrModal = function(deptOrKeepState) {
       '<button type="button" class="btn btn-primary" onclick="guestOrderQrOpenCustomerScreen()">Open order screen</button>' +
       '<button type="button" class="btn btn-outline" onclick="guestOrderQrCopyLink()">Copy link</button>' +
     '</div></div>';
-  openModal(html);
+  openShellModal(html);
   guestOrderQrRefreshPreview();
 };
 window.guestOrderQrCopyLink = function() {
