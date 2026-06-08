@@ -73,8 +73,11 @@ if (!html.includes("HRMM-MOBILE-MENU-v4") || !html.includes("window.closeLangMen
 if (!html.includes("HRMM-GUEST-QR-ORDER-v9") || !html.includes("function guestOrderQrBuildUrl") || !html.includes('data-bnav="guestorder-rest"')) {
   fail("app missing guest QR order patch (HRMM-GUEST-QR-ORDER-v9)");
 }
-if (!html.includes("HRMM-GUEST-QR-REPORTS-v1") || !html.includes("openGuestQrOrdersReport")) {
-  fail("app missing guest QR orders report (HRMM-GUEST-QR-REPORTS-v1)");
+if (!html.includes("HRMM-GUEST-QR-REPORTS-v2") || !html.includes("openGuestQrOrdersReport")) {
+  fail("app missing guest QR orders report (HRMM-GUEST-QR-REPORTS-v2)");
+}
+if (!html.includes("guestQrBuildChartsHtml") || !html.includes("guest-qr-report-btn")) {
+  fail("app missing QR order charts and report toolbar buttons");
 }
 if (html.includes("openGuestQrOrdersReport('restaurant')")) {
   fail("renderRestaurant QR button has unescaped quotes (breaks login JS)");
