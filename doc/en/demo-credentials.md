@@ -2,7 +2,7 @@
 
 Built-in demo users for **training and evaluation** without running first-time setup.
 
-![Sign-in screen — demo credential rows](/doc/en/assets/screenshots/01-login.png)
+![Sign-in screen — demo credential rows](assets/screenshots/01-login.png)
 
 > Tap a demo **email row** to auto-fill the username. Password for all demo users: **`1234`**
 

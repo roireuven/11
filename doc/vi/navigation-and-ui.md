@@ -10,4 +10,4 @@
 | **Menu hamburger (☰)** | Trợ giúp → Tài liệu | Mục đầu tiên ở đầu thanh bên |
 | **Thanh dưới** | Docs | Điều hướng dưới (di động) |
 
-Để biết chi tiết bố cục, chế độ tối và chọn ngôn ngữ, xem [English navigation guide](../en/navigation-and-ui.md).
+Để biết chi tiết bố cục, chế độ tối và chọn ngôn ngữ, xem [English navigation guide](https://hotel-restaurant-minimart.firebaseapp.com/doc/?lang=en#/navigation-and-ui).

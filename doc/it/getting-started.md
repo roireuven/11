@@ -12,4 +12,4 @@ Questa guida porta una nuova struttura da zero alle operazioni quotidiane con il
 
 ## Guida completa
 
-Per istruzioni dettagliate passo passo, consulta la [English getting started guide](../en/getting-started.md).
+Per istruzioni dettagliate passo passo, consulta la [English getting started guide](https://hotel-restaurant-minimart.firebaseapp.com/doc/?lang=en#/getting-started).

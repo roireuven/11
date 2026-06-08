@@ -30,4 +30,4 @@ HotelRestaurantMini-MartManagement **21 arayüz dili** destekler; Arapça ve İb
 
 Dokümantasyon tüm uygulama UI dillerinde mevcuttur. Henüz çevrilmemiş sayfalar İngilizce kaynağa bağlanır.
 
-Dil değiştirme, RTL ve locale dosya konumları için bkz. [English localization guide](../en/localization.md).
+Dil değiştirme, RTL ve locale dosya konumları için bkz. [English localization guide](https://hotel-restaurant-minimart.firebaseapp.com/doc/?lang=en#/localization).

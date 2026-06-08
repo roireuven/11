@@ -3,6 +3,7 @@
 * **はじめに**
   * [概要](overview.md)
   * [はじめに](getting-started.md)
+  * [Visual guide (screenshots)](visual-guide.md)
   * [インストール](installation.md)
   * [初回セットアップ](first-time-setup.md)
   * [デモ認証情報](demo-credentials.md)
@@ -14,6 +15,7 @@
   * [サービスと請求](services-and-billing.md)
   * [レストランとキッチン](restaurant-and-kitchen.md)
   * [ミニマートと POS](minimart-and-pos.md)
+  * [Guest QR orders](guest-qr-orders.md)
   * [在庫とカタログ](inventory-and-catalog.md)
   * [ゲストポータル](guest-portal.md)
   * [レポート](reports.md)
@@ -23,6 +25,7 @@
   * [設定と構成](settings-and-configuration.md)
   * [バックアップ、復元とデータ](backup-restore-and-data.md)
   * [ローカライズ](localization.md)
+  * [Multilingual documentation](multilingual-documentation.md)
   * [データモデル](data-model.md)
 
 * **技術**
@@ -34,4 +37,4 @@
 
 * **リンク**
   * [Live web app ↗](https://hotel-restaurant-minimart.firebaseapp.com/)
-  * [APK landing ↗](https://roireuven.github.io/11/)
+  * [APK landing (GitHub) ↗](https://roireuven.github.io/11/)
