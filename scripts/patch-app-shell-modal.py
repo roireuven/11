@@ -6,7 +6,7 @@ import re
 import sys
 from pathlib import Path
 
-MARKER = "HRMM-FULLSCREEN-MODAL-v2"
+MARKER = "HRMM-FULLSCREEN-MODAL-v3"
 INDEX = Path("public/index.html")
 
 OPEN_MODAL_PLAIN = (
@@ -128,6 +128,8 @@ FULLSCREEN_MODAL_CSS = """
       margin: 0;
       border-radius: 0;
     }
+    .csel-overlay,
+    .csel-overlay.active { z-index: 10100; }
     /* __HRMM_FULLSCREEN_MODAL_MARKER__ */
 """
 

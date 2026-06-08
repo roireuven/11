@@ -76,8 +76,14 @@ if (!html.includes("HRMM-GUEST-QR-ORDER-v10") || !html.includes("function guestO
 if (!html.includes("HRMM-GUEST-QR-REPORTS-v3") || !html.includes("openGuestQrOrdersReport")) {
   fail("app missing guest QR orders report (HRMM-GUEST-QR-REPORTS-v3)");
 }
-if (!html.includes("HRMM-I18N-FIXES-v1") || !html.includes("function uiT")) {
-  fail("app missing core i18n fixes (HRMM-I18N-FIXES-v1)");
+if (!html.includes("HRMM-I18N-FIXES-v2") || !html.includes("function uiT")) {
+  fail("app missing core i18n fixes (HRMM-I18N-FIXES-v2)");
+}
+if (!html.includes("sel.closest('#modalOverlay')")) {
+  fail("modal selects must use native dropdown (isLocaleOrNativeSelect fix)");
+}
+if (!html.includes('id="guestOrderQrOrderNumPick" data-native-select="1"')) {
+  fail("guest QR order number select must use native dropdown");
 }
 if (!html.includes("uiT('guestOrder.qrReportBtn'") || !html.includes("uiT('guestQrReport.titleRest'")) {
   fail("app missing guest order / QR report i18n wiring");
@@ -91,8 +97,11 @@ if (html.includes("openGuestQrOrdersReport('restaurant')")) {
 if (!html.includes("openGuestQrOrdersReport(\\'restaurant\\')")) {
   fail("renderRestaurant QR button missing escaped restaurant onclick");
 }
-if (!html.includes("HRMM-FULLSCREEN-MODAL-v2") || !html.includes("modal-overlay--fullscreen") || !html.includes("modal--fullscreen")) {
-  fail("app missing full-screen modal patch (HRMM-FULLSCREEN-MODAL-v2)");
+if (!html.includes("HRMM-FULLSCREEN-MODAL-v3") || !html.includes("modal-overlay--fullscreen") || !html.includes("modal--fullscreen")) {
+  fail("app missing full-screen modal patch (HRMM-FULLSCREEN-MODAL-v3)");
+}
+if (!html.includes(".csel-overlay.active { z-index: 10100")) {
+  fail("custom select picker must sit above fullscreen modals (z-index 10100)");
 }
 if (!html.includes("openShellModal(html, { wide: true })") || !html.includes("openShellModal(html);\n  guestOrderQrRefreshPreview()")) {
   fail("QR modals must route through openShellModal/openModal fullscreen helpers");

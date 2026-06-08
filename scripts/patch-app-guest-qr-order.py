@@ -1064,7 +1064,7 @@ window.openGuestOrderQrModal = function(deptOrKeepState) {
       '<button type="button" class="btn ' + (dept === 'restaurant' ? 'btn-primary' : 'btn-outline') + '" onclick="guestOrderQrSetDept(\\'restaurant\\')">Restaurant QR</button>' +
       '<button type="button" class="btn ' + (dept === 'minimart' ? 'btn-primary' : 'btn-outline') + '" onclick="guestOrderQrSetDept(\\'minimart\\')">Mini-Mart QR</button>' +
     '</div>' +
-    '<div class="form-group"><label>Order number</label><select class="form-control" id="guestOrderQrOrderNumPick" onchange="guestOrderQrPickOrderNum(this.value)">' + orderNumOpts + '</select></div>';
+    '<div class="form-group"><label>Order number</label><select class="form-control" id="guestOrderQrOrderNumPick" data-native-select="1" onchange="guestOrderQrPickOrderNum(this.value)">' + orderNumOpts + '</select></div>';
   html += '<div class="guest-order-qr-preview"><img id="guestOrderQrImg" class="invoice-qr-img" alt="Order QR code">' +
     '<div id="guestOrderQrCaption" class="invoice-qr-caption">Scan to order</div></div>' +
     '<div class="form-group"><label>Order link</label><input type="text" class="form-control" id="guestOrderQrLink" readonly onclick="this.select()"></div>' +
@@ -1662,6 +1662,18 @@ def _apply_i18n_v10(content: str) -> str:
     return content
 
 
+def _apply_native_order_select(content: str) -> str:
+    """Use native browser dropdown for order # picker (custom csel sits under fullscreen modal)."""
+    needle = 'id="guestOrderQrOrderNumPick" data-native-select="1"'
+    if needle in content:
+        return content
+    return content.replace(
+        'id="guestOrderQrOrderNumPick" onchange="guestOrderQrPickOrderNum(this.value)"',
+        needle + ' onchange="guestOrderQrPickOrderNum(this.value)"',
+        1,
+    )
+
+
 def _apply_bnav_qr_labels(content: str) -> str:
     if I18N_BNAV_GUEST_PARTIAL_OLD in content:
         content = content.replace(I18N_BNAV_GUEST_PARTIAL_OLD, I18N_BNAV_GUEST_PARTIAL_NEW, 1)
@@ -1993,6 +2005,7 @@ def patch(content: str) -> str:
     content = _apply_bnav_qr_labels(content)
     content = _apply_invoice_qr_i18n(content)
     content = _apply_i18n_v10(content)
+    content = _apply_native_order_select(content)
     content = _repair_order_qr(content)
     return content
 

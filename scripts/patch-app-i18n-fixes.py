@@ -10,7 +10,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 INDEX = ROOT / "public" / "index.html"
 KEYS_FILE = ROOT / "doc" / "i18n" / "guest-order-app-keys.json"
-MARKER = "HRMM-I18N-FIXES-v1"
+MARKER = "HRMM-I18N-FIXES-v2"
 EMBEDDED_LOCALES = ("en", "fr", "es", "he", "th", "lo")
 
 INVOICE_T_OLD = """function invoiceT(key, fallback) {
@@ -40,6 +40,19 @@ BNAV_TAIL_OLD = """  document.body.appendChild(nav);
 BNAV_TAIL_NEW = """  document.body.appendChild(nav);
   if (typeof applyShellI18n === 'function') applyShellI18n();
 })();"""
+
+IS_LOCALE_SELECT_OLD = """function isLocaleOrNativeSelect(sel) {
+  if (!sel || sel.tagName !== 'SELECT') return false;
+  if (sel.id === 'settingsLocaleSelect' || sel.id === 'topbarLocaleSelect' || sel.id === 'loginLocaleSelect' || sel.getAttribute('data-locale-select') === '1' || sel.getAttribute('data-native-select') === '1') return true;
+  return false;
+}"""
+
+IS_LOCALE_SELECT_NEW = """function isLocaleOrNativeSelect(sel) {
+  if (!sel || sel.tagName !== 'SELECT') return false;
+  if (sel.id === 'settingsLocaleSelect' || sel.id === 'topbarLocaleSelect' || sel.id === 'loginLocaleSelect' || sel.getAttribute('data-locale-select') === '1' || sel.getAttribute('data-native-select') === '1') return true;
+  if (sel.closest && sel.closest('#modalOverlay')) return true;
+  return false;
+}"""
 
 
 def _deep_merge(base: dict, override: dict) -> dict:
@@ -89,6 +102,15 @@ def patch(content: str) -> str:
 
     if BNAV_TAIL_OLD in content and "applyShellI18n" not in content.split(BNAV_TAIL_OLD, 1)[1][:80]:
         content = content.replace(BNAV_TAIL_OLD, BNAV_TAIL_NEW, 1)
+
+    if IS_LOCALE_SELECT_OLD in content:
+        content = content.replace(IS_LOCALE_SELECT_OLD, IS_LOCALE_SELECT_NEW, 1)
+    elif "sel.closest('#modalOverlay')" not in content and "function isLocaleOrNativeSelect" in content:
+        content = content.replace(
+            "  if (sel.id === 'settingsLocaleSelect' || sel.id === 'topbarLocaleSelect' || sel.id === 'loginLocaleSelect' || sel.getAttribute('data-locale-select') === '1' || sel.getAttribute('data-native-select') === '1') return true;\n  return false;",
+            "  if (sel.id === 'settingsLocaleSelect' || sel.id === 'topbarLocaleSelect' || sel.id === 'loginLocaleSelect' || sel.getAttribute('data-locale-select') === '1' || sel.getAttribute('data-native-select') === '1') return true;\n  if (sel.closest && sel.closest('#modalOverlay')) return true;\n  return false;",
+            1,
+        )
 
     if KEYS_FILE.is_file():
         all_keys = json.loads(KEYS_FILE.read_text(encoding="utf-8"))
