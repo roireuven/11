@@ -3,6 +3,7 @@
 * **시작하기**
   * [개요](overview.md)
   * [시작하기](getting-started.md)
+  * [Visual guide (screenshots)](visual-guide.md)
   * [설치](installation.md)
   * [최초 설정](first-time-setup.md)
   * [데모 자격 증명](demo-credentials.md)
@@ -14,6 +15,7 @@
   * [서비스 및 청구](services-and-billing.md)
   * [레스토랑 및 주방](restaurant-and-kitchen.md)
   * [미니마트 및 POS](minimart-and-pos.md)
+  * [Guest QR orders](guest-qr-orders.md)
   * [재고 및 카탈로그](inventory-and-catalog.md)
   * [게스트 포털](guest-portal.md)
   * [보고서](reports.md)
@@ -23,6 +25,7 @@
   * [설정 및 구성](settings-and-configuration.md)
   * [백업, 복원 및 데이터](backup-restore-and-data.md)
   * [현지화](localization.md)
+  * [Multilingual documentation](multilingual-documentation.md)
   * [데이터 모델](data-model.md)
 
 * **기술**
@@ -34,4 +37,4 @@
 
 * **링크**
   * [Live web app ↗](https://hotel-restaurant-minimart.firebaseapp.com/)
-  * [APK landing ↗](https://roireuven.github.io/11/)
+  * [APK landing (GitHub) ↗](https://roireuven.github.io/11/)

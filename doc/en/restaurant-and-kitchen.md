@@ -4,7 +4,7 @@ Unified F&B module for dine-in, room service, and kitchen display.
 
 **Path:** Sidebar → **Restaurant** (or **Kitchen** for kitchen role)
 
-![Restaurant — table floor and order queue](/doc/en/assets/screenshots/08-restaurant.png)
+![Restaurant — table floor and order queue](assets/screenshots/08-restaurant.png)
 
 ## Order types
 
@@ -80,6 +80,21 @@ Kitchen **cannot** take payment or close tabs.
 
 Production ships optional dataset `nisha1-menu-dataset.js` (Indian restaurant sample, LAK pricing). New setups may load catalog templates; see Settings export/reload options.
 
+## Guest QR self-order
+
+Let dine-in or walk-in customers order from their phone without staff entering each item.
+
+| Step | Action |
+|------|--------|
+| 1 | Bottom nav → **Restaurant QR** (or open from Mini-Mart QR and switch department) |
+| 2 | Select **order number 1–60** (table/counter slot) |
+| 3 | Guest scans QR → browses menu → **Send to kitchen** |
+| 4 | Order appears in **Active Orders** with that order number |
+
+**QR Orders Report:** Button on **New Order** and **Active Orders** headers — full-screen board with charts, slots 1–60, filterable grid, and CSV export.
+
+See [Guest QR orders](guest-qr-orders.md) for the complete workflow, invoice QR options, and troubleshooting.
+
 ## Restrictions by role
 
 | Action | Restaurant | Kitchen |
@@ -88,9 +103,11 @@ Production ships optional dataset `nisha1-menu-dataset.js` (Indian restaurant sa
 | Kitchen queue | ✓ | ✓ |
 | Payment | ✓ | ✗ |
 | Menu Items | ✓ | ✗ |
+| Guest QR modal & report | ✓ | — |
 
 ## Related
 
+- [Guest QR orders](guest-qr-orders.md)
 - [Inventory & catalog](inventory-and-catalog.md)
 - [User roles & permissions](user-roles-and-permissions.md)
 - [Mini-mart & POS](minimart-and-pos.md)
