@@ -3,6 +3,7 @@
 * **התחלה**
   * [סקירה](overview.md)
   * [התחלה](getting-started.md)
+  * [Visual guide (screenshots)](visual-guide.md)
   * [התקנה](installation.md)
   * [הגדרה ראשונית](first-time-setup.md)
   * [פרטי התחברות לדמו](demo-credentials.md)
@@ -23,6 +24,7 @@
   * [הגדרות ותצורה](settings-and-configuration.md)
   * [גיבוי, שחזור ונתונים](backup-restore-and-data.md)
   * [לוקליזציה](localization.md)
+  * [Multilingual documentation](multilingual-documentation.md)
   * [מודל נתונים](data-model.md)
 
 * **טכני**
@@ -34,4 +36,4 @@
 
 * **קישורים**
   * [Live web app ↗](https://hotel-restaurant-minimart.firebaseapp.com/)
-  * [APK landing ↗](https://roireuven.github.io/11/)
+  * [APK landing (GitHub) ↗](https://roireuven.github.io/11/)

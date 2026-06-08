@@ -52,8 +52,35 @@ runPython("scripts/patch-app-features.py");
 console.log("Adding Settings shortcut to top bar...");
 runPython("scripts/patch-app-topbar-settings.py");
 
+console.log("Patching invoice items table and logo...");
+runPython("scripts/patch-app-invoice.py");
+
+console.log("Patching shifts to start closed by default...");
+runPython("scripts/patch-app-shifts.py");
+
+console.log("Adding guest QR restaurant self-order...");
+runPython("scripts/patch-app-guest-qr-order.py");
+
+console.log("Adding guest QR order reports...");
+runPython("scripts/patch-app-guest-qr-reports.py");
+
+console.log("Patching full-screen modals...");
+runPython("scripts/patch-app-shell-modal.py");
+
+console.log("Applying core i18n fixes (uiT, bottom nav, embedded locales)...");
+runPython("scripts/patch-app-i18n-fixes.py");
+
+console.log("Generating guest order locale keys...");
+runPython("scripts/generate-guest-order-locale-keys.py");
+
+console.log("Adding invoice i18n keys to app locale files...");
+runPython("scripts/patch-locale-invoice-keys.py");
+
 console.log("Adding documentation keys to app locale files...");
 runPython("scripts/patch-locale-doc-keys.py");
+
+console.log("Adding guest order / QR report keys to app locale files...");
+runPython("scripts/patch-locale-guest-order-keys.py");
 
 console.log("Generating multilingual documentation (21 locales)...");
 runPython("scripts/generate-doc-locales.py");
