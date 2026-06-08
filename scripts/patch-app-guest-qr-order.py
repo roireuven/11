@@ -711,8 +711,8 @@ CSS = """
 
 BOTTOM_NAV_DOCS_BTN = """    <button class="bottom-nav-item" data-bnav="documentation" onclick="bnav('documentation')"><span class="bnav-icon">&#128214;</span><span class="bnav-label" data-i18n="bnav.documentation">Docs</span></button>"""
 
-BOTTOM_NAV_WITH_GUEST_ORDER = """    <button class="bottom-nav-item" data-bnav="guestorder-rest" onclick="openGuestOrderQrModal('restaurant')"><span class="bnav-icon">&#127869;</span><span class="bnav-label" data-i18n="bnav.guestOrderRest">Rest QR</span></button>
-    <button class="bottom-nav-item" data-bnav="guestorder-mart" onclick="openGuestOrderQrModal('minimart')"><span class="bnav-icon">&#128722;</span><span class="bnav-label" data-i18n="bnav.guestOrderMart">Mart QR</span></button>
+BOTTOM_NAV_WITH_GUEST_ORDER = """    <button class="bottom-nav-item" data-bnav="guestorder-rest" onclick="openGuestOrderQrModal('restaurant')"><span class="bnav-icon">&#127869;</span><span class="bnav-label" data-i18n="bnav.guestOrderRest">RESTAURANT QR</span></button>
+    <button class="bottom-nav-item" data-bnav="guestorder-mart" onclick="openGuestOrderQrModal('minimart')"><span class="bnav-icon">&#128722;</span><span class="bnav-label" data-i18n="bnav.guestOrderMart">MINIMart QR</span></button>
     <button class="bottom-nav-item" data-bnav="documentation" onclick="bnav('documentation')"><span class="bnav-icon">&#128214;</span><span class="bnav-label" data-i18n="bnav.documentation">Docs</span></button>"""
 
 BOTTOM_NAV_SINGLE_GUEST_ORDER = """    <button class="bottom-nav-item" data-bnav="guestorder" onclick="openGuestOrderQrModal()"><span class="bnav-icon">&#128279;</span><span class="bnav-label" data-i18n="bnav.guestOrder">Order QR</span></button>
@@ -790,8 +790,8 @@ I18N_BNAV_NEW = """  "bnav": {
     "pos": "POS",
     "bookings": "Bookings",
     "guestOrder": "Order QR",
-    "guestOrderRest": "Rest QR",
-    "guestOrderMart": "Mart QR",
+    "guestOrderRest": "RESTAURANT QR",
+    "guestOrderMart": "MINIMart QR",
     "menu": "Menu",
     "documentation": "Docs"
   },"""
@@ -1533,6 +1533,36 @@ def _apply_v8_upgrades(content: str) -> str:
     return content
 
 
+I18N_BNAV_GUEST_PARTIAL_OLD = """    "guestOrder": "Order QR",
+    "menu": "Menu","""
+
+I18N_BNAV_GUEST_PARTIAL_NEW = """    "guestOrder": "Order QR",
+    "guestOrderRest": "RESTAURANT QR",
+    "guestOrderMart": "MINIMart QR",
+    "menu": "Menu","""
+
+
+def _apply_bnav_qr_labels(content: str) -> str:
+    if I18N_BNAV_GUEST_PARTIAL_OLD in content:
+        content = content.replace(I18N_BNAV_GUEST_PARTIAL_OLD, I18N_BNAV_GUEST_PARTIAL_NEW, 1)
+    content = content.replace('"guestOrderRest": "Rest QR"', '"guestOrderRest": "RESTAURANT QR"')
+    content = content.replace('"guestOrderMart": "Mart QR"', '"guestOrderMart": "MINIMart QR"')
+    content = re.sub(
+        r'("bnav": \{\s*"dashboard":[^\n]+\n\s*"pos":[^\n]+\n\s*"bookings":[^\n]+\n)(\s*"menu":)',
+        r'\1    "guestOrderRest": "RESTAURANT QR",\n    "guestOrderMart": "MINIMart QR",\n\2',
+        content,
+    )
+    content = content.replace(
+        '<span class="bnav-label" data-i18n="bnav.guestOrderRest">Rest QR</span>',
+        '<span class="bnav-label" data-i18n="bnav.guestOrderRest">RESTAURANT QR</span>',
+    )
+    content = content.replace(
+        '<span class="bnav-label" data-i18n="bnav.guestOrderMart">Mart QR</span>',
+        '<span class="bnav-label" data-i18n="bnav.guestOrderMart">MINIMart QR</span>',
+    )
+    return content
+
+
 def _apply_invoice_qr_i18n(content: str) -> str:
     if INVOICE_QR_CAPTION_LEGACY in content and "invoice.qrScanRestaurant" not in content.split(INVOICE_QR_CAPTION_LEGACY, 1)[0][-200:]:
         content = content.replace(INVOICE_QR_CAPTION_LEGACY, INVOICE_QR_CAPTION_I18N, 1)
@@ -1839,6 +1869,7 @@ def patch(content: str) -> str:
 
     content = _apply_v7_upgrades(content)
     content = _apply_v8_upgrades(content)
+    content = _apply_bnav_qr_labels(content)
     content = _apply_invoice_qr_i18n(content)
     content = _repair_order_qr(content)
     return content
