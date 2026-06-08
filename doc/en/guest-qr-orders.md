@@ -70,7 +70,8 @@ After scanning, guests see a **mobile-friendly** order page (no staff login):
 
 ### Restaurant
 
-- Search and category tabs for menu items
+- **Full-screen** order overlay (hides staff dashboard; close with × when previewing on staff device)
+- Search and category tabs for menu items (includes built-in **NISHA 1** menu when the device has no local menu yet)
 - Cart with quantities, tax, and notes
 - **Send to kitchen** submits the order
 - Success message confirms submission

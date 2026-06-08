@@ -28,7 +28,7 @@ Staff picks order #1–60 → QR generated → Guest scans → Self-order screen
 
 **Order number QR:** numbers **1–60** replace room/guest context. Each slot can hold one active QR order at a time (see **QR Orders Report** board).
 
-**Note:** Orders save in the browser or device where the guest submits. Staff see table orders on the same property data store (same device, another tab, or synced Android app).
+**Cloud sync (v2.2+):** New QR links include a `propertyNs` key. When a guest orders from their **phone**, the order is saved to **Firestore** and staff devices **pull it automatically** into Restaurant / Mini-Mart (active orders, QR report, and table floor). Regenerate QR codes after updating — old links without `propertyNs` cannot sync from guest phones.
 
 ---
 
@@ -70,7 +70,8 @@ After scanning, guests see a **mobile-friendly** order page (no staff login):
 
 ### Restaurant
 
-- Search and category tabs for menu items
+- **Full-screen** order overlay (hides staff dashboard; close with × when previewing on staff device)
+- Search and category tabs for menu items (includes built-in **NISHA 1** menu when the device has no local menu yet)
 - Cart with quantities, tax, and notes
 - **Send to kitchen** submits the order
 - Success message confirms submission

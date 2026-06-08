@@ -1156,8 +1156,13 @@ function ensureGuestRestaurantMenuLoaded() {
     if (typeof load === 'function') menuItems = load('menuItems', menuItems);
   } catch (e) {}
   if (!Array.isArray(menuItems) || !menuItems.length) {
-    if (typeof defaultMenuItems !== 'undefined' && Array.isArray(defaultMenuItems) && defaultMenuItems.length) menuItems = defaultMenuItems.slice();
-    else menuItems = [];
+    if (typeof defaultMenuItems !== 'undefined' && Array.isArray(defaultMenuItems) && defaultMenuItems.length) {
+      menuItems = defaultMenuItems.slice();
+    } else if (typeof nisha1DefaultMenuItems === 'function') {
+      menuItems = nisha1DefaultMenuItems();
+    } else {
+      menuItems = [];
+    }
   }
   if (!Array.isArray(restaurantOrders)) restaurantOrders = [];
 }

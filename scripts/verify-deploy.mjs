@@ -85,6 +85,14 @@ if (!html.includes("HRMM-GUEST-QR-CLOUD-v1") || !html.includes("guestQrCloudStar
 if (!html.includes("params.set('propertyNs'") || !html.includes("guestQrCloudPushRestaurantOrder")) {
   fail("app missing guest QR Firestore push (HRMM-GUEST-QR-CLOUD-v1)");
 }
+const cloudInStyle = html.indexOf("/* HRMM guest QR cloud sync v13 */");
+const styleClose = html.indexOf("</style>");
+if (cloudInStyle >= 0 && styleClose >= 0 && cloudInStyle < styleClose) {
+  fail("guest QR cloud JS must not be inside <style> (breaks fullscreen guest menu)");
+}
+if (!html.includes("guestRestGetMenuCategories") || !html.includes("nisha1DefaultMenuItems")) {
+  fail("app missing guest order menu load helpers (guestRestGetMenuCategories)");
+}
 if (!html.includes("HRMM-GUEST-QR-REPORTS-v3") || !html.includes("openGuestQrOrdersReport")) {
   fail("app missing guest QR orders report (HRMM-GUEST-QR-REPORTS-v3)");
 }
