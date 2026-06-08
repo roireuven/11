@@ -30,4 +30,4 @@
 
 التوثيق متاح بجميع لغات واجهة التطبيق. الصفحات غير المترجمة بعد ترتبط بالمصدر الإنجليزي.
 
-لتغيير اللغة وRTL ومواقع ملفات اللغة، راجع [English localization guide](../en/localization.md).
+لتغيير اللغة وRTL ومواقع ملفات اللغة، راجع [English localization guide](https://hotel-restaurant-minimart.firebaseapp.com/doc/?lang=en#/localization).
