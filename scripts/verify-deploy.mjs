@@ -34,6 +34,7 @@ const checks = [
   ['id="topbarDocBtn"', "app missing top bar Documentation button"],
   ['id="topbarSettingsBtn"', "app missing top bar Settings button"],
   ['data-bnav="documentation"', "app missing bottom nav Documentation link"],
+  ['data-bnav="settings"', "app missing bottom nav Settings link"],
   ['class="hrmm-doc-nav"', "app missing hamburger menu Documentation link"],
   ['embed=1', "app missing in-app embedded documentation (embed=1)"],
   ["'/doc/?lang='", "app iframe must use absolute /doc/ path (Firebase rewrite bug)"],
@@ -45,6 +46,68 @@ for (const [needle, msg] of checks) {
   if (!html.includes(needle)) fail(msg);
 }
 
+if (/\n}\n  var bnavSettings = document\.querySelector\('#bottomNav \[data-bnav="settings"\]'\);/.test(html)) {
+  fail("applyRBAC has broken Settings tail (orphaned bnavSettings breaks login)");
+}
+if (!html.includes("HRMM-TOPBAR-SETTINGS-v3")) {
+  fail("app missing fixed Settings patch marker (HRMM-TOPBAR-SETTINGS-v3)");
+}
+if (!html.includes("getInvoiceLineItems") || !html.includes("refreshInvoiceQrDisplay") || !html.includes("HRMM-INVOICE-v7")) {
+  fail("app missing invoice items table, logo, and QR patch (HRMM-INVOICE-v7)");
+}
+if (!html.includes("function invoiceT") || !html.includes("refreshOpenInvoiceOverlayI18n")) {
+  fail("app missing invoice i18n helpers (HRMM-INVOICE-v7)");
+}
+if (!html.includes("HRMM-INVOICE-PRINT-v6")) {
+  fail("app missing invoice print layout fix");
+}
+if (!html.includes("hrmmInvoicePrintFrame") || !html.includes("buildInvoicePrintBodyHtml")) {
+  fail("app missing iframe invoice print (HRMM-INVOICE-PRINT-v6)");
+}
+if (!html.includes("HRMM-SHIFTS-v1") || !html.includes("migrateShiftsClosedByDefault")) {
+  fail("app missing shifts-closed-by-default patch (HRMM-SHIFTS-v1)");
+}
+if (!html.includes("HRMM-MOBILE-MENU-v4") || !html.includes("window.closeLangMenu") || !html.includes('id="langMenuBackdrop"')) {
+  fail("app missing mobile phone UI patch (HRMM-MOBILE-MENU-v4)");
+}
+if (!html.includes("HRMM-GUEST-QR-ORDER-v9") || !html.includes("function guestOrderQrBuildUrl") || !html.includes('data-bnav="guestorder-rest"')) {
+  fail("app missing guest QR order patch (HRMM-GUEST-QR-ORDER-v9)");
+}
+if (!html.includes("HRMM-GUEST-QR-REPORTS-v2") || !html.includes("openGuestQrOrdersReport")) {
+  fail("app missing guest QR orders report (HRMM-GUEST-QR-REPORTS-v2)");
+}
+if (!html.includes("guestQrBuildChartsHtml") || !html.includes("guest-qr-report-btn")) {
+  fail("app missing QR order charts and report toolbar buttons");
+}
+if (html.includes("openGuestQrOrdersReport('restaurant')")) {
+  fail("renderRestaurant QR button has unescaped quotes (breaks login JS)");
+}
+if (!html.includes("openGuestQrOrdersReport(\\'restaurant\\')")) {
+  fail("renderRestaurant QR button missing escaped restaurant onclick");
+}
+if (!html.includes("guestOrderQrPickOrderNum") || !html.includes("guestOrderQrOrderNumPick")) {
+  fail("app missing mini-mart order number QR picker (HRMM-GUEST-QR-ORDER-v8)");
+}
+if (!html.includes("buildGuestOrderUrl") || !html.includes("guestMartSubmitOrder") || !html.includes("var guestOrderQrStaffCtx")) {
+  fail("app missing guest order QR staff helpers");
+}
+if (!html.includes("buildInvoiceGuestOrderQrsHtml") || !html.includes("guestQrMinimartOrderEnabled")) {
+  fail("app missing dual invoice guest order QR (HRMM-GUEST-QR-ORDER-v9)");
+}
+const martChunk = html.split("function renderGuestMiniMartOrder()")[1] || "";
+if (!martChunk.includes("Search items") || !martChunk.includes("guestRestMobileBarHtml")) {
+  fail("app missing complete mini-mart guest order UI");
+}
+if (html.includes("parseGuestRestaurantOrderParams();") && html.includes("window.tryBootGuestOrderFromUrl = function()") && html.includes("var params = parseGuestRestaurantOrderParams();")) {
+  fail("app has stale duplicate guest QR boot block");
+}
+if (!html.includes('data-bnav="guestorder"')) {
+  fail("app missing bottom nav Order QR button for guest restaurant ordering");
+}
+if (!html.includes('id="guestRestOrderOverlay"') || !html.includes("guestRestSubmitOrder")) {
+  fail("app missing guest restaurant order overlay UI");
+}
+
 let docHtml;
 try {
   docHtml = await readFile(join(DOC, "index.html"), "utf8");
@@ -53,6 +116,29 @@ try {
 }
 if (!docHtml.includes("basePath: DOC_ROOT + '/' + DOC_LANG + '/'")) {
   fail("doc site must use absolute DOC_ROOT basePath (prevents SPA HTML in docs panel)");
+}
+if (!docHtml.includes("fixDocAssetUrl")) {
+  fail("doc site missing image URL fix plugin");
+}
+
+let enGuide;
+try {
+  enGuide = await readFile(join(DOC, "en", "getting-started.md"), "utf8");
+} catch {
+  fail("missing public/doc/en/getting-started.md");
+}
+if (enGuide.includes("/doc/en/assets/")) {
+  fail("English docs must use relative assets/ paths (Docsify double-prefix bug)");
+}
+
+let esInstall;
+try {
+  esInstall = await readFile(join(DOC, "es", "installation.md"), "utf8");
+} catch {
+  fail("missing public/doc/es/installation.md — locale fallback pages required for Firebase");
+}
+if (esInstall.startsWith("<!DOCTYPE html>")) {
+  fail("public/doc/es/installation.md must be markdown, not SPA HTML");
 }
 
 const enMd = (await readdir(join(DOC, "en"))).filter((f) => f.endsWith(".md")).length;

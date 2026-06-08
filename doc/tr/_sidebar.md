@@ -3,6 +3,7 @@
 * **Başlarken**
   * [Genel bakış](overview.md)
   * [Başlarken](getting-started.md)
+  * [Visual guide (screenshots)](visual-guide.md)
   * [Kurulum](installation.md)
   * [İlk kurulum](first-time-setup.md)
   * [Demo kimlik bilgileri](demo-credentials.md)
@@ -23,6 +24,7 @@
   * [Ayarlar ve yapılandırma](settings-and-configuration.md)
   * [Yedekleme, geri yükleme ve veri](backup-restore-and-data.md)
   * [Yerelleştirme](localization.md)
+  * [Multilingual documentation](multilingual-documentation.md)
   * [Veri modeli](data-model.md)
 
 * **Teknik**
@@ -34,4 +36,4 @@
 
 * **Bağlantılar**
   * [Live web app ↗](https://hotel-restaurant-minimart.firebaseapp.com/)
-  * [APK landing ↗](https://roireuven.github.io/11/)
+  * [APK landing (GitHub) ↗](https://roireuven.github.io/11/)
