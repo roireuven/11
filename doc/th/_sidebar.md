@@ -15,6 +15,7 @@
   * [บริการและการเรียกเก็บเงิน](services-and-billing.md)
   * [ร้านอาหารและครัว](restaurant-and-kitchen.md)
   * [มินิมาร์ทและ POS](minimart-and-pos.md)
+  * [Guest QR orders](guest-qr-orders.md)
   * [สินค้าคงคลังและรายการสินค้า](inventory-and-catalog.md)
   * [พอร์ทัลแขก](guest-portal.md)
   * [รายงาน](reports.md)

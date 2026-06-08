@@ -29,6 +29,7 @@ PAGES = {
         ("services-and-billing.md", "page_services"),
         ("restaurant-and-kitchen.md", "page_restaurant"),
         ("minimart-and-pos.md", "page_minimart"),
+        ("guest-qr-orders.md", "page_guest_qr_orders"),
         ("inventory-and-catalog.md", "page_inventory"),
         ("guest-portal.md", "page_guest_portal"),
         ("reports.md", "page_reports"),
@@ -103,7 +104,7 @@ def write_readme(locale: str, messages: dict, dest: Path) -> None:
 
 ## {m('version_heading')}
 
-- **{m('app_version')}:** v2.0
+- **{m('app_version')}:** v2.1
 - **{m('doc_source')}:** hotel-restaurant-minimart.firebaseapp.com
 
 ## {m('support_heading')}

@@ -47,6 +47,7 @@ Sign in as Admin and open **Settings**:
 2. **Bookings** — create a test reservation (see screenshot below)
 3. **Accounts** — create staff users and assign roles (Reception, Restaurant, Kitchen, etc.)
 4. **Dropdown lists** — review room types, payment methods, currencies
+5. **Guest QR** — test bottom nav **Restaurant QR** / **Mini-Mart QR**, pick order #1, scan from a phone (see [Guest QR orders](guest-qr-orders.md))
 
 ![Bookings — reservations and check-in/out](assets/screenshots/06-bookings.png)
 

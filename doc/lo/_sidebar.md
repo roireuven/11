@@ -15,6 +15,7 @@
   * [ບໍລິການ ແລະ ການເກັບເງິນ](services-and-billing.md)
   * [ຮ້ານອາຫານ ແລະ ຄົວ](restaurant-and-kitchen.md)
   * [ຮ້ານຂາຍເຄື່ອງ ແລະ POS](minimart-and-pos.md)
+  * [Guest QR orders](guest-qr-orders.md)
   * [ສິນຄ້າຄົງຄັງ ແລະ ລາຍການສິນຄ້າ](inventory-and-catalog.md)
   * [ປອດtal ແຂກ](guest-portal.md)
   * [ລາຍງານ](reports.md)

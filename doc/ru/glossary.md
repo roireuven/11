@@ -29,6 +29,9 @@
 | **Dropdown lists** | Admin-configurable enums (room types, payment methods, etc.) |
 | **LAK** | Lao kip — currency code (₭) |
 | **Check-in / Check-out** | Guest arrival and departure processing with room status updates |
+| **Guest QR order** | Self-order flow: staff assigns order # 1–60, guest scans QR and submits cart |
+| **Order number (QR slot)** | Integer 1–60 identifying a counter/table pickup slot for guest QR orders |
+| **QR Orders Report** | Full-screen analytics board for guest scan orders (charts, grid, CSV) |
 
 ## Abbreviations in reports
 

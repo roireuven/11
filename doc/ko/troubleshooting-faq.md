@@ -17,6 +17,25 @@ Storage was cleared or you are in a new browser profile. Restore from backup imp
 ### Demo login does not work
 Use password `1234`. Ensure setup is complete or demo accounts exist. Try `admin@hotel.com`.
 
+### Login screen blank or "Sign In" does nothing
+Hard refresh (**Ctrl+Shift+R** / **Cmd+Shift+R**). An old cached bundle could block JavaScript from loading. Deploy v2.1+ includes quote-escape fixes for Restaurant QR buttons.
+
+## Guest QR orders
+
+### Order number dropdown does not open
+The QR modal uses a **native browser dropdown** for order numbers 1–60 (custom select picker sits below full-screen modals). Hard refresh if you still see no list.
+
+### QR code area empty
+Select an **order number** first. QR and link generate only after a slot 1–60 is chosen.
+
+### Guest scan opens blank page
+Confirm menu items (restaurant) or store items (mini-mart) exist and are **available**. Test with **Open order screen** from the staff QR modal.
+
+### QR Orders Report shows no rows
+No guest QR orders yet — complete a test scan and submit from a phone.
+
+See [Guest QR orders](guest-qr-orders.md).
+
 ## Data & sync
 
 ### Changes not visible on another computer
@@ -72,7 +91,7 @@ Add LAK under **Dropdown Lists → Currencies** (Settings shows hint for Lao UI)
 Verify project hosting is deployed. Try [web.app](https://hotel-restaurant-minimart.web.app/) mirror.
 
 ### Old version after deploy
-Hard refresh (Ctrl+Shift+R) — `index.html` uses no-cache headers but CDN/browser may cache aggressively on first load.
+Hard refresh (Ctrl+Shift+R) — `index.html` uses no-cache headers but CDN/browser may cache aggressively on first load. After v2.1, verify bottom nav shows **Restaurant QR** and **Mini-Mart QR** labels.
 
 ## Android
 

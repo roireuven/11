@@ -15,6 +15,7 @@
   * [Layanan & penagihan](services-and-billing.md)
   * [Restoran & dapur](restaurant-and-kitchen.md)
   * [Mini-mart & POS](minimart-and-pos.md)
+  * [Guest QR orders](guest-qr-orders.md)
   * [Inventaris & katalog](inventory-and-catalog.md)
   * [Portal tamu](guest-portal.md)
   * [Laporan](reports.md)

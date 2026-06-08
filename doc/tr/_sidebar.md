@@ -15,6 +15,7 @@
   * [Hizmetler ve faturalama](services-and-billing.md)
   * [Restoran ve mutfak](restaurant-and-kitchen.md)
   * [Mini market ve POS](minimart-and-pos.md)
+  * [Guest QR orders](guest-qr-orders.md)
   * [Envanter ve katalog](inventory-and-catalog.md)
   * [Misafir portalı](guest-portal.md)
   * [Raporlar](reports.md)

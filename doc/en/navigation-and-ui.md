@@ -9,7 +9,7 @@ The app is a **single-page application (SPA)** with:
 - **Top bar** — page title, **Documentation** button, language picker, dark mode, user menu, logout
 - **Sidebar** (☰ Menu) — full module list grouped by section
 - **Main content** — active module (or **embedded documentation** viewer)
-- **Bottom navigation** (mobile) — Dashboard, POS, Bookings, **Docs**, Menu
+- **Bottom navigation** (mobile) — Dashboard, POS, Bookings, **Restaurant QR**, **Mini-Mart QR**, **Docs**, **Settings**, Menu
 
 ![Dashboard — top bar, shifts, and bottom navigation](assets/screenshots/02-dashboard.png)
 
@@ -47,10 +47,15 @@ Hidden sections collapse automatically when no visible links remain for your rol
 | **Dashboard** | Open dashboard |
 | **POS** | Opens **Inventory POS** (or Mini-Mart if POS not in your role) |
 | **Bookings** | Open bookings |
+| **Restaurant QR** | Open guest restaurant order QR modal (order # 1–60) |
+| **Mini-Mart QR** | Open guest mini-mart order QR modal |
 | **Docs** | Open in-app documentation (embedded viewer) |
+| **Settings** | Open settings (Admin) or settings page for your role |
 | **Menu** | Toggle sidebar |
 
 Kitchen role may see a reduced bottom nav (Restaurant + Docs + Menu).
+
+QR modals and the **QR Orders Report** open **full screen** on phone and desktop for easier scanning and review.
 
 > **Documentation tip:** Links at the bottom of the docs sidebar (Live web app, APK landing) open in a **new browser tab** so they do not replace the embedded help panel.
 
@@ -80,6 +85,7 @@ Documentation is **inside the software** — not a separate website tab.
 |---------|---------|
 | **← Back** | Return from drill-down views |
 | **Documentation** | In-app help |
+| **Settings** | Quick access to Settings (Admin) |
 | **Localization / language** | Change UI language |
 | **🌙 / ☀** | Dark / light mode |
 | **User avatar** | Shows role name |

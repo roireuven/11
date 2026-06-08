@@ -15,6 +15,7 @@
   * [Услуги и выставление счетов](services-and-billing.md)
   * [Ресторан и кухня](restaurant-and-kitchen.md)
   * [Минимаркет и POS](minimart-and-pos.md)
+  * [Guest QR orders](guest-qr-orders.md)
   * [Склад и каталог](inventory-and-catalog.md)
   * [Портал гостей](guest-portal.md)
   * [Отчёты](reports.md)

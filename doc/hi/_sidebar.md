@@ -15,6 +15,7 @@
   * [सेवाएँ और बिलिंग](services-and-billing.md)
   * [रेस्तरां और रसोई](restaurant-and-kitchen.md)
   * [मिनी-मार्ट और POS](minimart-and-pos.md)
+  * [Guest QR orders](guest-qr-orders.md)
   * [इन्वेंटरी और कैटलॉग](inventory-and-catalog.md)
   * [अतिथि पोर्टल](guest-portal.md)
   * [रिपोर्ट](reports.md)

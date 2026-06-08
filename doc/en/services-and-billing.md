@@ -62,6 +62,20 @@ Central billing view for stays and posted charges.
 
 ![Invoices — guest folios and line items](assets/screenshots/10-invoices.png)
 
+### Invoice QR codes and guest ordering
+
+Invoices can show QR codes that link guests to **self-order** screens:
+
+| Setting (Settings) | Effect |
+|------------------|--------|
+| Include restaurant guest order on invoice QR | QR opens restaurant guest menu |
+| Include mini-mart guest order on invoice QR | QR opens mini-mart guest cart |
+| Include invoice details in QR | Text payload (invoice #, total) when guest-order QR is disabled |
+
+Per-invoice QR can be edited in the invoice overlay (custom URL/image). Guest orders use **order numbers 1–60** when generated from the staff QR modal.
+
+See [Guest QR orders](guest-qr-orders.md).
+
 ### Pay invoice (cash)
 
 1. Open **Invoices**

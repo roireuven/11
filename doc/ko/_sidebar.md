@@ -15,6 +15,7 @@
   * [서비스 및 청구](services-and-billing.md)
   * [레스토랑 및 주방](restaurant-and-kitchen.md)
   * [미니마트 및 POS](minimart-and-pos.md)
+  * [Guest QR orders](guest-qr-orders.md)
   * [재고 및 카탈로그](inventory-and-catalog.md)
   * [게스트 포털](guest-portal.md)
   * [보고서](reports.md)

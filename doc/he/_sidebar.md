@@ -15,6 +15,7 @@
   * [שירותים וחיוב](services-and-billing.md)
   * [מסעדה ומטבח](restaurant-and-kitchen.md)
   * [מיני-מרקט וקופה](minimart-and-pos.md)
+  * [Guest QR orders](guest-qr-orders.md)
   * [מלאי וקָטָלוג](inventory-and-catalog.md)
   * [פורטל אורחים](guest-portal.md)
   * [דוחות](reports.md)

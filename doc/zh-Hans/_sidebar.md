@@ -15,6 +15,7 @@
   * [服务与账单](services-and-billing.md)
   * [餐厅与厨房](restaurant-and-kitchen.md)
   * [迷你超市与 POS](minimart-and-pos.md)
+  * [Guest QR orders](guest-qr-orders.md)
   * [库存与目录](inventory-and-catalog.md)
   * [宾客门户](guest-portal.md)
   * [报表](reports.md)

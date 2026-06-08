@@ -15,6 +15,7 @@
   * [Diensten & facturering](services-and-billing.md)
   * [Restaurant & keuken](restaurant-and-kitchen.md)
   * [Minimarkt & POS](minimart-and-pos.md)
+  * [Guest QR orders](guest-qr-orders.md)
   * [Voorraad & catalogus](inventory-and-catalog.md)
   * [Gastenportaal](guest-portal.md)
   * [Rapporten](reports.md)

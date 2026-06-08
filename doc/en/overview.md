@@ -48,6 +48,8 @@ Staff use a **single app** with **role-based menus** and **in-app documentation*
 - Kitchen queue synced with restaurant (New → Preparing → Ready → Served)
 - Menu items with categories and optional recipe/inventory links
 - Order history and void support
+- **Guest QR self-order** — scan-to-order with order numbers **1–60**
+- **QR Orders Report** — charts, slot board, spreadsheet, CSV export
 
 ### Mini-mart & POS
 
@@ -55,10 +57,13 @@ Staff use a **single app** with **role-based menus** and **in-app documentation*
 - Walk-in cash/card sales
 - **Put bill on customer** — charge to guest room before payment
 - Shared inventory with F&B where configured
+- **Guest QR self-order** for counter/shop customers (order # 1–60)
+- **QR Orders Report** on mini-mart screen
 
 ### Administration
 
-- Multi-language UI (21 locales)
+- Multi-language UI (21 locales) including guest QR and report strings
+- Full-screen modals for QR and operational pop-ups
 - Dark mode
 - CSV/ZIP export and JSON backup/restore
 - Audit and change logs per module

@@ -15,6 +15,7 @@
   * [Services et facturation](services-and-billing.md)
   * [Restaurant et cuisine](restaurant-and-kitchen.md)
   * [Supérette et caisse](minimart-and-pos.md)
+  * [Guest QR orders](guest-qr-orders.md)
   * [Inventaire et catalogue](inventory-and-catalog.md)
   * [Portail client](guest-portal.md)
   * [Rapports](reports.md)

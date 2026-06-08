@@ -53,6 +53,21 @@ Open **Dashboard** from the sidebar or bottom nav.
 
 Use Reports for **end-of-day** and **period** reviews.
 
+### QR Orders Report (Restaurant & Mini-Mart)
+
+Separate from the sidebar **Reports** module — opened from **Restaurant** or **Mini-Mart** screens:
+
+| Feature | Description |
+|---------|-------------|
+| **QR Orders Report** button | On New Order card and Active Orders toolbar |
+| Summary | QR order count, slots used (of 60), open orders, revenue |
+| Charts | Status donut, revenue by order #, orders by hour |
+| Slot board | Visual grid of order numbers **1–60** |
+| Spreadsheet | Filterable XGrid of all QR scan orders |
+| **Export Excel (CSV)** | Download for Excel or Google Sheets |
+
+See [Guest QR orders](guest-qr-orders.md).
+
 ### Occupancy and revenue
 
 - Occupancy trends over selected dates

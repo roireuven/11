@@ -15,6 +15,7 @@
   * [الخدمات والفوترة](services-and-billing.md)
   * [المطعم والمطبخ](restaurant-and-kitchen.md)
   * [ميني مارت ونقطة البيع](minimart-and-pos.md)
+  * [Guest QR orders](guest-qr-orders.md)
   * [المخزون والفهرس](inventory-and-catalog.md)
   * [بوابة الضيوف](guest-portal.md)
   * [التقارير](reports.md)

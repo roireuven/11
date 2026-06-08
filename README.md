@@ -21,7 +21,7 @@ firebase login
 npm run deploy
 ```
 
-This builds `public/` with the app (Documentation button in top bar), embeds docs in the app, and uploads `/doc/` (26 guides). CI: add `FIREBASE_TOKEN` secret and push to `main`, or run **Actions → Deploy Firebase Hosting → Run workflow**.
+This builds `public/` with the app (Documentation button in top bar), embeds docs in the app, and uploads `/doc/` (29 guides, 21 locales). CI: add `FIREBASE_TOKEN` secret and push to `main`, or run **Actions → Deploy Firebase Hosting → Run workflow**.
 
 ## Live site
 
