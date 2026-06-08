@@ -64,6 +64,9 @@ runPython("scripts/patch-app-guest-qr-order.py");
 console.log("Adding guest QR order reports...");
 runPython("scripts/patch-app-guest-qr-reports.py");
 
+console.log("Adding guest QR cloud sync (Firestore)...");
+runPython("scripts/patch-app-guest-qr-cloud.py");
+
 console.log("Patching full-screen modals...");
 runPython("scripts/patch-app-shell-modal.py");
 

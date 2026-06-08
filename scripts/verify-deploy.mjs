@@ -79,6 +79,12 @@ if (!html.includes("guestOrderQrSetPickMode") || !html.includes("guestOrderQrTab
 if (!html.includes("guestRestFindTableMergeTarget") || !html.includes("function restTableLabelsMatch")) {
   fail("app missing table QR → restaurant active orders link (HRMM-GUEST-QR-ORDER-v12)");
 }
+if (!html.includes("HRMM-GUEST-QR-CLOUD-v1") || !html.includes("guestQrCloudStartStaffSync")) {
+  fail("app missing guest QR cloud sync (HRMM-GUEST-QR-CLOUD-v1)");
+}
+if (!html.includes("params.set('propertyNs'") || !html.includes("guestQrCloudPushRestaurantOrder")) {
+  fail("app missing guest QR Firestore push (HRMM-GUEST-QR-CLOUD-v1)");
+}
 if (!html.includes("HRMM-GUEST-QR-REPORTS-v3") || !html.includes("openGuestQrOrdersReport")) {
   fail("app missing guest QR orders report (HRMM-GUEST-QR-REPORTS-v3)");
 }

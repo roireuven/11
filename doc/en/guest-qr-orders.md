@@ -28,7 +28,7 @@ Staff picks order #1–60 → QR generated → Guest scans → Self-order screen
 
 **Order number QR:** numbers **1–60** replace room/guest context. Each slot can hold one active QR order at a time (see **QR Orders Report** board).
 
-**Note:** Orders save in the browser or device where the guest submits. Staff see table orders on the same property data store (same device, another tab, or synced Android app).
+**Cloud sync (v2.2+):** New QR links include a `propertyNs` key. When a guest orders from their **phone**, the order is saved to **Firestore** and staff devices **pull it automatically** into Restaurant / Mini-Mart (active orders, QR report, and table floor). Regenerate QR codes after updating — old links without `propertyNs` cannot sync from guest phones.
 
 ---
 
