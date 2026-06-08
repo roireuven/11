@@ -260,7 +260,9 @@ REST_SEND_KITCHEN_ELSE_NEW = """  } else if (restOrderType === 'QR Orders') {
   };"""
 
 SHOW_ALL_OLD = "restSelectedBooking=null;restCrmGuestId=null;restFocusAllTables=true;renderRestaurant()"
-SHOW_ALL_NEW = "restSelectedBooking=null;restCrmGuestId=null;restFocusAllTables=true;restFocusAllOrderNums=true;restOrderNum='';renderRestaurant()"
+# Escaped \'\' — outer renderRestaurant HTML is built inside single-quoted JS strings.
+SHOW_ALL_NEW = "restSelectedBooking=null;restCrmGuestId=null;restFocusAllTables=true;restFocusAllOrderNums=true;restOrderNum=\\'\\';renderRestaurant()"
+SHOW_ALL_BROKEN = "restSelectedBooking=null;restCrmGuestId=null;restFocusAllTables=true;restFocusAllOrderNums=true;restOrderNum='';renderRestaurant()"
 
 FILTER_LABEL_TABLE_OLD = """    if (restOrderType === 'Table') { return restFocusAllTables ? t('restaurant.allTables') : (restTableNumber || t('restaurant.tableWord')); }
     if (restOrderType === 'Room Service' && restSelectedBooking) {"""

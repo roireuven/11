@@ -99,6 +99,12 @@ if (!html.includes("HRMM-GUEST-QR-REPORTS-v3") || !html.includes("openGuestQrOrd
 if (!html.includes("HRMM-REST-QR-ORDERS-FLOOR-v1") || !html.includes("restRenderOrderNumFloorHtml")) {
   fail("app missing restaurant QR order numbers floor (HRMM-REST-QR-ORDERS-FLOOR-v1)");
 }
+if ((html.match(/let restOrderNum = '';/g) || []).length !== 1) {
+  fail("duplicate let restOrderNum breaks login JS");
+}
+if (html.includes("restFocusAllOrderNums=true;restOrderNum='';renderRestaurant()")) {
+  fail("unescaped restOrderNum='' in Show all onclick breaks login JS");
+}
 if (!html.includes("HRMM-I18N-FIXES-v2") || !html.includes("function uiT")) {
   fail("app missing core i18n fixes (HRMM-I18N-FIXES-v2)");
 }

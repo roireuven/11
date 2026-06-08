@@ -32,7 +32,50 @@ def _replace(content: str, old: str, new: str, label: str) -> str:
     return content.replace(old, new, 1)
 
 
+def _repair_duplicates(content: str) -> str:
+    """Each deploy re-synced from hosting and re-ran state injection — dedupe before patch."""
+    block = (
+        r"(?:/\*\* QR order slot 1–60 — focus like table floor\. \*/\s*"
+        r"let restOrderNum = '';\s*"
+        r"let restFocusAllOrderNums = true;\s*)+"
+    )
+    once = frag.REST_ORDER_NUM_STATE.strip() + "\n"
+    content = re.sub(block, once, content, count=1)
+    if content.count("let restOrderNum = '';") > 1:
+        # Fallback: keep first declaration block only
+        first = content.find("let restOrderNum = '';")
+        while True:
+            second = content.find("let restOrderNum = '';", first + 1)
+            if second < 0:
+                break
+            end = content.find("let restFocusAllOrderNums = true;", second)
+            if end < 0:
+                break
+            end = content.find("\n", end) + 1
+            # include preceding comment if present
+            start = content.rfind("/** QR order slot", 0, second)
+            if start < 0 or start < first:
+                start = second
+            content = content[:start] + content[end:]
+
+    dup_empty = (
+        "  else if (restOrderType === 'QR Orders' && !restFocusAllOrderNums) emptyActMsg = "
+        "t('restaurant.emptyActiveForOrderNum', { n: String(restOrderNum || '') });\n"
+        "  else if (restOrderType === 'QR Orders') emptyActMsg = t('restaurant.emptyActiveAnyOrderNum');\n"
+    )
+    while content.count(dup_empty) > 1:
+        content = content.replace(dup_empty, "", 1)
+    return content
+
+
+def _ensure_order_num_state(content: str) -> str:
+    if "let restOrderNum = '';" in content:
+        return content
+    return _replace(content, frag.FOCUS_ALL_TABLES_OLD, frag.FOCUS_ALL_TABLES_NEW, "rest order num state")
+
+
 def patch(content: str) -> str:
+    content = _repair_duplicates(content)
     if MARKER in content and "restRenderOrderNumFloorHtml" in content:
         print(f"Already patched {MARKER} — running integrity repair")
     else:
@@ -43,7 +86,7 @@ def patch(content: str) -> str:
                 1,
             )
 
-    content = _replace(content, frag.FOCUS_ALL_TABLES_OLD, frag.FOCUS_ALL_TABLES_NEW, "rest order num state")
+    content = _ensure_order_num_state(content)
 
     if "function restGetOrdersForOrderNum" not in content:
         content = content.replace(
@@ -78,8 +121,11 @@ def patch(content: str) -> str:
     if frag.GUEST_NOTIFY_OLD in content:
         content = content.replace(frag.GUEST_NOTIFY_OLD, frag.GUEST_NOTIFY_NEW, 1)
 
+    if getattr(frag, "SHOW_ALL_BROKEN", None):
+        content = content.replace(frag.SHOW_ALL_BROKEN, frag.SHOW_ALL_NEW)
+
     content = re.sub(r"<!-- HRMM-REST-QR-ORDERS-FLOOR-v\d+ -->", f"<!-- {MARKER} -->", content)
-    return content
+    return _repair_duplicates(content)
 
 
 def main() -> int:
