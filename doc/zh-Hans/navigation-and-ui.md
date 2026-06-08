@@ -10,4 +10,4 @@
 | **汉堡菜单 (☰)** | 帮助 → 文档 | 侧边栏顶部的第一个分区 |
 | **底部栏** | Docs | 底部导航（移动端） |
 
-布局详情、深色模式和语言选择器请参阅 [English navigation guide](../en/navigation-and-ui.md).
+布局详情、深色模式和语言选择器请参阅 [English navigation guide](https://hotel-restaurant-minimart.firebaseapp.com/doc/?lang=en#/navigation-and-ui).
