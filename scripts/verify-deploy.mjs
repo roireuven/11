@@ -76,6 +76,12 @@ if (!html.includes("HRMM-GUEST-QR-ORDER-v9") || !html.includes("function guestOr
 if (!html.includes("HRMM-GUEST-QR-REPORTS-v1") || !html.includes("openGuestQrOrdersReport")) {
   fail("app missing guest QR orders report (HRMM-GUEST-QR-REPORTS-v1)");
 }
+if (html.includes("openGuestQrOrdersReport('restaurant')")) {
+  fail("renderRestaurant QR button has unescaped quotes (breaks login JS)");
+}
+if (!html.includes("openGuestQrOrdersReport(\\'restaurant\\')")) {
+  fail("renderRestaurant QR button missing escaped restaurant onclick");
+}
 if (!html.includes("guestOrderQrPickOrderNum") || !html.includes("guestOrderQrOrderNumPick")) {
   fail("app missing mini-mart order number QR picker (HRMM-GUEST-QR-ORDER-v8)");
 }

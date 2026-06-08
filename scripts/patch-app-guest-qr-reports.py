@@ -16,6 +16,13 @@ REST_BTN_OLD = (
 
 REST_BTN_NEW = (
     '<div style="display:flex;flex-wrap:wrap;gap:0.4rem;">'
+    '<button type="button" class="btn btn-sm btn-primary" onclick="openGuestQrOrdersReport(\\\'restaurant\\\')">QR Orders 1–60</button>'
+    '<button type="button" class="btn btn-sm btn-outline" onclick="restSelectedBooking=null;restCrmGuestId=null;restFocusAllTables=true;renderRestaurant()" title="'
+)
+
+# Broken v1 output broke renderRestaurant() JS (unescaped quotes inside html += '...' string).
+REST_BTN_BROKEN = (
+    '<div style="display:flex;flex-wrap:wrap;gap:0.4rem;">'
     '<button type="button" class="btn btn-sm btn-primary" onclick="openGuestQrOrdersReport(\'restaurant\')">QR Orders 1–60</button>'
     '<button type="button" class="btn btn-sm btn-outline" onclick="restSelectedBooking=null;restCrmGuestId=null;restFocusAllTables=true;renderRestaurant()" title="'
 )
@@ -256,8 +263,21 @@ def _css_block() -> str:
     return GUEST_QR_REPORTS_CSS.replace("__HRMM_GUEST_QR_REPORTS_MARKER__", MARKER)
 
 
+def _rest_btn_ok(content: str) -> bool:
+    return "openGuestQrOrdersReport(\\'restaurant\\')" in content
+
+
 def patch(content: str) -> str:
-    if MARKER in content and "openGuestQrOrdersReport" in content and REST_BTN_NEW.split("QR Orders")[0] in content:
+    if REST_BTN_BROKEN in content:
+        content = content.replace(REST_BTN_BROKEN, REST_BTN_NEW, 1)
+        print("Fixed restaurant QR report button (escaped quotes in renderRestaurant)")
+
+    if (
+        MARKER in content
+        and "openGuestQrOrdersReport" in content
+        and _rest_btn_ok(content)
+        and REST_BTN_NEW.split("QR Orders")[0] in content
+    ):
         print(f"Guest QR reports already patched {MARKER} — skipping")
         return content
 
@@ -271,10 +291,10 @@ def patch(content: str) -> str:
     if JS_ANCHOR in content and "openGuestQrOrdersReport" not in content:
         content = content.replace(JS_ANCHOR, GUEST_QR_REPORTS_JS.strip() + "\n\n" + JS_ANCHOR, 1)
 
-    if REST_BTN_OLD in content and "openGuestQrOrdersReport('restaurant')" not in content:
+    if REST_BTN_OLD in content and not _rest_btn_ok(content):
         content = content.replace(REST_BTN_OLD, REST_BTN_NEW, 1)
 
-    if MART_BTN_OLD in content and "openGuestQrOrdersReport('minimart')" not in content:
+    if MART_BTN_OLD in content and "openGuestQrOrdersReport(\\'minimart\\')" not in content:
         content = content.replace(MART_BTN_OLD, MART_BTN_NEW, 1)
 
     if MARKER not in content:
