@@ -85,14 +85,11 @@ if (html.includes("openGuestQrOrdersReport('restaurant')")) {
 if (!html.includes("openGuestQrOrdersReport(\\'restaurant\\')")) {
   fail("renderRestaurant QR button missing escaped restaurant onclick");
 }
-if (!html.includes("HRMM-SHELL-MODAL-v1") || !html.includes("openShellModal") || !html.includes("modal-overlay--shell")) {
-  fail("app missing shell-centered modal patch (HRMM-SHELL-MODAL-v1)");
+if (!html.includes("HRMM-FULLSCREEN-MODAL-v2") || !html.includes("modal-overlay--fullscreen") || !html.includes("modal--fullscreen")) {
+  fail("app missing full-screen modal patch (HRMM-FULLSCREEN-MODAL-v2)");
 }
-if (!html.includes("openShellModal(html, { wide: true })")) {
-  fail("QR orders report must use openShellModal with top/bottom nav visible");
-}
-if (!html.includes("openShellModal(html);\n  guestOrderQrRefreshPreview()")) {
-  fail("guest order QR modal must use openShellModal");
+if (!html.includes("openShellModal(html, { wide: true })") || !html.includes("openShellModal(html);\n  guestOrderQrRefreshPreview()")) {
+  fail("QR modals must route through openShellModal/openModal fullscreen helpers");
 }
 if (!html.includes("guestOrderQrPickOrderNum") || !html.includes("guestOrderQrOrderNumPick")) {
   fail("app missing mini-mart order number QR picker (HRMM-GUEST-QR-ORDER-v8)");

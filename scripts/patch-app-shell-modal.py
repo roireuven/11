@@ -1,20 +1,20 @@
 #!/usr/bin/env python3
-"""Centered in-app modals that keep top bar and bottom navigation visible."""
+"""Full-screen modals for QR screens and all app pop-ups."""
 from __future__ import annotations
 
 import re
 import sys
 from pathlib import Path
 
-MARKER = "HRMM-SHELL-MODAL-v1"
+MARKER = "HRMM-FULLSCREEN-MODAL-v2"
 INDEX = Path("public/index.html")
 
-OPEN_MODAL_OLD = (
+OPEN_MODAL_PLAIN = (
     "function openModal(html) { document.getElementById('modalContent').innerHTML = html; "
     "document.getElementById('modalOverlay').classList.add('active'); }"
 )
 
-OPEN_MODAL_NEW = """function openModal(html) { document.getElementById('modalContent').innerHTML = html; document.getElementById('modalOverlay').classList.add('active'); }
+OPEN_MODAL_SHELL = """function openModal(html) { document.getElementById('modalContent').innerHTML = html; document.getElementById('modalOverlay').classList.add('active'); }
 window.openShellModal = function(html, opts) {
   opts = opts || {};
   var overlay = document.getElementById('modalOverlay');
@@ -27,59 +27,66 @@ window.openShellModal = function(html, opts) {
   overlay.classList.add('modal-overlay--shell', 'active');
 };"""
 
-CLOSE_MODAL_OLD = """function closeModal() {
+OPEN_MODAL_FULLSCREEN = """function openModal(html) {
+  var overlay = document.getElementById('modalOverlay');
+  var content = document.getElementById('modalContent');
+  if (!overlay || !content) return;
+  content.innerHTML = html;
+  content.classList.remove('modal--shell', 'modal--shell-wide');
+  content.classList.add('modal--fullscreen');
+  overlay.classList.remove('modal-overlay--shell');
+  overlay.classList.add('modal-overlay--fullscreen', 'active');
+}
+window.openShellModal = function(html, opts) { openModal(html); };"""
+
+CLOSE_MODAL_PLAIN = """function closeModal() {
   window._cashPaymentCtx = null;
   try { window._wpClosingDept = null; } catch (e) {}
   document.getElementById('modalOverlay').classList.remove('active');
 }"""
 
-CLOSE_MODAL_NEW = """function closeModal() {
+CLOSE_MODAL_EXTENDED = """function closeModal() {
   window._cashPaymentCtx = null;
   try { window._wpClosingDept = null; } catch (e) {}
   var overlay = document.getElementById('modalOverlay');
   var content = document.getElementById('modalContent');
-  if (overlay) overlay.classList.remove('active', 'modal-overlay--shell');
-  if (content) content.classList.remove('modal--shell', 'modal--shell-wide');
+  if (overlay) overlay.classList.remove('active', 'modal-overlay--shell', 'modal-overlay--fullscreen');
+  if (content) content.classList.remove('modal--shell', 'modal--shell-wide', 'modal--fullscreen');
 }"""
 
-SHELL_MODAL_CSS = """
-    /* HRMM shell modal — centered between top bar and bottom nav */
-    :root { --hrmm-topbar-h: 56px; --hrmm-bnav-h: 56px; }
-    @media (max-width: 600px) { :root { --hrmm-bnav-h: 52px; } }
-    .modal-overlay.modal-overlay--shell {
-      top: var(--hrmm-topbar-h);
-      bottom: var(--hrmm-bnav-h);
-      left: 0;
-      right: 0;
-      inset: auto;
-      background: rgba(15, 23, 42, 0.42);
-      backdrop-filter: blur(3px);
-      z-index: 180;
-      align-items: center;
-      justify-content: center;
-      padding: 0.65rem;
-      overflow-y: auto;
-    }
-    .modal-overlay.modal-overlay--shell .modal.modal--shell {
-      width: 100%;
-      max-width: min(480px, 94vw);
-      min-height: 0;
-      max-height: calc(100vh - var(--hrmm-topbar-h) - var(--hrmm-bnav-h) - 1.25rem);
-      border-radius: 14px;
-      box-shadow: 0 18px 48px rgba(0, 0, 0, 0.28);
+FULLSCREEN_MODAL_CSS = """
+    /* HRMM full-screen modals */
+    .modal-overlay.modal-overlay--fullscreen,
+    .modal-overlay.active {
+      display: flex;
+      position: fixed;
+      inset: 0;
+      z-index: 10050;
+      align-items: stretch;
+      justify-content: stretch;
+      padding: 0;
       overflow: hidden;
+      background: linear-gradient(135deg, rgba(10,30,60,0.97) 0%, rgba(26,115,232,0.92) 100%);
+    }
+    .modal.modal--fullscreen,
+    .modal-overlay.active .modal {
+      width: 100%;
+      max-width: 100%;
+      min-height: 100vh;
+      height: 100%;
+      border-radius: 0;
+      box-shadow: none;
+      margin: 0;
       display: flex;
       flex-direction: column;
-      margin: auto;
+      overflow: hidden;
     }
-    .modal-overlay.modal-overlay--shell .modal.modal--shell.modal--shell-wide {
-      max-width: min(1024px, 96vw);
-    }
-    .modal-overlay.modal-overlay--shell .modal.modal--shell .modal-body {
-      min-height: 0;
-      max-height: none;
-      overflow-y: auto;
+    .modal.modal--fullscreen .modal-body,
+    .modal-overlay.active .modal .modal-body {
       flex: 1 1 auto;
+      min-height: 0;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
     }
     .modal-hd {
       padding: 0.85rem 1rem;
@@ -91,47 +98,84 @@ SHELL_MODAL_CSS = """
       background: linear-gradient(135deg, #1a3a5c 0%, #1a73e8 100%);
       color: #fff;
       flex-shrink: 0;
+      position: sticky;
+      top: 0;
+      z-index: 2;
     }
     .modal-hd h2 { font-size: 1.05rem; color: #fff; margin: 0; line-height: 1.3; }
     body.dark-mode .modal-hd { background: linear-gradient(135deg, #0a1628 0%, #16213e 100%); }
-    .modal-overlay.modal-overlay--shell .guest-order-qr-modal {
-      max-width: none;
+    .modal--fullscreen .guest-order-qr-modal,
+    .modal-overlay.active .guest-order-qr-modal {
+      max-width: min(560px, 100%);
+      width: 100%;
       margin: 0 auto;
     }
-    .modal-overlay.modal-overlay--shell .guest-order-qr-preview {
-      max-width: 280px;
+    .modal--fullscreen .guest-order-qr-preview,
+    .modal-overlay.active .guest-order-qr-preview {
+      max-width: min(320px, 90vw);
       margin-left: auto;
       margin-right: auto;
     }
-    .modal-overlay.modal-overlay--shell .guest-qr-report-modal {
-      max-width: none;
+    .modal--fullscreen .guest-qr-report-modal,
+    .modal-overlay.active .guest-qr-report-modal {
+      max-width: min(1100px, 100%);
+      width: 100%;
+      margin: 0 auto;
     }
-    /* __HRMM_SHELL_MODAL_MARKER__ */
+    #modalContent.modal:has(.modal-cash-panel) {
+      max-width: 100%;
+      min-height: 100vh;
+      margin: 0;
+      border-radius: 0;
+    }
+    /* __HRMM_FULLSCREEN_MODAL_MARKER__ */
 """
 
 
 def _css_block() -> str:
-    return SHELL_MODAL_CSS.replace("__HRMM_SHELL_MODAL_MARKER__", MARKER)
+    return FULLSCREEN_MODAL_CSS.replace("__HRMM_FULLSCREEN_MODAL_MARKER__", MARKER)
 
 
-def _route_qr_modals_to_shell(content: str) -> str:
-    content = content.replace(
-        "  openModal(html);\n  guestOrderQrRefreshPreview();",
-        "  openShellModal(html);\n  guestOrderQrRefreshPreview();",
+def _strip_old_modal_css(content: str) -> str:
+    content = re.sub(
+        r"\n\s*/\* HRMM shell modal[\s\S]*?/\* HRMM-SHELL-MODAL-v\d+ \*/\n",
+        "\n",
+        content,
     )
     content = re.sub(
-        r"(window\.openGuestQrOrdersReport = function\(dept\) \{[\s\S]*?)  openModal\(html\);",
-        r"\1  openShellModal(html, { wide: true });",
+        r"\n\s*/\* HRMM full-screen modals \*/[\s\S]*?/\* HRMM-FULLSCREEN-MODAL-v\d+ \*/\n",
+        "\n",
         content,
-        count=1,
     )
     return content
 
 
+def _upgrade_open_close(content: str) -> str:
+    if OPEN_MODAL_FULLSCREEN.split("window.openShellModal")[0].strip() in content:
+        return content
+    if OPEN_MODAL_SHELL in content:
+        content = content.replace(OPEN_MODAL_SHELL, OPEN_MODAL_FULLSCREEN, 1)
+    elif OPEN_MODAL_PLAIN in content:
+        content = content.replace(OPEN_MODAL_PLAIN, OPEN_MODAL_FULLSCREEN, 1)
+    new_close = """  if (overlay) overlay.classList.remove('active', 'modal-overlay--shell', 'modal-overlay--fullscreen');
+  if (content) content.classList.remove('modal--shell', 'modal--shell-wide', 'modal--fullscreen');"""
+    if new_close not in content:
+        old_close = """  if (overlay) overlay.classList.remove('active', 'modal-overlay--shell');
+  if (content) content.classList.remove('modal--shell', 'modal--shell-wide');"""
+        if old_close in content:
+            content = content.replace(old_close, new_close, 1)
+        elif CLOSE_MODAL_PLAIN in content:
+            content = content.replace(CLOSE_MODAL_PLAIN, CLOSE_MODAL_EXTENDED, 1)
+    return content
+
+
 def patch(content: str) -> str:
-    if MARKER in content and "openShellModal" in content and "modal-overlay--shell" in content:
-        content = _route_qr_modals_to_shell(content)
-        print(f"Already patched {MARKER} — QR shell routing checked")
+    content = _strip_old_modal_css(content)
+    content = _upgrade_open_close(content)
+
+    close_ok = "overlay.classList.remove('active', 'modal-overlay--shell', 'modal-overlay--fullscreen')" in content
+    if MARKER in content and "modal-overlay--fullscreen" in content and "modal--fullscreen" in content and close_ok:
+        print(f"Already patched {MARKER} — skipping")
         return content
 
     if f"/* {MARKER} */" not in content:
@@ -141,20 +185,7 @@ def patch(content: str) -> str:
             1,
         )
 
-    if OPEN_MODAL_OLD in content:
-        content = content.replace(OPEN_MODAL_OLD, OPEN_MODAL_NEW, 1)
-    elif "window.openShellModal" not in content and "function openModal(html)" in content:
-        content = content.replace(
-            "function openModal(html) { document.getElementById('modalContent').innerHTML = html; document.getElementById('modalOverlay').classList.add('active'); }",
-            OPEN_MODAL_NEW.split("window.openShellModal")[0].rstrip() + "\n" + "window.openShellModal" + OPEN_MODAL_NEW.split("window.openShellModal", 1)[1],
-            1,
-        )
-
-    if CLOSE_MODAL_OLD in content:
-        content = content.replace(CLOSE_MODAL_OLD, CLOSE_MODAL_NEW, 1)
-
-    content = _route_qr_modals_to_shell(content)
-    content = re.sub(r"HRMM-SHELL-MODAL-v\d+", MARKER, content)
+    content = re.sub(r"HRMM-(?:SHELL|FULLSCREEN)-MODAL-v\d+", MARKER, content)
     return content
 
 
@@ -166,7 +197,7 @@ def main() -> int:
         return 1
     text = index.read_text(encoding="utf-8")
     index.write_text(patch(text), encoding="utf-8")
-    print(f"Patched {index} — shell-centered modals keep top and bottom menus visible")
+    print(f"Patched {index} — all modals open full screen")
     return 0
 
 

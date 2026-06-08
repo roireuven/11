@@ -64,7 +64,7 @@ runPython("scripts/patch-app-guest-qr-order.py");
 console.log("Adding guest QR order reports...");
 runPython("scripts/patch-app-guest-qr-reports.py");
 
-console.log("Patching shell-centered modals for QR screens...");
+console.log("Patching full-screen modals...");
 runPython("scripts/patch-app-shell-modal.py");
 
 console.log("Adding invoice i18n keys to app locale files...");
