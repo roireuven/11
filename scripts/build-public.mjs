@@ -67,6 +67,9 @@ runPython("scripts/patch-app-guest-qr-reports.py");
 console.log("Adding guest QR cloud sync (Firestore)...");
 runPython("scripts/patch-app-guest-qr-cloud.py");
 
+console.log("Adding restaurant QR order numbers floor...");
+runPython("scripts/patch-app-rest-qr-orders-floor.py");
+
 console.log("Patching full-screen modals...");
 runPython("scripts/patch-app-shell-modal.py");
 
@@ -84,6 +87,9 @@ runPython("scripts/patch-locale-doc-keys.py");
 
 console.log("Adding guest order / QR report keys to app locale files...");
 runPython("scripts/patch-locale-guest-order-keys.py");
+
+console.log("Adding restaurant QR order floor keys to app locale files...");
+runPython("scripts/patch-locale-rest-qr-floor-keys.py");
 
 console.log("Generating multilingual documentation (21 locales)...");
 runPython("scripts/generate-doc-locales.py");
