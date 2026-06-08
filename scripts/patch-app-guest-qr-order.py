@@ -18,9 +18,20 @@ def _load_v4_fragments() -> tuple[str, str, str]:
     return mod.GUEST_ORDER_PARSE_AND_BOOT_V4, mod.GUEST_ORDER_BOOT_V4, mod.RENDER_GUEST_MINIMART_ORDER_V8
 
 
-GUEST_ORDER_PARSE_AND_BOOT_V4, GUEST_ORDER_BOOT_V4, RENDER_GUEST_MINIMART_ORDER_V8 = _load_v4_fragments()
+def _load_v11_staff_js() -> str:
+    frag_path = Path(__file__).resolve().parent / "_guest_qr_staff_v11_fragments.py"
+    spec = importlib.util.spec_from_file_location("_guest_qr_staff_v11_fragments", frag_path)
+    if spec is None or spec.loader is None:
+        raise SystemExit(f"Missing guest QR staff v11 fragments: {frag_path}")
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod.GUEST_QR_STAFF_JS_V11
 
-MARKER = "HRMM-GUEST-QR-ORDER-v10"
+
+GUEST_ORDER_PARSE_AND_BOOT_V4, GUEST_ORDER_BOOT_V4, RENDER_GUEST_MINIMART_ORDER_V8 = _load_v4_fragments()
+GUEST_QR_STAFF_JS_V11 = _load_v11_staff_js()
+
+MARKER = "HRMM-GUEST-QR-ORDER-v11"
 INDEX = Path("public/index.html")
 
 GET_INVOICE_QR_PAYLOAD_OLD = """function getInvoiceQrPayload(inv) {
@@ -1471,6 +1482,20 @@ def _replace_guest_order_staff_js(content: str) -> str:
     return content[:start] + GUEST_ORDER_STAFF_JS.strip() + "\n" + content[end + 4 :]
 
 
+def _replace_guest_qr_staff_v11(content: str) -> str:
+    start = content.find("var guestOrderQrStaffCtx")
+    if start < 0:
+        return content
+    end_marker = "window.guestOrderQrOpenCustomerScreen = function()"
+    end = content.find(end_marker, start)
+    if end < 0:
+        return content
+    end = content.find("\n};", end)
+    if end < 0:
+        return content
+    return content[:start] + GUEST_QR_STAFF_JS_V11.strip() + "\n" + content[end + 4 :]
+
+
 def _apply_v8_upgrades(content: str) -> str:
     if "guestOrderQrPickOrderNum" not in content:
         content = _replace_guest_order_staff_js(content)
@@ -1662,6 +1687,17 @@ def _apply_i18n_v10(content: str) -> str:
     return content
 
 
+def _apply_v11_table_pick(content: str) -> str:
+    """Restaurant QR: choose order number 1–60 OR table."""
+    if "guestOrderQrSetPickMode" in content and "pickMode" in content.split("var guestOrderQrStaffCtx", 1)[1][:120]:
+        return content
+    if "var guestOrderQrStaffCtx" not in content:
+        return content
+    content = _replace_guest_qr_staff_v11(content)
+    content = re.sub(r"HRMM-GUEST-QR-ORDER-v\d+", MARKER, content)
+    return content
+
+
 def _apply_native_order_select(content: str) -> str:
     """Use native browser dropdown for order # picker (custom csel sits under fullscreen modal)."""
     needle = 'id="guestOrderQrOrderNumPick" data-native-select="1"'
@@ -1773,6 +1809,7 @@ def _is_fully_patched(content: str) -> bool:
         and "function renderGuestMiniMartOrder()" in content
         and "Search items" in content.split("function renderGuestMiniMartOrder()", 1)[1][:2500]
         and "guestOrderQrPickOrderNum" in content
+        and "guestOrderQrSetPickMode" in content
     )
 
 
@@ -2006,6 +2043,7 @@ def patch(content: str) -> str:
     content = _apply_invoice_qr_i18n(content)
     content = _apply_i18n_v10(content)
     content = _apply_native_order_select(content)
+    content = _apply_v11_table_pick(content)
     content = _repair_order_qr(content)
     return content
 

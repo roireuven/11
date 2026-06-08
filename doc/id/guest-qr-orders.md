@@ -1,6 +1,6 @@
 # Guest QR orders
 
-Let customers **self-order** from the restaurant or mini-mart by scanning a QR code on their phone — no login required. Staff assign an **order number (1–60)** per table, counter seat, or pickup slot.
+Let customers **self-order** from the restaurant or mini-mart by scanning a QR code on their phone — no login required. Staff assign either an **order number (1–60)** or a **restaurant table** — you choose which mode fits your floor.
 
 **Paths:**
 
@@ -18,7 +18,7 @@ Staff picks order #1–60 → QR generated → Guest scans → Self-order screen
 
 | Step | Who | Action |
 |------|-----|--------|
-| 1 | Staff | Open QR modal, choose **Restaurant** or **Mini-Mart**, select **order number 1–60** |
+| 1 | Staff | Open QR modal, choose **Restaurant** or **Mini-Mart**, then pick **Order number** (1–60) or **Table** (restaurant only) |
 | 2 | Staff | Print or display QR (or copy link / open preview) |
 | 3 | Guest | Scan QR with phone camera → opens guest order screen |
 | 4 | Guest | Browse menu or store items, add to cart, submit |
@@ -37,7 +37,8 @@ The QR screen opens **full screen** with:
 | Control | Purpose |
 |---------|---------|
 | **Restaurant QR / Mini-Mart QR** | Switch department |
-| **Order number** | Pick slot **1–60** (required before QR generates) |
+| **Order number / Table** | Restaurant: toggle pick mode, then select **1–60** or a **table** from your floor |
+| **Order number** (mini-mart) | Pick slot **1–60** (required before QR generates) |
 | QR preview | Scannable code once a number is selected |
 | **Order link** | Read-only URL for sharing |
 | **Open order screen** | Preview guest view on this device |

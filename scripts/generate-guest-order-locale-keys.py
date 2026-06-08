@@ -50,6 +50,13 @@ EN = {
         "orderSentKitchen": "Your order was submitted to the kitchen. Staff will prepare it shortly.",
         "orderSentMart": "Your mini-mart order was sent. Staff will prepare it for pickup or delivery.",
         "qrAlt": "Order QR code",
+        "pickByOrderNum": "Order number",
+        "pickByTable": "Table",
+        "table": "Table",
+        "selectTable": "— Select table —",
+        "selectTableHint": "Select table",
+        "selectTableFirst": "Select a table first",
+        "leadRestTable": "Scan this QR so the customer can self-order from the restaurant. Pick a table below — orders are linked to that table.",
     },
     "guestQrReport": {
         "titleRest": "Restaurant QR orders report",
