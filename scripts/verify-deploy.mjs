@@ -67,6 +67,9 @@ if (!html.includes("hrmmInvoicePrintFrame") || !html.includes("buildInvoicePrint
 if (!html.includes("HRMM-SHIFTS-v1") || !html.includes("migrateShiftsClosedByDefault")) {
   fail("app missing shifts-closed-by-default patch (HRMM-SHIFTS-v1)");
 }
+if (!html.includes("HRMM-MOBILE-MENU-v4") || !html.includes("window.closeLangMenu") || !html.includes('id="langMenuBackdrop"')) {
+  fail("app missing mobile phone UI patch (HRMM-MOBILE-MENU-v4)");
+}
 if (!html.includes("HRMM-GUEST-QR-ORDER-v8") || !html.includes("function guestOrderQrBuildUrl") || !html.includes('data-bnav="guestorder-rest"')) {
   fail("app missing guest QR order patch (HRMM-GUEST-QR-ORDER-v8)");
 }
