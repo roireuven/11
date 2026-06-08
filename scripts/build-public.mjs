@@ -61,6 +61,9 @@ runPython("scripts/patch-app-shifts.py");
 console.log("Adding guest QR restaurant self-order...");
 runPython("scripts/patch-app-guest-qr-order.py");
 
+console.log("Adding guest QR order reports...");
+runPython("scripts/patch-app-guest-qr-reports.py");
+
 console.log("Adding invoice i18n keys to app locale files...");
 runPython("scripts/patch-locale-invoice-keys.py");
 

@@ -20,7 +20,7 @@ def _load_v4_fragments() -> tuple[str, str, str]:
 
 GUEST_ORDER_PARSE_AND_BOOT_V4, GUEST_ORDER_BOOT_V4, RENDER_GUEST_MINIMART_ORDER_V8 = _load_v4_fragments()
 
-MARKER = "HRMM-GUEST-QR-ORDER-v8"
+MARKER = "HRMM-GUEST-QR-ORDER-v9"
 INDEX = Path("public/index.html")
 
 GET_INVOICE_QR_PAYLOAD_OLD = """function getInvoiceQrPayload(inv) {
@@ -189,19 +189,9 @@ function buildGuestOrderUrl(dept, inv) {
   var params = new URLSearchParams();
   params.set('guestOrder', deptKey);
   if (inv) {
-    if (deptKey === 'minimart') {
-      var orderNumVal = inv.orderNum != null ? String(inv.orderNum).trim() : '';
-      if (orderNumVal && orderNumVal !== '—') {
-        params.set('orderNum', orderNumVal);
-      } else {
-        var roomVal = inv.roomNumber != null ? String(inv.roomNumber).trim() : '';
-        var tableVal = inv.tableNumber != null ? String(inv.tableNumber).trim() : '';
-        if (!tableVal && roomVal && /^table\\b/i.test(roomVal)) tableVal = roomVal;
-        if (tableVal && tableVal !== '—') params.set('table', tableVal);
-        else if (roomVal && roomVal !== '—' && !/^table\\b/i.test(roomVal)) params.set('room', roomVal);
-        if (inv.guestName != null && String(inv.guestName).trim() !== '' && String(inv.guestName).trim() !== '—') params.set('guest', String(inv.guestName).trim());
-        if (inv.bookingId != null && String(inv.bookingId).trim() !== '') params.set('booking', String(inv.bookingId).trim());
-      }
+    var orderNumVal = inv.orderNum != null ? String(inv.orderNum).trim() : '';
+    if (orderNumVal && orderNumVal !== '—') {
+      params.set('orderNum', orderNumVal);
     } else {
       var roomVal = inv.roomNumber != null ? String(inv.roomNumber).trim() : '';
       var tableVal = inv.tableNumber != null ? String(inv.tableNumber).trim() : '';
@@ -570,7 +560,7 @@ GUEST_ORDER_JS = """
 var guestRestCart = [];
 var guestRestMenuFilter = 'All';
 var guestOrderMenuSearch = '';
-var guestRestCtx = { room: '', guest: '', booking: '', table: '' };
+var guestRestCtx = { room: '', guest: '', booking: '', table: '', orderNum: '' };
 var guestRestSubmitted = false;
 """
 
@@ -909,15 +899,7 @@ GUEST_ORDER_STAFF_JS = """
 var guestOrderQrStaffCtx = { dept: 'restaurant', mode: 'room', room: '', guest: '', booking: '', table: '', orderNum: '' };
 function guestOrderQrInvFromCtx(ctx) {
   ctx = ctx || guestOrderQrStaffCtx;
-  if (ctx.dept === 'minimart') {
-    return { orderNum: ctx.orderNum || '' };
-  }
-  return {
-    roomNumber: ctx.room || '',
-    guestName: ctx.guest || '',
-    bookingId: ctx.booking || '',
-    tableNumber: ctx.table || ''
-  };
+  return { orderNum: ctx.orderNum || '' };
 }
 function guestOrderQrBuildUrl(ctx) {
   ctx = ctx || guestOrderQrStaffCtx;
@@ -954,16 +936,11 @@ function guestOrderQrListTables() {
 }
 function guestOrderQrHasCustomerContext(ctx) {
   ctx = ctx || guestOrderQrStaffCtx;
-  if (ctx.dept === 'minimart') {
-    var n = parseInt(String(ctx.orderNum || '').trim(), 10);
-    return n >= 1 && n <= 60;
-  }
-  if ((ctx.mode || 'room') === 'walkin') return !!(String(ctx.table || '').trim() || String(ctx.guest || '').trim());
-  return !!(String(ctx.room || '').trim() && String(ctx.guest || '').trim());
+  var n = parseInt(String(ctx.orderNum || '').trim(), 10);
+  return n >= 1 && n <= 60;
 }
 function guestOrderQrMissingContextHint(ctx) {
-  ctx = ctx || guestOrderQrStaffCtx;
-  return ctx.dept === 'minimart' ? 'Select order number first' : 'Select room/guest or table first';
+  return 'Select order number first';
 }
 function guestOrderQrRefreshPreview() {
   var img = document.getElementById('guestOrderQrImg');
@@ -971,8 +948,7 @@ function guestOrderQrRefreshPreview() {
   var link = document.getElementById('guestOrderQrLink');
   var url = guestOrderQrHasCustomerContext() ? guestOrderQrBuildUrl(guestOrderQrStaffCtx) : '';
   if (img) img.src = url ? buildInvoiceQrImageUrl(url) : '';
-  var hint = guestOrderQrStaffCtx.dept === 'minimart' ? 'Select order number' : 'Select room/guest or table';
-  if (cap) cap.textContent = url ? invoiceQrCaptionForPayload(url) : hint;
+  if (cap) cap.textContent = url ? invoiceQrCaptionForPayload(url) : 'Select order number';
   if (link) link.value = url || '';
 }
 window.guestOrderQrSetDept = function(dept) {
@@ -1080,31 +1056,15 @@ window.openGuestOrderQrModal = function(deptOrKeepState) {
     var onSel = String(guestOrderQrStaffCtx.orderNum) === String(on) ? ' selected' : '';
     orderNumOpts += '<option value="' + on + '"' + onSel + '>Order number ' + on + '</option>';
   }
-  var leadText = dept === 'minimart'
-    ? 'Scan this QR so the customer can self-order from the mini-mart. Pick an order number (1–60) below.'
-    : 'Scan this QR so the customer can self-order from the restaurant. Pick a room guest or a walk-in table below.';
+  var leadText = 'Scan this QR so the customer can self-order from the ' + deptLabel.toLowerCase() + '. Pick an order number (1–60) below.';
   var html = '<div class="modal-hd"><h2>' + deptLabel + ' order QR</h2><button type="button" class="modal-close" onclick="closeModal()">&times;</button></div>' +
     '<div class="modal-body guest-order-qr-modal">' +
     '<p class="guest-order-qr-lead">' + leadText + '</p>' +
     '<div class="rest-order-type" style="margin-bottom:0.65rem;">' +
       '<button type="button" class="btn ' + (dept === 'restaurant' ? 'btn-primary' : 'btn-outline') + '" onclick="guestOrderQrSetDept(\\'restaurant\\')">Restaurant QR</button>' +
       '<button type="button" class="btn ' + (dept === 'minimart' ? 'btn-primary' : 'btn-outline') + '" onclick="guestOrderQrSetDept(\\'minimart\\')">Mini-Mart QR</button>' +
-    '</div>';
-  if (dept === 'minimart') {
-    html += '<div class="form-group"><label>Order number</label><select class="form-control" id="guestOrderQrOrderNumPick" onchange="guestOrderQrPickOrderNum(this.value)">' + orderNumOpts + '</select></div>';
-  } else {
-    html += '<div class="rest-order-type" style="margin-bottom:0.75rem;">' +
-      '<button type="button" class="btn ' + (mode === 'room' ? 'btn-primary' : 'btn-outline') + '" onclick="guestOrderQrSetMode(\\'room\\')">Room guest</button>' +
-      '<button type="button" class="btn ' + (mode === 'walkin' ? 'btn-primary' : 'btn-outline') + '" onclick="guestOrderQrSetMode(\\'walkin\\')">Walk-in / table</button>' +
-    '</div>';
-    if (mode === 'room') {
-      html += '<div class="form-row"><div class="form-group"><label>Room</label><select class="form-control" id="guestOrderQrRoomPick" onchange="guestOrderQrPickRoom(this.value)">' + roomOpts + '</select></div>' +
-        '<div class="form-group"><label>Guest</label><select class="form-control" id="guestOrderQrGuestPick" onchange="guestOrderQrPickGuestBooking(this.value)"' + (guestOrderQrStaffCtx.room ? '' : ' disabled') + '>' + guestOpts + '</select></div></div>';
-    } else {
-      html += '<div class="form-row"><div class="form-group"><label>Table</label><select class="form-control" id="guestOrderQrTablePick" onchange="guestOrderQrPickTable(this.value)">' + tableOpts + '</select></div>' +
-        '<div class="form-group"><label>Customer name (optional)</label><input type="text" class="form-control" id="guestOrderQrWalkName" value="' + escapeHtml(guestOrderQrStaffCtx.guest) + '" placeholder="Walk-in customer" oninput="guestOrderQrApplyWalkin()"></div></div>';
-    }
-  }
+    '</div>' +
+    '<div class="form-group"><label>Order number</label><select class="form-control" id="guestOrderQrOrderNumPick" onchange="guestOrderQrPickOrderNum(this.value)">' + orderNumOpts + '</select></div>';
   html += '<div class="guest-order-qr-preview"><img id="guestOrderQrImg" class="invoice-qr-img" alt="Order QR code">' +
     '<div id="guestOrderQrCaption" class="invoice-qr-caption">Scan to order</div></div>' +
     '<div class="form-group"><label>Order link</label><input type="text" class="form-control" id="guestOrderQrLink" readonly onclick="this.select()"></div>' +
@@ -1194,10 +1154,13 @@ function renderGuestRestaurantOrder() {
   if (title) title.textContent = hn + ' — Order food';
   if (sub) {
     var bits = [];
-    if (guestRestCtx.guest) bits.push(guestRestCtx.guest);
-    if (guestRestCtx.room) bits.push('Room ' + guestRestCtx.room);
-    if (guestRestCtx.table) bits.push(String(guestRestCtx.table));
-    if (guestRestCtx.booking) bits.push('Booking ' + guestRestCtx.booking);
+    if (guestRestCtx.orderNum) bits.push('Order number ' + guestRestCtx.orderNum);
+    else {
+      if (guestRestCtx.guest) bits.push(guestRestCtx.guest);
+      if (guestRestCtx.room) bits.push('Room ' + guestRestCtx.room);
+      if (guestRestCtx.table) bits.push(String(guestRestCtx.table));
+      if (guestRestCtx.booking) bits.push('Booking ' + guestRestCtx.booking);
+    }
     sub.textContent = bits.length ? bits.join(' · ') : 'Browse the menu and send your order to the kitchen';
   }
   if (guestRestSubmitted) {
@@ -1285,13 +1248,15 @@ window.guestRestSubmitOrder = function() {
   var grandTotal = Math.round((subtotal + tax) * 100) / 100;
   var notesEl = document.getElementById('guestRestOrderNotes');
   var notes = notesEl ? notesEl.value : '';
-  var tableNumber = guestRestCtx.table ? String(guestRestCtx.table) : (guestRestCtx.room ? ('Room ' + guestRestCtx.room) : 'QR Guest');
+  var tableNumber = guestRestCtx.orderNum ? ('Order #' + guestRestCtx.orderNum) : (guestRestCtx.table ? String(guestRestCtx.table) : (guestRestCtx.room ? ('Room ' + guestRestCtx.room) : 'QR Guest'));
   var order = {
     id: genId(), timestamp: new Date().toISOString(), orderNumber: nextOrderNumber(),
-    roomNumber: guestRestCtx.room || '', guestName: guestRestCtx.guest || 'Guest', bookingId: guestRestCtx.booking || '',
+    roomNumber: guestRestCtx.orderNum ? String(guestRestCtx.orderNum) : (guestRestCtx.room || ''),
+    guestName: guestRestCtx.orderNum ? ('Order #' + guestRestCtx.orderNum) : (guestRestCtx.guest || 'Guest'),
+    bookingId: guestRestCtx.booking || '', guestOrderNum: guestRestCtx.orderNum || '',
     tableNumber: tableNumber, items: items, subtotal: subtotal, tax: tax, grandTotal: grandTotal,
     status: 'Preparing', paidBy: 'Pending', staffName: 'Guest (QR scan)', notes: notes, workPeriodId: wp.id,
-    diningFlow: 'kitchen', guestQrOrder: true
+    diningFlow: 'kitchen', guestQrOrder: true, source: 'guestQr'
   };
   restaurantOrders.push(order);
   try { save('restaurantOrders', restaurantOrders); } catch (e) {}
@@ -1442,7 +1407,7 @@ BUILD_GUEST_ORDER_URL_INV_OLD = """  if (inv) {
     if (inv.bookingId != null && String(inv.bookingId).trim() !== '') params.set('booking', String(inv.bookingId).trim());
   }"""
 
-BUILD_GUEST_ORDER_URL_INV_NEW = """  if (inv) {
+BUILD_GUEST_ORDER_URL_INV_V8 = """  if (inv) {
     if (deptKey === 'minimart') {
       var orderNumVal = inv.orderNum != null ? String(inv.orderNum).trim() : '';
       if (orderNumVal && orderNumVal !== '—') {
@@ -1467,11 +1432,29 @@ BUILD_GUEST_ORDER_URL_INV_NEW = """  if (inv) {
     }
   }"""
 
+BUILD_GUEST_ORDER_URL_INV_NEW = """  if (inv) {
+    var orderNumVal = inv.orderNum != null ? String(inv.orderNum).trim() : '';
+    if (orderNumVal && orderNumVal !== '—') {
+      params.set('orderNum', orderNumVal);
+    } else {
+      var roomVal = inv.roomNumber != null ? String(inv.roomNumber).trim() : '';
+      var tableVal = inv.tableNumber != null ? String(inv.tableNumber).trim() : '';
+      if (!tableVal && roomVal && /^table\\b/i.test(roomVal)) tableVal = roomVal;
+      if (tableVal && tableVal !== '—') params.set('table', tableVal);
+      else if (roomVal && roomVal !== '—' && !/^table\\b/i.test(roomVal)) params.set('room', roomVal);
+      if (inv.guestName != null && String(inv.guestName).trim() !== '' && String(inv.guestName).trim() !== '—') params.set('guest', String(inv.guestName).trim());
+      if (inv.bookingId != null && String(inv.bookingId).trim() !== '') params.set('booking', String(inv.bookingId).trim());
+    }
+  }"""
+
 PARSE_GUEST_ORDER_PARAMS_OLD = "return { dept: go, room: sp.get('room') || '', guest: sp.get('guest') || '', booking: sp.get('booking') || '', table: sp.get('table') || '' };"
 PARSE_GUEST_ORDER_PARAMS_NEW = "return { dept: go, room: sp.get('room') || '', guest: sp.get('guest') || '', booking: sp.get('booking') || '', table: sp.get('table') || '', orderNum: sp.get('orderNum') || '' };"
 
 GUEST_MART_CTX_OLD = "var guestMartCtx = { room: '', guest: '', booking: '', table: '' };"
 GUEST_MART_CTX_NEW = "var guestMartCtx = { room: '', guest: '', booking: '', table: '', orderNum: '' };"
+
+GUEST_REST_CTX_OLD = "var guestRestCtx = { room: '', guest: '', booking: '', table: '' };"
+GUEST_REST_CTX_NEW = "var guestRestCtx = { room: '', guest: '', booking: '', table: '', orderNum: '' };"
 
 
 def _replace_guest_order_staff_js(content: str) -> str:
@@ -1526,6 +1509,53 @@ def _apply_v8_upgrades(content: str) -> str:
         content = content.replace(
             "roomNumber: guestMartCtx.room || '—', guestName: guestMartCtx.guest || 'Walk-in', bookingId: guestMartCtx.booking || '',",
             "roomNumber: guestMartCtx.orderNum ? String(guestMartCtx.orderNum) : (guestMartCtx.room || '—'),\n    guestName: guestMartCtx.orderNum ? ('Order #' + guestMartCtx.orderNum) : (guestMartCtx.guest || 'Walk-in'),\n    bookingId: guestMartCtx.booking || '',\n    guestOrderNum: guestMartCtx.orderNum || '',",
+            1,
+        )
+
+    content = re.sub(r"HRMM-GUEST-QR-ORDER-v\d+", MARKER, content)
+    return content
+
+
+def _apply_v9_upgrades(content: str) -> str:
+    if "guest-order-qr-modal" in content and "Room guest</button>" in content:
+        content = _replace_guest_order_staff_js(content)
+
+    if BUILD_GUEST_ORDER_URL_INV_V8 in content:
+        content = content.replace(BUILD_GUEST_ORDER_URL_INV_V8, BUILD_GUEST_ORDER_URL_INV_NEW, 1)
+    elif BUILD_GUEST_ORDER_URL_INV_OLD in content and "params.set('orderNum'" not in content.split("function buildGuestOrderUrl", 1)[1][:1200]:
+        content = content.replace(BUILD_GUEST_ORDER_URL_INV_OLD, BUILD_GUEST_ORDER_URL_INV_NEW, 1)
+
+    if GUEST_REST_CTX_OLD in content:
+        content = content.replace(GUEST_REST_CTX_OLD, GUEST_REST_CTX_NEW, 1)
+
+    if "guestRestCtx.orderNum" not in content.split("function renderGuestRestaurantOrder()", 1)[1][:900]:
+        content = content.replace(
+            "    if (guestRestCtx.guest) bits.push(guestRestCtx.guest);\n    if (guestRestCtx.room) bits.push('Room ' + guestRestCtx.room);",
+            "    if (guestRestCtx.orderNum) bits.push('Order number ' + guestRestCtx.orderNum);\n    else {\n      if (guestRestCtx.guest) bits.push(guestRestCtx.guest);\n      if (guestRestCtx.room) bits.push('Room ' + guestRestCtx.room);",
+            1,
+        )
+        content = content.replace(
+            "    if (guestRestCtx.booking) bits.push('Booking ' + guestRestCtx.booking);\n    sub.textContent = bits.length ? bits.join(' · ') : 'Browse the menu",
+            "    if (guestRestCtx.booking) bits.push('Booking ' + guestRestCtx.booking);\n    }\n    sub.textContent = bits.length ? bits.join(' · ') : 'Browse the menu",
+            1,
+        )
+
+    if "guestOrderNum: guestRestCtx.orderNum" not in content and "window.guestRestSubmitOrder = function()" in content:
+        content = content.replace(
+            "  var tableNumber = guestRestCtx.table ? String(guestRestCtx.table) : (guestRestCtx.room ? ('Room ' + guestRestCtx.room) : 'QR Guest');\n  var order = {\n    id: genId(), timestamp: new Date().toISOString(), orderNumber: nextOrderNumber(),\n    roomNumber: guestRestCtx.room || '', guestName: guestRestCtx.guest || 'Guest', bookingId: guestRestCtx.booking || '',",
+            "  var tableNumber = guestRestCtx.orderNum ? ('Order #' + guestRestCtx.orderNum) : (guestRestCtx.table ? String(guestRestCtx.table) : (guestRestCtx.room ? ('Room ' + guestRestCtx.room) : 'QR Guest'));\n  var order = {\n    id: genId(), timestamp: new Date().toISOString(), orderNumber: nextOrderNumber(),\n    roomNumber: guestRestCtx.orderNum ? String(guestRestCtx.orderNum) : (guestRestCtx.room || ''),\n    guestName: guestRestCtx.orderNum ? ('Order #' + guestRestCtx.orderNum) : (guestRestCtx.guest || 'Guest'),\n    bookingId: guestRestCtx.booking || '', guestOrderNum: guestRestCtx.orderNum || '',",
+            1,
+        )
+        content = content.replace(
+            "diningFlow: 'kitchen', guestQrOrder: true\n  };",
+            "diningFlow: 'kitchen', guestQrOrder: true, source: 'guestQr'\n  };",
+            1,
+        )
+
+    if "guestRestCtx = { room: ctx.room" in content and "orderNum: ctx.orderNum" not in content.split("guestRestCtx = { room: ctx.room", 1)[1][:80]:
+        content = content.replace(
+            "guestRestCtx = { room: ctx.room || '', guest: ctx.guest || '', booking: ctx.booking || '', table: ctx.table || '' };",
+            "guestRestCtx = { room: ctx.room || '', guest: ctx.guest || '', booking: ctx.booking || '', table: ctx.table || '', orderNum: ctx.orderNum || '' };",
             1,
         )
 
@@ -1869,6 +1899,7 @@ def patch(content: str) -> str:
 
     content = _apply_v7_upgrades(content)
     content = _apply_v8_upgrades(content)
+    content = _apply_v9_upgrades(content)
     content = _apply_bnav_qr_labels(content)
     content = _apply_invoice_qr_i18n(content)
     content = _repair_order_qr(content)

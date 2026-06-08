@@ -157,7 +157,7 @@ window.showGuestOrderScreen = function(dept, ctx) {
     guestMartCtx = { room: ctx.room || '', guest: ctx.guest || '', booking: ctx.booking || '', table: ctx.table || '', orderNum: ctx.orderNum || '' };
     guestMartSubmitted = false;
   } else {
-    guestRestCtx = { room: ctx.room || '', guest: ctx.guest || '', booking: ctx.booking || '', table: ctx.table || '' };
+    guestRestCtx = { room: ctx.room || '', guest: ctx.guest || '', booking: ctx.booking || '', table: ctx.table || '', orderNum: ctx.orderNum || '' };
     guestRestSubmitted = false;
   }
   var ov = document.getElementById('guestRestOrderOverlay');
