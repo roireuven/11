@@ -30,4 +30,4 @@ HotelRestaurantMini-MartManagement תומכת ב**21 שפות ממשק** עם פ
 
 התיעוד זמין בכל שפות ממשק האפליקציה. דפים שטרם תורגמו מקשרים למקור האנגלי.
 
-לשינוי שפה, RTL ומיקום קבצי locale, ראו את [English localization guide](../en/localization.md).
+לשינוי שפה, RTL ומיקום קבצי locale, ראו את [English localization guide](https://hotel-restaurant-minimart.firebaseapp.com/doc/?lang=en#/localization).
