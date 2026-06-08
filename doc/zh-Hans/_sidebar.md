@@ -3,6 +3,7 @@
 * **入门**
   * [概述](overview.md)
   * [入门](getting-started.md)
+  * [Visual guide (screenshots)](visual-guide.md)
   * [安装](installation.md)
   * [首次设置](first-time-setup.md)
   * [演示凭据](demo-credentials.md)
@@ -14,6 +15,7 @@
   * [服务与账单](services-and-billing.md)
   * [餐厅与厨房](restaurant-and-kitchen.md)
   * [迷你超市与 POS](minimart-and-pos.md)
+  * [Guest QR orders](guest-qr-orders.md)
   * [库存与目录](inventory-and-catalog.md)
   * [宾客门户](guest-portal.md)
   * [报表](reports.md)
@@ -23,6 +25,7 @@
   * [设置与配置](settings-and-configuration.md)
   * [备份、恢复与数据](backup-restore-and-data.md)
   * [本地化](localization.md)
+  * [Multilingual documentation](multilingual-documentation.md)
   * [数据模型](data-model.md)
 
 * **技术**
@@ -34,4 +37,4 @@
 
 * **链接**
   * [Live web app ↗](https://hotel-restaurant-minimart.firebaseapp.com/)
-  * [APK landing ↗](https://roireuven.github.io/11/)
+  * [APK landing (GitHub) ↗](https://roireuven.github.io/11/)

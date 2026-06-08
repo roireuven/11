@@ -3,6 +3,7 @@
 * **البدء**
   * [نظرة عامة](overview.md)
   * [البدء](getting-started.md)
+  * [Visual guide (screenshots)](visual-guide.md)
   * [التثبيت](installation.md)
   * [الإعداد لأول مرة](first-time-setup.md)
   * [بيانات اعتماد تجريبية](demo-credentials.md)
@@ -14,6 +15,7 @@
   * [الخدمات والفوترة](services-and-billing.md)
   * [المطعم والمطبخ](restaurant-and-kitchen.md)
   * [ميني مارت ونقطة البيع](minimart-and-pos.md)
+  * [Guest QR orders](guest-qr-orders.md)
   * [المخزون والفهرس](inventory-and-catalog.md)
   * [بوابة الضيوف](guest-portal.md)
   * [التقارير](reports.md)
@@ -23,6 +25,7 @@
   * [الإعدادات والتكوين](settings-and-configuration.md)
   * [النسخ الاحتياطي والاستعادة والبيانات](backup-restore-and-data.md)
   * [التوطين](localization.md)
+  * [Multilingual documentation](multilingual-documentation.md)
   * [نموذج البيانات](data-model.md)
 
 * **تقني**
@@ -34,4 +37,4 @@
 
 * **روابط**
   * [Live web app ↗](https://hotel-restaurant-minimart.firebaseapp.com/)
-  * [APK landing ↗](https://roireuven.github.io/11/)
+  * [APK landing (GitHub) ↗](https://roireuven.github.io/11/)

@@ -1,6 +1,6 @@
 # HotelRestaurantMini-MartManagement — Documentation
 
-Complete documentation for **HotelRestaurantMini-MartManagement** (v2.0), an all-in-one property management system for **hotel**, **restaurant**, **mini-mart**, and **POS** operations.
+Complete documentation for **HotelRestaurantMini-MartManagement** (v2.1), an all-in-one property management system for **hotel**, **restaurant**, **mini-mart**, and **POS** operations — including **guest QR self-order** (order numbers 1–60) and **QR Orders Report**.
 
 > **Browse online (Firebase):** [https://hotel-restaurant-minimart.firebaseapp.com/doc/](https://hotel-restaurant-minimart.firebaseapp.com/doc/)  
 > **Inside the app:** Sidebar → **Documentation** (all roles) — embedded help  
@@ -37,6 +37,7 @@ Complete documentation for **HotelRestaurantMini-MartManagement** (v2.0), an all
 | [Services & billing](services-and-billing.md) | Guest services, invoices, check-in/out |
 | [Restaurant & kitchen](restaurant-and-kitchen.md) | Orders, tables, room service, kitchen queue |
 | [Mini-mart & POS](minimart-and-pos.md) | Shop sales, room charges, till |
+| [Guest QR orders](guest-qr-orders.md) | Scan-to-order, order # 1–60, QR report, 21-language guest UI |
 | [Inventory & catalog](inventory-and-catalog.md) | Stock, menu items, store items |
 | [Guest portal](guest-portal.md) | Guest-facing features |
 | [Reports](reports.md) | Sales, occupancy, and operational reports |
