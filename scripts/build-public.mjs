@@ -67,11 +67,20 @@ runPython("scripts/patch-app-guest-qr-reports.py");
 console.log("Patching full-screen modals...");
 runPython("scripts/patch-app-shell-modal.py");
 
+console.log("Applying core i18n fixes (uiT, bottom nav, embedded locales)...");
+runPython("scripts/patch-app-i18n-fixes.py");
+
+console.log("Generating guest order locale keys...");
+runPython("scripts/generate-guest-order-locale-keys.py");
+
 console.log("Adding invoice i18n keys to app locale files...");
 runPython("scripts/patch-locale-invoice-keys.py");
 
 console.log("Adding documentation keys to app locale files...");
 runPython("scripts/patch-locale-doc-keys.py");
+
+console.log("Adding guest order / QR report keys to app locale files...");
+runPython("scripts/patch-locale-guest-order-keys.py");
 
 console.log("Generating multilingual documentation (21 locales)...");
 runPython("scripts/generate-doc-locales.py");

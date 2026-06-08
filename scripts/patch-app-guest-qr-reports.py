@@ -6,7 +6,7 @@ import re
 import sys
 from pathlib import Path
 
-MARKER = "HRMM-GUEST-QR-REPORTS-v2"
+MARKER = "HRMM-GUEST-QR-REPORTS-v3"
 INDEX = Path("public/index.html")
 JS_START = "/* HRMM guest QR orders board + report */"
 JS_ANCHOR = "// ===== MENU ITEMS CRUD ====="
@@ -405,6 +405,53 @@ def _upgrade_css_block(content: str) -> str:
     return content
 
 
+def _apply_i18n_v3(content: str) -> str:
+    """Wire QR report UI to uiT()."""
+    if "uiT('guestQrReport.titleRest'" in content:
+        return content
+
+    pairs = [
+        ("&#128202; QR Orders Report</button>", "&#128202; ' + (typeof uiT === 'function' ? uiT('guestOrder.qrReportBtn', 'QR Orders Report') : 'QR Orders Report') + '</button>"),
+        ("'<span class=\"guest-qr-slot-free\">Free</span>'", "'<span class=\"guest-qr-slot-free\">' + (typeof uiT === 'function' ? uiT('guestQrReport.free', 'Free') : 'Free') + '</span>'"),
+        ("bars = '<p class=\"guest-qr-chart-empty\">No slot revenue yet</p>'", "bars = '<p class=\"guest-qr-chart-empty\">' + (typeof uiT === 'function' ? uiT('guestQrReport.noSlotRevenue', 'No slot revenue yet') : 'No slot revenue yet') + '</p>'"),
+        ("hourBars = '<p class=\"guest-qr-chart-empty\">No time data yet</p>'", "hourBars = '<p class=\"guest-qr-chart-empty\">' + (typeof uiT === 'function' ? uiT('guestQrReport.noTimeData', 'No time data yet') : 'No time data yet') + '</p>'"),
+        ("<h4>Status breakdown</h4>", "<h4>' + (typeof uiT === 'function' ? uiT('guestQrReport.statusBreakdown', 'Status breakdown') : 'Status breakdown') + '</h4>"),
+        ("<li><span class=\"dot paid\"></span>Paid ' + status.Paid", "<li><span class=\"dot paid\"></span>' + (typeof uiT === 'function' ? uiT('guestQrReport.paid', 'Paid') : 'Paid') + ' ' + status.Paid"),
+        ("<li><span class=\"dot open\"></span>Open ' + status.Open", "<li><span class=\"dot open\"></span>' + (typeof uiT === 'function' ? uiT('guestQrReport.open', 'Open') : 'Open') + ' ' + status.Open"),
+        ("<li><span class=\"dot other\"></span>Other ' + status.Other", "<li><span class=\"dot other\"></span>' + (typeof uiT === 'function' ? uiT('guestQrReport.other', 'Other') : 'Other') + ' ' + status.Other"),
+        ("<h4>Revenue by order # (top slots)</h4>", "<h4>' + (typeof uiT === 'function' ? uiT('guestQrReport.revenueBySlot', 'Revenue by order # (top slots)') : 'Revenue by order # (top slots)') + '</h4>"),
+        ("<h4>Orders by hour of day</h4>", "<h4>' + (typeof uiT === 'function' ? uiT('guestQrReport.ordersByHour', 'Orders by hour of day') : 'Orders by hour of day') + '</h4>"),
+        ("toast('CSV downloaded')", "toast(typeof uiT === 'function' ? uiT('guestQrReport.csvDownloaded', 'CSV downloaded') : 'CSV downloaded')"),
+        (
+            "  var title = dept === 'restaurant' ? 'Restaurant QR orders report' : 'Mini-Mart QR orders report';",
+            "  var title = dept === 'restaurant' ? (typeof uiT === 'function' ? uiT('guestQrReport.titleRest', 'Restaurant QR orders report') : 'Restaurant QR orders report') : (typeof uiT === 'function' ? uiT('guestQrReport.titleMart', 'Mini-Mart QR orders report') : 'Mini-Mart QR orders report');",
+        ),
+        ("<span class=\"guest-qr-stat-lbl\">QR orders</span>", "<span class=\"guest-qr-stat-lbl\">' + (typeof uiT === 'function' ? uiT('guestQrReport.qrOrders', 'QR orders') : 'QR orders') + '</span>"),
+        ("<span class=\"guest-qr-stat-lbl\">Slots used</span>", "<span class=\"guest-qr-stat-lbl\">' + (typeof uiT === 'function' ? uiT('guestQrReport.slotsUsed', 'Slots used') : 'Slots used') + '</span>"),
+        ("<span class=\"guest-qr-stat-lbl\">Open</span><strong>' + sum.open", "<span class=\"guest-qr-stat-lbl\">' + (typeof uiT === 'function' ? uiT('guestQrReport.open', 'Open') : 'Open') + '</span><strong>' + sum.open"),
+        ("<span class=\"guest-qr-stat-lbl\">Revenue</span>", "<span class=\"guest-qr-stat-lbl\">' + (typeof uiT === 'function' ? uiT('guestQrReport.revenue', 'Revenue') : 'Revenue') + '</span>"),
+        ("<h3 class=\"guest-qr-report-subhd\">Charts &amp; graphs</h3>", "<h3 class=\"guest-qr-report-subhd\">' + (typeof uiT === 'function' ? uiT('guestQrReport.charts', 'Charts & graphs') : 'Charts & graphs') + '</h3>"),
+        ("<h3 class=\"guest-qr-report-subhd\">Order numbers 1–60</h3>", "<h3 class=\"guest-qr-report-subhd\">' + (typeof uiT === 'function' ? uiT('guestQrReport.orderNums', 'Order numbers 1–60') : 'Order numbers 1–60') + '</h3>"),
+        (">Export Excel (CSV)</button>' +", ">' + (typeof uiT === 'function' ? uiT('guestQrReport.exportCsv', 'Export Excel (CSV)') : 'Export Excel (CSV)') + '</button>' +"),
+        (">Refresh</button>' +", ">' + (typeof uiT === 'function' ? uiT('guestQrReport.refresh', 'Refresh') : 'Refresh') + '</button>' +"),
+        ("<h3 class=\"guest-qr-report-subhd\">All QR scan orders (spreadsheet)</h3>", "<h3 class=\"guest-qr-report-subhd\">' + (typeof uiT === 'function' ? uiT('guestQrReport.spreadsheet', 'All QR scan orders (spreadsheet)') : 'All QR scan orders (spreadsheet)') + '</h3>"),
+        ("{ field: 'slotNum', label: 'Order #'", "{ field: 'slotNum', label: (typeof uiT === 'function' ? uiT('guestQrReport.colOrderNum', 'Order #') : 'Order #')"),
+        ("{ field: 'orderNumber', label: 'Ticket'", "{ field: 'orderNumber', label: (typeof uiT === 'function' ? uiT('guestQrReport.colTicket', 'Ticket') : 'Ticket')"),
+        ("{ field: 'timestamp', label: 'Time'", "{ field: 'timestamp', label: (typeof uiT === 'function' ? uiT('guestQrReport.colTime', 'Time') : 'Time')"),
+        ("{ field: 'status', label: 'Status'", "{ field: 'status', label: (typeof uiT === 'function' ? uiT('guestQrReport.colStatus', 'Status') : 'Status')"),
+        ("{ field: 'items', label: 'Items'", "{ field: 'items', label: (typeof uiT === 'function' ? uiT('guestQrReport.colItems', 'Items') : 'Items')"),
+        ("{ field: 'grandTotal', label: 'Total'", "{ field: 'grandTotal', label: (typeof uiT === 'function' ? uiT('guestQrReport.colTotal', 'Total') : 'Total')"),
+        ("{ field: 'paidBy', label: 'Payment'", "{ field: 'paidBy', label: (typeof uiT === 'function' ? uiT('guestQrReport.colPayment', 'Payment') : 'Payment')"),
+        ("{ field: 'guestLabel', label: 'Guest'", "{ field: 'guestLabel', label: (typeof uiT === 'function' ? uiT('guestQrReport.colGuest', 'Guest') : 'Guest')"),
+        ("emptyMessage: 'No QR scan orders yet'", "emptyMessage: (typeof uiT === 'function' ? uiT('guestQrReport.noOrders', 'No QR scan orders yet') : 'No QR scan orders yet')"),
+    ]
+    for old, new in pairs:
+        if old in content:
+            content = content.replace(old, new, 1)
+    content = re.sub(r"HRMM-GUEST-QR-REPORTS-v\d+", MARKER, content)
+    return content
+
+
 def _fix_button_labels(content: str) -> str:
     if REST_BTN_BROKEN in content:
         content = content.replace(REST_BTN_BROKEN, REST_BTN_NEW, 1)
@@ -419,6 +466,7 @@ def patch(content: str) -> str:
     content = _fix_button_labels(content)
     content = _upgrade_js_block(content)
     content = _upgrade_css_block(content)
+    content = _apply_i18n_v3(content)
 
     if _is_fully_patched(content):
         print(f"Guest QR reports already patched {MARKER} — skipping")

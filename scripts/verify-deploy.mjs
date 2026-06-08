@@ -70,11 +70,17 @@ if (!html.includes("HRMM-SHIFTS-v1") || !html.includes("migrateShiftsClosedByDef
 if (!html.includes("HRMM-MOBILE-MENU-v4") || !html.includes("window.closeLangMenu") || !html.includes('id="langMenuBackdrop"')) {
   fail("app missing mobile phone UI patch (HRMM-MOBILE-MENU-v4)");
 }
-if (!html.includes("HRMM-GUEST-QR-ORDER-v9") || !html.includes("function guestOrderQrBuildUrl") || !html.includes('data-bnav="guestorder-rest"')) {
-  fail("app missing guest QR order patch (HRMM-GUEST-QR-ORDER-v9)");
+if (!html.includes("HRMM-GUEST-QR-ORDER-v10") || !html.includes("function guestOrderQrBuildUrl") || !html.includes('data-bnav="guestorder-rest"')) {
+  fail("app missing guest QR order patch (HRMM-GUEST-QR-ORDER-v10)");
 }
-if (!html.includes("HRMM-GUEST-QR-REPORTS-v2") || !html.includes("openGuestQrOrdersReport")) {
-  fail("app missing guest QR orders report (HRMM-GUEST-QR-REPORTS-v2)");
+if (!html.includes("HRMM-GUEST-QR-REPORTS-v3") || !html.includes("openGuestQrOrdersReport")) {
+  fail("app missing guest QR orders report (HRMM-GUEST-QR-REPORTS-v3)");
+}
+if (!html.includes("HRMM-I18N-FIXES-v1") || !html.includes("function uiT")) {
+  fail("app missing core i18n fixes (HRMM-I18N-FIXES-v1)");
+}
+if (!html.includes("uiT('guestOrder.qrReportBtn'") || !html.includes("uiT('guestQrReport.titleRest'")) {
+  fail("app missing guest order / QR report i18n wiring");
 }
 if (!html.includes("guestQrBuildChartsHtml") || !html.includes("guest-qr-report-btn")) {
   fail("app missing QR order charts and report toolbar buttons");
@@ -98,7 +104,7 @@ if (!html.includes("buildGuestOrderUrl") || !html.includes("guestMartSubmitOrder
   fail("app missing guest order QR staff helpers");
 }
 if (!html.includes("buildInvoiceGuestOrderQrsHtml") || !html.includes("guestQrMinimartOrderEnabled")) {
-  fail("app missing dual invoice guest order QR (HRMM-GUEST-QR-ORDER-v9)");
+  fail("app missing dual invoice guest order QR (HRMM-GUEST-QR-ORDER-v10)");
 }
 const martChunk = html.split("function renderGuestMiniMartOrder()")[1] || "";
 if (!martChunk.includes("Search items") || !martChunk.includes("guestRestMobileBarHtml")) {

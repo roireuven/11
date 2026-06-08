@@ -20,7 +20,7 @@ def _load_v4_fragments() -> tuple[str, str, str]:
 
 GUEST_ORDER_PARSE_AND_BOOT_V4, GUEST_ORDER_BOOT_V4, RENDER_GUEST_MINIMART_ORDER_V8 = _load_v4_fragments()
 
-MARKER = "HRMM-GUEST-QR-ORDER-v9"
+MARKER = "HRMM-GUEST-QR-ORDER-v10"
 INDEX = Path("public/index.html")
 
 GET_INVOICE_QR_PAYLOAD_OLD = """function getInvoiceQrPayload(inv) {
@@ -1572,6 +1572,96 @@ I18N_BNAV_GUEST_PARTIAL_NEW = """    "guestOrder": "Order QR",
     "menu": "Menu","""
 
 
+def _apply_i18n_v10(content: str) -> str:
+    """Wire guest QR modal and self-order UI to uiT()."""
+    if "uiT('guestOrder.modalTitleRest'" in content:
+        return content
+
+    pairs = [
+        (
+            "return 'Select order number first';",
+            "return (typeof uiT === 'function' ? uiT('guestOrder.selectOrderNumFirst', 'Select order number first') : 'Select order number first');",
+        ),
+        (
+            ": 'Select order number';",
+            ": (typeof uiT === 'function' ? uiT('guestOrder.selectOrderNumHint', 'Select order number') : 'Select order number');",
+        ),
+        (
+            "toast('Link copied')",
+            "toast(typeof uiT === 'function' ? uiT('guestOrder.linkCopied', 'Link copied') : 'Link copied')",
+        ),
+        (
+            "  var deptLabel = dept === 'minimart' ? 'Mini-Mart' : 'Restaurant';\n  var rooms = guestOrderQrListRooms();",
+            "  var rooms = guestOrderQrListRooms();",
+        ),
+        (
+            "  var orderNumOpts = '<option value=\"\">— Select order number —</option>';\n  for (var on = 1; on <= 60; on++) {\n    var onSel = String(guestOrderQrStaffCtx.orderNum) === String(on) ? ' selected' : '';\n    orderNumOpts += '<option value=\"' + on + '\"' + onSel + '>Order number ' + on + '</option>';\n  }\n  var leadText = 'Scan this QR so the customer can self-order from the ' + deptLabel.toLowerCase() + '. Pick an order number (1–60) below.';\n  var html = '<div class=\"modal-hd\"><h2>' + deptLabel + ' order QR</h2>",
+            "  var orderNumOpts = '<option value=\"\">' + (typeof uiT === 'function' ? uiT('guestOrder.selectOrderNum', '— Select order number —') : '— Select order number —') + '</option>';\n  for (var on = 1; on <= 60; on++) {\n    var onSel = String(guestOrderQrStaffCtx.orderNum) === String(on) ? ' selected' : '';\n    var onLab = (typeof uiT === 'function' ? uiT('guestOrder.orderNumOption', 'Order number {n}', { n: on }) : 'Order number ' + on);\n    orderNumOpts += '<option value=\"' + on + '\"' + onSel + '>' + onLab + '</option>';\n  }\n  var leadText = dept === 'minimart' ? (typeof uiT === 'function' ? uiT('guestOrder.leadMart', 'Scan this QR so the customer can self-order from the mini-mart. Pick an order number (1–60) below.') : 'Scan this QR so the customer can self-order from the mini-mart. Pick an order number (1–60) below.') : (typeof uiT === 'function' ? uiT('guestOrder.leadRest', 'Scan this QR so the customer can self-order from the restaurant. Pick an order number (1–60) below.') : 'Scan this QR so the customer can self-order from the restaurant. Pick an order number (1–60) below.');\n  var modalTitle = dept === 'minimart' ? (typeof uiT === 'function' ? uiT('guestOrder.modalTitleMart', 'Mini-Mart order QR') : 'Mini-Mart order QR') : (typeof uiT === 'function' ? uiT('guestOrder.modalTitleRest', 'Restaurant order QR') : 'Restaurant order QR');\n  var html = '<div class=\"modal-hd\"><h2>' + modalTitle + '</h2>",
+        ),
+        (
+            "onclick=\"guestOrderQrSetDept(\\'restaurant\\')\">Restaurant QR</button>' +\n      '<button type=\"button\" class=\"btn ' + (dept === 'minimart' ? 'btn-primary' : 'btn-outline') + '\" onclick=\"guestOrderQrSetDept(\\'minimart\\')\">Mini-Mart QR</button>",
+            "onclick=\"guestOrderQrSetDept(\\'restaurant\\')\">' + (typeof uiT === 'function' ? uiT('guestOrder.restaurantQr', 'Restaurant QR') : 'Restaurant QR') + '</button>' +\n      '<button type=\"button\" class=\"btn ' + (dept === 'minimart' ? 'btn-primary' : 'btn-outline') + '\" onclick=\"guestOrderQrSetDept(\\'minimart\\')\">' + (typeof uiT === 'function' ? uiT('guestOrder.minimartQr', 'Mini-Mart QR') : 'Mini-Mart QR') + '</button>",
+        ),
+        (
+            "'<div class=\"form-group\"><label>Order number</label><select class=\"form-control\" id=\"guestOrderQrOrderNumPick\" onchange=\"guestOrderQrPickOrderNum(this.value)\">",
+            "'<div class=\"form-group\"><label>' + (typeof uiT === 'function' ? uiT('guestOrder.orderNumber', 'Order number') : 'Order number') + '</label><select class=\"form-control\" id=\"guestOrderQrOrderNumPick\" onchange=\"guestOrderQrPickOrderNum(this.value)\">",
+        ),
+        (
+            "  html += '<div class=\"guest-order-qr-preview\"><img id=\"guestOrderQrImg\" class=\"invoice-qr-img\" alt=\"Order QR code\">' +\n    '<div id=\"guestOrderQrCaption\" class=\"invoice-qr-caption\">Scan to order</div></div>' +\n    '<div class=\"form-group\"><label>Order link</label><input type=\"text\" class=\"form-control\" id=\"guestOrderQrLink\" readonly onclick=\"this.select()\"></div>' +",
+            "  html += '<div class=\"guest-order-qr-preview\"><img id=\"guestOrderQrImg\" class=\"invoice-qr-img\" alt=\"' + (typeof uiT === 'function' ? uiT('guestOrder.qrAlt', 'Order QR code') : 'Order QR code') + '\">' +\n    '<div id=\"guestOrderQrCaption\" class=\"invoice-qr-caption\">' + (typeof uiT === 'function' ? uiT('guestOrder.scanToOrder', 'Scan to order') : 'Scan to order') + '</div></div>' +\n    '<div class=\"form-group\"><label>' + (typeof uiT === 'function' ? uiT('guestOrder.orderLink', 'Order link') : 'Order link') + '</label><input type=\"text\" class=\"form-control\" id=\"guestOrderQrLink\" readonly onclick=\"this.select()\"></div>' +",
+        ),
+        (
+            "      '<button type=\"button\" class=\"btn btn-primary\" onclick=\"guestOrderQrOpenCustomerScreen()\">Open order screen</button>' +\n      '<button type=\"button\" class=\"btn btn-outline\" onclick=\"guestOrderQrCopyLink()\">Copy link</button>' +",
+            "      '<button type=\"button\" class=\"btn btn-primary\" onclick=\"guestOrderQrOpenCustomerScreen()\">' + (typeof uiT === 'function' ? uiT('guestOrder.openOrderScreen', 'Open order screen') : 'Open order screen') + '</button>' +\n      '<button type=\"button\" class=\"btn btn-outline\" onclick=\"guestOrderQrCopyLink()\">' + (typeof uiT === 'function' ? uiT('guestOrder.copyLink', 'Copy link') : 'Copy link') + '</button>' +",
+        ),
+        (
+            "sub.textContent = bits.length ? bits.join(' · ') : 'Browse the menu and send your order to the kitchen';",
+            "sub.textContent = bits.length ? bits.join(' · ') : (typeof uiT === 'function' ? uiT('guestOrder.browseMenu', 'Browse the menu and send your order to the kitchen') : 'Browse the menu and send your order to the kitchen');",
+        ),
+        (
+            "body.innerHTML = '<div class=\"guest-rest-success\"><div class=\"guest-rest-success-icon\" aria-hidden=\"true\">✓</div><h2>Order sent!</h2><p>Your order was submitted to the kitchen. Staff will prepare it shortly.</p><button type=\"button\" class=\"btn btn-primary\" onclick=\"guestRestStartNewOrder()\">Order more</button></div>';",
+            "body.innerHTML = '<div class=\"guest-rest-success\"><div class=\"guest-rest-success-icon\" aria-hidden=\"true\">✓</div><h2>' + (typeof uiT === 'function' ? uiT('guestOrder.orderSent', 'Order sent!') : 'Order sent!') + '</h2><p>' + (typeof uiT === 'function' ? uiT('guestOrder.orderSentKitchen', 'Your order was submitted to the kitchen. Staff will prepare it shortly.') : 'Your order was submitted to the kitchen. Staff will prepare it shortly.') + '</p><button type=\"button\" class=\"btn btn-primary\" onclick=\"guestRestStartNewOrder()\">' + (typeof uiT === 'function' ? uiT('guestOrder.orderMore', 'Order more') : 'Order more') + '</button></div>';",
+        ),
+        (
+            'placeholder="Search menu…"',
+            "placeholder=\"' + (typeof uiT === 'function' ? uiT('guestOrder.searchMenu', 'Search menu…') : 'Search menu…') + '\"",
+        ),
+        (
+            '<div class="guest-rest-empty">No menu items available right now.</div>',
+            "<div class=\"guest-rest-empty\">' + (typeof uiT === 'function' ? uiT('guestOrder.noMenuItems', 'No menu items available right now.') : 'No menu items available right now.') + '</div>",
+        ),
+        (
+            "'guestRestSubmitOrder', 'Send order', canSend)",
+            "'guestRestSubmitOrder', (typeof uiT === 'function' ? uiT('guestOrder.sendOrder', 'Send order') : 'Send order'), canSend)",
+        ),
+        (
+            'onclick="guestRestSubmitOrder()">Send to kitchen</button>',
+            "onclick=\"guestRestSubmitOrder()\">' + (typeof uiT === 'function' ? uiT('guestOrder.sendToKitchen', 'Send to kitchen') : 'Send to kitchen') + '</button>",
+        ),
+        (
+            'placeholder="Search items…"',
+            "placeholder=\"' + (typeof uiT === 'function' ? uiT('guestOrder.searchItems', 'Search items…') : 'Search items…') + '\"",
+        ),
+        (
+            '<div class="guest-rest-empty">No items available right now.</div>',
+            "<div class=\"guest-rest-empty\">' + (typeof uiT === 'function' ? uiT('guestOrder.noStoreItems', 'No items available right now.') : 'No items available right now.') + '</div>",
+        ),
+        (
+            "body.innerHTML = '<div class=\"guest-rest-success\"><div class=\"guest-rest-success-icon\" aria-hidden=\"true\">✓</div><h2>Order submitted!</h2><p>Your mini-mart order was sent. Staff will prepare it for pickup or delivery.</p><button type=\"button\" class=\"btn btn-primary\" onclick=\"guestMartStartNewOrder()\">Order more</button></div>';",
+            "body.innerHTML = '<div class=\"guest-rest-success\"><div class=\"guest-rest-success-icon\" aria-hidden=\"true\">✓</div><h2>' + (typeof uiT === 'function' ? uiT('guestOrder.orderSubmitted', 'Order submitted!') : 'Order submitted!') + '</h2><p>' + (typeof uiT === 'function' ? uiT('guestOrder.orderSentMart', 'Your mini-mart order was sent. Staff will prepare it for pickup or delivery.') : 'Your mini-mart order was sent. Staff will prepare it for pickup or delivery.') + '</p><button type=\"button\" class=\"btn btn-primary\" onclick=\"guestMartStartNewOrder()\">' + (typeof uiT === 'function' ? uiT('guestOrder.orderMore', 'Order more') : 'Order more') + '</button></div>';",
+        ),
+        (
+            "sub.textContent = bits.length ? bits.join(' · ') : 'Browse items and submit your mini-mart order';",
+            "sub.textContent = bits.length ? bits.join(' · ') : (typeof uiT === 'function' ? uiT('guestOrder.browseItems', 'Browse items and submit your mini-mart order') : 'Browse items and submit your mini-mart order');",
+        ),
+    ]
+    for old, new in pairs:
+        if old in content:
+            content = content.replace(old, new, 1)
+    content = re.sub(r"HRMM-GUEST-QR-ORDER-v\d+", MARKER, content)
+    return content
+
+
 def _apply_bnav_qr_labels(content: str) -> str:
     if I18N_BNAV_GUEST_PARTIAL_OLD in content:
         content = content.replace(I18N_BNAV_GUEST_PARTIAL_OLD, I18N_BNAV_GUEST_PARTIAL_NEW, 1)
@@ -1902,6 +1992,7 @@ def patch(content: str) -> str:
     content = _apply_v9_upgrades(content)
     content = _apply_bnav_qr_labels(content)
     content = _apply_invoice_qr_i18n(content)
+    content = _apply_i18n_v10(content)
     content = _repair_order_qr(content)
     return content
 
