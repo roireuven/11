@@ -20,6 +20,8 @@
     html[dir="rtl"] #hrmm-doc-lang-wrap { right: auto; left: 0; border-radius: 0 0 8px 0; }
     body.hrmm-embed #hrmm-doc-lang-wrap { display: none !important; }
     body.hrmm-embed .sidebar-toggle { display: none; }
+    body.hrmm-embed .sidebar { display: none; }
+    body.hrmm-embed main { margin-left: 0 !important; }
     body.hrmm-embed main { height: 100vh; }
     body.hrmm-embed .content { padding-top: 0; }
     body.hrmm-embed .markdown-section { max-width: 52rem; }
@@ -126,6 +128,14 @@
           },
           plugins: [
             function (hook) {
+              function fixDocAssetUrl(src) {
+                if (!src) return src;
+                src = src.replace(/\/doc\/en\/doc\/en\//g, '/doc/en/');
+                if (/^assets\//.test(src)) return DOC_ROOT + '/en/' + src;
+                if (/^\.\.\/en\/assets\//.test(src)) return DOC_ROOT + '/en/assets/' + src.slice('../en/assets/'.length);
+                if (/^\/doc\/en\/assets\//.test(src)) return src;
+                return src;
+              }
               function externalizeLinks(scope) {
                 if (!scope) return;
                 scope.querySelectorAll('a[href^="http://"], a[href^="https://"]').forEach(function (a) {
@@ -133,10 +143,22 @@
                   a.setAttribute('rel', 'noopener noreferrer');
                   a.setAttribute('title', ui.open_new_tab || 'Opens in a new tab');
                 });
+                scope.querySelectorAll('a[href*="lang=en"]').forEach(function (a) {
+                  a.removeAttribute('target');
+                });
+              }
+              function fixImages(scope) {
+                if (!scope) return;
+                scope.querySelectorAll('img').forEach(function (img) {
+                  var src = img.getAttribute('src') || '';
+                  var fixed = fixDocAssetUrl(src);
+                  if (fixed && fixed !== src) img.setAttribute('src', fixed);
+                });
               }
               hook.doneEach(function () {
                 externalizeLinks(document.querySelector('.markdown-section'));
                 externalizeLinks(document.querySelector('.sidebar-nav'));
+                fixImages(document.querySelector('.markdown-section'));
               });
             }
           ]
