@@ -13,7 +13,7 @@ Available to **Admin** and **Manager**. **Manager** lands on Reports by default 
 | **Dashboard** | Roles with dashboard access | Live KPIs, shift status, date-filtered charts |
 | **Reports** | Admin, Manager | Department sales, occupancy trends, shift summaries |
 
-![Dashboard analytics and shift panels](/doc/en/assets/screenshots/02-dashboard.png)
+![Dashboard analytics and shift panels](assets/screenshots/02-dashboard.png)
 
 ---
 
@@ -52,6 +52,21 @@ Open **Dashboard** from the sidebar or bottom nav.
 | **POS** | Aggregated till activity where applicable |
 
 Use Reports for **end-of-day** and **period** reviews.
+
+### QR Orders Report (Restaurant & Mini-Mart)
+
+Separate from the sidebar **Reports** module — opened from **Restaurant** or **Mini-Mart** screens:
+
+| Feature | Description |
+|---------|-------------|
+| **QR Orders Report** button | On New Order card and Active Orders toolbar |
+| Summary | QR order count, slots used (of 60), open orders, revenue |
+| Charts | Status donut, revenue by order #, orders by hour |
+| Slot board | Visual grid of order numbers **1–60** |
+| Spreadsheet | Filterable XGrid of all QR scan orders |
+| **Export Excel (CSV)** | Download for Excel or Google Sheets |
+
+See [Guest QR orders](guest-qr-orders.md).
 
 ### Occupancy and revenue
 
