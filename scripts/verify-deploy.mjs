@@ -150,8 +150,17 @@ if (!html.includes("guestOrderQrPickOrderNum") || !html.includes("guestOrderQrOr
 if (!html.includes("buildGuestOrderUrl") || !html.includes("guestMartSubmitOrder") || !html.includes("var guestOrderQrStaffCtx")) {
   fail("app missing guest order QR staff helpers");
 }
-if (!html.includes("buildInvoiceGuestOrderQrsHtml") || !html.includes("guestQrMinimartOrderEnabled")) {
-  fail("app missing dual invoice guest order QR (HRMM-GUEST-QR-ORDER-v12)");
+if (!html.includes("HRMM-INVOICE-PAYMENT-QR-ONLY-v1")) {
+  fail("app missing invoice payment-QR-only patch (HRMM-INVOICE-PAYMENT-QR-ONLY-v1)");
+}
+if (html.includes("sInvoiceQrGuestOrderRest") || html.includes("sInvoiceQrGuestOrderMart")) {
+  fail("invoice settings must not expose guest order QR toggles (payment QR only on bills)");
+}
+if (!html.includes("function buildInvoiceGuestOrderQrsHtml(inv) {\n  return '';")) {
+  fail("buildInvoiceGuestOrderQrsHtml must be disabled on invoices");
+}
+if (!html.includes("invoiceModalLogoBrowseChanged") || !html.includes("Browse payment QR")) {
+  fail("invoice bill overlay must expose logo and payment QR browse controls");
 }
 const martChunk = html.split("function renderGuestMiniMartOrder()")[1] || "";
 if (!martChunk.includes("Search items") || !martChunk.includes("guestRestMobileBarHtml")) {

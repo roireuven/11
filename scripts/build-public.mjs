@@ -73,6 +73,9 @@ runPython("scripts/patch-app-rest-qr-orders-floor.py");
 console.log("Adding Mini-Mart + POS QR order numbers floor...");
 runPython("scripts/patch-app-mart-pos-qr-orders-floor.py");
 
+console.log("Invoice bills: bank payment QR + logo only...");
+runPython("scripts/patch-app-invoice-payment-qr-only.py");
+
 console.log("Patching full-screen modals...");
 runPython("scripts/patch-app-shell-modal.py");
 
