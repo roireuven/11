@@ -102,8 +102,17 @@ if (!html.includes("HRMM-REST-QR-ORDERS-FLOOR-v1") || !html.includes("restRender
 if ((html.match(/let restOrderNum = '';/g) || []).length !== 1) {
   fail("duplicate let restOrderNum breaks login JS");
 }
+if (!html.includes("HRMM-MART-POS-QR-ORDERS-FLOOR-v1") || !html.includes("martSetOrderType")) {
+  fail("app missing Mini-Mart + POS QR order numbers floor (HRMM-MART-POS-QR-ORDERS-FLOOR-v1)");
+}
+if ((html.match(/let martOrderType = 'Room Service';/g) || []).length !== 1) {
+  fail("duplicate let martOrderType breaks login JS");
+}
 if (html.includes("restFocusAllOrderNums=true;restOrderNum='';renderRestaurant()")) {
   fail("unescaped restOrderNum='' in Show all onclick breaks login JS");
+}
+if (html.includes("martFocusAllOrderNums=true;martOrderNum='';renderMiniMart()")) {
+  fail("unescaped martOrderNum='' in Show all onclick breaks login JS");
 }
 if (!html.includes("HRMM-I18N-FIXES-v2") || !html.includes("function uiT")) {
   fail("app missing core i18n fixes (HRMM-I18N-FIXES-v2)");

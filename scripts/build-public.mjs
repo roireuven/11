@@ -70,6 +70,9 @@ runPython("scripts/patch-app-guest-qr-cloud.py");
 console.log("Adding restaurant QR order numbers floor...");
 runPython("scripts/patch-app-rest-qr-orders-floor.py");
 
+console.log("Adding Mini-Mart + POS QR order numbers floor...");
+runPython("scripts/patch-app-mart-pos-qr-orders-floor.py");
+
 console.log("Patching full-screen modals...");
 runPython("scripts/patch-app-shell-modal.py");
 
