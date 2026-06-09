@@ -20,8 +20,10 @@ Documentation is embedded in the app on every site (`/doc/`).
 | Command | Deploys to | When to use |
 |---------|------------|-------------|
 | `npm run deploy` | Development site + Firestore rules | Day-to-day development |
-| `npm run deploy:2.3` | Stable v2.3 site only | Publish a tested snapshot for staff |
+| `npm run deploy:2.3` | Stable v2.3 site only | Publish a tested snapshot for staff (recommended before sharing with properties) |
 | `npm run deploy:all` | Both sites + Firestore rules | Refresh everything at once |
+
+The stable site URL uses hyphens (Firebase naming): `hotel-restaurant-minimart2-3.web.app` — not dots.
 
 ### What gets deployed
 
