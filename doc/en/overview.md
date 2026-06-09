@@ -65,7 +65,7 @@ Staff use a **single app** with **role-based menus** and **in-app documentation*
 - Multi-language UI (21 locales) including guest QR and report strings
 - Full-screen modals for QR and operational pop-ups
 - Dark mode
-- CSV/ZIP export and JSON backup/restore
+- CSV/ZIP export (all tables) and JSON backup/restore with import confirmation
 - Audit and change logs per module
 - Configurable dropdown lists (currencies, room types, payment methods, etc.)
 
@@ -76,7 +76,9 @@ Staff use a **single app** with **role-based menus** and **in-app documentation*
 | **Web browser** | Browser `localStorage` | Per browser only; not shared across devices |
 | **Android app** | SQLite (`hotel_manager.db`) | Per device; persists after app restart |
 
-The web app is hosted on **Firebase Hosting** but does **not** use Firebase Firestore for business data — data stays on the client device/browser.
+The web app is hosted on **Firebase Hosting**. Business data (rooms, bookings, sales) stays in **localStorage** (web) or **SQLite** (Android).
+
+**Firestore** is used only for **guest QR cloud sync** — pending orders submitted from guest phones are written to `guestQrOrders/{propertyNs}/orders`. Staff devices pull them into local restaurant/mini-mart queues. Treat `propertyNs` as a secret tenant key.
 
 ## Production URLs
 

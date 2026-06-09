@@ -267,9 +267,9 @@ function renderAuditLog() {
     <div class="card-body">
       <div class="form-row" style="margin-bottom:0.75rem;gap:0.5rem;flex-wrap:wrap;">
         <div class="form-group" style="min-width:120px;margin:0;"><label style="font-size:0.75rem;">${t('g.module')}</label>
-          <select class="form-control" id="auditFilterModule" onchange="renderAuditLog()"><option value="">All</option>${modules.map(function(m){return '<option>'+m+'</option>';}).join('')}</select></div>
+          <select class="form-control" id="auditFilterModule" onchange="renderAuditLog()"><option value="">All</option>${modules.map(function(m){var s=String(m==null?'':m).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;');return '<option value="'+s+'">'+s+'</option>';}).join('')}</select></div>
         <div class="form-group" style="min-width:120px;margin:0;"><label style="font-size:0.75rem;">${t('g.action')}</label>
-          <select class="form-control" id="auditFilterAction" onchange="renderAuditLog()"><option value="">All</option>${actions.map(function(a){return '<option>'+a+'</option>';}).join('')}</select></div>
+          <select class="form-control" id="auditFilterAction" onchange="renderAuditLog()"><option value="">All</option>${actions.map(function(a){var s=String(a==null?'':a).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;');return '<option value="'+s+'">'+s+'</option>';}).join('')}</select></div>
         <div class="form-group" style="min-width:120px;margin:0;"><label style="font-size:0.75rem;">From</label>
           <input type="date" class="form-control" id="auditFilterFrom" onchange="renderAuditLog()"></div>
         <div class="form-group" style="min-width:120px;margin:0;"><label style="font-size:0.75rem;">To</label>

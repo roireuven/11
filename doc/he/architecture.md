@@ -17,9 +17,14 @@
 └─────────────────────────────────────────────────────────┘
 
 ┌─────────────────────────────────────────────────────────┐
-│  Firebase Hosting (static CDN only)                      │
+│  Firebase Hosting (static CDN)                         │
 │  hotel-restaurant-minimart.firebaseapp.com               │
 └─────────────────────────────────────────────────────────┘
+                          │
+            ┌─────────────┴─────────────┐
+            ▼                           ▼
+   Firestore (guest QR orders only)   Static docs / assets
+   guestQrOrders/{propertyNs}/orders
 ```
 
 ## Single-page application
@@ -44,7 +49,12 @@ public/
 
 ## No server-side business API
 
-Firebase Hosting serves **static files only**. There is no Firestore/Realtime Database sync for hotel data in the current web build.
+Firebase Hosting serves **static files**. Hotel PMS, POS, and restaurant data are **not** stored in the cloud.
+
+| Cloud service | Used for |
+|---------------|----------|
+| **Firebase Hosting** | SPA, documentation, locale assets |
+| **Firestore** | Guest QR order queue only (`guestQrOrders`) — optional sync from guest phones |
 
 Client-side storage:
 
@@ -81,7 +91,7 @@ Restaurant and Kitchen views read/write the **same local order store**. Updates 
 
 `appDataEpoch` and setup version flags trigger in-app migrations (e.g. catalog-inventory linking) on load.
 
-## Firebase project (hosting only)
+## Firebase project
 
 ```json
 {
@@ -91,7 +101,14 @@ Restaurant and Kitchen views read/write the **same local order store**. Updates 
 }
 ```
 
-Public config available at `/__/firebase/init.json` — used for analytics/hosting metadata, not app data.
+Public config is embedded in the SPA for Firestore guest QR sync. Hosting serves `/__/firebase/init.json` for metadata.
+
+### Guest QR security notes
+
+- Orders are scoped by `propertyNs` (derived from setup email hash)
+- Firestore rules validate order shape, totals, and status transitions
+- Staff auth remains **local** (email/password in browser storage) — not Firebase Authentication
+- Export backups before device changes; do not commit real passwords to public repos
 
 ## Android bridge
 

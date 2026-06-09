@@ -177,6 +177,12 @@ if (html.includes("restPayActiveOrdersTotal('Cash')") || html.includes("martPayT
 if (html.includes("guestQrPayMartOpenBill('' + idS + ''")) {
   fail("unescaped guestQrPayMartOpenBill onclick breaks login JS");
 }
+if (!html.includes("HRMM-BACKUP-COMPLETE-v1") || !html.includes("messages.csv") || !html.includes("onclick=\"exportAllData()\"")) {
+  fail("app missing complete backup export/import patch (HRMM-BACKUP-COMPLETE-v1)");
+}
+if (!html.includes("assembleBackupFromZipEntries") || !html.includes("settings.json")) {
+  fail("backup ZIP must include settings.json and CSV fallback import");
+}
 const martChunk = html.split("function renderGuestMiniMartOrder()")[1] || "";
 if (!martChunk.includes("Search items") || !martChunk.includes("guestRestMobileBarHtml")) {
   fail("app missing complete mini-mart guest order UI");

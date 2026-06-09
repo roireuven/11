@@ -24,9 +24,10 @@ Settings shows row counts per table in **Storage overview**.
 | Tickets | Maintenance / housekeeping tickets |
 | Messages | Message log |
 | Inventory | F&B, mini-mart, hotel supplies |
-| POS | Till transactions |
+| POS transactions | Till sales (completed) |
+| POS open bills | Unpaid POS tabs |
 | Menu | Restaurant menu and recipes |
-| Restaurant | Orders, tables, kitchen status |
+| Restaurant orders | Orders, tables, kitchen status |
 | Mini-mart open bills | Unpaid room charges |
 | Restaurant tables | Table floor labels |
 | Store | Mini-mart items, stock, barcodes |
@@ -34,23 +35,47 @@ Settings shows row counts per table in **Storage overview**.
 | Transactions | All POS, restaurant, mini-mart, room charges |
 | Work periods | POS/F&B shifts |
 | Settings | Hotel and system key/value config |
-| Audit | Compliance change history |
+| Audit log | Compliance change history |
+| Booking log | Booking module change log |
+| Inventory log | Inventory module change log |
 
 ## Export
 
 ### Export all data (CSV ZIP)
 
-Full archive: CSV files per table **plus** JSON backup for restore.
+Downloads a ZIP archive with **every table**, including empty ones:
+
+| File | Contents |
+|------|----------|
+| `rooms.csv` … `work_periods.csv` | One CSV per business table (nested arrays stored as JSON strings in cells) |
+| `messages.csv` | Message log |
+| `audit_log.csv`, `booking_log.csv`, `inventory_log.csv` | Change logs |
+| `pos_open_orders.csv` | Open POS bills |
+| `settings.json` | Full settings object |
+| `_backup.json` | Complete JSON snapshot used for restore |
+
+**Accounts CSV:** passwords are omitted from CSV for security; `_backup.json` retains full account records from the export moment.
+
+### Export all data (JSON)
+
+Separate button downloads `hotel_backup_YYYY-MM-DD.json` — same payload as `_backup.json` inside the ZIP. Use for quick restore or scripted backups.
 
 ### Per-table CSV
 
-Buttons for individual exports: Rooms, Guests, Bookings, Services, Invoices, Inventory, Menu, Store, Tickets, Accounts, Transactions, POS, Restaurant, Mini-mart open bills, Restaurant tables, Service requests, Messages, Work periods.
+Buttons export one table at a time: Rooms, Guests, Bookings, Services, Invoices, Inventory, Menu, Store, Tickets, Accounts, Transactions, POS, Restaurant, Mini-mart open bills, **POS open bills**, Restaurant tables, Service requests, Messages, Work periods, **Audit log**, **Booking log**, **Inventory log**.
 
 ## Import
 
-**Import data (ZIP or JSON)** — restore from prior export.
+**Import data (ZIP or JSON)** — restores from a prior export.
 
-Always export before importing on a live system.
+| File type | Behavior |
+|-----------|----------|
+| **JSON** | Full restore via `exportAllData()` or `_backup.json` |
+| **ZIP** | Prefers `_backup.json`; if missing, rebuilds from CSV files + `settings.json` in the archive |
+
+Import shows a **confirmation** prompt — export before importing on a live system.
+
+Import replaces matching arrays and settings in the current browser namespace; it does **not** change setup email/password unless you import an embedded-sample bundle separately.
 
 ## Reload demo sample
 
@@ -75,8 +100,8 @@ Full wipe requires **two confirmations**.
 
 Web localStorage does not auto-sync. To move property data:
 
-1. **Export all data** on source browser
-2. Transfer ZIP/JSON file securely
+1. **Export all data** (ZIP or JSON) on source browser
+2. Transfer file securely
 3. **Import** on target browser (same or new setup)
 
 ## Android notes

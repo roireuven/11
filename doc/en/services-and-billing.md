@@ -62,19 +62,28 @@ Central billing view for stays and posted charges.
 
 ![Invoices — guest folios and line items](assets/screenshots/10-invoices.png)
 
-### Invoice QR codes and guest ordering
+### Invoice payment QR (bank)
 
-Invoices can show QR codes that link guests to **self-order** screens:
+Invoices show your **bank payment QR** and optional **logo** only — not restaurant or mini-mart guest-order QRs (those live on the bottom nav **Restaurant QR** / **Mini-Mart QR** shortcuts).
 
 | Setting (Settings) | Effect |
-|------------------|--------|
-| Include restaurant guest order on invoice QR | QR opens restaurant guest menu |
-| Include mini-mart guest order on invoice QR | QR opens mini-mart guest cart |
-| Include invoice details in QR | Text payload (invoice #, total) when guest-order QR is disabled |
+|--------------------|--------|
+| Payment QR text or URL | Payload encoded in the QR (bank link or EMV string) |
+| Payment QR image | Upload bank-provided QR image |
+| Include invoice number & total in payment QR | Appends INV/TOTAL to the payment payload when enabled |
 
-Per-invoice QR can be edited in the invoice overlay (custom URL/image). Guest orders use **order numbers 1–60** when generated from the staff QR modal.
+Per-invoice overrides: logo browse and payment QR browse on the invoice payment overlay.
 
-See [Guest QR orders](guest-qr-orders.md).
+Guest self-order uses **order numbers 1–60** from staff QR modals — see [Guest QR orders](guest-qr-orders.md).
+
+### Pay QR orders from the floor
+
+Staff can **pay** guest QR orders from:
+
+- Restaurant / Mini-Mart / POS **QR bill modals** (Cash or Card)
+- **QR Orders Report** — tap a slot or use the Pay column
+
+Paid orders update local records and the audit log.
 
 ### Pay invoice (cash)
 

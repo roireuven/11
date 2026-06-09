@@ -50,6 +50,9 @@ Table floor configuration and labels.
 ### Mini-mart open bills
 Unpaid guest room charges from shop.
 
+### POS open bills
+Unpaid walk-in POS tabs (Inventory POS).
+
 ## Financial
 
 ### POS transactions
