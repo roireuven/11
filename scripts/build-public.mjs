@@ -79,6 +79,9 @@ runPython("scripts/patch-app-invoice-payment-qr-only.py");
 console.log("Adding pay for QR scan orders...");
 runPython("scripts/patch-app-qr-order-pay.py");
 
+console.log("Completing backup export/import (all CSV + JSON)...");
+runPython("scripts/patch-app-backup-complete.py");
+
 console.log("Patching full-screen modals...");
 runPython("scripts/patch-app-shell-modal.py");
 

@@ -34,17 +34,18 @@ Click **Save settings** after changes.
 
 For Lao operations, Settings may suggest **Use LAK for hotel currency** when interface is Lao.
 
-## Invoice QR and guest ordering
+## Invoice payment QR (Settings)
 
-Under invoice/QR settings (Admin):
+Under **Settings → Hotel settings**:
 
 | Option | Purpose |
 |--------|---------|
-| Include restaurant guest order on invoice QR | Invoice QR links to restaurant guest menu |
-| Include mini-mart guest order on invoice QR | Invoice QR links to mini-mart guest cart |
-| Include invoice details in QR | Legacy INV/TOTAL text when guest-order QR is off |
+| Invoice logo / picture | Shown at top of printed and on-screen invoices |
+| Payment QR text or URL | Bank payment link or QR payload |
+| Payment QR image (Browse) | Upload bank QR image |
+| Include invoice number & total in payment QR | Adds INV/TOTAL to payment payload |
 
-Staff QR modals (bottom nav **Restaurant QR** / **Mini-Mart QR**) use **order numbers 1–60** independent of invoice QR. See [Guest QR orders](guest-qr-orders.md).
+**Invoices do not include guest-order QRs.** Restaurant and mini-mart self-order links are on the bottom nav (**Restaurant QR**, **Mini-Mart QR**). See [Guest QR orders](guest-qr-orders.md).
 
 ## Regulations
 

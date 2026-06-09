@@ -197,6 +197,7 @@
 
         window.addEventListener('message', function (ev) {
           if (!ev.data || ev.data.type !== 'hrmm-set-doc-lang') return;
+          if (ev.origin && ev.origin !== 'null' && ev.origin !== location.origin) return;
           var next = normalizeLang(ev.data.lang);
           if (next === DOC_LANG) return;
           try { localStorage.setItem('hrmm_doc_lang', next); } catch (e) {}

@@ -50,17 +50,9 @@ The QR screen opens **full screen** with:
 
 **Tip:** After selecting an order number, the QR image and link update immediately. Caption shows *Scan to order*.
 
-### Invoice QR codes (optional)
+### Invoice payment QR (optional)
 
-On **Invoices**, printed/emailed QR codes can link to guest ordering when enabled in **Settings**:
-
-| Setting | Effect |
-|---------|--------|
-| Include restaurant guest order on invoice QR | Restaurant self-order link on invoice |
-| Include mini-mart guest order on invoice QR | Mini-mart self-order link on invoice |
-| Include invoice details in QR | Legacy text payload (INV/TOTAL) when guest order QR is off |
-
-Staff can still override QR text per invoice in the invoice editor.
+On **Invoices**, printed/emailed bills can show your **bank payment QR** and logo when configured in Settings. Guest self-order QRs are **not** placed on invoices — use bottom nav **Restaurant QR** / **Mini-Mart QR** instead.
 
 ---
 
@@ -101,6 +93,7 @@ Report opens **full screen** and includes:
 | **Charts** | Status breakdown (paid/open/other), revenue by order #, orders by hour |
 | **Order numbers 1–60** | Color-coded slot board (free vs occupied, amount, status) |
 | **Spreadsheet** | Filterable grid of all QR scan orders |
+| **Pay** | Cash/Card payment from report slots (tap slot or Pay column) |
 | **Export Excel (CSV)** | Download `restaurant-qr-orders.csv` or `minimart-qr-orders.csv` |
 
 Use the report for shift handover, busy-hour planning, and reconciling counter/table pickups.
@@ -163,7 +156,7 @@ More: [Troubleshooting & FAQ](troubleshooting-faq.md)
 
 - [Restaurant & kitchen](restaurant-and-kitchen.md)
 - [Mini-mart & POS](minimart-and-pos.md)
-- [Services & billing](services-and-billing.md) — invoice QR settings
+- [Services & billing](services-and-billing.md) — invoice payment QR
 - [Reports](reports.md) — department sales and shifts
 - [Navigation & UI](navigation-and-ui.md) — bottom nav and modals
 - [Localization](localization.md)
