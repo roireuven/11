@@ -162,6 +162,15 @@ if (!html.includes("function buildInvoiceGuestOrderQrsHtml(inv) {\n  return '';"
 if (!html.includes("invoiceModalLogoBrowseChanged") || !html.includes("Browse payment QR")) {
   fail("invoice bill overlay must expose logo and payment QR browse controls");
 }
+if (!html.includes("HRMM-QR-ORDER-PAY-v1")) {
+  fail("app missing QR order pay patch (HRMM-QR-ORDER-PAY-v1)");
+}
+if (!html.includes("guestQrOpenSlotPayModal") || !html.includes("guestQrPayMartOpenBill")) {
+  fail("app missing QR order pay helpers");
+}
+if (!html.includes("guest-qr-slot-payable")) {
+  fail("QR orders report slots must be tappable to pay");
+}
 const martChunk = html.split("function renderGuestMiniMartOrder()")[1] || "";
 if (!martChunk.includes("Search items") || !martChunk.includes("guestRestMobileBarHtml")) {
   fail("app missing complete mini-mart guest order UI");

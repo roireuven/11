@@ -324,34 +324,45 @@ def _replace(content: str, old: str, new: str, label: str) -> str:
 
 
 def patch(content: str) -> str:
-    if MARKER in content:
-        return content
+    already = MARKER in content
 
-    content = _replace(content, BUILD_INVOICE_QR_HTML_GUEST, BUILD_INVOICE_QR_HTML_PAYMENT, "buildInvoiceQrHtml")
-    content = _replace(content, REFRESH_INVOICE_QR_GUEST, REFRESH_INVOICE_QR_PAYMENT, "refreshInvoiceQrDisplay")
-    content = _replace(content, GET_INVOICE_QR_PAYLOAD_GUEST, GET_INVOICE_QR_PAYLOAD_PAYMENT, "getInvoiceQrPayload")
-    content = _replace(content, BUILD_GUEST_ORDER_QRS_OLD, BUILD_GUEST_ORDER_QRS_PAYMENT, "buildInvoiceGuestOrderQrsHtml")
-    content = _replace(content, BUILD_BRAND_HEADER_OLD, BUILD_BRAND_HEADER_NEW, "buildInvoiceBrandHeaderHtml")
-    content = content.replace(BUILD_BRAND_HEADER_CALL_OLD, BUILD_BRAND_HEADER_CALL_NEW)
-    content = content.replace("${buildInvoiceBrandHeaderHtml()}", "${buildInvoiceBrandHeaderHtml(inv)}", 1)
-    content = _replace(content, BUILD_QR_EDITOR_OLD, BUILD_QR_EDITOR_NEW, "buildInvoiceQrEditorHtml")
-    content = _replace(content, PERSIST_QR_OVERRIDES_OLD, PERSIST_QR_OVERRIDES_NEW, "persistInvoiceQrOverrides")
-    content = _replace(content, RESET_QR_EDIT_OLD, RESET_QR_EDIT_NEW, "resetInvoiceQrEdit")
-    content = _replace(content, SETTINGS_QR_GUEST, SETTINGS_QR_PAYMENT, "settings guest QR")
-    content = _replace(content, SETTINGS_QR_LABEL_OLD, SETTINGS_QR_LABEL_NEW, "settings QR label")
-    content = _replace(content, SETTINGS_QR_IMAGE_OLD, SETTINGS_QR_IMAGE_NEW, "settings QR image")
+    if not already:
+        content = _replace(content, BUILD_INVOICE_QR_HTML_GUEST, BUILD_INVOICE_QR_HTML_PAYMENT, "buildInvoiceQrHtml")
+        content = _replace(content, REFRESH_INVOICE_QR_GUEST, REFRESH_INVOICE_QR_PAYMENT, "refreshInvoiceQrDisplay")
+        content = _replace(content, GET_INVOICE_QR_PAYLOAD_GUEST, GET_INVOICE_QR_PAYLOAD_PAYMENT, "getInvoiceQrPayload")
+        content = _replace(content, BUILD_GUEST_ORDER_QRS_OLD, BUILD_GUEST_ORDER_QRS_PAYMENT, "buildInvoiceGuestOrderQrsHtml")
+        content = _replace(content, BUILD_BRAND_HEADER_OLD, BUILD_BRAND_HEADER_NEW, "buildInvoiceBrandHeaderHtml")
+        content = content.replace(BUILD_BRAND_HEADER_CALL_OLD, BUILD_BRAND_HEADER_CALL_NEW)
+        content = content.replace("${buildInvoiceBrandHeaderHtml()}", "${buildInvoiceBrandHeaderHtml(inv)}", 1)
+        content = _replace(content, BUILD_QR_EDITOR_OLD, BUILD_QR_EDITOR_NEW, "buildInvoiceQrEditorHtml")
+        content = _replace(content, PERSIST_QR_OVERRIDES_OLD, PERSIST_QR_OVERRIDES_NEW, "persistInvoiceQrOverrides")
+        content = _replace(content, RESET_QR_EDIT_OLD, RESET_QR_EDIT_NEW, "resetInvoiceQrEdit")
+        content = _replace(content, SETTINGS_QR_GUEST, SETTINGS_QR_PAYMENT, "settings guest QR")
+        content = _replace(content, SETTINGS_QR_LABEL_OLD, SETTINGS_QR_LABEL_NEW, "settings QR label")
+        content = _replace(content, SETTINGS_QR_IMAGE_OLD, SETTINGS_QR_IMAGE_NEW, "settings QR image")
+
+    # Always repair saveSettings / migration even when marker already present (guest-qr patch may re-add lines).
     content = _replace(content, SAVE_SETTINGS_QR_GUEST, SAVE_SETTINGS_QR_PAYMENT, "saveSettings QR")
     content = _replace(content, ENSURE_GUEST_SETTING_OLD, ENSURE_GUEST_SETTING_PAYMENT, "ensureGuestQrOrderSettingDefault")
+    if "ensureGuestQrOrderSettingDefault" in content and "ensureInvoicePaymentQrOnly" not in content:
+        import re
+        content = re.sub(
+            r"\(function ensureGuestQrOrderSettingDefault\(\) \{[\s\S]*?\}\)\(\);",
+            ENSURE_GUEST_SETTING_PAYMENT.strip(),
+            content,
+            count=1,
+        )
 
-    if MARKER not in content:
-        if "/* HRMM invoice items table, logo, and QR */" in content:
-            content = content.replace(
-                "/* HRMM invoice items table, logo, and QR */",
-                "/* HRMM invoice items table, logo, and QR */\n" + MARKER_COMMENT.strip(),
-                1,
-            )
-        else:
-            content = content.replace("</style>", MARKER_COMMENT + "</style>", 1)
+    if not already:
+        if MARKER not in content:
+            if "/* HRMM invoice items table, logo, and QR */" in content:
+                content = content.replace(
+                    "/* HRMM invoice items table, logo, and QR */",
+                    "/* HRMM invoice items table, logo, and QR */\n" + MARKER_COMMENT.strip(),
+                    1,
+                )
+            else:
+                content = content.replace("</style>", MARKER_COMMENT + "</style>", 1)
 
     return content
 
