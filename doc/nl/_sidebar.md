@@ -3,6 +3,7 @@
 * **Aan de slag**
   * [Overzicht](overview.md)
   * [Aan de slag](getting-started.md)
+  * [Visual guide (screenshots)](visual-guide.md)
   * [Installatie](installation.md)
   * [Eerste setup](first-time-setup.md)
   * [Demo-inloggegevens](demo-credentials.md)
@@ -14,6 +15,7 @@
   * [Diensten & facturering](services-and-billing.md)
   * [Restaurant & keuken](restaurant-and-kitchen.md)
   * [Minimarkt & POS](minimart-and-pos.md)
+  * [Guest QR orders](guest-qr-orders.md)
   * [Voorraad & catalogus](inventory-and-catalog.md)
   * [Gastenportaal](guest-portal.md)
   * [Rapporten](reports.md)
@@ -23,6 +25,7 @@
   * [Instellingen & configuratie](settings-and-configuration.md)
   * [Back-up, herstel & gegevens](backup-restore-and-data.md)
   * [Lokalisatie](localization.md)
+  * [Multilingual documentation](multilingual-documentation.md)
   * [Gegevensmodel](data-model.md)
 
 * **Technisch**
@@ -34,4 +37,4 @@
 
 * **Links**
   * [Live web app ↗](https://hotel-restaurant-minimart.firebaseapp.com/)
-  * [APK landing ↗](https://roireuven.github.io/11/)
+  * [APK landing (GitHub) ↗](https://roireuven.github.io/11/)

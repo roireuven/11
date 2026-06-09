@@ -9,7 +9,7 @@
     "verify": "node scripts/verify-deploy.mjs",
     "serve": "npm run build && npx firebase emulators:start --only hosting",
     "capture:screenshots": "node scripts/capture-doc-screenshots.mjs",
-    "deploy": "npm run build && npm run verify && npx firebase deploy --only hosting --project hotel-restaurant-minimart"
+    "deploy": "npm run build && npm run verify && npx firebase deploy --only hosting,firestore --project hotel-restaurant-minimart"
   },
   "devDependencies": {
     "firebase-tools": "^15.19.1",

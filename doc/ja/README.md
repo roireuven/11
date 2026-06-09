@@ -21,7 +21,7 @@
 
 ## バージョン
 
-- **アプリバージョン:** v2.0
+- **アプリバージョン:** v2.1
 - **ドキュメント生成元:** hotel-restaurant-minimart.firebaseapp.com
 
 ## サポート手順

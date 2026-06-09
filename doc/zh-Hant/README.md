@@ -21,7 +21,7 @@
 
 ## 版本
 
-- **應用版本:** v2.0
+- **應用版本:** v2.1
 - **文件產生來源:** hotel-restaurant-minimart.firebaseapp.com
 
 ## 支援流程

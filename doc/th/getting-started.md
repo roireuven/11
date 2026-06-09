@@ -12,4 +12,4 @@
 
 ## คู่มือฉบับเต็ม
 
-สำหรับคำแนะนำทีละขั้นตอนโดยละเอียด ดู [English getting started guide](../en/getting-started.md).
+สำหรับคำแนะนำทีละขั้นตอนโดยละเอียด ดู [English getting started guide](https://hotel-restaurant-minimart.firebaseapp.com/doc/?lang=en#/getting-started).
