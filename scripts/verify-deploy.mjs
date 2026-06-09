@@ -183,6 +183,9 @@ if (!html.includes("HRMM-BACKUP-COMPLETE-v1") || !html.includes("messages.csv") 
 if (!html.includes("assembleBackupFromZipEntries") || !html.includes("settings.json")) {
   fail("backup ZIP must include settings.json and CSV fallback import");
 }
+if (!html.includes("HRMM-SMALL-PHONE-v1") || !html.includes("HRMM small-phone layout")) {
+  fail("app missing small-phone layout patch (HRMM-SMALL-PHONE-v1)");
+}
 const martChunk = html.split("function renderGuestMiniMartOrder()")[1] || "";
 if (!martChunk.includes("Search items") || !martChunk.includes("guestRestMobileBarHtml")) {
   fail("app missing complete mini-mart guest order UI");

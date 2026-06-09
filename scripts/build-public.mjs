@@ -85,6 +85,9 @@ runPython("scripts/patch-app-backup-complete.py");
 console.log("Patching full-screen modals...");
 runPython("scripts/patch-app-shell-modal.py");
 
+console.log("Fixing small-phone layout (scroll, buttons, safe areas)...");
+runPython("scripts/patch-app-mobile-small-screens.py");
+
 console.log("Applying core i18n fixes (uiT, bottom nav, embedded locales)...");
 runPython("scripts/patch-app-i18n-fixes.py");
 

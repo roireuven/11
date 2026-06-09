@@ -4,13 +4,26 @@
 
 ### Production URLs
 
-| URL | Content |
-|-----|---------|
-| [hotel-restaurant-minimart.firebaseapp.com](https://hotel-restaurant-minimart.firebaseapp.com/) | Main app (PMS) |
-| [hotel-restaurant-minimart.firebaseapp.com/doc/](https://hotel-restaurant-minimart.firebaseapp.com/doc/) | **Documentation site** |
-| [hotel-restaurant-minimart.web.app](https://hotel-restaurant-minimart.web.app/) | Alternate domain (same content) |
+| URL | Role |
+|-----|------|
+| [hotel-restaurant-minimart.web.app](https://hotel-restaurant-minimart.web.app/) | **Development** — latest build from `npm run deploy` |
+| [hotel-restaurant-minimart.firebaseapp.com](https://hotel-restaurant-minimart.firebaseapp.com/) | Same as development (alternate domain) |
+| [hotel-restaurant-minimart2-3.web.app](https://hotel-restaurant-minimart2-3.web.app/) | **Stable v2.3** — for daily use; update with `npm run deploy:2.3` |
+| [hotel-restaurant-minimart2-3.firebaseapp.com](https://hotel-restaurant-minimart2-3.firebaseapp.com/) | Stable v2.3 (alternate domain) |
 
-**Project ID:** `hotel-restaurant-minimart`
+Documentation is embedded in the app on every site (`/doc/`).
+
+**Project ID:** `hotel-restaurant-minimart` (both hosting sites live in this Firebase project)
+
+### Which deploy command?
+
+| Command | Deploys to | When to use |
+|---------|------------|-------------|
+| `npm run deploy` | Development site + Firestore rules | Day-to-day development |
+| `npm run deploy:2.3` | Stable v2.3 site only | Publish a tested snapshot for staff (recommended before sharing with properties) |
+| `npm run deploy:all` | Both sites + Firestore rules | Refresh everything at once |
+
+The stable site URL uses hyphens (Firebase naming): `hotel-restaurant-minimart2-3.web.app` — not dots.
 
 ### What gets deployed
 
@@ -31,8 +44,9 @@ The build patches `public/index.html` to **embed documentation inside the app**:
 Build command merges both:
 
 ```bash
-npm run build    # → public/index.html + public/doc/*
-npm run deploy   # build + firebase deploy --only hosting
+npm run build       # → public/index.html + public/doc/*
+npm run deploy      # development site + Firestore rules
+npm run deploy:2.3  # stable v2.3 site only
 ```
 
 ### Deploy steps
