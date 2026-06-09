@@ -187,8 +187,8 @@ REST_BILL_MODAL_NEW = """window.restOpenOrderNumBillModal = function(slotNum) {
   });
   if (sumUnpaid > 0 && currentRole !== 'Kitchen') {
     body += guestQrBuildOpenBillPayBarHtml(sumUnpaid,
-      'closeModal();if(window.restPayActiveOrdersTotal)restPayActiveOrdersTotal(\'Cash\')',
-      'closeModal();if(window.restPayActiveOrdersTotal)restPayActiveOrdersTotal(\'Credit Card\')',
+      'closeModal();if(window.restPayActiveOrdersTotal)restPayActiveOrdersTotal(\\'Cash\\')',
+      'closeModal();if(window.restPayActiveOrdersTotal)restPayActiveOrdersTotal(\\'Credit Card\\')',
       'closeModal();if(window.restActivePayableSeeInvoice)restActivePayableSeeInvoice()');
   }
   openModal('<div class="modal-header"><h2>' + label + '</h2><button class="modal-close" onclick="closeModal()">&times;</button></div><div class="modal-body" style="max-height:70vh;overflow-y:auto;">' + body + '</div><div class="modal-footer"><button class="btn btn-outline" onclick="closeModal()">' + t('common.close') + '</button></div>');
@@ -232,16 +232,16 @@ MART_BILL_MODAL_NEW = """window.martOpenOrderNumBillModal = function(slotNum) {
     body += '<div style="font-size:0.82rem;margin:0.35rem 0;">' + itemsStr + '</div>';
     body += '<div style="font-weight:700;">' + fmt$(o.grandTotal) + '</div>';
     body += '<div style="display:flex;flex-wrap:wrap;gap:0.35rem;margin-top:0.45rem;">';
-    body += '<button type="button" class="btn btn-sm btn-success" onclick="closeModal();if(window.guestQrPayMartOpenBill)guestQrPayMartOpenBill(\'' + idS + '\',\'Cash\')">' + t('minimart.cash') + '</button>';
-    body += '<button type="button" class="btn btn-sm btn-outline" onclick="closeModal();if(window.guestQrPayMartOpenBill)guestQrPayMartOpenBill(\'' + idS + '\',\'Credit Card\')">' + t('minimart.payTotalCard') + '</button>';
+    body += '<button type="button" class="btn btn-sm btn-success" onclick="closeModal();if(window.guestQrPayMartOpenBill)guestQrPayMartOpenBill(\\'' + idS + '\\',\\'Cash\\')">' + t('minimart.cash') + '</button>';
+    body += '<button type="button" class="btn btn-sm btn-outline" onclick="closeModal();if(window.guestQrPayMartOpenBill)guestQrPayMartOpenBill(\\'' + idS + '\\',\\'Credit Card\\')">' + t('minimart.payTotalCard') + '</button>';
     body += '<button type="button" class="btn btn-sm btn-outline" onclick="closeModal();if(window.martOpenBillSeeInvoice)martOpenBillSeeInvoice(\\'' + idS + '\\')">' + t('common.seeInvoice') + '</button>';
     body += '<button type="button" class="btn btn-sm btn-warning" onclick="closeModal();if(window.martVoidOpenBill)martVoidOpenBill(\\'' + idS + '\\')">' + t('minimart.voidOpenBill') + '</button>';
     body += '</div></div>';
   });
   if (sumOpen > 0) {
     body += guestQrBuildOpenBillPayBarHtml(sumOpen,
-      'closeModal();if(window.martPayTotalBar)martPayTotalBar(\'Cash\')',
-      'closeModal();if(window.martPayTotalBar)martPayTotalBar(\'Credit Card\')',
+      'closeModal();if(window.martPayTotalBar)martPayTotalBar(\\'Cash\\')',
+      'closeModal();if(window.martPayTotalBar)martPayTotalBar(\\'Credit Card\\')',
       'closeModal();if(window.martPayTotalBarSeeInvoice)martPayTotalBarSeeInvoice()');
   }
   var label = t('restaurant.orderNumWord') + ' ' + slotNum;

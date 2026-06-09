@@ -54,6 +54,32 @@ def patch(content: str) -> str:
     content = _replace(content, GUEST_QR_SLOTS_OLD, GUEST_QR_SLOTS_NEW)
     content = _replace(content, GUEST_QR_GRID_COL_OLD, GUEST_QR_GRID_COL_NEW)
 
+    # Repair login-breaking unescaped quotes from earlier QR pay patch.
+    content = content.replace(
+        "restPayActiveOrdersTotal('Cash')",
+        "restPayActiveOrdersTotal(\\'Cash\\')",
+    )
+    content = content.replace(
+        "restPayActiveOrdersTotal('Credit Card')",
+        "restPayActiveOrdersTotal(\\'Credit Card\\')",
+    )
+    content = content.replace(
+        "martPayTotalBar('Cash')",
+        "martPayTotalBar(\\'Cash\\')",
+    )
+    content = content.replace(
+        "martPayTotalBar('Credit Card')",
+        "martPayTotalBar(\\'Credit Card\\')",
+    )
+    content = content.replace(
+        "guestQrPayMartOpenBill('' + idS + '','Cash')",
+        "guestQrPayMartOpenBill(\\'' + idS + '\\',\\'Cash\\')",
+    )
+    content = content.replace(
+        "guestQrPayMartOpenBill('' + idS + '','Credit Card')",
+        "guestQrPayMartOpenBill(\\'' + idS + '\\',\\'Credit Card\\')",
+    )
+
     return content
 
 

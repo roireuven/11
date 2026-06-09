@@ -171,6 +171,12 @@ if (!html.includes("guestQrOpenSlotPayModal") || !html.includes("guestQrPayMartO
 if (!html.includes("guest-qr-slot-payable")) {
   fail("QR orders report slots must be tappable to pay");
 }
+if (html.includes("restPayActiveOrdersTotal('Cash')") || html.includes("martPayTotalBar('Cash')")) {
+  fail("unescaped pay-total onclick strings break login JS");
+}
+if (html.includes("guestQrPayMartOpenBill('' + idS + ''")) {
+  fail("unescaped guestQrPayMartOpenBill onclick breaks login JS");
+}
 const martChunk = html.split("function renderGuestMiniMartOrder()")[1] || "";
 if (!martChunk.includes("Search items") || !martChunk.includes("guestRestMobileBarHtml")) {
   fail("app missing complete mini-mart guest order UI");
