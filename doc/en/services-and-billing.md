@@ -94,6 +94,17 @@ Paid orders update local records and the audit log.
 5. A **Hotel** transaction is created and linked in **All Transactions**
 6. **Audit Log** records `Payment` with transaction id
 
+### Edit invoice (Admin only)
+
+After an invoice is created, **only Admin** can:
+
+- Open **Edit** on the invoice grid
+- Import invoice CSV rows
+- Change logo or payment QR on the bill overlay
+- Delete (hide) an invoice row
+
+Manager, Reception, and other roles can still **view**, **pay**, and **print** invoices.
+
 ### Invoice sources
 
 | Source | Example |

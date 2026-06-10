@@ -6,11 +6,22 @@ import re
 import sys
 from pathlib import Path
 
-MARKER = "HRMM-SMALL-PHONE-v1"
+MARKER = "HRMM-SMALL-PHONE-v2"
 INDEX = Path("public/index.html")
 
 SMALL_PHONE_CSS = """
-    /* HRMM small-phone layout — scroll pages, wrap buttons, fit 5–8 inch screens */
+    /* HRMM small-phone layout v2 — scroll pages, wrap buttons, 5–8 inch + narrow phones */
+    html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+    @media (max-width: 768px) {
+      .content { padding-left: 0.65rem; padding-right: 0.65rem; }
+      .xgrid-search-bar { width: 100% !important; max-width: 100%; box-sizing: border-box; }
+      .topbar-right { flex-wrap: wrap; justify-content: flex-end; gap: 0.25rem; max-width: 52%; }
+      .topbar .topbar-locale-pick { max-width: 100%; }
+      .topbar .topbar-locale-sel { max-width: 100%; min-width: 0; }
+      .rest-menu-grid, .mart-grid, .pos-item-grid { grid-template-columns: repeat(2, 1fr) !important; }
+      .rest-table-floor { grid-template-columns: repeat(4, 1fr) !important; }
+      .rest-order-num-floor { grid-template-columns: repeat(8, 1fr) !important; }
+    }
     @media (max-width: 600px) {
       .main {
         display: flex;
@@ -188,6 +199,44 @@ SMALL_PHONE_CSS = """
       .post-payment-invoice-card { max-height: none; margin: auto 0; }
       .btn { min-height: 40px; }
       .btn-sm { min-height: 40px; min-width: 44px; }
+      .xgrid-wrap { max-width: 100%; -webkit-overflow-scrolling: touch; }
+      .xgrid td .cell-actions {
+        flex-wrap: wrap !important;
+        justify-content: flex-start !important;
+        gap: 0.35rem !important;
+        padding: 0.35rem 0.25rem !important;
+        max-width: 100%;
+      }
+      .xgrid td .cell-actions .btn {
+        flex: 1 1 calc(50% - 0.25rem);
+        min-height: 40px !important;
+        min-width: 0 !important;
+        white-space: normal;
+        line-height: 1.15;
+        padding-left: 0.35rem;
+        padding-right: 0.35rem;
+      }
+      .xgrid th:last-child, .xgrid td:last-child { min-width: 9.5rem; width: auto !important; }
+      .xgrid-footer { justify-content: center; }
+      .xgrid-footer .xg-page-btns button { min-height: 40px; min-width: 40px; }
+      .post-payment-invoice-ft {
+        flex-wrap: wrap !important;
+        gap: 0.45rem !important;
+        justify-content: center !important;
+      }
+      .post-payment-invoice-ft .btn { flex: 1 1 calc(50% - 0.25rem); min-height: 44px; }
+      .login-card { width: 100%; max-width: 100%; margin: 0 auto; }
+      .rest-menu-tabs { gap: 0.35rem; }
+      .rest-menu-tabs .btn { flex: 1 1 calc(50% - 0.2rem); min-height: 40px; }
+      .rest-floor-head { flex-direction: column; align-items: stretch; }
+      .rest-floor-summary { width: 100%; }
+      .hk-grid { grid-template-columns: repeat(2, 1fr) !important; }
+      .pos-top .btn { width: 100%; justify-content: center; }
+    }
+    @media (max-width: 480px) {
+      .topbar-right { max-width: 58%; }
+      .rest-menu-grid, .mart-grid, .pos-item-grid { grid-template-columns: repeat(2, 1fr) !important; }
+      .xgrid td .cell-actions .btn { flex: 1 1 100%; }
     }
     @media (max-width: 400px) {
       .stats-grid { grid-template-columns: 1fr !important; }
@@ -205,6 +254,21 @@ SMALL_PHONE_CSS = """
     @media (max-width: 360px) {
       .rest-order-num-floor { grid-template-columns: repeat(3, 1fr) !important; }
       .bottom-nav-item { min-width: 46px; font-size: 0.48rem; }
+      .topbar h1 { font-size: 0.95rem; }
+    }
+    @media (max-width: 320px) {
+      .content { padding-left: 0.35rem; padding-right: 0.35rem; }
+      .card-body { padding: 0.65rem; }
+      .card-header { padding: 0.65rem 0.75rem; }
+      .bottom-nav-item { min-width: 42px; max-width: 64px; }
+      .rest-order-num-floor { grid-template-columns: repeat(3, 1fr) !important; gap: 0.3rem; }
+      .guest-qr-slots-grid { grid-template-columns: repeat(3, 1fr) !important; }
+    }
+    @media (max-height: 520px) and (orientation: landscape) {
+      .content { padding-bottom: calc(48px + env(safe-area-inset-bottom, 0px)) !important; }
+      .bottom-nav { height: calc(44px + env(safe-area-inset-bottom, 0px)); }
+      .modal-body { max-height: calc(100dvh - 7rem); }
+      .setup-card, .login-card { max-height: none; }
     }
     /* __HRMM_SMALL_PHONE_MARKER__ */
 """
@@ -223,7 +287,7 @@ def _strip_old_css(content: str) -> str:
 
 
 def patch(content: str) -> str:
-    if MARKER in content and ".main {\n        display: flex;" in content:
+    if MARKER in content and ".xgrid td .cell-actions" in content:
         print(f"Already patched {MARKER} — skipping")
         return content
 

@@ -76,6 +76,9 @@ runPython("scripts/patch-app-mart-pos-qr-orders-floor.py");
 console.log("Invoice bills: bank payment QR + logo only...");
 runPython("scripts/patch-app-invoice-payment-qr-only.py");
 
+console.log("Restricting invoice edits to Admin...");
+runPython("scripts/patch-app-invoice-admin-edit.py");
+
 console.log("Adding pay for QR scan orders...");
 runPython("scripts/patch-app-qr-order-pay.py");
 

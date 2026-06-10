@@ -183,8 +183,11 @@ if (!html.includes("HRMM-BACKUP-COMPLETE-v1") || !html.includes("messages.csv") 
 if (!html.includes("assembleBackupFromZipEntries") || !html.includes("settings.json")) {
   fail("backup ZIP must include settings.json and CSV fallback import");
 }
-if (!html.includes("HRMM-SMALL-PHONE-v1") || !html.includes("HRMM small-phone layout")) {
-  fail("app missing small-phone layout patch (HRMM-SMALL-PHONE-v1)");
+if (!html.includes("HRMM-SMALL-PHONE-v2") || !html.includes(".xgrid td .cell-actions")) {
+  fail("app missing small-phone layout patch v2 (HRMM-SMALL-PHONE-v2)");
+}
+if (!html.includes("HRMM-INVOICE-ADMIN-EDIT-v1") || !html.includes("canEditInvoiceRecords")) {
+  fail("app missing Admin-only invoice edit patch (HRMM-INVOICE-ADMIN-EDIT-v1)");
 }
 const martChunk = html.split("function renderGuestMiniMartOrder()")[1] || "";
 if (!martChunk.includes("Search items") || !martChunk.includes("guestRestMobileBarHtml")) {
