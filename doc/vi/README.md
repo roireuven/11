@@ -21,7 +21,7 @@ Hướng dẫn người dùng về thiết lập, vận hành hàng ngày, quả
 
 ## Phiên bản
 
-- **Phiên bản ứng dụng:** v2.0
+- **Phiên bản ứng dụng:** v2.1
 - **Tài liệu được tạo từ:** hotel-restaurant-minimart.firebaseapp.com
 
 ## Quy trình hỗ trợ

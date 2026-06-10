@@ -52,8 +52,62 @@ runPython("scripts/patch-app-features.py");
 console.log("Adding Settings shortcut to top bar...");
 runPython("scripts/patch-app-topbar-settings.py");
 
+console.log("Patching invoice items table and logo...");
+runPython("scripts/patch-app-invoice.py");
+
+console.log("Patching shifts to start closed by default...");
+runPython("scripts/patch-app-shifts.py");
+
+console.log("Adding guest QR restaurant self-order...");
+runPython("scripts/patch-app-guest-qr-order.py");
+
+console.log("Adding guest QR order reports...");
+runPython("scripts/patch-app-guest-qr-reports.py");
+
+console.log("Adding guest QR cloud sync (Firestore)...");
+runPython("scripts/patch-app-guest-qr-cloud.py");
+
+console.log("Adding restaurant QR order numbers floor...");
+runPython("scripts/patch-app-rest-qr-orders-floor.py");
+
+console.log("Adding Mini-Mart + POS QR order numbers floor...");
+runPython("scripts/patch-app-mart-pos-qr-orders-floor.py");
+
+console.log("Invoice bills: bank payment QR + logo only...");
+runPython("scripts/patch-app-invoice-payment-qr-only.py");
+
+console.log("Restricting invoice edits to Admin...");
+runPython("scripts/patch-app-invoice-admin-edit.py");
+
+console.log("Adding pay for QR scan orders...");
+runPython("scripts/patch-app-qr-order-pay.py");
+
+console.log("Completing backup export/import (all CSV + JSON)...");
+runPython("scripts/patch-app-backup-complete.py");
+
+console.log("Patching full-screen modals...");
+runPython("scripts/patch-app-shell-modal.py");
+
+console.log("Fixing small-phone layout (scroll, buttons, safe areas)...");
+runPython("scripts/patch-app-mobile-small-screens.py");
+
+console.log("Applying core i18n fixes (uiT, bottom nav, embedded locales)...");
+runPython("scripts/patch-app-i18n-fixes.py");
+
+console.log("Generating guest order locale keys...");
+runPython("scripts/generate-guest-order-locale-keys.py");
+
+console.log("Adding invoice i18n keys to app locale files...");
+runPython("scripts/patch-locale-invoice-keys.py");
+
 console.log("Adding documentation keys to app locale files...");
 runPython("scripts/patch-locale-doc-keys.py");
+
+console.log("Adding guest order / QR report keys to app locale files...");
+runPython("scripts/patch-locale-guest-order-keys.py");
+
+console.log("Adding restaurant QR order floor keys to app locale files...");
+runPython("scripts/patch-locale-rest-qr-floor-keys.py");
 
 console.log("Generating multilingual documentation (21 locales)...");
 runPython("scripts/generate-doc-locales.py");

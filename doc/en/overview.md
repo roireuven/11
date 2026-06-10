@@ -11,7 +11,7 @@
 
 Staff use a **single app** with **role-based menus** and **in-app documentation** (Help → Documentation) in 21 languages.
 
-![Dashboard — hotel, restaurant, and mini-mart in one app](/doc/en/assets/screenshots/02-dashboard.png)
+![Dashboard — hotel, restaurant, and mini-mart in one app](assets/screenshots/02-dashboard.png)
 
 > Open **☰ Menu → Help → Documentation** for the full illustrated guide ([Visual guide](visual-guide.md)).
 
@@ -48,6 +48,8 @@ Staff use a **single app** with **role-based menus** and **in-app documentation*
 - Kitchen queue synced with restaurant (New → Preparing → Ready → Served)
 - Menu items with categories and optional recipe/inventory links
 - Order history and void support
+- **Guest QR self-order** — scan-to-order with order numbers **1–60**
+- **QR Orders Report** — charts, slot board, spreadsheet, CSV export
 
 ### Mini-mart & POS
 
@@ -55,12 +57,15 @@ Staff use a **single app** with **role-based menus** and **in-app documentation*
 - Walk-in cash/card sales
 - **Put bill on customer** — charge to guest room before payment
 - Shared inventory with F&B where configured
+- **Guest QR self-order** for counter/shop customers (order # 1–60)
+- **QR Orders Report** on mini-mart screen
 
 ### Administration
 
-- Multi-language UI (21 locales)
+- Multi-language UI (21 locales) including guest QR and report strings
+- Full-screen modals for QR and operational pop-ups
 - Dark mode
-- CSV/ZIP export and JSON backup/restore
+- CSV/ZIP export (all tables) and JSON backup/restore with import confirmation
 - Audit and change logs per module
 - Configurable dropdown lists (currencies, room types, payment methods, etc.)
 
@@ -71,7 +76,9 @@ Staff use a **single app** with **role-based menus** and **in-app documentation*
 | **Web browser** | Browser `localStorage` | Per browser only; not shared across devices |
 | **Android app** | SQLite (`hotel_manager.db`) | Per device; persists after app restart |
 
-The web app is hosted on **Firebase Hosting** but does **not** use Firebase Firestore for business data — data stays on the client device/browser.
+The web app is hosted on **Firebase Hosting**. Business data (rooms, bookings, sales) stays in **localStorage** (web) or **SQLite** (Android).
+
+**Firestore** is used only for **guest QR cloud sync** — pending orders submitted from guest phones are written to `guestQrOrders/{propertyNs}/orders`. Staff devices pull them into local restaurant/mini-mart queues. Treat `propertyNs` as a secret tenant key.
 
 ## Production URLs
 
