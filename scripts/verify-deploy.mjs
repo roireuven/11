@@ -217,8 +217,14 @@ if (!html.includes('data-i18n="setup.submitInitialize"')) {
 if (!html.includes("HRMM-SETUP-FORM-v1") || !html.includes('id="setupBizName"')) {
   fail("app missing setup business/admin form (HRMM-SETUP-FORM-v1)");
 }
-if (!html.includes("HRMM-PMS-MODULES-GRID-v1") || !html.includes("pms-modules-grid")) {
-  fail("app missing dashboard PMS modules grid (HRMM-PMS-MODULES-GRID-v1)");
+if (!html.includes("HRMM-PMS-MODULES-GRID-v2") || !html.includes("pms-modules-grid")) {
+  fail("app missing dashboard PMS modules grid (HRMM-PMS-MODULES-GRID-v2)");
+}
+if (html.includes("pms.btnAddCln") && html.includes("showPage('housekeeping')") && html.includes("pms-mod-btn")) {
+  fail("dashboard PMS grid still includes Add Cleaning button");
+}
+if (html.includes("pms.btnAddTx") && html.includes("showPage('alltransactions')") && html.includes("pms-mod-btn")) {
+  fail("dashboard PMS grid still includes Add Transaction button");
 }
 if (!html.includes("HRMM-MODAL-I18N-v2") || !html.includes("modal.editInventoryTitle")) {
   fail("app missing modal form i18n (HRMM-MODAL-I18N-v2)");

@@ -6,7 +6,7 @@ import re
 import sys
 from pathlib import Path
 
-MARKER = "HRMM-PMS-MODULES-GRID-v1"
+MARKER = "HRMM-PMS-MODULES-GRID-v2"
 INDEX = Path("public/index.html")
 
 CSS_ANCHOR = "    .setup-card .setup-welcome strong { color: #1a73e8; }"
@@ -35,22 +35,34 @@ DASH_INSERT = """    bodyHtml += '<div class="card pms-modules-card" style="marg
       '<button type="button" class="btn btn-primary pms-mod-btn" onclick="if(window.showAddRoom)showAddRoom()">+ ' + t('pms.btnAddRoom') + '</button>' +
       '<button type="button" class="btn btn-primary pms-mod-btn" onclick="if(window.showAddBooking)showAddBooking()">+ ' + t('pms.btnAddBk') + '</button>' +
       '<button type="button" class="btn btn-primary pms-mod-btn" onclick="if(window.showAddGuest)showAddGuest()">+ ' + t('pms.btnAddGst') + '</button>' +
-      '<button type="button" class="btn btn-primary pms-mod-btn" onclick="showPage(\\'housekeeping\\')">+ ' + t('pms.btnAddCln') + '</button>' +
       '<button type="button" class="btn btn-primary pms-mod-btn" onclick="if(window.showAddTicket)showAddTicket()">+ ' + t('pms.btnAddTask') + '</button>' +
       '<button type="button" class="btn btn-primary pms-mod-btn" onclick="if(window.showAddService)showAddService()">+ ' + t('pms.btnAddSvc') + '</button>' +
       '<button type="button" class="btn btn-primary pms-mod-btn" onclick="if(window.showAddInvoice)showAddInvoice()">+ ' + t('pms.btnAddInv') + '</button>' +
       '<button type="button" class="btn btn-primary pms-mod-btn" onclick="if(window.showAddInventory)showAddInventory()">+ ' + t('pms.btnAddStk') + '</button>' +
       '<button type="button" class="btn btn-primary pms-mod-btn" onclick="if(window.showAddMenuItem)showAddMenuItem()">+ ' + t('pms.btnAddMenu') + '</button>' +
       '<button type="button" class="btn btn-primary pms-mod-btn" onclick="if(window.showAddStoreItem)showAddStoreItem()">+ ' + t('pms.btnAddShop') + '</button>' +
-      '<button type="button" class="btn btn-primary pms-mod-btn" onclick="showPage(\\'alltransactions\\')">+ ' + t('pms.btnAddTx') + '</button>' +
       '<button type="button" class="btn btn-primary pms-mod-btn" onclick="if(window.showAddAccount)showAddAccount()">+ ' + t('pms.btnAddUsr') + '</button>' +
       '</div></div></div>';
     bodyHtml += wpBar;"""
 
 
+REMOVALS = [
+    "'<button type=\"button\" class=\"btn btn-primary pms-mod-btn\" onclick=\"showPage(\\'housekeeping\\')\">+ ' + t('pms.btnAddCln') + '</button>' +\n      ",
+    "'<button type=\"button\" class=\"btn btn-primary pms-mod-btn\" onclick=\"showPage(\\'alltransactions\\')\">+ ' + t('pms.btnAddTx') + '</button>' +\n      ",
+]
+
+
 def patch(content: str) -> str:
+    changed = False
+    for old in REMOVALS:
+        if old in content:
+            content = content.replace(old, "", 1)
+            changed = True
+
     if MARKER in content and "pms-modules-grid" in content:
         content = re.sub(r"HRMM-PMS-MODULES-GRID-v\d+", MARKER, content)
+        if changed:
+            print("Removed cleaning/transaction buttons from PMS dashboard grid")
         return content
 
     if CSS_ANCHOR in content and ".pms-modules-grid" not in content:
