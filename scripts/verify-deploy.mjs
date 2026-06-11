@@ -204,6 +204,18 @@ if (!html.includes("HRMM-AUTH-RTL-MOBILE-v1") || !html.includes("Auth login/setu
 if (!html.includes("HRMM-AUTH-LOCALE-SYNC-v1") || !html.includes("syncAuthScreensLocale")) {
   fail("app missing setup/login locale sync (HRMM-AUTH-LOCALE-SYNC-v1)");
 }
+if (!html.includes('data-i18n="setup.subtitle"')) {
+  fail("app missing translated setup subtitle");
+}
+if (!html.includes('data-i18n="setup.secBusiness"')) {
+  fail("app missing setup business section i18n");
+}
+if (!html.includes('data-i18n="setup.submitInitialize"')) {
+  fail("app missing setup initialize button i18n");
+}
+if (!html.includes("HRMM-SETUP-FORM-v1") || !html.includes('id="setupBizName"')) {
+  fail("app missing setup business/admin form (HRMM-SETUP-FORM-v1)");
+}
 const martChunk = html.split("function renderGuestMiniMartOrder()")[1] || "";
 if (!martChunk.includes("Search items") || !martChunk.includes("guestRestMobileBarHtml")) {
   fail("app missing complete mini-mart guest order UI");

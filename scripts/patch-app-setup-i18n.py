@@ -17,6 +17,10 @@ BANNER_NEW = """      <div style="margin:0.6rem auto 0.2rem;max-width:520px;padd
         Setup not done yet — please create your system email and password below.
       </div>"""
 
+SETUP_SUBTITLE_ANCHOR = '      <div class="setup-ver" data-i18n="setup.version">v2.0 — First-Time Setup</div>'
+SETUP_SUBTITLE_NEW = """      <div class="setup-ver" data-i18n="setup.version">v2.0 — First-Time Setup</div>
+      <p class="setup-subtitle" data-i18n="setup.subtitle" style="color:#6b7280;font-size:0.88rem;margin:0.15rem 0 0.6rem;line-height:1.4;text-align:center;">Configure your business settings to start</p>"""
+
 BTN_SETUP_OLD = 'id="btnCompleteSetup" aria-label="Create account and get started"'
 BTN_SETUP_NEW = 'id="btnCompleteSetup" data-i18n-aria-label="setup.createBtnAria" aria-label="Create account and get started"'
 
@@ -63,6 +67,9 @@ def patch(content: str) -> str:
     if MARKER in content and 'data-i18n="setup.notDoneBanner"' in content:
         content = re.sub(r"HRMM-SETUP-I18N-v\d+", MARKER, content)
         return content
+
+    if SETUP_SUBTITLE_ANCHOR in content and 'class="setup-subtitle"' not in content:
+        content = content.replace(SETUP_SUBTITLE_ANCHOR, SETUP_SUBTITLE_NEW, 1)
 
     if BANNER_OLD in content:
         content = content.replace(BANNER_OLD, BANNER_NEW, 1)

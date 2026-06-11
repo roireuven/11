@@ -97,6 +97,9 @@ runPython("scripts/patch-app-login-lang-header.py");
 console.log("Wiring setup screen i18n...");
 runPython("scripts/patch-app-setup-i18n.py");
 
+console.log("Adding setup business/admin form fields...");
+runPython("scripts/patch-app-setup-form.py");
+
 console.log("Auth screens RTL + small-phone layout...");
 runPython("scripts/patch-app-auth-rtl-mobile.py");
 
@@ -126,6 +129,10 @@ runPython("scripts/patch-locale-login-keys.py");
 
 console.log("Adding setup screen i18n keys to app locale files...");
 runPython("scripts/patch-locale-setup-keys.py");
+
+console.log("Adding setup form + gap i18n keys to app locale files...");
+runPython("scripts/patch-locale-setup-form-keys.py");
+runPython("scripts/patch-locale-gap-keys.py");
 
 console.log("Generating multilingual documentation (21 locales)...");
 runPython("scripts/generate-doc-locales.py");
