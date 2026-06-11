@@ -91,6 +91,9 @@ runPython("scripts/patch-app-shell-modal.py");
 console.log("Fixing small-phone layout (scroll, buttons, safe areas)...");
 runPython("scripts/patch-app-mobile-small-screens.py");
 
+console.log("Login/setup language dropdown (21 locales)...");
+runPython("scripts/patch-app-login-lang-header.py");
+
 console.log("Applying core i18n fixes (uiT, bottom nav, embedded locales)...");
 runPython("scripts/patch-app-i18n-fixes.py");
 
@@ -108,6 +111,9 @@ runPython("scripts/patch-locale-guest-order-keys.py");
 
 console.log("Adding restaurant QR order floor keys to app locale files...");
 runPython("scripts/patch-locale-rest-qr-floor-keys.py");
+
+console.log("Adding login/setup i18n keys to app locale files...");
+runPython("scripts/patch-locale-login-keys.py");
 
 console.log("Generating multilingual documentation (21 locales)...");
 runPython("scripts/generate-doc-locales.py");

@@ -189,6 +189,12 @@ if (!html.includes("HRMM-SMALL-PHONE-v2") || !html.includes(".xgrid td .cell-act
 if (!html.includes("HRMM-INVOICE-ADMIN-EDIT-v1") || !html.includes("canEditInvoiceRecords")) {
   fail("app missing Admin-only invoice edit patch (HRMM-INVOICE-ADMIN-EDIT-v1)");
 }
+if (!html.includes("HRMM-LOGIN-LANG-HEADER-v1") || !html.includes("setupLocaleSelect") || !html.includes("auth-language-header")) {
+  fail("app missing login/setup language dropdown (HRMM-LOGIN-LANG-HEADER-v1)");
+}
+if (!html.includes('data-i18n="login.backToSignIn"') || !html.includes('data-i18n="settings.languageHintLogin"')) {
+  fail("app missing translated login/setup screen labels");
+}
 const martChunk = html.split("function renderGuestMiniMartOrder()")[1] || "";
 if (!martChunk.includes("Search items") || !martChunk.includes("guestRestMobileBarHtml")) {
   fail("app missing complete mini-mart guest order UI");
