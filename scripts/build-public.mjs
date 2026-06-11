@@ -100,6 +100,9 @@ runPython("scripts/patch-app-setup-i18n.py");
 console.log("Auth screens RTL + small-phone layout...");
 runPython("scripts/patch-app-auth-rtl-mobile.py");
 
+console.log("Syncing setup/login locale across auth screens...");
+runPython("scripts/patch-app-auth-locale-sync.py");
+
 console.log("Applying core i18n fixes (uiT, bottom nav, embedded locales)...");
 runPython("scripts/patch-app-i18n-fixes.py");
 
