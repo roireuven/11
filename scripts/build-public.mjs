@@ -134,6 +134,9 @@ console.log("Adding setup form + gap i18n keys to app locale files...");
 runPython("scripts/patch-locale-setup-form-keys.py");
 runPython("scripts/patch-locale-gap-keys.py");
 
+console.log("Applying full locale translations...");
+runPython("scripts/patch-locale-full-translations.py");
+
 console.log("Generating multilingual documentation (21 locales)...");
 runPython("scripts/generate-doc-locales.py");
 

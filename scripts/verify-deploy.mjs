@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 /** Verify public/ is ready for Firebase deploy (Windows + Linux). */
 import { readFile, readdir, stat } from "node:fs/promises";
+import { readFileSync } from "node:fs";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -215,6 +216,17 @@ if (!html.includes('data-i18n="setup.submitInitialize"')) {
 }
 if (!html.includes("HRMM-SETUP-FORM-v1") || !html.includes('id="setupBizName"')) {
   fail("app missing setup business/admin form (HRMM-SETUP-FORM-v1)");
+}
+try {
+  const arLoc = JSON.parse(readFileSync(join(PUBLIC, "assets/locales/ar.json"), "utf8"));
+  if (arLoc.msg?.accountCreated === "Account created! Sign in with your email and password.") {
+    fail("ar locale still has untranslated msg.accountCreated");
+  }
+  if (arLoc._meta?.localeFullTranslations !== "hrmm-locale-full-translations-v1") {
+    fail("locale files missing full translation patch marker");
+  }
+} catch (e) {
+  fail("could not verify locale full translations: " + (e && e.message ? e.message : e));
 }
 const martChunk = html.split("function renderGuestMiniMartOrder()")[1] || "";
 if (!martChunk.includes("Search items") || !martChunk.includes("guestRestMobileBarHtml")) {

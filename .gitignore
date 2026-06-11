@@ -5,3 +5,6 @@ firebase-debug.log
 firebase-debug.*.log
 *.log
 __pycache__/
+# Regeneratable translation API cache (source of truth: locale-full-translations.json)
+doc/i18n/locale-translation-cache.json
+doc/i18n/untranslated-audit.json
