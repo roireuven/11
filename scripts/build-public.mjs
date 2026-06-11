@@ -152,6 +152,9 @@ runPython("scripts/patch-app-modal-i18n.py");
 console.log("Adding modal form i18n keys...");
 runPython("scripts/patch-locale-modal-form-keys.py");
 
+console.log("Booking new-guest modal i18n...");
+runPython("scripts/patch-app-booking-guest-i18n.py");
+
 console.log("Generating multilingual documentation (21 locales)...");
 runPython("scripts/generate-doc-locales.py");
 

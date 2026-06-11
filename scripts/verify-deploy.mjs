@@ -226,6 +226,9 @@ if (!html.includes("HRMM-MODAL-I18N-v2") || !html.includes("modal.editInventoryT
 if (!html.includes("HRMM-MODAL-RTL-v1")) {
   fail("app missing modal RTL layout fix (HRMM-MODAL-RTL-v1)");
 }
+if (!html.includes("HRMM-BOOKING-GUEST-I18N-v1") || !html.includes("newGuestFromBookingModalMarkup")) {
+  fail("app missing booking new-guest modal i18n (HRMM-BOOKING-GUEST-I18N-v1)");
+}
 try {
   const arLoc = JSON.parse(readFileSync(join(PUBLIC, "assets/locales/ar.json"), "utf8"));
   if (arLoc.msg?.accountCreated === "Account created! Sign in with your email and password.") {
