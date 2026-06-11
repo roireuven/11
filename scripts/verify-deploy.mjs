@@ -217,6 +217,9 @@ if (!html.includes('data-i18n="setup.submitInitialize"')) {
 if (!html.includes("HRMM-SETUP-FORM-v1") || !html.includes('id="setupBizName"')) {
   fail("app missing setup business/admin form (HRMM-SETUP-FORM-v1)");
 }
+if (!html.includes("HRMM-PMS-MODULES-GRID-v1") || !html.includes("pms-modules-grid")) {
+  fail("app missing dashboard PMS modules grid (HRMM-PMS-MODULES-GRID-v1)");
+}
 try {
   const arLoc = JSON.parse(readFileSync(join(PUBLIC, "assets/locales/ar.json"), "utf8"));
   if (arLoc.msg?.accountCreated === "Account created! Sign in with your email and password.") {
@@ -224,6 +227,9 @@ try {
   }
   if (arLoc._meta?.localeFullTranslations !== "hrmm-locale-full-translations-v1") {
     fail("locale files missing full translation patch marker");
+  }
+  if (!arLoc.pms?.btnAddRoom || arLoc.pms.btnAddRoom === "Add Room") {
+    fail("ar locale missing translated pms.btnAddRoom");
   }
 } catch (e) {
   fail("could not verify locale full translations: " + (e && e.message ? e.message : e));

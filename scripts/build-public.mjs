@@ -137,6 +137,12 @@ runPython("scripts/patch-locale-gap-keys.py");
 console.log("Applying full locale translations...");
 runPython("scripts/patch-locale-full-translations.py");
 
+console.log("Adding PMS module form i18n keys...");
+runPython("scripts/patch-locale-pms-modules-keys.py");
+
+console.log("Adding dashboard PMS quick-action module grid...");
+runPython("scripts/patch-app-pms-modules-grid.py");
+
 console.log("Generating multilingual documentation (21 locales)...");
 runPython("scripts/generate-doc-locales.py");
 
