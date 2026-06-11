@@ -198,6 +198,9 @@ if (!html.includes('data-i18n="login.backToSignIn"') || !html.includes('data-i18
 if (!html.includes("HRMM-SETUP-I18N-v1") || !html.includes('data-i18n="setup.notDoneBanner"')) {
   fail("app missing setup screen i18n (HRMM-SETUP-I18N-v1)");
 }
+if (!html.includes("HRMM-AUTH-RTL-MOBILE-v1") || !html.includes("Auth login/setup — RTL + small phones")) {
+  fail("app missing auth RTL/small-phone layout (HRMM-AUTH-RTL-MOBILE-v1)");
+}
 const martChunk = html.split("function renderGuestMiniMartOrder()")[1] || "";
 if (!martChunk.includes("Search items") || !martChunk.includes("guestRestMobileBarHtml")) {
   fail("app missing complete mini-mart guest order UI");

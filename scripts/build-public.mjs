@@ -97,6 +97,9 @@ runPython("scripts/patch-app-login-lang-header.py");
 console.log("Wiring setup screen i18n...");
 runPython("scripts/patch-app-setup-i18n.py");
 
+console.log("Auth screens RTL + small-phone layout...");
+runPython("scripts/patch-app-auth-rtl-mobile.py");
+
 console.log("Applying core i18n fixes (uiT, bottom nav, embedded locales)...");
 runPython("scripts/patch-app-i18n-fixes.py");
 
