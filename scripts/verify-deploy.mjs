@@ -195,6 +195,9 @@ if (!html.includes("HRMM-LOGIN-LANG-HEADER-v1") || !html.includes("setupLocaleSe
 if (!html.includes('data-i18n="login.backToSignIn"') || !html.includes('data-i18n="settings.languageHintLogin"')) {
   fail("app missing translated login/setup screen labels");
 }
+if (!html.includes("HRMM-SETUP-I18N-v1") || !html.includes('data-i18n="setup.notDoneBanner"')) {
+  fail("app missing setup screen i18n (HRMM-SETUP-I18N-v1)");
+}
 const martChunk = html.split("function renderGuestMiniMartOrder()")[1] || "";
 if (!martChunk.includes("Search items") || !martChunk.includes("guestRestMobileBarHtml")) {
   fail("app missing complete mini-mart guest order UI");

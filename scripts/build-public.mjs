@@ -94,6 +94,9 @@ runPython("scripts/patch-app-mobile-small-screens.py");
 console.log("Login/setup language dropdown (21 locales)...");
 runPython("scripts/patch-app-login-lang-header.py");
 
+console.log("Wiring setup screen i18n...");
+runPython("scripts/patch-app-setup-i18n.py");
+
 console.log("Applying core i18n fixes (uiT, bottom nav, embedded locales)...");
 runPython("scripts/patch-app-i18n-fixes.py");
 
@@ -114,6 +117,9 @@ runPython("scripts/patch-locale-rest-qr-floor-keys.py");
 
 console.log("Adding login/setup i18n keys to app locale files...");
 runPython("scripts/patch-locale-login-keys.py");
+
+console.log("Adding setup screen i18n keys to app locale files...");
+runPython("scripts/patch-locale-setup-keys.py");
 
 console.log("Generating multilingual documentation (21 locales)...");
 runPython("scripts/generate-doc-locales.py");
