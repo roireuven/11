@@ -143,6 +143,15 @@ runPython("scripts/patch-locale-pms-modules-keys.py");
 console.log("Adding dashboard PMS quick-action module grid...");
 runPython("scripts/patch-app-pms-modules-grid.py");
 
+console.log("Modal forms RTL alignment fix...");
+runPython("scripts/patch-app-modal-rtl.py");
+
+console.log("Modal forms i18n wiring...");
+runPython("scripts/patch-app-modal-i18n.py");
+
+console.log("Adding modal form i18n keys...");
+runPython("scripts/patch-locale-modal-form-keys.py");
+
 console.log("Generating multilingual documentation (21 locales)...");
 runPython("scripts/generate-doc-locales.py");
 

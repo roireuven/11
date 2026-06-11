@@ -220,6 +220,12 @@ if (!html.includes("HRMM-SETUP-FORM-v1") || !html.includes('id="setupBizName"'))
 if (!html.includes("HRMM-PMS-MODULES-GRID-v1") || !html.includes("pms-modules-grid")) {
   fail("app missing dashboard PMS modules grid (HRMM-PMS-MODULES-GRID-v1)");
 }
+if (!html.includes("HRMM-MODAL-I18N-v2") || !html.includes("modal.editInventoryTitle")) {
+  fail("app missing modal form i18n (HRMM-MODAL-I18N-v2)");
+}
+if (!html.includes("HRMM-MODAL-RTL-v1")) {
+  fail("app missing modal RTL layout fix (HRMM-MODAL-RTL-v1)");
+}
 try {
   const arLoc = JSON.parse(readFileSync(join(PUBLIC, "assets/locales/ar.json"), "utf8"));
   if (arLoc.msg?.accountCreated === "Account created! Sign in with your email and password.") {
@@ -230,6 +236,12 @@ try {
   }
   if (!arLoc.pms?.btnAddRoom || arLoc.pms.btnAddRoom === "Add Room") {
     fail("ar locale missing translated pms.btnAddRoom");
+  }
+  if (!arLoc.modal?.newTicketTitle || arLoc.modal.newTicketTitle === "New Maintenance Ticket") {
+    fail("ar locale missing translated modal.newTicketTitle");
+  }
+  if (!arLoc.g?.iconLabel || arLoc.g.iconLabel === "g.iconLabel") {
+    fail("ar locale missing g.iconLabel");
   }
 } catch (e) {
   fail("could not verify locale full translations: " + (e && e.message ? e.message : e));
