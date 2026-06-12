@@ -155,6 +155,13 @@ runPython("scripts/patch-locale-modal-form-keys.py");
 console.log("Booking new-guest modal i18n...");
 runPython("scripts/patch-app-booking-guest-i18n.py");
 
+console.log("Generating vehicle rental i18n keys (21 locales)...");
+runPython("scripts/generate-vehicle-rental-keys.py");
+runPython("scripts/patch-locale-vehicle-rental-keys.py");
+
+console.log("Vehicle rental module (cars & motorbikes)...");
+runPython("scripts/patch-app-vehicle-rental.py");
+
 console.log("Generating What's new v2.3/v2.4 documentation (21 locales)...");
 runPython("scripts/generate-whats-new-v2-docs.py");
 

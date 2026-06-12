@@ -180,12 +180,14 @@ def patch(content: str) -> str:
         print(f"Already patched {MARKER} — skipping")
         return content
 
-    if f"/* {MARKER} */" not in content:
-        content = content.replace(
-            "  </style>\n</head>",
-            _css_block() + "  </style>\n</head>",
-            1,
-        )
+    if "/* HRMM full-screen modals */" not in content:
+        if "  </style>" in content:
+            content = content.replace("  </style>", _css_block() + "  </style>", 1)
+        else:
+            content = content.replace("</style>", _css_block() + "</style>", 1)
+
+    if MARKER not in content:
+        content = content.replace("</head>", f"  <!-- {MARKER} -->\n</head>", 1)
 
     content = re.sub(r"HRMM-(?:SHELL|FULLSCREEN)-MODAL-v\d+", MARKER, content)
     return content

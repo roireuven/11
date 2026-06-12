@@ -326,12 +326,14 @@ def patch(content: str) -> str:
     if LANG_WRAP_Z_OLD in content and ".topbar .topbar-locale-wrap { z-index: 320; }" not in content:
         content = content.replace(LANG_WRAP_Z_OLD, LANG_WRAP_Z_NEW, 1)
 
+    if "/* HRMM mobile hamburger menu" not in content:
+        if "  </style>" in content:
+            content = content.replace("  </style>", _mobile_css() + "  </style>", 1)
+        else:
+            content = content.replace("</style>", _mobile_css() + "</style>", 1)
+
     if MARKER not in content:
-        content = content.replace(
-            "  </style>\n</head>",
-            _mobile_css() + "  </style>\n</head>",
-            1,
-        )
+        content = content.replace("</head>", f"  <!-- {MARKER} -->\n</head>", 1)
 
     content = _apply_js_upgrades(content)
     return content
