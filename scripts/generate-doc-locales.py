@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import re
 import sys
 from pathlib import Path
 
@@ -14,8 +15,10 @@ EN = DOC / "en"
 # Sidebar page slugs (English source files in doc/en/)
 PAGES = {
     "sec_getting_started": [
+        ("whats-new-v2.md", "page_whats_new_v2"),
         ("overview.md", "page_overview"),
         ("getting-started.md", "page_getting_started"),
+        ("visual-guide.md", "page_visual_guide"),
         ("installation.md", "page_installation"),
         ("first-time-setup.md", "page_first_time_setup"),
         ("demo-credentials.md", "page_demo_credentials"),
@@ -27,6 +30,7 @@ PAGES = {
         ("services-and-billing.md", "page_services"),
         ("restaurant-and-kitchen.md", "page_restaurant"),
         ("minimart-and-pos.md", "page_minimart"),
+        ("guest-qr-orders.md", "page_guest_qr_orders"),
         ("inventory-and-catalog.md", "page_inventory"),
         ("guest-portal.md", "page_guest_portal"),
         ("reports.md", "page_reports"),
@@ -36,6 +40,7 @@ PAGES = {
         ("settings-and-configuration.md", "page_settings"),
         ("backup-restore-and-data.md", "page_backup"),
         ("localization.md", "page_localization"),
+        ("multilingual-documentation.md", "page_multilingual_docs"),
         ("data-model.md", "page_data_model"),
     ],
     "sec_technical": [
@@ -47,7 +52,13 @@ PAGES = {
     ],
 }
 
-TRANSLATED_PAGES = {"getting-started.md", "overview.md", "navigation-and-ui.md", "localization.md"}
+TRANSLATED_PAGES = {
+    "getting-started.md",
+    "overview.md",
+    "navigation-and-ui.md",
+    "localization.md",
+    "whats-new-v2.md",
+}
 
 
 def load_messages() -> dict:
@@ -60,6 +71,20 @@ def load_messages() -> dict:
 def msg(messages: dict, locale: str, key: str) -> str:
     block = messages.get(locale) or messages["en"]
     return block.get(key) or messages["en"].get(key) or key
+
+
+def en_doc_href(slug: str) -> str:
+    base = slug.replace(".md", "")
+    return f"https://hotel-restaurant-minimart.firebaseapp.com/doc/?lang=en#/{base}"
+
+
+def all_page_slugs() -> list[str]:
+    slugs: list[str] = []
+    for pages in PAGES.values():
+        for slug, _ in pages:
+            if slug not in slugs:
+                slugs.append(slug)
+    return slugs
 
 
 def write_readme(locale: str, messages: dict, dest: Path) -> None:
@@ -86,7 +111,7 @@ def write_readme(locale: str, messages: dict, dest: Path) -> None:
 
 ## {m('version_heading')}
 
-- **{m('app_version')}:** v2.0
+- **{m('app_version')}:** v2.4
 - **{m('doc_source')}:** hotel-restaurant-minimart.firebaseapp.com
 
 ## {m('support_heading')}
@@ -99,19 +124,16 @@ def write_readme(locale: str, messages: dict, dest: Path) -> None:
 
 
 def write_sidebar(locale: str, messages: dict, dest: Path) -> None:
-    lines = [f"* [Home](README.md)", ""]
+    lines = ["* [Home](README.md)", ""]
     for sec_key, pages in PAGES.items():
         lines.append(f"* **{msg(messages, locale, sec_key)}**")
         for slug, page_key in pages:
             title = msg(messages, locale, page_key)
-            if locale == "en" or slug in TRANSLATED_PAGES:
-                lines.append(f"  * [{title}]({slug})")
-            else:
-                lines.append(f"  * [{title}]({slug})")
+            lines.append(f"  * [{title}]({slug})")
         lines.append("")
     lines.append(f"* **{msg(messages, locale, 'sec_links')}**")
     lines.append("  * [Live web app ↗](https://hotel-restaurant-minimart.firebaseapp.com/)")
-    lines.append("  * [APK landing ↗](https://roireuven.github.io/11/)")
+    lines.append("  * [APK landing (GitHub) ↗](https://roireuven.github.io/11/)")
     dest.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
@@ -135,22 +157,9 @@ def write_getting_started(locale: str, messages: dict, dest: Path) -> None:
 
 ## {m('gs_full_guide')}
 
-{m('gs_full_guide_text')} [English getting started guide](../en/getting-started.md).
+{m('gs_full_guide_text')} [English getting started guide]({en_doc_href('getting-started.md')}).
 """
     dest.write_text(text, encoding="utf-8")
-
-
-def copy_translated_page(locale: str, slug: str) -> None:
-    """Copy selected English pages for locales that share structure (navigation, overview)."""
-    src = EN / slug
-    dest = DOC / locale / slug
-    if not src.is_file():
-        return
-    if slug == "navigation-and-ui.md" and locale != "en":
-        # Use generated stub pointing to key in-app doc features
-        return
-    if slug in ("overview.md", "localization.md") and locale != "en":
-        return
 
 
 def write_overview(locale: str, messages: dict, dest: Path) -> None:
@@ -169,7 +178,7 @@ def write_overview(locale: str, messages: dict, dest: Path) -> None:
 - **{m('module_minimart')}** — {m('module_minimart_desc')}
 - **{m('module_admin')}** — {m('module_admin_desc')}
 
-{m('overview_full')} [English overview](../en/overview.md).
+{m('overview_full')} [English overview]({en_doc_href('overview.md')}).
 """
     dest.write_text(text, encoding="utf-8")
 
@@ -191,7 +200,7 @@ def write_navigation(locale: str, messages: dict, dest: Path) -> None:
 | **{m('nav_hamburger')}** | {m('nav_help')} → {m('doc_label')} | {m('nav_hamburger_action')} |
 | **{m('nav_bottom')}** | {m('bnav_docs')} | {m('nav_bottom_action')} |
 
-{m('nav_full')} [English navigation guide](../en/navigation-and-ui.md).
+{m('nav_full')} [English navigation guide]({en_doc_href('navigation-and-ui.md')}).
 """
     dest.write_text(text, encoding="utf-8")
 
@@ -215,9 +224,22 @@ def write_localization(locale: str, messages: dict, dest: Path) -> None:
 
 {m('loc_docs_note')}
 
-{m('loc_full')} [English localization guide](../en/localization.md).
+{m('loc_full')} [English localization guide]({en_doc_href('localization.md')}).
 """
     dest.write_text(text, encoding="utf-8")
+
+
+def copy_english_fallback(locale: str, slug: str) -> None:
+    """Copy English guides for pages without a locale translation (Firebase must serve real .md files)."""
+    if locale == "en" or slug in TRANSLATED_PAGES:
+        return
+    src = EN / slug
+    if not src.is_file():
+        return
+    text = src.read_text(encoding="utf-8")
+    text = re.sub(r"!\[([^\]]*)\]\(assets/", r"![\1](../en/assets/", text)
+    text = re.sub(r"(?<!!)\]\(assets/", "](../en/assets/", text)
+    (DOC / locale / slug).write_text(text, encoding="utf-8")
 
 
 def write_ui_json(messages: dict) -> None:
@@ -236,6 +258,7 @@ def write_ui_json(messages: dict) -> None:
 def generate() -> None:
     messages = load_messages()
     locales = json.loads((I18N / "locales.json").read_text(encoding="utf-8"))
+    slugs = all_page_slugs()
 
     for loc in locales:
         code = loc["code"]
@@ -252,6 +275,8 @@ def generate() -> None:
             write_overview(code, messages, dest_dir / "overview.md")
             write_navigation(code, messages, dest_dir / "navigation-and-ui.md")
             write_localization(code, messages, dest_dir / "localization.md")
+            for slug in slugs:
+                copy_english_fallback(code, slug)
 
     write_ui_json(messages)
     print(f"Generated documentation for {len(locales)} locales in {DOC}/")

@@ -4,7 +4,7 @@ Retail sales for on-site shop items, snacks, and amenities — with walk-in or r
 
 **Paths:** Sidebar → **Mini-Mart** · **Inventory POS** · bottom nav **POS**
 
-![Mini-mart POS — products, cart, charge to room](/doc/en/assets/screenshots/09-minimart-pos.png)
+![Mini-mart POS — products, cart, charge to room](assets/screenshots/09-minimart-pos.png)
 
 ---
 
@@ -63,6 +63,23 @@ Configure store items under **Store Items**; enable POS on inventory rows under 
 
 ---
 
+## Guest QR self-order
+
+Counter and shop customers can scan a QR code and build their own cart on a phone.
+
+| Step | Action |
+|------|--------|
+| 1 | Bottom nav → **Mini-Mart QR** |
+| 2 | Select **order number 1–60** |
+| 3 | Guest scans → adds items → **Submit order** |
+| 4 | Order joins mini-mart open orders / POS flow |
+
+**QR Orders Report:** On **New Order** and **Active Orders** — stats, charts, 1–60 slot board, spreadsheet, CSV export.
+
+Full guide: [Guest QR orders](guest-qr-orders.md)
+
+---
+
 ## Reports
 
 Sales roll into **Reports** by department:
@@ -72,10 +89,13 @@ Sales roll into **Reports** by department:
 - Hotel (PMS)
 - POS
 
+QR scan orders also appear in the **QR Orders Report** (mini-mart view).
+
 ---
 
 ## Related
 
+- [Guest QR orders](guest-qr-orders.md)
 - [Inventory & catalog](inventory-and-catalog.md)
 - [Services & billing](services-and-billing.md)
 - [Accounts & audit](accounts-and-audit.md)

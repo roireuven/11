@@ -1,6 +1,7 @@
 * [Home](README.md)
 
 * **Getting started**
+  * [What's new in v2.3 / v2.4](whats-new-v2.md)
   * [Overview](overview.md)
   * [Getting started](getting-started.md)
   * [Visual guide (screenshots)](visual-guide.md)
@@ -15,6 +16,7 @@
   * [Services & billing](services-and-billing.md)
   * [Restaurant & kitchen](restaurant-and-kitchen.md)
   * [Mini-mart & POS](minimart-and-pos.md)
+  * [Guest QR orders](guest-qr-orders.md)
   * [Inventory & catalog](inventory-and-catalog.md)
   * [Guest portal](guest-portal.md)
   * [Reports](reports.md)

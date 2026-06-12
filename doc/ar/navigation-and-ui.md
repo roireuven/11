@@ -10,4 +10,4 @@
 | **قائمة (☰)** | مساعدة → التوثيق | أول قسم في أعلى الشريط الجانبي |
 | **الشريط السفلي** | Docs | التنقل السفلي (جوال) |
 
-لتفاصيل التخطيط والوضع الداكن ومحدد اللغة، راجع [English navigation guide](../en/navigation-and-ui.md).
+لتفاصيل التخطيط والوضع الداكن ومحدد اللغة، راجع [English navigation guide](https://hotel-restaurant-minimart.firebaseapp.com/doc/?lang=en#/navigation-and-ui).

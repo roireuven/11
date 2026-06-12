@@ -21,7 +21,7 @@ Panduan pengguna untuk penyiapan, operasi harian, administrasi, dan referensi te
 
 ## Versi
 
-- **Versi aplikasi:** v2.0
+- **Versi aplikasi:** v2.4
 - **Dokumentasi dibuat dari:** hotel-restaurant-minimart.firebaseapp.com
 
 ## Alur dukungan

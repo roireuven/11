@@ -21,7 +21,7 @@ Gebruikersgidsen voor setup, dagelijkse operaties, administratie en technische r
 
 ## Versie
 
-- **App-versie:** v2.0
+- **App-versie:** v2.4
 - **Documentatie gegenereerd vanuit:** hotel-restaurant-minimart.firebaseapp.com
 
 ## Supportworkflow
