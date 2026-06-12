@@ -1,6 +1,7 @@
 * [Home](README.md)
 
 * **Getting started**
+  * [What's new in v2.3 / v2.4](whats-new-v2.md)
   * [Overview](overview.md)
   * [Getting started](getting-started.md)
   * [Visual guide (screenshots)](visual-guide.md)

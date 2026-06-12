@@ -15,6 +15,7 @@ EN = DOC / "en"
 # Sidebar page slugs (English source files in doc/en/)
 PAGES = {
     "sec_getting_started": [
+        ("whats-new-v2.md", "page_whats_new_v2"),
         ("overview.md", "page_overview"),
         ("getting-started.md", "page_getting_started"),
         ("visual-guide.md", "page_visual_guide"),
@@ -51,7 +52,13 @@ PAGES = {
     ],
 }
 
-TRANSLATED_PAGES = {"getting-started.md", "overview.md", "navigation-and-ui.md", "localization.md"}
+TRANSLATED_PAGES = {
+    "getting-started.md",
+    "overview.md",
+    "navigation-and-ui.md",
+    "localization.md",
+    "whats-new-v2.md",
+}
 
 
 def load_messages() -> dict:
@@ -104,7 +111,7 @@ def write_readme(locale: str, messages: dict, dest: Path) -> None:
 
 ## {m('version_heading')}
 
-- **{m('app_version')}:** v2.1
+- **{m('app_version')}:** v2.4
 - **{m('doc_source')}:** hotel-restaurant-minimart.firebaseapp.com
 
 ## {m('support_heading')}

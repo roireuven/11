@@ -7,23 +7,27 @@
 | URL | Role |
 |-----|------|
 | [hotel-restaurant-minimart.web.app](https://hotel-restaurant-minimart.web.app/) | **Development** — latest build from `npm run deploy` |
-| [hotel-restaurant-minimart.firebaseapp.com](https://hotel-restaurant-minimart.firebaseapp.com/) | Same as development (alternate domain) |
-| [hotel-restaurant-minimart2-3.web.app](https://hotel-restaurant-minimart2-3.web.app/) | **Stable v2.3** — for daily use; update with `npm run deploy:2.3` |
+| [hotel-restaurant-minimart.firebaseapp.com](https://hotel-restaurant-minimart.firebaseapp.com/) | Development (alternate domain) |
+| [hotel-restaurant-minimart2-3.web.app](https://hotel-restaurant-minimart2-3.web.app/) | **Stable v2.3** — long-term snapshot |
+| [hotel-restaurant-minimart2-4.web.app](https://hotel-restaurant-minimart2-4.web.app/) | **Stable v2.4** — current recommended stable release |
 | [hotel-restaurant-minimart2-3.firebaseapp.com](https://hotel-restaurant-minimart2-3.firebaseapp.com/) | Stable v2.3 (alternate domain) |
+| [hotel-restaurant-minimart2-4.firebaseapp.com](https://hotel-restaurant-minimart2-4.firebaseapp.com/) | Stable v2.4 (alternate domain) |
 
 Documentation is embedded in the app on every site (`/doc/`).
 
-**Project ID:** `hotel-restaurant-minimart` (both hosting sites live in this Firebase project)
+**Project ID:** `hotel-restaurant-minimart` (all hosting sites live in this Firebase project)
 
 ### Which deploy command?
 
 | Command | Deploys to | When to use |
 |---------|------------|-------------|
 | `npm run deploy` | Development site + Firestore rules | Day-to-day development |
-| `npm run deploy:2.3` | Stable v2.3 site only | Publish a tested snapshot for staff (recommended before sharing with properties) |
-| `npm run deploy:all` | Both sites + Firestore rules | Refresh everything at once |
+| `npm run deploy:2.3` | Stable v2.3 site only | Pin a build on the v2.3 URL |
+| `npm run deploy:2.4` | Stable v2.4 site only | Pin a build on the v2.4 URL |
+| `npm run deploy:stable` | **Both** stable v2.3 and v2.4 | **Recommended** after testing — staff on either stable URL get the update |
+| `npm run deploy:all` | Development + both stable sites + Firestore | Refresh every hosting target at once |
 
-The stable site URL uses hyphens (Firebase naming): `hotel-restaurant-minimart2-3.web.app` — not dots.
+Stable site URLs use hyphens (Firebase naming): `hotel-restaurant-minimart2-3.web.app`, `hotel-restaurant-minimart2-4.web.app`.
 
 ### What gets deployed
 
@@ -31,8 +35,8 @@ The deploy bundle (`public/`) contains:
 
 | Path | Source |
 |------|--------|
-| `/` (app) | Synced from live Firebase, then patched for in-app docs |
-| `/doc/` | Docsify site from repo `doc/` folder (26 guides) |
+| `/` (app) | Synced from live Firebase, then patched for i18n and features |
+| `/doc/` | Docsify site from repo `doc/` folder (30 guides, 21 locales) |
 
 The build patches `public/index.html` to **embed documentation inside the app**:
 
@@ -44,9 +48,10 @@ The build patches `public/index.html` to **embed documentation inside the app**:
 Build command merges both:
 
 ```bash
-npm run build       # → public/index.html + public/doc/*
-npm run deploy      # development site + Firestore rules
-npm run deploy:2.3  # stable v2.3 site only
+npm run build          # → public/index.html + public/doc/*
+npm run deploy         # development site + Firestore rules
+npm run deploy:stable  # stable v2.3 + v2.4 (recommended for staff)
+npm run deploy:all     # development + both stable + Firestore
 ```
 
 ### Deploy steps
@@ -56,17 +61,15 @@ From repository root ([roireuven/11](https://github.com/roireuven/11)):
 ```bash
 npm install
 firebase login
-npm run deploy
+npm run deploy:stable   # publish to v2.3 and v2.4
 ```
 
 **Windows (PowerShell):**
 
 ```powershell
 cd C:\Users\roire\11
-.\firebase-fix.bat deploy
+npm run deploy:stable
 ```
-
-Or step by step: `npx firebase login` then `npm run deploy`. Sign in as the Google account that owns project **hotel-restaurant-minimart**.
 
 Requires Firebase project **Editor** or **Firebase Hosting Admin** role.
 
@@ -78,15 +81,19 @@ npm run serve
 
 - App: [http://127.0.0.1:5000/](http://127.0.0.1:5000/)
 - Docs: [http://127.0.0.1:5000/doc/](http://127.0.0.1:5000/doc/)
+- What's new: [http://127.0.0.1:5000/doc/#/whats-new-v2](http://127.0.0.1:5000/doc/#/whats-new-v2)
 
 ### Hosting configuration
 
+Two stable targets plus development share the same `public/` folder:
+
 ```json
 {
-  "hosting": {
-    "public": "public",
-    "rewrites": [{ "source": "**", "destination": "/index.html" }]
-  }
+  "hosting": [
+    { "target": "production", "public": "public" },
+    { "target": "stable23", "public": "public" },
+    { "target": "stable24", "public": "public" }
+  ]
 }
 ```
 
@@ -104,8 +111,6 @@ Static files under `/doc/` and `/assets/` are served directly; the catch-all rew
 | [roireuven.github.io/11](https://roireuven.github.io/11/) | APK download landing |
 | [roireuven.github.io/11/doc](https://roireuven.github.io/11/doc/) | Docs mirror (same markdown + Docsify) |
 
-GitHub Pages deploys via `.github/workflows/deploy-pages.yml` on push to `main`.
-
 ## Android APK
 
 ```
@@ -120,10 +125,11 @@ Linked from the GitHub Pages landing page.
 - [ ] Configure [Settings](settings-and-configuration.md)
 - [ ] Create staff [Accounts](accounts-and-audit.md)
 - [ ] [Export backup](backup-restore-and-data.md)
-- [ ] Deploy docs: `npm run deploy`
-- [ ] Train staff per [User roles](user-roles-and-permissions.md)
+- [ ] Deploy docs: `npm run deploy:stable`
+- [ ] Train staff per [User roles](user-roles-and-permissions.md) and [What's new](whats-new-v2.md)
 
 ## Related
 
 - [Development](development.md)
 - [Architecture](architecture.md)
+- [What's new in v2.3 / v2.4](whats-new-v2.md)

@@ -1,6 +1,7 @@
 * [Home](README.md)
 
 * **시작하기**
+  * [v2.3/v2.4의 새로운 기능](whats-new-v2.md)
   * [개요](overview.md)
   * [시작하기](getting-started.md)
   * [Visual guide (screenshots)](visual-guide.md)

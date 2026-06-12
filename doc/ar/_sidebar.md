@@ -1,6 +1,7 @@
 * [Home](README.md)
 
 * **البدء**
+  * [ما الجديد في الإصدار 2.3 / الإصدار 2.4](whats-new-v2.md)
   * [نظرة عامة](overview.md)
   * [البدء](getting-started.md)
   * [Visual guide (screenshots)](visual-guide.md)

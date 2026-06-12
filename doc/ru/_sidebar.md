@@ -1,6 +1,7 @@
 * [Home](README.md)
 
 * **Начало работы**
+  * [Что нового в v2.3/v2.4](whats-new-v2.md)
   * [Обзор](overview.md)
   * [Начало работы](getting-started.md)
   * [Visual guide (screenshots)](visual-guide.md)

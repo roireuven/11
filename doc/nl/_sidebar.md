@@ -1,6 +1,7 @@
 * [Home](README.md)
 
 * **Aan de slag**
+  * [Wat is er nieuw in v2.3 / v2.4](whats-new-v2.md)
   * [Overzicht](overview.md)
   * [Aan de slag](getting-started.md)
   * [Visual guide (screenshots)](visual-guide.md)

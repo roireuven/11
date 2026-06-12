@@ -292,6 +292,24 @@ if (enGuide.includes("/doc/en/assets/")) {
   fail("English docs must use relative assets/ paths (Docsify double-prefix bug)");
 }
 
+let whatsNew;
+try {
+  whatsNew = readFileSync(join(DOC, "en", "whats-new-v2.md"), "utf8");
+} catch {
+  fail("missing public/doc/en/whats-new-v2.md");
+}
+if (!whatsNew.includes("v2.3") || !whatsNew.includes("v2.4")) {
+  fail("whats-new-v2.md missing version references");
+}
+try {
+  const heWhatsNew = readFileSync(join(DOC, "he", "whats-new-v2.md"), "utf8");
+  if (heWhatsNew === whatsNew) {
+    fail("he/whats-new-v2.md not translated");
+  }
+} catch {
+  fail("missing public/doc/he/whats-new-v2.md");
+}
+
 let esInstall;
 try {
   esInstall = await readFile(join(DOC, "es", "installation.md"), "utf8");

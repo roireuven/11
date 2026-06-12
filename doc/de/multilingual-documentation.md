@@ -10,8 +10,8 @@ Same codes as the app interface — see [Localization](localization.md) for the 
 
 | Layer | Behavior |
 |-------|----------|
-| **English (`doc/en/`)** | Full guides — 25+ topics (hotel, restaurant, mini-mart, admin, technical) |
-| **Other locales (`doc/{code}/`)** | Translated home, sidebar, getting started, overview, navigation, and localization pages |
+| **English (`doc/en/`)** | Full guides — 30 topics (hotel, restaurant, mini-mart, admin, technical) |
+| **Other locales (`doc/{code}/`)** | Translated home, sidebar, getting started, overview, navigation, localization, and **What's new v2.3/v2.4** |
 | **Fallback** | Sidebar links to English guides for pages not yet translated in your language |
 | **Docsify** | Language switcher on `/doc/` — choice stored in `hrmm_doc_lang` |
 | **In-app embed** | Documentation iframe uses your current **app UI language** (`?lang=` parameter) |

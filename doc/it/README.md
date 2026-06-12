@@ -21,7 +21,7 @@ Guide utente per configurazione, operazioni quotidiane, amministrazione e riferi
 
 ## Versione
 
-- **Versione app:** v2.1
+- **Versione app:** v2.4
 - **Documentazione generata da:** hotel-restaurant-minimart.firebaseapp.com
 
 ## Flusso di supporto

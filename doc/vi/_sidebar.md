@@ -1,6 +1,7 @@
 * [Home](README.md)
 
 * **Bắt đầu**
+  * [Có gì mới trong v2.3 / v2.4](whats-new-v2.md)
   * [Tổng quan](overview.md)
   * [Bắt đầu](getting-started.md)
   * [Visual guide (screenshots)](visual-guide.md)

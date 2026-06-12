@@ -1,6 +1,7 @@
 * [Home](README.md)
 
 * **Primeros pasos**
+  * [Novedades de v2.3/v2.4](whats-new-v2.md)
   * [Resumen](overview.md)
   * [Primeros pasos](getting-started.md)
   * [Visual guide (screenshots)](visual-guide.md)

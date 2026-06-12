@@ -13,6 +13,14 @@ The app is a **single-page application (SPA)** with:
 
 ![Dashboard — top bar, shifts, and bottom navigation](assets/screenshots/02-dashboard.png)
 
+### Dashboard quick actions (PMS grid)
+
+Below the welcome bar, the dashboard shows a grid of **+** buttons for common add actions (all labels follow your UI language):
+
+Add Room, Add Booking, Add Guest, Add Task, Add Service, Add Invoice, Add Stock, Add Menu, Add Shop Item, Add User.
+
+Housekeeping and Transactions are available from the **sidebar** (not on this grid as of v2.4). See [What's new in v2.3 / v2.4](whats-new-v2.md).
+
 ---
 
 ## Sidebar sections

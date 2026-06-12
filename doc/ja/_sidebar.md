@@ -1,6 +1,7 @@
 * [Home](README.md)
 
 * **はじめに**
+  * [v2.3 / v2.4 の新機能](whats-new-v2.md)
   * [概要](overview.md)
   * [はじめに](getting-started.md)
   * [Visual guide (screenshots)](visual-guide.md)

@@ -1,6 +1,7 @@
 * [Home](README.md)
 
 * **Memulai**
+  * [Apa yang baru di v2.3/v2.4](whats-new-v2.md)
   * [Ikhtisar](overview.md)
   * [Memulai](getting-started.md)
   * [Visual guide (screenshots)](visual-guide.md)

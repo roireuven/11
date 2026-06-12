@@ -1,6 +1,7 @@
 * [Home](README.md)
 
 * **入门**
+  * [v2.3 / v2.4 中的新增功能](whats-new-v2.md)
   * [概述](overview.md)
   * [入门](getting-started.md)
   * [Visual guide (screenshots)](visual-guide.md)

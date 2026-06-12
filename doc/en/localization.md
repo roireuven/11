@@ -71,7 +71,18 @@ Additional sections in locale JSON files:
 | `guestOrder` | Modal titles, order number picker, guest self-order screen, submit buttons |
 | `guestQrReport` | QR Orders Report stats, chart labels, grid columns, CSV export |
 
-All **21 locales** include these keys (built from `doc/i18n/guest-order-app-keys.json` at deploy time).
+### Setup, PMS, and modal keys (v2.3 / v2.4)
+
+| Section | Examples |
+|---------|----------|
+| `setup` | Business name, admin username/email/password on first-time setup |
+| `pms` | Dashboard quick-action button labels (`btnAddRoom`, `btnAddBk`, …) |
+| `modal` | Add/edit forms: invoice, inventory, menu, store, maintenance ticket, user |
+| `guest` / `msg` | Booking **New guest** modal, nationality picker, `addGuestReturn` |
+
+All **21 locales** include these keys (built from `doc/i18n/*.json` patch scripts at deploy time).
+
+Modal forms use **RTL-safe alignment** (`text-align: start`) so English and other LTR languages display correctly when Arabic or Hebrew UI is active.
 
 Embedded fallback blocks in `index.html` cover en, fr, es, he, th, lo; other languages load `/assets/locales/{code}.json`.
 

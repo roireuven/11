@@ -1,6 +1,7 @@
 * [Home](README.md)
 
 * **התחלה**
+  * [מה חדש ב-v2.3 / v2.4](whats-new-v2.md)
   * [סקירה](overview.md)
   * [התחלה](getting-started.md)
   * [Visual guide (screenshots)](visual-guide.md)

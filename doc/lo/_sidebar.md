@@ -1,6 +1,7 @@
 * [Home](README.md)
 
 * **ເລີ່ມຕົ້ນ**
+  * [ມີຫຍັງໃຫມ່ໃນ v2.3 / v2.4](whats-new-v2.md)
   * [ພາບລວມ](overview.md)
   * [ເລີ່ມຕົ້ນ](getting-started.md)
   * [Visual guide (screenshots)](visual-guide.md)

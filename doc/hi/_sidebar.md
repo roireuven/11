@@ -1,6 +1,7 @@
 * [Home](README.md)
 
 * **शुरुआत**
+  * [v2.3/v2.4 में नया क्या है?](whats-new-v2.md)
   * [अवलोकन](overview.md)
   * [शुरुआत](getting-started.md)
   * [Visual guide (screenshots)](visual-guide.md)

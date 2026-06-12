@@ -1,6 +1,7 @@
 * [Home](README.md)
 
 * **เริ่มต้นใช้งาน**
+  * [มีอะไรใหม่ในเวอร์ชัน 2.3 / เวอร์ชัน 2.4](whats-new-v2.md)
   * [ภาพรวม](overview.md)
   * [เริ่มต้นใช้งาน](getting-started.md)
   * [Visual guide (screenshots)](visual-guide.md)

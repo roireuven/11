@@ -21,7 +21,7 @@ Kurulum, günlük operasyonlar, yönetim ve teknik referans için kullanıcı k�
 
 ## Sürüm
 
-- **Uygulama sürümü:** v2.1
+- **Uygulama sürümü:** v2.4
 - **Dokümantasyon oluşturuldu::** hotel-restaurant-minimart.firebaseapp.com
 
 ## Destek iş akışı

@@ -21,7 +21,7 @@ Benutzerhandbücher für Einrichtung, täglichen Betrieb, Administration und tec
 
 ## Version
 
-- **App-Version:** v2.1
+- **App-Version:** v2.4
 - **Dokumentation erstellt aus:** hotel-restaurant-minimart.firebaseapp.com
 
 ## Support-Ablauf

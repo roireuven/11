@@ -21,7 +21,7 @@
 
 ## 版本
 
-- **应用版本:** v2.1
+- **应用版本:** v2.4
 - **文档生成来源:** hotel-restaurant-minimart.firebaseapp.com
 
 ## 支持流程

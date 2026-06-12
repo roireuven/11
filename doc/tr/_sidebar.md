@@ -1,6 +1,7 @@
 * [Home](README.md)
 
 * **Başlarken**
+  * [V2.3 / v2.4'teki yenilikler](whats-new-v2.md)
   * [Genel bakış](overview.md)
   * [Başlarken](getting-started.md)
   * [Visual guide (screenshots)](visual-guide.md)
