@@ -7,13 +7,12 @@ import re
 import sys
 from pathlib import Path
 
-MARKER = "HRMM-MOBILE-DOUBLE-BARS-v1"
+MARKER = "HRMM-MOBILE-DOUBLE-BARS-v2"
 INDEX = Path("public/index.html")
 
 TOPBAR_ANCHOR = '        <button class="btn-logout" id="logoutBtn" onclick="doLogout()" data-i18n="topbar.logout">Logout</button>\n      </div>\n    </div>'
 
-BNAV_ANCHOR = """
-
+BNAV_ANCHOR = """})();
 window.bnav = function(page) {"""
 
 
@@ -35,13 +34,56 @@ def _replace(content: str, old: str, new: str, label: str) -> str:
     return content.replace(old, new, 1)
 
 
+def _strip_old_css(content: str) -> str:
+    return re.sub(
+        r"\n\s*/\* HRMM mobile double bars[\s\S]*?/\* HRMM-MOBILE-DOUBLE-BARS-v\d+ \*/\n",
+        "\n",
+        content,
+        count=1,
+    )
+
+
+def _strip_old_js(content: str) -> str:
+    start = content.find("window.closeTopbarMoreMenu = function()")
+    if start < 0:
+        return content
+    end = content.find("})();\n\nwindow.bnav = function(page)", start)
+    if end < 0:
+        end = content.find("\nwindow.bnav = function(page)", start)
+    if end < 0:
+        return content
+    return content[:start] + content[end + 1 :]
+
+
+def _strip_old_topbar_more(content: str) -> str:
+    if 'id="topbarMoreBtn"' not in content:
+        return content
+    content = re.sub(
+        r'\n\s*<button type="button" class="btn-lang topbar-more-btn"[\s\S]*?'
+        r'<div class="mobile-locale-list" id="mobileLocaleList"></div>\s*</div>',
+        "",
+        content,
+        count=1,
+    )
+    if 'id="topbarMoreBtn"' in content:
+        content = re.sub(
+            r'\n\s*<button type="button" class="btn-lang topbar-more-btn"[\s\S]*?'
+            r'</div>\s*</div>\s*\n\s*<div class="content">',
+            '\n    </div>\n    <div class="content">',
+            content,
+            count=1,
+        )
+    return content
+
+
 def patch(content: str) -> str:
     frag = _load_fragments()
 
-    if MARKER in content and "window.toggleTopbarMoreMenu" in content and "window.toggleBnavMoreMenu" in content:
+    if MARKER in content and "window.openMobileLocalePopup" in content and "window.toggleBnavMoreMenu" in content:
         print(f"Already patched {MARKER} — skipping")
         return content
 
+    content = re.sub(r"<!-- HRMM-MOBILE-DOUBLE-BARS-v\d+ -->", f"<!-- {MARKER} -->", content)
     if MARKER not in content:
         content = content.replace(
             "<title>HotelRestaurantMini-MartManagement</title>",
@@ -49,26 +91,26 @@ def patch(content: str) -> str:
             1,
         )
 
-    if "/* HRMM mobile double bars" not in content:
-        if "  </style>" in content:
-            content = content.replace("  </style>", frag.DOUBLE_BARS_CSS + "  </style>", 1)
-        else:
-            content = content.replace("</style>", frag.DOUBLE_BARS_CSS + "</style>", 1)
+    content = _strip_old_css(content)
+    content = _strip_old_js(content)
+    content = _strip_old_topbar_more(content)
 
-    if 'id="topbarMoreBtn"' not in content:
-        topbar_new = (
-            '        <button class="btn-logout" id="logoutBtn" onclick="doLogout()" data-i18n="topbar.logout">Logout</button>\n'
-            "      </div>\n"
-            + frag.TOPBAR_MORE_HTML.strip()
-            + "\n    </div>"
-        )
-        content = _replace(content, TOPBAR_ANCHOR, topbar_new, "topbar more menu")
+    if "  </style>" in content:
+        content = content.replace("  </style>", frag.DOUBLE_BARS_CSS + "  </style>", 1)
+    else:
+        content = content.replace("</style>", frag.DOUBLE_BARS_CSS + "</style>", 1)
 
-    if "window.toggleTopbarMoreMenu" not in content:
-        bnav_new = "\n" + frag.DOUBLE_BARS_JS.strip() + BNAV_ANCHOR
-        content = _replace(content, BNAV_ANCHOR, bnav_new, "bottom nav more menu JS")
+    topbar_new = (
+        '        <button class="btn-logout" id="logoutBtn" onclick="doLogout()" data-i18n="topbar.logout">Logout</button>\n'
+        "      </div>\n"
+        + frag.TOPBAR_MORE_HTML.strip()
+        + "\n    </div>"
+    )
+    content = _replace(content, TOPBAR_ANCHOR, topbar_new, "topbar more menu")
 
-    content = re.sub(r"<!-- HRMM-MOBILE-DOUBLE-BARS-v\d+ -->", f"<!-- {MARKER} -->", content)
+    bnav_new = frag.DOUBLE_BARS_JS.strip() + "\n\n" + BNAV_ANCHOR
+    content = _replace(content, BNAV_ANCHOR, bnav_new, "bottom nav more menu JS")
+
     return content
 
 
@@ -80,7 +122,7 @@ def main() -> int:
         return 1
     text = index.read_text(encoding="utf-8")
     index.write_text(patch(text), encoding="utf-8")
-    print(f"Patched {index} — double-height mobile bars + overflow menus")
+    print(f"Patched {index} — double-height mobile bars + QR visible + locale popup")
     return 0
 
 
