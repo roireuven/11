@@ -12,8 +12,8 @@ INDEX = Path("public/index.html")
 
 TOPBAR_ANCHOR = '        <button class="btn-logout" id="logoutBtn" onclick="doLogout()" data-i18n="topbar.logout">Logout</button>\n      </div>\n    </div>'
 
-BNAV_ANCHOR = """})();
-window.bnav = function(page) {"""
+BNAV_FN = "window.bnav = function(page) {"
+BNAV_SECTION = "// ===== BOTTOM NAVIGATION BAR ====="
 
 
 def _load_fragments():
@@ -47,12 +47,21 @@ def _strip_old_js(content: str) -> str:
     start = content.find("window.closeTopbarMoreMenu = function()")
     if start < 0:
         return content
-    end = content.find("})();\n\nwindow.bnav = function(page)", start)
-    if end < 0:
-        end = content.find("\nwindow.bnav = function(page)", start)
+    sec = content.rfind(BNAV_SECTION)
+    end = content.find(BNAV_FN, sec if sec >= 0 else start)
     if end < 0:
         return content
-    return content[:start] + content[end + 1 :]
+    return content[:start] + content[end:]
+
+
+def _inject_bnav_js(content: str, js: str) -> str:
+    sec = content.rfind(BNAV_SECTION)
+    idx = content.find(BNAV_FN, sec if sec >= 0 else 0)
+    if idx < 0:
+        raise SystemExit("Could not apply bottom nav more menu JS")
+    if js.strip() in content:
+        return content
+    return content[:idx] + js.strip() + "\n\n" + content[idx:]
 
 
 def _strip_old_topbar_more(content: str) -> str:
@@ -108,8 +117,7 @@ def patch(content: str) -> str:
     )
     content = _replace(content, TOPBAR_ANCHOR, topbar_new, "topbar more menu")
 
-    bnav_new = frag.DOUBLE_BARS_JS.strip() + "\n\n" + BNAV_ANCHOR
-    content = _replace(content, BNAV_ANCHOR, bnav_new, "bottom nav more menu JS")
+    content = _inject_bnav_js(content, frag.DOUBLE_BARS_JS)
 
     return content
 

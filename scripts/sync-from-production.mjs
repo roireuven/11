@@ -6,7 +6,7 @@ import { fileURLToPath } from "node:url";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const PUBLIC = join(ROOT, "public");
-const BASE = "https://hotel-restaurant-minimart.firebaseapp.com";
+const BASE = "https://hotel-restaurant-minimart2-4.web.app";
 
 const LOCALES = [
   "en", "es", "fr", "de", "ja", "ko", "ar", "hi", "th", "vi", "id", "tr", "ru",
