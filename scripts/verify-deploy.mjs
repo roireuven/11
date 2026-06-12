@@ -71,6 +71,12 @@ if (!html.includes("HRMM-SHIFTS-v1") || !html.includes("migrateShiftsClosedByDef
 if (!html.includes("HRMM-MOBILE-MENU-v4") || !html.includes("window.closeLangMenu") || !html.includes('id="langMenuBackdrop"')) {
   fail("app missing mobile phone UI patch (HRMM-MOBILE-MENU-v4)");
 }
+if (!html.includes("HRMM-MOBILE-DOUBLE-BARS-v1") || !html.includes("toggleTopbarMoreMenu")) {
+  fail("app missing mobile double-height bars + overflow menus (HRMM-MOBILE-DOUBLE-BARS-v1)");
+}
+if (!html.includes('id="topbarMoreBtn"') || !html.includes("toggleBnavMoreMenu")) {
+  fail("app missing top/bottom bar overflow dropdown UI");
+}
 if (!html.includes("HRMM-GUEST-QR-ORDER-v12") || !html.includes("function guestOrderQrBuildUrl") || !html.includes('data-bnav="guestorder-rest"')) {
   fail("app missing guest QR order patch (HRMM-GUEST-QR-ORDER-v12)");
 }

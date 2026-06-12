@@ -91,6 +91,11 @@ runPython("scripts/patch-app-shell-modal.py");
 console.log("Fixing small-phone layout (scroll, buttons, safe areas)...");
 runPython("scripts/patch-app-mobile-small-screens.py");
 
+console.log("Mobile double-height bars + overflow menus...");
+runPython("scripts/generate-mobile-double-bars-keys.py");
+runPython("scripts/patch-locale-mobile-double-bars-keys.py");
+runPython("scripts/patch-app-mobile-double-bars.py");
+
 console.log("Login/setup language dropdown (21 locales)...");
 runPython("scripts/patch-app-login-lang-header.py");
 
