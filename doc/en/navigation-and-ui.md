@@ -6,10 +6,10 @@ This guide explains how to move around **HotelRestaurantMini-MartManagement** on
 
 The app is a **single-page application (SPA)** with:
 
-- **Top bar** — page title, **Documentation** button, language picker, dark mode, user menu, logout
+- **Top bar** — page title, **Documentation**, **Settings**, language, dark mode, user menu, logout (on phones: two rows with **⋮ More** overflow)
 - **Sidebar** (☰ Menu) — full module list grouped by section
 - **Main content** — active module (or **embedded documentation** viewer)
-- **Bottom navigation** (mobile) — Dashboard, POS, Bookings, **Restaurant QR**, **Mini-Mart QR**, **Docs**, **Settings**, Menu
+- **Bottom navigation** (mobile) — two rows: Dashboard, POS, Bookings on row 1; **Restaurant QR**, **Mini-Mart QR** on row 2; **Docs** and **Settings** in **⋮ More**; **Menu** toggles sidebar
 
 ![Dashboard — top bar, shifts, and bottom navigation](assets/screenshots/02-dashboard.png)
 
@@ -19,7 +19,7 @@ Below the welcome bar, the dashboard shows a grid of **+** buttons for common ad
 
 Add Room, Add Booking, Add Guest, Add Task, Add Service, Add Invoice, Add Stock, Add Menu, Add Shop Item, Add User.
 
-Housekeeping and Transactions are available from the **sidebar** (not on this grid as of v2.4). See [What's new in v2.3 / v2.4](whats-new-v2.md).
+Housekeeping and Transactions are available from the **sidebar** (not on this grid as of v2.4). See [What's new in v2.4](whats-new-v2.md).
 
 ---
 
@@ -48,7 +48,16 @@ Hidden sections collapse automatically when no visible links remain for your rol
 
 ---
 
-## Mobile bottom nav
+## Mobile bottom nav (v2.4)
+
+On phones the bottom bar is **double-height** (two rows of buttons):
+
+| Row | Buttons |
+|-----|---------|
+| **Row 1** | Dashboard, POS, Bookings |
+| **Row 2** | **Restaurant QR**, **Mini-Mart QR** (always visible) |
+| **⋮ More** | Docs, Settings |
+| **Menu** | Toggle sidebar (☰) |
 
 | Button | Action |
 |--------|--------|
@@ -57,11 +66,24 @@ Hidden sections collapse automatically when no visible links remain for your rol
 | **Bookings** | Open bookings |
 | **Restaurant QR** | Open guest restaurant order QR modal (order # 1–60) |
 | **Mini-Mart QR** | Open guest mini-mart order QR modal |
-| **Docs** | Open in-app documentation (embedded viewer) |
-| **Settings** | Open settings (Admin) or settings page for your role |
+| **⋮ More → Docs** | Open in-app documentation (embedded viewer) |
+| **⋮ More → Settings** | Open settings (Admin) or settings page for your role |
 | **Menu** | Toggle sidebar |
 
-Kitchen role may see a reduced bottom nav (Restaurant + Docs + Menu).
+Kitchen role may see a reduced bottom nav (Restaurant + Docs in More + Menu).
+
+## Mobile top bar (v2.4)
+
+On narrow screens the top bar is also **double-height**:
+
+| Row | Controls |
+|-----|----------|
+| **Row 1** | Back, page title, user avatar |
+| **Row 2** | Documentation, Settings, language, dark mode, logout — or **⋮ More** when space is tight |
+
+### Language picker on phone
+
+Tap **⋮ More** → **Localization** to open a popup list of all **21 languages**. Select a language to switch the UI immediately. This works on phones where the desktop language dropdown is hidden.
 
 QR modals and the **QR Orders Report** open **full screen** on phone and desktop for easier scanning and review.
 

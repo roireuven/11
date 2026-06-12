@@ -12,4 +12,4 @@ Ten przewodnik prowadzi nowy obiekt od zera do codziennej obsługi w minimalnej 
 
 ## Pełny przewodnik
 
-Szczegółowe instrukcje krok po kroku znajdziesz w [English getting started guide](https://hotel-restaurant-minimart.firebaseapp.com/doc/?lang=en#/getting-started).
+Szczegółowe instrukcje krok po kroku znajdziesz w [English getting started guide](https://hotel-restaurant-minimart2-4.web.app/doc/?lang=en#/getting-started).

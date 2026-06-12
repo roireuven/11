@@ -12,4 +12,4 @@
 
 ## 完整指南
 
-詳細逐步說明請參閱 [English getting started guide](https://hotel-restaurant-minimart.firebaseapp.com/doc/?lang=en#/getting-started).
+詳細逐步說明請參閱 [English getting started guide](https://hotel-restaurant-minimart2-4.web.app/doc/?lang=en#/getting-started).

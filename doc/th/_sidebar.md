@@ -16,6 +16,7 @@
   * [บริการและการเรียกเก็บเงิน](services-and-billing.md)
   * [ร้านอาหารและครัว](restaurant-and-kitchen.md)
   * [มินิมาร์ทและ POS](minimart-and-pos.md)
+  * [Vehicle rental](vehicle-rental.md)
   * [Guest QR orders](guest-qr-orders.md)
   * [สินค้าคงคลังและรายการสินค้า](inventory-and-catalog.md)
   * [พอร์ทัลแขก](guest-portal.md)
@@ -37,5 +38,5 @@
   * [อภิธานศัพท์](glossary.md)
 
 * **ลิงก์**
-  * [Live web app ↗](https://hotel-restaurant-minimart.firebaseapp.com/)
+  * [Live web app (v2.4) ↗](https://hotel-restaurant-minimart2-4.web.app/)
   * [APK landing (GitHub) ↗](https://roireuven.github.io/11/)

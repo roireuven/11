@@ -4,7 +4,7 @@
 > 部分頁面僅提供英文版本；連結指向英文原文。
 
 
-> **線上瀏覽（Firebase）:** [https://hotel-restaurant-minimart.firebaseapp.com/doc/?lang=zh-Hant](https://hotel-restaurant-minimart.firebaseapp.com/doc/?lang=zh-Hant)  
+> **線上瀏覽（Firebase）:** [https://hotel-restaurant-minimart2-4.web.app/doc/?lang=zh-Hant](https://hotel-restaurant-minimart2-4.web.app/doc/?lang=zh-Hant)  
 > **應用程式內:** 側邊欄 → **文件**（所有角色）— 內嵌說明  
 > **鏡像（GitHub Pages）:** [GitHub Pages doc](https://roireuven.github.io/11/doc/?lang=zh-Hant)
 
@@ -12,8 +12,8 @@
 
 | 平台 | URL |
 |----------|-----|
-| **Web（Firebase Hosting）** | [hotel-restaurant-minimart.firebaseapp.com](https://hotel-restaurant-minimart.firebaseapp.com/) |
-| **備用網域** | [hotel-restaurant-minimart.web.app](https://hotel-restaurant-minimart.web.app/) |
+| **Web（Firebase Hosting）** | [hotel-restaurant-minimart2-4.web.app](https://hotel-restaurant-minimart2-4.web.app/) |
+| **備用網域** | [hotel-restaurant-minimart2-4.firebaseapp.com](https://hotel-restaurant-minimart2-4.firebaseapp.com/) |
 
 ## 文件索引
 
@@ -21,8 +21,8 @@
 
 ## 版本
 
-- **應用版本:** v2.4
-- **文件產生來源:** hotel-restaurant-minimart.firebaseapp.com
+- **應用版本:** v2.4 (stable production)
+- **文件產生來源:** hotel-restaurant-minimart2-4.web.app
 
 ## 支援流程
 

@@ -38,7 +38,7 @@ See full matrix: [User roles & permissions](user-roles-and-permissions.md).
 
 ## Training workflow
 
-1. Open [live app](https://hotel-restaurant-minimart.firebaseapp.com/)
+1. Open [live app (v2.4)](https://hotel-restaurant-minimart2-4.web.app/)
 2. Select **interface language** on login screen
 3. Tap demo row → enter password **1234** → **Sign in**
 4. Explore role-specific menus

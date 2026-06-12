@@ -53,6 +53,12 @@ Unpaid guest room charges from shop.
 ### POS open bills
 Unpaid walk-in POS tabs (Inventory POS).
 
+### Vehicles
+Fleet items for rental: type (Car/Motorbike), brand, model, plate number, daily/hourly rates, status (Available/Maintenance), sort order.
+
+### Vehicle rentals
+Rental records: vehicle link, guest/booking context, start/end dates, fuel and odometer in/out, deposit, payment status, rental number (`RNT-*`), totals. Completed rentals archive to history; revenue posts to transactions with `source: Vehicle Rental`.
+
 ## Financial
 
 ### POS transactions

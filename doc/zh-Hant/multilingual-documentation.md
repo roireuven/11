@@ -30,7 +30,7 @@ Doc chrome labels (Help, Documentation, Docs, toolbar) use the same locale JSON 
 ## Standalone docs URL
 
 ```
-https://hotel-restaurant-minimart.firebaseapp.com/doc/?lang=es#/README
+https://hotel-restaurant-minimart2-4.web.app/doc/?lang=es#/README
 ```
 
 Change `lang=` to any supported code. Use the language dropdown on the docs site to switch.

@@ -10,4 +10,4 @@ Die App ist eine SPA mit oberer Leiste, Seitenleiste (Menü), Hauptinhalt und mo
 | **Hamburger-Menü (☰)** | Hilfe → Dokumentation | Erster Abschnitt oben in der Seitenleiste |
 | **Untere Leiste** | Docs | Untere Navigation (mobil) |
 
-Für Layoutdetails, Dark Mode und Sprachauswahl siehe die [English navigation guide](https://hotel-restaurant-minimart.firebaseapp.com/doc/?lang=en#/navigation-and-ui).
+Für Layoutdetails, Dark Mode und Sprachauswahl siehe die [English navigation guide](https://hotel-restaurant-minimart2-4.web.app/doc/?lang=en#/navigation-and-ui).

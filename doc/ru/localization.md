@@ -30,4 +30,4 @@ HotelRestaurantMini-MartManagement поддерживает **21 язык инт
 
 Документация доступна на всех языках UI приложения. Ещё не переведённые страницы ссылаются на английский оригинал.
 
-Смена языка, RTL и расположение файлов локализации см. в [English localization guide](https://hotel-restaurant-minimart.firebaseapp.com/doc/?lang=en#/localization).
+Смена языка, RTL и расположение файлов локализации см. в [English localization guide](https://hotel-restaurant-minimart2-4.web.app/doc/?lang=en#/localization).

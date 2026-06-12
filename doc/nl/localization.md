@@ -30,4 +30,4 @@ HotelRestaurantMini-MartManagement ondersteunt **21 interface talen** met option
 
 Documentatie is beschikbaar in alle app UI-talen. Nog niet vertaalde pagina's linken naar de Engelse bron.
 
-Voor taal wijzigen, RTL en locatie van locale-bestanden, zie de [English localization guide](https://hotel-restaurant-minimart.firebaseapp.com/doc/?lang=en#/localization).
+Voor taal wijzigen, RTL en locatie van locale-bestanden, zie de [English localization guide](https://hotel-restaurant-minimart2-4.web.app/doc/?lang=en#/localization).

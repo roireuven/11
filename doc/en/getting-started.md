@@ -4,7 +4,7 @@ This guide gets a new property from zero to daily operations in the minimum numb
 
 ## Step 1 — Open the app
 
-**Web:** [https://hotel-restaurant-minimart.firebaseapp.com/](https://hotel-restaurant-minimart.firebaseapp.com/)
+**Web (v2.4 production):** [https://hotel-restaurant-minimart2-4.web.app/](https://hotel-restaurant-minimart2-4.web.app/)
 
 **Android:** Install the APK from the [Hotel Manager landing page](https://roireuven.github.io/11/).
 

@@ -1,6 +1,6 @@
 # Visual guide (screenshots)
 
-**Real screenshots** from [hotel-restaurant-minimart.firebaseapp.com](https://hotel-restaurant-minimart.firebaseapp.com/) — captured from the live app. Use this guide when training staff; open the same topics **inside the app** via **☰ Menu → Help → Documentation**.
+**Real screenshots** from [hotel-restaurant-minimart2-4.web.app](https://hotel-restaurant-minimart2-4.web.app/) — captured from the live v2.4 app. Use this guide when training staff; open the same topics **inside the app** via **☰ Menu → Help → Documentation**.
 
 ---
 

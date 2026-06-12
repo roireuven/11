@@ -16,6 +16,7 @@
   * [सेवाएँ और बिलिंग](services-and-billing.md)
   * [रेस्तरां और रसोई](restaurant-and-kitchen.md)
   * [मिनी-मार्ट और POS](minimart-and-pos.md)
+  * [Vehicle rental](vehicle-rental.md)
   * [Guest QR orders](guest-qr-orders.md)
   * [इन्वेंटरी और कैटलॉग](inventory-and-catalog.md)
   * [अतिथि पोर्टल](guest-portal.md)
@@ -37,5 +38,5 @@
   * [शब्दकोश](glossary.md)
 
 * **लिंक**
-  * [Live web app ↗](https://hotel-restaurant-minimart.firebaseapp.com/)
+  * [Live web app (v2.4) ↗](https://hotel-restaurant-minimart2-4.web.app/)
   * [APK landing (GitHub) ↗](https://roireuven.github.io/11/)

@@ -30,4 +30,4 @@ HotelRestaurantMini-MartManagement ຮອງຮັບ **21 ພາສາ UI** ພ
 
 ເອກະສານມີໃນທຸກພາສາ UI ຂອງແອັບ. ໜ້າທີ່ຍັງບໍ່ແປຈະເຊື່ອມໄປຍັງແຫຼ່ງພາສາອັງກິດ.
 
-ສຳລັບການປ່ຽນພາສາ, RTL ແລະ ຕຳແໜ່ງໄຟລ໌ locale, ເບິ່ງ [English localization guide](https://hotel-restaurant-minimart.firebaseapp.com/doc/?lang=en#/localization).
+ສຳລັບການປ່ຽນພາສາ, RTL ແລະ ຕຳແໜ່ງໄຟລ໌ locale, ເບິ່ງ [English localization guide](https://hotel-restaurant-minimart2-4.web.app/doc/?lang=en#/localization).

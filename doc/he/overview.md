@@ -9,4 +9,4 @@
 - **מיני-מרקט וקופה** — מכירות חנות, חיובי חדר, פעילות קופה
 - **ניהול** — הגדרות, חשבונות, דוחות, גיבוי, לוקליזציה
 
-לסקירה מלאה עם טבלאות קהל ויכולות, ראו את [English overview](https://hotel-restaurant-minimart.firebaseapp.com/doc/?lang=en#/overview).
+לסקירה מלאה עם טבלאות קהל ויכולות, ראו את [English overview](https://hotel-restaurant-minimart2-4.web.app/doc/?lang=en#/overview).

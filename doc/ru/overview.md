@@ -9,4 +9,4 @@
 - **Минимаркет и POS** — Продажи в магазине, начисления на номер, касса
 - **Администрирование** — Настройки, учётные записи, отчёты, резервное копирование, локализация
 
-Полный обзор с таблицами аудитории и возможностей см. в [English overview](https://hotel-restaurant-minimart.firebaseapp.com/doc/?lang=en#/overview).
+Полный обзор с таблицами аудитории и возможностей см. в [English overview](https://hotel-restaurant-minimart2-4.web.app/doc/?lang=en#/overview).

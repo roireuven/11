@@ -4,7 +4,7 @@
 > 一部のページは英語のみ提供されています。リンクは英語版を指します。
 
 
-> **オンラインで閲覧（Firebase）:** [https://hotel-restaurant-minimart.firebaseapp.com/doc/?lang=ja](https://hotel-restaurant-minimart.firebaseapp.com/doc/?lang=ja)  
+> **オンラインで閲覧（Firebase）:** [https://hotel-restaurant-minimart2-4.web.app/doc/?lang=ja](https://hotel-restaurant-minimart2-4.web.app/doc/?lang=ja)  
 > **アプリ内:** サイドバー → **ドキュメント**（全ロール）— 組み込みヘルプ  
 > **ミラー（GitHub Pages）:** [GitHub Pages doc](https://roireuven.github.io/11/doc/?lang=ja)
 
@@ -12,8 +12,8 @@
 
 | プラットフォーム | URL |
 |----------|-----|
-| **Web（Firebase Hosting）** | [hotel-restaurant-minimart.firebaseapp.com](https://hotel-restaurant-minimart.firebaseapp.com/) |
-| **代替ドメイン** | [hotel-restaurant-minimart.web.app](https://hotel-restaurant-minimart.web.app/) |
+| **Web（Firebase Hosting）** | [hotel-restaurant-minimart2-4.web.app](https://hotel-restaurant-minimart2-4.web.app/) |
+| **代替ドメイン** | [hotel-restaurant-minimart2-4.firebaseapp.com](https://hotel-restaurant-minimart2-4.firebaseapp.com/) |
 
 ## ドキュメント索引
 
@@ -21,8 +21,8 @@
 
 ## バージョン
 
-- **アプリバージョン:** v2.4
-- **ドキュメント生成元:** hotel-restaurant-minimart.firebaseapp.com
+- **アプリバージョン:** v2.4 (stable production)
+- **ドキュメント生成元:** hotel-restaurant-minimart2-4.web.app
 
 ## サポート手順
 

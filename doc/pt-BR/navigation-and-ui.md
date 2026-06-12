@@ -10,4 +10,4 @@ O app é uma SPA com barra superior, barra lateral (menu), área de conteúdo pr
 | **Menu hambúrguer (☰)** | Ajuda → Documentação | Primeira seção no topo da barra lateral |
 | **Barra inferior** | Docs | Navegação inferior (móvel) |
 
-Para detalhes de layout, modo escuro e seletor de idioma, consulte o [English navigation guide](https://hotel-restaurant-minimart.firebaseapp.com/doc/?lang=en#/navigation-and-ui).
+Para detalhes de layout, modo escuro e seletor de idioma, consulte o [English navigation guide](https://hotel-restaurant-minimart2-4.web.app/doc/?lang=en#/navigation-and-ui).

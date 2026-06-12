@@ -322,8 +322,13 @@ try {
 } catch {
   fail("missing public/doc/en/whats-new-v2.md");
 }
-if (!whatsNew.includes("v2.3") || !whatsNew.includes("v2.4")) {
-  fail("whats-new-v2.md missing version references");
+if (!whatsNew.includes("v2.4")) {
+  fail("whats-new-v2.md missing v2.4 reference");
+}
+try {
+  await stat(join(DOC, "en", "vehicle-rental.md"));
+} catch {
+  fail("missing public/doc/en/vehicle-rental.md");
 }
 try {
   const heWhatsNew = readFileSync(join(DOC, "he", "whats-new-v2.md"), "utf8");

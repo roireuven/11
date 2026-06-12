@@ -9,4 +9,4 @@
 - **Minimarket i POS** — Sprzedaż sklepowa, obciążenia pokoju, kasa
 - **Administracja** — Ustawienia, konta, raporty, kopia zapasowa, lokalizacja
 
-Pełny przegląd z tabelami odbiorców i możliwości znajdziesz w [English overview](https://hotel-restaurant-minimart.firebaseapp.com/doc/?lang=en#/overview).
+Pełny przegląd z tabelami odbiorców i możliwości znajdziesz w [English overview](https://hotel-restaurant-minimart2-4.web.app/doc/?lang=en#/overview).

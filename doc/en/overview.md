@@ -8,6 +8,7 @@
 - **Restaurant** — table service, room service, kitchen display
 - **Mini-mart / shop** — retail items sold on-site
 - **POS** — point-of-sale for walk-in and room-charge sales
+- **Vehicle rental** — cars and motorbikes with visual fleet floor and guest/booking links
 
 Staff use a **single app** with **role-based menus** and **in-app documentation** (Help → Documentation) in 21 languages.
 
@@ -82,7 +83,7 @@ The web app is hosted on **Firebase Hosting**. Business data (rooms, bookings, s
 
 ## Production URLs
 
-- Primary: [https://hotel-restaurant-minimart.firebaseapp.com/](https://hotel-restaurant-minimart.firebaseapp.com/)
+- Production (v2.4): [https://hotel-restaurant-minimart2-4.web.app/](https://hotel-restaurant-minimart2-4.web.app/)
 - Mirror: [https://hotel-restaurant-minimart.web.app/](https://hotel-restaurant-minimart.web.app/)
 
 Firebase project ID: `hotel-restaurant-minimart`

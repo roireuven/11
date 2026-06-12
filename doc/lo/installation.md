@@ -20,7 +20,8 @@
 
 | URL | Notes |
 |-----|-------|
-| [hotel-restaurant-minimart.firebaseapp.com](https://hotel-restaurant-minimart.firebaseapp.com/) | Primary Firebase Hosting URL |
+| [hotel-restaurant-minimart2-4.web.app](https://hotel-restaurant-minimart2-4.web.app/) | **Stable v2.4** — production (default deploy) |
+| [hotel-restaurant-minimart.firebaseapp.com](https://hotel-restaurant-minimart.firebaseapp.com/) | Development site (manual deploy only) |
 | [hotel-restaurant-minimart.web.app](https://hotel-restaurant-minimart.web.app/) | Firebase alternate domain |
 
 ## Android application

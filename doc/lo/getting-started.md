@@ -12,4 +12,4 @@
 
 ## ຄູ່ມືຄົບຖ້ວນ
 
-ສຳລັບຄຳແນະນຳລະອຽດທຸກຂັ້ນຕອນ, ເບິ່ງ [English getting started guide](https://hotel-restaurant-minimart.firebaseapp.com/doc/?lang=en#/getting-started).
+ສຳລັບຄຳແນະນຳລະອຽດທຸກຂັ້ນຕອນ, ເບິ່ງ [English getting started guide](https://hotel-restaurant-minimart2-4.web.app/doc/?lang=en#/getting-started).

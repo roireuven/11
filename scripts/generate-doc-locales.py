@@ -12,6 +12,10 @@ DOC = ROOT / "doc"
 I18N = DOC / "i18n"
 EN = DOC / "en"
 
+# Stable v2.4 production (default deploy target)
+APP_BASE = "https://hotel-restaurant-minimart2-4.web.app"
+DOC_BASE = APP_BASE + "/doc"
+
 # Sidebar page slugs (English source files in doc/en/)
 PAGES = {
     "sec_getting_started": [
@@ -30,6 +34,7 @@ PAGES = {
         ("services-and-billing.md", "page_services"),
         ("restaurant-and-kitchen.md", "page_restaurant"),
         ("minimart-and-pos.md", "page_minimart"),
+        ("vehicle-rental.md", "page_vehicle_rental"),
         ("guest-qr-orders.md", "page_guest_qr_orders"),
         ("inventory-and-catalog.md", "page_inventory"),
         ("guest-portal.md", "page_guest_portal"),
@@ -75,7 +80,7 @@ def msg(messages: dict, locale: str, key: str) -> str:
 
 def en_doc_href(slug: str) -> str:
     base = slug.replace(".md", "")
-    return f"https://hotel-restaurant-minimart.firebaseapp.com/doc/?lang=en#/{base}"
+    return f"{DOC_BASE}/?lang=en#/{base}"
 
 
 def all_page_slugs() -> list[str]:
@@ -94,7 +99,7 @@ def write_readme(locale: str, messages: dict, dest: Path) -> None:
 
 {m('home_subtitle')}{en_note}
 
-> **{m('browse_online')}:** [https://hotel-restaurant-minimart.firebaseapp.com/doc/?lang={locale}](https://hotel-restaurant-minimart.firebaseapp.com/doc/?lang={locale})  
+> **{m('browse_online')}:** [{DOC_BASE}/?lang={locale}]({DOC_BASE}/?lang={locale})  
 > **{m('inside_app')}:** {m('inside_app_detail')}  
 > **{m('mirror')}:** [GitHub Pages doc](https://roireuven.github.io/11/doc/?lang={locale})
 
@@ -102,8 +107,8 @@ def write_readme(locale: str, messages: dict, dest: Path) -> None:
 
 | {m('table_platform')} | URL |
 |----------|-----|
-| **{m('web_firebase')}** | [hotel-restaurant-minimart.firebaseapp.com](https://hotel-restaurant-minimart.firebaseapp.com/) |
-| **{m('alt_domain')}** | [hotel-restaurant-minimart.web.app](https://hotel-restaurant-minimart.web.app/) |
+| **{m('web_firebase')}** | [{APP_BASE.replace('https://', '')}]({APP_BASE}/) |
+| **{m('alt_domain')}** | [hotel-restaurant-minimart2-4.firebaseapp.com](https://hotel-restaurant-minimart2-4.firebaseapp.com/) |
 
 ## {m('doc_index_heading')}
 
@@ -111,8 +116,8 @@ def write_readme(locale: str, messages: dict, dest: Path) -> None:
 
 ## {m('version_heading')}
 
-- **{m('app_version')}:** v2.4
-- **{m('doc_source')}:** hotel-restaurant-minimart.firebaseapp.com
+- **{m('app_version')}:** v2.4 (stable production)
+- **{m('doc_source')}:** {APP_BASE.replace('https://', '')}
 
 ## {m('support_heading')}
 
@@ -132,7 +137,7 @@ def write_sidebar(locale: str, messages: dict, dest: Path) -> None:
             lines.append(f"  * [{title}]({slug})")
         lines.append("")
     lines.append(f"* **{msg(messages, locale, 'sec_links')}**")
-    lines.append("  * [Live web app ↗](https://hotel-restaurant-minimart.firebaseapp.com/)")
+    lines.append(f"  * [Live web app (v2.4) ↗]({APP_BASE}/)")
     lines.append("  * [APK landing (GitHub) ↗](https://roireuven.github.io/11/)")
     dest.write_text("\n".join(lines) + "\n", encoding="utf-8")
 

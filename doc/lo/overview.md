@@ -9,4 +9,4 @@
 - **ຮ້ານຂາຍເຄື່ອງ ແລະ POS** — ການຂາຍຮ້ານ, ຄ່າໃຊ້ຈ່າຍຫ້ອງ, ການທຳງານເຄື່ອງຄິດເງິນ
 - **ການບໍລິຫານ** — ການຕັ້ງຄ່າ, ບັນຊີ, ລາຍງານ, ສຳຮອງ, ການແປພາສາ
 
-ສຳລັບພາບລວມຄົບຖ້ວນພ້ອມຕາຕະລາງຜູ້ໃຊ້ ແລະ ຄວາມສາມາດ, ເບິ່ງ [English overview](https://hotel-restaurant-minimart.firebaseapp.com/doc/?lang=en#/overview).
+ສຳລັບພາບລວມຄົບຖ້ວນພ້ອມຕາຕະລາງຜູ້ໃຊ້ ແລະ ຄວາມສາມາດ, ເບິ່ງ [English overview](https://hotel-restaurant-minimart2-4.web.app/doc/?lang=en#/overview).

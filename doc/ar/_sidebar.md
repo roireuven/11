@@ -16,6 +16,7 @@
   * [الخدمات والفوترة](services-and-billing.md)
   * [المطعم والمطبخ](restaurant-and-kitchen.md)
   * [ميني مارت ونقطة البيع](minimart-and-pos.md)
+  * [Vehicle rental](vehicle-rental.md)
   * [Guest QR orders](guest-qr-orders.md)
   * [المخزون والفهرس](inventory-and-catalog.md)
   * [بوابة الضيوف](guest-portal.md)
@@ -37,5 +38,5 @@
   * [المصطلحات](glossary.md)
 
 * **روابط**
-  * [Live web app ↗](https://hotel-restaurant-minimart.firebaseapp.com/)
+  * [Live web app (v2.4) ↗](https://hotel-restaurant-minimart2-4.web.app/)
   * [APK landing (GitHub) ↗](https://roireuven.github.io/11/)

@@ -4,7 +4,7 @@ Volledige documentatie voor **HotelRestaurantMini-MartManagement** (v2.0), een a
 > Sommige pagina's zijn alleen in het Engels beschikbaar; links verwijzen naar de Engelse versie.
 
 
-> **Online bekijken (Firebase):** [https://hotel-restaurant-minimart.firebaseapp.com/doc/?lang=nl](https://hotel-restaurant-minimart.firebaseapp.com/doc/?lang=nl)  
+> **Online bekijken (Firebase):** [https://hotel-restaurant-minimart2-4.web.app/doc/?lang=nl](https://hotel-restaurant-minimart2-4.web.app/doc/?lang=nl)  
 > **In de app:** Zijbalk → **Documentatie** (alle rollen) — ingebedde help  
 > **Spiegel (GitHub Pages):** [GitHub Pages doc](https://roireuven.github.io/11/doc/?lang=nl)
 
@@ -12,8 +12,8 @@ Volledige documentatie voor **HotelRestaurantMini-MartManagement** (v2.0), een a
 
 | Platform | URL |
 |----------|-----|
-| **Web (Firebase Hosting)** | [hotel-restaurant-minimart.firebaseapp.com](https://hotel-restaurant-minimart.firebaseapp.com/) |
-| **Alternatief domein** | [hotel-restaurant-minimart.web.app](https://hotel-restaurant-minimart.web.app/) |
+| **Web (Firebase Hosting)** | [hotel-restaurant-minimart2-4.web.app](https://hotel-restaurant-minimart2-4.web.app/) |
+| **Alternatief domein** | [hotel-restaurant-minimart2-4.firebaseapp.com](https://hotel-restaurant-minimart2-4.firebaseapp.com/) |
 
 ## Documentatie-index
 
@@ -21,8 +21,8 @@ Gebruikersgidsen voor setup, dagelijkse operaties, administratie en technische r
 
 ## Versie
 
-- **App-versie:** v2.4
-- **Documentatie gegenereerd vanuit:** hotel-restaurant-minimart.firebaseapp.com
+- **App-versie:** v2.4 (stable production)
+- **Documentatie gegenereerd vanuit:** hotel-restaurant-minimart2-4.web.app
 
 ## Supportworkflow
 

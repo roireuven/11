@@ -9,4 +9,4 @@
 - **미니마트 및 POS** — 매장 판매, 객실 청구, POS 운영
 - **관리** — 설정, 계정, 보고서, 백업, 현지화
 
-대상 및 기능 표가 포함된 전체 개요는 [English overview](https://hotel-restaurant-minimart.firebaseapp.com/doc/?lang=en#/overview).
+대상 및 기능 표가 포함된 전체 개요는 [English overview](https://hotel-restaurant-minimart2-4.web.app/doc/?lang=en#/overview).

@@ -12,4 +12,4 @@ Este guia leva uma nova propriedade do zero às operações diárias com o míni
 
 ## Guia completo
 
-Para instruções detalhadas passo a passo, consulte o [English getting started guide](https://hotel-restaurant-minimart.firebaseapp.com/doc/?lang=en#/getting-started).
+Para instruções detalhadas passo a passo, consulte o [English getting started guide](https://hotel-restaurant-minimart2-4.web.app/doc/?lang=en#/getting-started).

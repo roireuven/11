@@ -30,4 +30,4 @@ HotelRestaurantMini-MartManagement รองรับ **21 ภาษาอิน
 
 เอกสารมีในทุกภาษา UI ของแอป หน้าที่ยังไม่แปลจะลิงก์ไปยังต้นฉบับภาษาอังกฤษ
 
-สำหรับการเปลี่ยนภาษา RTL และตำแหน่งไฟล์โลเคล ดู [English localization guide](https://hotel-restaurant-minimart.firebaseapp.com/doc/?lang=en#/localization).
+สำหรับการเปลี่ยนภาษา RTL และตำแหน่งไฟล์โลเคล ดู [English localization guide](https://hotel-restaurant-minimart2-4.web.app/doc/?lang=en#/localization).

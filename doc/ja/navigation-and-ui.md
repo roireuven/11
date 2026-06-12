@@ -10,4 +10,4 @@
 | **ハンバーガーメニュー (☰)** | ヘルプ → ドキュメント | サイドバー上部の最初のセクション |
 | **下部バー** | Docs | 下部ナビゲーション（モバイル） |
 
-レイアウト詳細、ダークモード、言語選択については、 [English navigation guide](https://hotel-restaurant-minimart.firebaseapp.com/doc/?lang=en#/navigation-and-ui).
+レイアウト詳細、ダークモード、言語選択については、 [English navigation guide](https://hotel-restaurant-minimart2-4.web.app/doc/?lang=en#/navigation-and-ui).

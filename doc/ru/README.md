@@ -4,7 +4,7 @@
 > Некоторые страницы доступны только на английском; ссылки ведут на английскую версию.
 
 
-> **Просмотр онлайн (Firebase):** [https://hotel-restaurant-minimart.firebaseapp.com/doc/?lang=ru](https://hotel-restaurant-minimart.firebaseapp.com/doc/?lang=ru)  
+> **Просмотр онлайн (Firebase):** [https://hotel-restaurant-minimart2-4.web.app/doc/?lang=ru](https://hotel-restaurant-minimart2-4.web.app/doc/?lang=ru)  
 > **В приложении:** Боковая панель → **Документация** (все роли) — встроенная справка  
 > **Зеркало (GitHub Pages):** [GitHub Pages doc](https://roireuven.github.io/11/doc/?lang=ru)
 
@@ -12,8 +12,8 @@
 
 | Платформа | URL |
 |----------|-----|
-| **Веб (Firebase Hosting)** | [hotel-restaurant-minimart.firebaseapp.com](https://hotel-restaurant-minimart.firebaseapp.com/) |
-| **Альтернативный домен** | [hotel-restaurant-minimart.web.app](https://hotel-restaurant-minimart.web.app/) |
+| **Веб (Firebase Hosting)** | [hotel-restaurant-minimart2-4.web.app](https://hotel-restaurant-minimart2-4.web.app/) |
+| **Альтернативный домен** | [hotel-restaurant-minimart2-4.firebaseapp.com](https://hotel-restaurant-minimart2-4.firebaseapp.com/) |
 
 ## Указатель документации
 
@@ -21,8 +21,8 @@
 
 ## Версия
 
-- **Версия приложения:** v2.4
-- **Документация создана из:** hotel-restaurant-minimart.firebaseapp.com
+- **Версия приложения:** v2.4 (stable production)
+- **Документация создана из:** hotel-restaurant-minimart2-4.web.app
 
 ## Порядок поддержки
 

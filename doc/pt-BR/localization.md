@@ -30,4 +30,4 @@ HotelRestaurantMini-MartManagement suporta **21 idiomas de interface** com layou
 
 A documentação está disponível em todos os idiomas da interface. Páginas ainda não traduzidas linkam para a fonte em inglês.
 
-Para alterar idioma, RTL e localização dos arquivos de locale, consulte o [English localization guide](https://hotel-restaurant-minimart.firebaseapp.com/doc/?lang=en#/localization).
+Para alterar idioma, RTL e localização dos arquivos de locale, consulte o [English localization guide](https://hotel-restaurant-minimart2-4.web.app/doc/?lang=en#/localization).

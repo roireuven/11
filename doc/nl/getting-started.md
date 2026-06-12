@@ -12,4 +12,4 @@ Deze gids brengt een nieuw pand met minimale stappen van nul naar dagelijkse ope
 
 ## Volledige gids
 
-Voor gedetailleerde stap-voor-stap instructies, zie de [English getting started guide](https://hotel-restaurant-minimart.firebaseapp.com/doc/?lang=en#/getting-started).
+Voor gedetailleerde stap-voor-stap instructies, zie de [English getting started guide](https://hotel-restaurant-minimart2-4.web.app/doc/?lang=en#/getting-started).

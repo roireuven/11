@@ -16,6 +16,7 @@
   * [Услуги и выставление счетов](services-and-billing.md)
   * [Ресторан и кухня](restaurant-and-kitchen.md)
   * [Минимаркет и POS](minimart-and-pos.md)
+  * [Vehicle rental](vehicle-rental.md)
   * [Guest QR orders](guest-qr-orders.md)
   * [Склад и каталог](inventory-and-catalog.md)
   * [Портал гостей](guest-portal.md)
@@ -37,5 +38,5 @@
   * [Глоссарий](glossary.md)
 
 * **Ссылки**
-  * [Live web app ↗](https://hotel-restaurant-minimart.firebaseapp.com/)
+  * [Live web app (v2.4) ↗](https://hotel-restaurant-minimart2-4.web.app/)
   * [APK landing (GitHub) ↗](https://roireuven.github.io/11/)

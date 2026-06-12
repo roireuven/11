@@ -9,4 +9,4 @@
 - **ميني مارت ونقطة البيع** — مبيعات المتجر، رسوم الغرف، عمليات الصندوق
 - **الإدارة** — الإعدادات، الحسابات، التقارير، النسخ الاحتياطي، التوطين
 
-للحصول على نظرة عامة كاملة مع جداول الجمهور والقدرات، راجع [English overview](https://hotel-restaurant-minimart.firebaseapp.com/doc/?lang=en#/overview).
+للحصول على نظرة عامة كاملة مع جداول الجمهور والقدرات، راجع [English overview](https://hotel-restaurant-minimart2-4.web.app/doc/?lang=en#/overview).

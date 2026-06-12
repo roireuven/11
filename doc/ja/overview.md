@@ -9,4 +9,4 @@
 - **ミニマートと POS** — 店舗販売、客室請求、レジ操作
 - **管理** — 設定、アカウント、レポート、バックアップ、ローカライズ
 
-対象者と機能表を含む完全な概要については、 [English overview](https://hotel-restaurant-minimart.firebaseapp.com/doc/?lang=en#/overview).
+対象者と機能表を含む完全な概要については、 [English overview](https://hotel-restaurant-minimart2-4.web.app/doc/?lang=en#/overview).

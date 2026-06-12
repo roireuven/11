@@ -1,14 +1,48 @@
-# What's new in v2.3 / v2.4
+# What's new in v2.4
 
-This guide summarizes major features added in **stable v2.3** and **stable v2.4** of HotelRestaurantMini-MartManagement.
+**v2.4** is the **current production release** of HotelRestaurantMini-MartManagement. Routine deploys (`npm run deploy`) publish **only** to the v2.4 site.
 
-**Live stable sites:**
+| Site | URL | Role |
+|------|-----|------|
+| **v2.4 (production)** | [hotel-restaurant-minimart2-4.web.app](https://hotel-restaurant-minimart2-4.web.app/) | **Current** — staff-facing stable |
+| v2.3 (legacy) | [hotel-restaurant-minimart2-3.web.app](https://hotel-restaurant-minimart2-3.web.app/) | Frozen snapshot — manual deploy only |
+| Development | [hotel-restaurant-minimart.web.app](https://hotel-restaurant-minimart.web.app/) | Internal testing — manual deploy only |
 
-| Version | URL |
-|---------|-----|
-| **v2.3** | [hotel-restaurant-minimart2-3.web.app](https://hotel-restaurant-minimart2-3.web.app/) |
-| **v2.4** | [hotel-restaurant-minimart2-4.web.app](https://hotel-restaurant-minimart2-4.web.app/) |
-| **Development** | [hotel-restaurant-minimart.web.app](https://hotel-restaurant-minimart.web.app/) |
+---
+
+## Vehicle rental (cars & motorbikes)
+
+New **Vehicle Rental** module for properties that rent cars and motorbikes to guests:
+
+- Visual **fleet floor** with color-coded tiles (available, rented, pending, maintenance)
+- **Checkout** and **return** flows with fuel/odometer tracking
+- Link rentals to **guests** and **bookings**
+- Revenue posts to **transactions** and **dashboard** (`source: Vehicle Rental`)
+- Active rentals grid, history, and CSV export
+- Available to **Admin**, **Manager**, and **Reception**
+
+See [Vehicle rental](vehicle-rental.md).
+
+---
+
+## Mobile UI — double-height bars
+
+On small phones the top and bottom bars are **taller** (two rows) for easier tapping:
+
+| Bar | Row 1 | Row 2 |
+|-----|-------|-------|
+| **Top** | Back, title, user | Documentation, Settings, language, dark mode, logout — overflow in **⋮ More** |
+| **Bottom** | Dashboard, POS, Bookings | **Restaurant QR**, **Mini-Mart QR** always visible; Docs + Settings in **⋮ More** |
+
+### Language on phone
+
+Tap **⋮ More** (top bar) → **Localization** opens a **language picker popup** with all 21 locales. This replaces the desktop dropdown that was hard to use on narrow screens.
+
+### QR always visible
+
+**Restaurant QR** and **Mini-Mart QR** stay on the bottom bar (not hidden in More) so staff can open guest order QR codes quickly.
+
+See [Navigation & UI](navigation-and-ui.md).
 
 ---
 
@@ -21,7 +55,8 @@ The web app UI is available in **21 locales**: English, Spanish, French, German,
 | Screen | How |
 |--------|-----|
 | **Login / setup** | Language dropdown in the header (before sign-in) |
-| **After login** | Top bar locale selector or **Localization** in the menu |
+| **After login (desktop)** | Top bar locale selector |
+| **After login (phone)** | Top bar **⋮ More → Localization** popup |
 | **Settings** | App language section |
 
 Preference is saved in browser storage (`hotel_mgr_uiLocale`).
@@ -93,11 +128,12 @@ The nationality picker (search list) is also translated.
 
 ---
 
-## Documentation
+## Documentation (v2.4)
 
-- This **What's new** guide is available in all 21 documentation languages.
-- Open docs from the app: **top bar → Documentation**, **☰ Help → Documentation**, or **bottom nav → Docs**.
-- Standalone URL: `/doc/?lang={code}#/whats-new-v2`
+- User guides updated for **v2.4** production URLs and new modules.
+- Available in all **21 documentation languages** at `/doc/?lang={code}`.
+- Open from the app: **top bar → Documentation**, **☰ Help → Documentation**, or **bottom nav → ⋮ More → Docs**.
+- Standalone URL: [https://hotel-restaurant-minimart2-4.web.app/doc/?lang=en#/whats-new-v2](https://hotel-restaurant-minimart2-4.web.app/doc/?lang=en#/whats-new-v2)
 
 ---
 
@@ -106,15 +142,17 @@ The nationality picker (search list) is also translated.
 | Task | Where |
 |------|--------|
 | Train staff on language switch | [Localization](localization.md) |
+| Configure vehicle fleet | [Vehicle rental](vehicle-rental.md) |
 | Configure property after upgrade | [Settings & configuration](settings-and-configuration.md) |
-| Deploy updates | [Deployment](deployment.md) — `npm run deploy:stable` publishes to v2.3 and v2.4 |
+| Deploy updates | [Deployment](deployment.md) — `npm run deploy` publishes to **v2.4 only** |
 
 ---
 
 ## Related guides
 
+- [Vehicle rental](vehicle-rental.md) — fleet floor, checkout, return
 - [Localization](localization.md) — languages, RTL, locale files
 - [First-time setup](first-time-setup.md) — initial configuration
 - [Navigation & UI](navigation-and-ui.md) — dashboard, sidebar, mobile nav
 - [Hotel operations](hotel-operations.md) — bookings and guests
-- [Deployment](deployment.md) — development vs stable v2.3 / v2.4
+- [Deployment](deployment.md) — v2.4 production deploy

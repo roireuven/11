@@ -4,7 +4,7 @@
 > कुछ पृष्ठ केवल अंग्रेज़ी में उपलब्ध हैं; लिंक अंग्रेज़ी संस्करण की ओर जाते हैं।
 
 
-> **ऑनलाइन देखें (Firebase):** [https://hotel-restaurant-minimart.firebaseapp.com/doc/?lang=hi](https://hotel-restaurant-minimart.firebaseapp.com/doc/?lang=hi)  
+> **ऑनलाइन देखें (Firebase):** [https://hotel-restaurant-minimart2-4.web.app/doc/?lang=hi](https://hotel-restaurant-minimart2-4.web.app/doc/?lang=hi)  
 > **ऐप के अंदर:** साइडबार → **दस्तावेज़** (सभी भूमिकाएँ) — एम्बेडेड सहायता  
 > **मिरर (GitHub Pages):** [GitHub Pages doc](https://roireuven.github.io/11/doc/?lang=hi)
 
@@ -12,8 +12,8 @@
 
 | प्लेटफ़ॉर्म | URL |
 |----------|-----|
-| **वेब (Firebase Hosting)** | [hotel-restaurant-minimart.firebaseapp.com](https://hotel-restaurant-minimart.firebaseapp.com/) |
-| **वैकल्पिक डोमेन** | [hotel-restaurant-minimart.web.app](https://hotel-restaurant-minimart.web.app/) |
+| **वेब (Firebase Hosting)** | [hotel-restaurant-minimart2-4.web.app](https://hotel-restaurant-minimart2-4.web.app/) |
+| **वैकल्पिक डोमेन** | [hotel-restaurant-minimart2-4.firebaseapp.com](https://hotel-restaurant-minimart2-4.firebaseapp.com/) |
 
 ## दस्तावेज़ सूचकांक
 
@@ -21,8 +21,8 @@
 
 ## संस्करण
 
-- **ऐप संस्करण:** v2.4
-- **दस्तावेज़ निर्मितจาก:** hotel-restaurant-minimart.firebaseapp.com
+- **ऐप संस्करण:** v2.4 (stable production)
+- **दस्तावेज़ निर्मितจาก:** hotel-restaurant-minimart2-4.web.app
 
 ## सहायता कार्यप्रवाह
 

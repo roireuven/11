@@ -16,6 +16,7 @@
   * [Servizi e fatturazione](services-and-billing.md)
   * [Ristorante e cucina](restaurant-and-kitchen.md)
   * [Minimarket e POS](minimart-and-pos.md)
+  * [Vehicle rental](vehicle-rental.md)
   * [Guest QR orders](guest-qr-orders.md)
   * [Inventario e catalogo](inventory-and-catalog.md)
   * [Portale ospiti](guest-portal.md)
@@ -37,5 +38,5 @@
   * [Glossario](glossary.md)
 
 * **Link**
-  * [Live web app ↗](https://hotel-restaurant-minimart.firebaseapp.com/)
+  * [Live web app (v2.4) ↗](https://hotel-restaurant-minimart2-4.web.app/)
   * [APK landing (GitHub) ↗](https://roireuven.github.io/11/)

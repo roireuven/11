@@ -31,6 +31,7 @@ Pages listed below are **visible** for each role. All others are hidden.
 | Invoices | ✓ | ✓ | ✓ | — | — | — |
 | Inventory | ✓ | ✓ | ✓ | — | ✓ | — |
 | Mini-Mart | ✓ | ✓ | ✓ | — | — | — |
+| Vehicle Rental | ✓ | ✓ | ✓ | — | — | — |
 | Restaurant | ✓ | ✓ | ✓ | — | ✓ | ✓* |
 | Menu Items | ✓ | ✓ | ✓ | — | ✓ | — |
 | Store Items | ✓ | ✓ | — | — | — | — |

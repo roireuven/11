@@ -30,4 +30,4 @@ HotelRestaurantMini-MartManagement unterstützt **21 Oberflächensprachen** mit 
 
 Die Dokumentation ist in allen App-Oberflächensprachen verfügbar. Noch nicht übersetzte Seiten verlinken auf die englische Quelle.
 
-Für Sprachwechsel, RTL und Speicherorte der Sprachdateien siehe die [English localization guide](https://hotel-restaurant-minimart.firebaseapp.com/doc/?lang=en#/localization).
+Für Sprachwechsel, RTL und Speicherorte der Sprachdateien siehe die [English localization guide](https://hotel-restaurant-minimart2-4.web.app/doc/?lang=en#/localization).

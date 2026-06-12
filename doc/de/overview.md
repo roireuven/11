@@ -9,4 +9,4 @@
 - **Minimarkt & Kasse** — Ladenverkäufe, Zimmerbelastungen, Kassenbetrieb
 - **Administration** — Einstellungen, Konten, Berichte, Sicherung, Lokalisierung
 
-Für den vollständigen Überblick mit Zielgruppen- und Funktionstabellen siehe die [English overview](https://hotel-restaurant-minimart.firebaseapp.com/doc/?lang=en#/overview).
+Für den vollständigen Überblick mit Zielgruppen- und Funktionstabellen siehe die [English overview](https://hotel-restaurant-minimart2-4.web.app/doc/?lang=en#/overview).

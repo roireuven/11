@@ -38,7 +38,7 @@ The deploy bundle (`public/`) contains:
 | Path | Source |
 |------|--------|
 | `/` (app) | Synced from live Firebase, then patched for i18n and features |
-| `/doc/` | Docsify site from repo `doc/` folder (30 guides, 21 locales) |
+| `/doc/` | Docsify site from repo `doc/` folder (31 guides, 21 locales) |
 
 The build patches `public/index.html` to **embed documentation inside the app**:
 
@@ -132,4 +132,4 @@ Linked from the GitHub Pages landing page.
 
 - [Development](development.md)
 - [Architecture](architecture.md)
-- [What's new in v2.3 / v2.4](whats-new-v2.md)
+- [What's new in v2.4](whats-new-v2.md)

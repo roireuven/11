@@ -16,6 +16,7 @@
   * [服务与账单](services-and-billing.md)
   * [餐厅与厨房](restaurant-and-kitchen.md)
   * [迷你超市与 POS](minimart-and-pos.md)
+  * [Vehicle rental](vehicle-rental.md)
   * [Guest QR orders](guest-qr-orders.md)
   * [库存与目录](inventory-and-catalog.md)
   * [宾客门户](guest-portal.md)
@@ -37,5 +38,5 @@
   * [术语表](glossary.md)
 
 * **链接**
-  * [Live web app ↗](https://hotel-restaurant-minimart.firebaseapp.com/)
+  * [Live web app (v2.4) ↗](https://hotel-restaurant-minimart2-4.web.app/)
   * [APK landing (GitHub) ↗](https://roireuven.github.io/11/)

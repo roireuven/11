@@ -12,4 +12,4 @@ Panduan ini membawa properti baru dari nol ke operasi harian dengan langkah mini
 
 ## Panduan lengkap
 
-Untuk instruksi langkah demi langkah yang detail, lihat [English getting started guide](https://hotel-restaurant-minimart.firebaseapp.com/doc/?lang=en#/getting-started).
+Untuk instruksi langkah demi langkah yang detail, lihat [English getting started guide](https://hotel-restaurant-minimart2-4.web.app/doc/?lang=en#/getting-started).

@@ -12,4 +12,4 @@
 
 ## Полное руководство
 
-Подробные пошаговые инструкции см. в [English getting started guide](https://hotel-restaurant-minimart.firebaseapp.com/doc/?lang=en#/getting-started).
+Подробные пошаговые инструкции см. в [English getting started guide](https://hotel-restaurant-minimart2-4.web.app/doc/?lang=en#/getting-started).
