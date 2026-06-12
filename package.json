@@ -9,10 +9,11 @@
     "verify": "node scripts/verify-deploy.mjs",
     "serve": "npm run build && npx firebase emulators:start --only hosting",
     "capture:screenshots": "node scripts/capture-doc-screenshots.mjs",
-    "deploy": "npm run build && npm run verify && npx firebase deploy --only hosting:production,firestore --project hotel-restaurant-minimart",
+    "deploy": "npm run build && npm run verify && npx firebase deploy --only hosting:stable24 --project hotel-restaurant-minimart",
+    "deploy:2.4": "npm run deploy",
     "deploy:2.3": "npm run build && npm run verify && npx firebase deploy --only hosting:stable23 --project hotel-restaurant-minimart",
-    "deploy:2.4": "npm run build && npm run verify && npx firebase deploy --only hosting:stable24 --project hotel-restaurant-minimart",
-    "deploy:stable": "npm run build && npm run verify && npx firebase deploy --only hosting:stable23,hosting:stable24 --project hotel-restaurant-minimart",
+    "deploy:stable": "npm run deploy",
+    "deploy:dev": "npm run build && npm run verify && npx firebase deploy --only hosting:production,firestore --project hotel-restaurant-minimart",
     "deploy:all": "npm run build && npm run verify && npx firebase deploy --only hosting,firestore --project hotel-restaurant-minimart"
   },
   "devDependencies": {

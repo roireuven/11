@@ -6,12 +6,12 @@
 
 | URL | Role |
 |-----|------|
-| [hotel-restaurant-minimart.web.app](https://hotel-restaurant-minimart.web.app/) | **Development** — latest build from `npm run deploy` |
-| [hotel-restaurant-minimart.firebaseapp.com](https://hotel-restaurant-minimart.firebaseapp.com/) | Development (alternate domain) |
-| [hotel-restaurant-minimart2-3.web.app](https://hotel-restaurant-minimart2-3.web.app/) | **Stable v2.3** — long-term snapshot |
-| [hotel-restaurant-minimart2-4.web.app](https://hotel-restaurant-minimart2-4.web.app/) | **Stable v2.4** — current recommended stable release |
-| [hotel-restaurant-minimart2-3.firebaseapp.com](https://hotel-restaurant-minimart2-3.firebaseapp.com/) | Stable v2.3 (alternate domain) |
+| [hotel-restaurant-minimart2-4.web.app](https://hotel-restaurant-minimart2-4.web.app/) | **Stable v2.4** — **production** (default deploy target) |
 | [hotel-restaurant-minimart2-4.firebaseapp.com](https://hotel-restaurant-minimart2-4.firebaseapp.com/) | Stable v2.4 (alternate domain) |
+| [hotel-restaurant-minimart2-3.web.app](https://hotel-restaurant-minimart2-3.web.app/) | **Stable v2.3** — legacy snapshot (not updated by default) |
+| [hotel-restaurant-minimart2-3.firebaseapp.com](https://hotel-restaurant-minimart2-3.firebaseapp.com/) | Stable v2.3 (alternate domain) |
+| [hotel-restaurant-minimart.web.app](https://hotel-restaurant-minimart.web.app/) | **Development** — manual deploy only (`npm run deploy:dev`) |
+| [hotel-restaurant-minimart.firebaseapp.com](https://hotel-restaurant-minimart.firebaseapp.com/) | Development (alternate domain) |
 
 Documentation is embedded in the app on every site (`/doc/`).
 
@@ -21,11 +21,13 @@ Documentation is embedded in the app on every site (`/doc/`).
 
 | Command | Deploys to | When to use |
 |---------|------------|-------------|
-| `npm run deploy` | Development site + Firestore rules | Day-to-day development |
-| `npm run deploy:2.3` | Stable v2.3 site only | Pin a build on the v2.3 URL |
-| `npm run deploy:2.4` | Stable v2.4 site only | Pin a build on the v2.4 URL |
-| `npm run deploy:stable` | **Both** stable v2.3 and v2.4 | **Recommended** after testing — staff on either stable URL get the update |
-| `npm run deploy:all` | Development + both stable sites + Firestore | Refresh every hosting target at once |
+| `npm run deploy` | **Stable v2.4 only** | **Default** — publish staff-facing production |
+| `npm run deploy:2.4` | Same as `npm run deploy` | Explicit alias |
+| `npm run deploy:2.3` | Stable v2.3 site only | Legacy pin (manual) |
+| `npm run deploy:dev` | Development site + Firestore rules | Internal testing (manual) |
+| `npm run deploy:all` | Development + both stable sites + Firestore | Full refresh (manual, rare) |
+
+**Policy:** routine releases go to **v2.4 only**. Do not deploy to development or v2.3 unless you intentionally need those URLs updated.
 
 Stable site URLs use hyphens (Firebase naming): `hotel-restaurant-minimart2-3.web.app`, `hotel-restaurant-minimart2-4.web.app`.
 
@@ -48,10 +50,8 @@ The build patches `public/index.html` to **embed documentation inside the app**:
 Build command merges both:
 
 ```bash
-npm run build          # → public/index.html + public/doc/*
-npm run deploy         # development site + Firestore rules
-npm run deploy:stable  # stable v2.3 + v2.4 (recommended for staff)
-npm run deploy:all     # development + both stable + Firestore
+npm run build    # → public/index.html + public/doc/*
+npm run deploy   # stable v2.4 (production)
 ```
 
 ### Deploy steps
@@ -61,14 +61,14 @@ From repository root ([roireuven/11](https://github.com/roireuven/11)):
 ```bash
 npm install
 firebase login
-npm run deploy:stable   # publish to v2.3 and v2.4
+npm run deploy
 ```
 
 **Windows (PowerShell):**
 
 ```powershell
 cd C:\Users\roire\11
-npm run deploy:stable
+npm run deploy
 ```
 
 Requires Firebase project **Editor** or **Firebase Hosting Admin** role.
@@ -125,7 +125,7 @@ Linked from the GitHub Pages landing page.
 - [ ] Configure [Settings](settings-and-configuration.md)
 - [ ] Create staff [Accounts](accounts-and-audit.md)
 - [ ] [Export backup](backup-restore-and-data.md)
-- [ ] Deploy docs: `npm run deploy:stable`
+- [ ] Deploy: `npm run deploy` (stable v2.4)
 - [ ] Train staff per [User roles](user-roles-and-permissions.md) and [What's new](whats-new-v2.md)
 
 ## Related
