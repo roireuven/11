@@ -12,4 +12,4 @@
 
 ## 完全ガイド
 
-詳細な手順については、 [English getting started guide](../en/getting-started.md).
+詳細な手順については、 [English getting started guide](https://hotel-restaurant-minimart2-4.web.app/doc/?lang=en#/getting-started).

@@ -10,4 +10,4 @@
 | **हैमबर्गर मेनू (☰)** | सहायता → दस्तावेज़ | साइडबार के शीर्ष पर पहला अनुभाग |
 | **बॉटम बार** | Docs | बॉटम नेविगेशन (मोबाइल) |
 
-लेआउट विवरण, डार्क मोड और भाषा चयनकर्ता के लिए, देखें [English navigation guide](../en/navigation-and-ui.md).
+लेआउट विवरण, डार्क मोड और भाषा चयनकर्ता के लिए, देखें [English navigation guide](https://hotel-restaurant-minimart2-4.web.app/doc/?lang=en#/navigation-and-ui).

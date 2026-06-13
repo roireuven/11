@@ -9,4 +9,4 @@
 - **Minimercado e PDV** — Vendas da loja, cobranças no quarto, operação de caixa
 - **Administração** — Configurações, contas, relatórios, backup, localização
 
-Para a visão geral completa com tabelas de público e capacidades, consulte o [English overview](../en/overview.md).
+Para a visão geral completa com tabelas de público e capacidades, consulte o [English overview](https://hotel-restaurant-minimart2-4.web.app/doc/?lang=en#/overview).

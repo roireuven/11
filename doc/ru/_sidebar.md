@@ -1,8 +1,10 @@
 * [Home](README.md)
 
 * **Начало работы**
+  * [Что нового в v2.3/v2.4](whats-new-v2.md)
   * [Обзор](overview.md)
   * [Начало работы](getting-started.md)
+  * [Visual guide (screenshots)](visual-guide.md)
   * [Установка](installation.md)
   * [Первоначальная настройка](first-time-setup.md)
   * [Демо-учётные данные](demo-credentials.md)
@@ -14,6 +16,8 @@
   * [Услуги и выставление счетов](services-and-billing.md)
   * [Ресторан и кухня](restaurant-and-kitchen.md)
   * [Минимаркет и POS](minimart-and-pos.md)
+  * [Vehicle rental](vehicle-rental.md)
+  * [Guest QR orders](guest-qr-orders.md)
   * [Склад и каталог](inventory-and-catalog.md)
   * [Портал гостей](guest-portal.md)
   * [Отчёты](reports.md)
@@ -23,6 +27,7 @@
   * [Настройки и конфигурация](settings-and-configuration.md)
   * [Резервное копирование, восстановление и данные](backup-restore-and-data.md)
   * [Локализация](localization.md)
+  * [Multilingual documentation](multilingual-documentation.md)
   * [Модель данных](data-model.md)
 
 * **Техническое**
@@ -33,5 +38,5 @@
   * [Глоссарий](glossary.md)
 
 * **Ссылки**
-  * [Live web app ↗](https://hotel-restaurant-minimart.firebaseapp.com/)
-  * [APK landing ↗](https://roireuven.github.io/11/)
+  * [Live web app (v2.4) ↗](https://hotel-restaurant-minimart2-4.web.app/)
+  * [APK landing (GitHub) ↗](https://roireuven.github.io/11/)

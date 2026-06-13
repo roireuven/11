@@ -4,7 +4,7 @@ Tài liệu đầy đủ cho **HotelRestaurantMini-MartManagement** (v2.0), hệ
 > Một số trang chỉ có bằng tiếng Anh; liên kết trỏ đến phiên bản tiếng Anh.
 
 
-> **Xem trực tuyến (Firebase):** [https://hotel-restaurant-minimart.firebaseapp.com/doc/?lang=vi](https://hotel-restaurant-minimart.firebaseapp.com/doc/?lang=vi)  
+> **Xem trực tuyến (Firebase):** [https://hotel-restaurant-minimart2-4.web.app/doc/?lang=vi](https://hotel-restaurant-minimart2-4.web.app/doc/?lang=vi)  
 > **Trong ứng dụng:** Thanh bên → **Tài liệu** (mọi vai trò) — trợ giúp nhúng  
 > **Bản sao (GitHub Pages):** [GitHub Pages doc](https://roireuven.github.io/11/doc/?lang=vi)
 
@@ -12,8 +12,8 @@ Tài liệu đầy đủ cho **HotelRestaurantMini-MartManagement** (v2.0), hệ
 
 | Nền tảng | URL |
 |----------|-----|
-| **Web (Firebase Hosting)** | [hotel-restaurant-minimart.firebaseapp.com](https://hotel-restaurant-minimart.firebaseapp.com/) |
-| **Tên miền thay thế** | [hotel-restaurant-minimart.web.app](https://hotel-restaurant-minimart.web.app/) |
+| **Web (Firebase Hosting)** | [hotel-restaurant-minimart2-4.web.app](https://hotel-restaurant-minimart2-4.web.app/) |
+| **Tên miền thay thế** | [hotel-restaurant-minimart2-4.firebaseapp.com](https://hotel-restaurant-minimart2-4.firebaseapp.com/) |
 
 ## Mục lục tài liệu
 
@@ -21,8 +21,8 @@ Hướng dẫn người dùng về thiết lập, vận hành hàng ngày, quả
 
 ## Phiên bản
 
-- **Phiên bản ứng dụng:** v2.0
-- **Tài liệu được tạo từ:** hotel-restaurant-minimart.firebaseapp.com
+- **Phiên bản ứng dụng:** v2.4 (stable production)
+- **Tài liệu được tạo từ:** hotel-restaurant-minimart2-4.web.app
 
 ## Quy trình hỗ trợ
 

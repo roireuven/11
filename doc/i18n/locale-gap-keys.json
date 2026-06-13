@@ -1,0 +1,1829 @@
+{
+  "en": {
+    "dashboard": {
+      "axisFbRevenue": "F and B",
+      "comprehensiveSubtitle": "PMS, restaurant, and mini-mart in one view. Room charges are by calendar day; F&B and shop sales use timestamps for shift filters.",
+      "exportCsv": "Export CSV",
+      "exportCsvOk": "Report downloaded",
+      "filterShift": "Shift",
+      "multiSeries": "Multi-series (per business unit)",
+      "occVsFb": "Occupancy % vs. F and B (restaurant + shop)",
+      "posTransTitle": "Shop / POS sales ({n})",
+      "printOrPdf": "Print / save as PDF",
+      "restOrdersTitle": "Restaurant orders ({n})",
+      "revenueByUnit": "Revenue by business unit",
+      "shiftA": "Afternoon",
+      "shiftAfternoon": "Afternoon (12:00–18:00)",
+      "shiftCompare": "Revenue by daypart (in range)",
+      "shiftM": "Morning",
+      "shiftMorning": "Morning (06:00–12:00)",
+      "shiftN": "Evening and night",
+      "shiftNight": "Evening & night (18:00–06:00)",
+      "shiftT": "All day",
+      "shiftTotal": "Total (all dayparts)",
+      "singleTotalLine": "Single \"total revenue\" line",
+      "tableFnB": "F and B"
+    },
+    "g": {
+      "imageFromFile": "Photo from device",
+      "orImageUrl": "Or image URL (https)"
+    },
+    "grid": {
+      "stampCreated": "CreatedDate",
+      "stampEdited": "EditDate"
+    },
+    "minimart": {
+      "confirmVoidOpenBill": "Void this unpaid room bill? It will not be charged.",
+      "toastBillOnCustomer": "Bill added to active orders (not paid yet) — {n}",
+      "toastNoOpenBills": "No unpaid bill to settle. Use Put bill on customer first, or use Cash/Card to pay the cart.",
+      "toastSettleOrCart": "Settle the room bill in Pay total, or pay the cart with Cash/Card. Clear the cart or complete payment first.",
+      "voidOpenBill": "Void bill",
+      "voidOpenBillOk": "Open bill voided."
+    },
+    "msg": {
+      "appStillLoading": "App is still loading. Wait a few seconds, then try again.",
+      "cannotDeleteUnpaidOrder": "This order is not paid. Collect payment, void the order, or use Delete only after it is paid or voided.",
+      "cannotMarkPaidWithoutPayment": "You cannot mark an order as paid here without a recorded payment. Use the payment action on the order instead.",
+      "cannotVoidPostedOrder": "This order is already posted to the ledger. Refund the transaction or contact an admin.",
+      "confirmVoidOrder": "Void this unpaid order? It will not require payment and will be excluded from active totals.",
+      "imageNotImage": "Please choose an image file.",
+      "imageTooLarge": "Image is too large (max 700 KB).",
+      "orderAlreadyFinal": "This order can no longer be voided (already served or final).",
+      "orderIsVoidNoPay": "This order is void — no payment is due.",
+      "orderVoided": "Order voided.",
+      "restoreInvalid": "Backup file must be a JSON object.",
+      "saveFailed": "Could not save. Try again or reload the page.",
+      "storageError": "Storage is blocked. Allow site data for this page in your browser settings, then try again."
+    },
+    "orderHistory": {
+      "voidOrder": "Void"
+    },
+    "restaurant": {
+      "addTable": "Add table",
+      "addTableTitle": "Add a table to the floor plan",
+      "fieldTableCapacity": "Seats (capacity)",
+      "fieldTableLabel": "Table name / label",
+      "fieldTableNotes": "Notes (optional)",
+      "maxTables": "You can add at most {n} tables.",
+      "modalAddTableTitle": "Add table",
+      "phTableLabel": "e.g. Table 11 or Patio 2",
+      "phTableNotes": "Location, VIP, etc.",
+      "tableAdded": "Floor now has {n} tables.",
+      "toastEnterTableLabel": "Enter a table name or label",
+      "toastTableAdded": "Added {name}.",
+      "toastTableLabelExists": "A table with that label already exists"
+    },
+    "settings": {
+      "csvBtnMartOpen": "Mini-mart open bills",
+      "csvBtnRestTables": "Restaurant tables",
+      "freshStart": "Full wipe and new setup",
+      "freshStartConfirm": "This will delete ALL data and your system setup (email and password) on this device. Continue?",
+      "freshStartConfirm2": "This cannot be undone. Proceed with a full wipe and new setup?",
+      "freshStartHint": "Deletes all data and the first-time system setup (email and password) on this browser. After reload, you must run setup again before sign-in. Use this after a major update or to hand off the device.",
+      "reloadDemoKeepCatalog": "Reload sample data (keep menu & store products)",
+      "reloadDemoKeepCatalogHint": "Clears bookings, rooms, orders, and transactions, then loads fresh demo data. Your current restaurant menu items and mini-mart store products are kept.",
+      "rowMartOpen": "Mini-mart open bills (Put bill on customer, not yet paid)",
+      "rowRestTables": "Restaurant table floor (labels used for walk-in / POS tabs)"
+    }
+  },
+  "es": {
+    "dashboard": {
+      "axisFbRevenue": "F y B",
+      "comprehensiveSubtitle": "PMS, restaurante y mini tienda en una vista. Los cargos de habitación son por día calendario; las ventas de F&B y tienda usan marcas de tiempo para filtros de turno.",
+      "exportCsv": "Exportar CSV",
+      "exportCsvOk": "Informe descargado",
+      "filterShift": "Turno",
+      "multiSeries": "Multiserie (por unidad de negocio)",
+      "occVsFb": "Ocupación % vs. F y B (restaurante + tienda)",
+      "posTransTitle": "Ventas tienda / TPV ({n})",
+      "printOrPdf": "Imprimir / guardar como PDF",
+      "restOrdersTitle": "Pedidos de restaurante ({n})",
+      "revenueByUnit": "Ingresos por unidad de negocio",
+      "shiftA": "Tarde",
+      "shiftAfternoon": "Tarde (12:00–18:00)",
+      "shiftCompare": "Ingresos por franja horaria (en el rango)",
+      "shiftM": "Mañana",
+      "shiftMorning": "Mañana (06:00–12:00)",
+      "shiftN": "Noche",
+      "shiftNight": "Noche (18:00–06:00)",
+      "shiftT": "Todo el día",
+      "shiftTotal": "Total (todas las franjas)",
+      "singleTotalLine": "Línea única de \"ingresos totales\"",
+      "tableFnB": "F y B"
+    },
+    "g": {
+      "imageFromFile": "Foto del dispositivo",
+      "orImageUrl": "O URL de imagen (https)"
+    },
+    "grid": {
+      "stampCreated": "CreatedDate",
+      "stampEdited": "EditDate"
+    },
+    "minimart": {
+      "confirmVoidOpenBill": "¿Anular esta cuenta de habitación impagada? No se cobrará.",
+      "toastBillOnCustomer": "Cuenta añadida a pedidos activos (aún no pagada) — {n}",
+      "toastNoOpenBills": "No hay cuenta impagada que liquidar. Use primero Poner cuenta al cliente, o pague el carrito con Efectivo/Tarjeta.",
+      "toastSettleOrCart": "Liquide la cuenta de habitación en Pagar total, o pague el carrito con Efectivo/Tarjeta. Vacíe el carrito o complete el pago primero.",
+      "voidOpenBill": "Anular cuenta",
+      "voidOpenBillOk": "Cuenta abierta anulada."
+    },
+    "msg": {
+      "appStillLoading": "La aplicación aún se está cargando. Espere unos segundos e inténtelo de nuevo.",
+      "cannotDeleteUnpaidOrder": "Este pedido no está pagado. Cobre el pago, anule el pedido o use Eliminar solo después de pagarlo o anularlo.",
+      "cannotMarkPaidWithoutPayment": "No puede marcar un pedido como pagado aquí sin un pago registrado. Use la acción de pago en el pedido.",
+      "cannotVoidPostedOrder": "Este pedido ya está registrado en el libro mayor. Reembolse la transacción o contacte a un administrador.",
+      "confirmVoidOrder": "¿Anular este pedido impagado? No requerirá pago y se excluirá de los totales activos.",
+      "imageNotImage": "Elija un archivo de imagen.",
+      "imageTooLarge": "La imagen es demasiado grande (máx. 700 KB).",
+      "orderAlreadyFinal": "Este pedido ya no se puede anular (ya servido o finalizado).",
+      "orderIsVoidNoPay": "Este pedido está anulado — no hay pago pendiente.",
+      "orderVoided": "Pedido anulado.",
+      "restoreInvalid": "El archivo de copia de seguridad debe ser un objeto JSON.",
+      "saveFailed": "No se pudo guardar. Inténtelo de nuevo o recargue la página.",
+      "storageError": "El almacenamiento está bloqueado. Permita los datos del sitio para esta página en la configuración del navegador e inténtelo de nuevo."
+    },
+    "orderHistory": {
+      "voidOrder": "Anular"
+    },
+    "restaurant": {
+      "addTable": "Añadir mesa",
+      "addTableTitle": "Añadir una mesa al plano de sala",
+      "fieldTableCapacity": "Asientos (capacidad)",
+      "fieldTableLabel": "Nombre / etiqueta de mesa",
+      "fieldTableNotes": "Notas (opcional)",
+      "maxTables": "Puede añadir como máximo {n} mesas.",
+      "modalAddTableTitle": "Añadir mesa",
+      "phTableLabel": "p. ej. Mesa 11 o Terraza 2",
+      "phTableNotes": "Ubicación, VIP, etc.",
+      "tableAdded": "La sala tiene ahora {n} mesas.",
+      "toastEnterTableLabel": "Introduzca un nombre o etiqueta de mesa",
+      "toastTableAdded": "Añadido {name}.",
+      "toastTableLabelExists": "Ya existe una mesa con esa etiqueta"
+    },
+    "settings": {
+      "csvBtnMartOpen": "Cuentas abiertas mini tienda",
+      "csvBtnRestTables": "Mesas de restaurante",
+      "freshStart": "Borrado completo y nueva configuración",
+      "freshStartConfirm": "Esto eliminará TODOS los datos y su configuración del sistema (correo y contraseña) en este dispositivo. ¿Continuar?",
+      "freshStartConfirm2": "Esto no se puede deshacer. ¿Proceder con un borrado completo y nueva configuración?",
+      "freshStartHint": "Elimina todos los datos y la configuración inicial del sistema (correo y contraseña) en este navegador. Tras recargar, debe ejecutar la configuración antes de iniciar sesión. Úselo tras una actualización importante o para entregar el dispositivo.",
+      "reloadDemoKeepCatalog": "Recargar datos de muestra (conservar menú y productos de tienda)",
+      "reloadDemoKeepCatalogHint": "Borra reservas, habitaciones, pedidos y transacciones, luego carga datos demo nuevos. Se conservan los artículos del menú del restaurante y los productos de la mini tienda.",
+      "rowMartOpen": "Cuentas abiertas mini tienda (Poner cuenta al cliente, aún no pagada)",
+      "rowRestTables": "Plano de mesas del restaurante (etiquetas para walk-in / pestañas TPV)"
+    }
+  },
+  "fr": {
+    "dashboard": {
+      "axisFbRevenue": "F et B",
+      "comprehensiveSubtitle": "PMS, restaurant et supérette en une vue. Les charges chambre sont par jour calendaire ; les ventes F&B et boutique utilisent l'horodatage pour les filtres de shift.",
+      "exportCsv": "Exporter CSV",
+      "exportCsvOk": "Rapport téléchargé",
+      "filterShift": "Shift",
+      "multiSeries": "Multi-séries (par unité d'affaires)",
+      "occVsFb": "Taux d'occupation % vs F et B (restaurant + boutique)",
+      "posTransTitle": "Ventes boutique / caisse ({n})",
+      "printOrPdf": "Imprimer / enregistrer en PDF",
+      "restOrdersTitle": "Commandes restaurant ({n})",
+      "revenueByUnit": "Revenus par unité d'affaires",
+      "shiftA": "Après-midi",
+      "shiftAfternoon": "Après-midi (12:00–18:00)",
+      "shiftCompare": "Revenus par plage horaire (période)",
+      "shiftM": "Matin",
+      "shiftMorning": "Matin (06:00–12:00)",
+      "shiftN": "Soir et nuit",
+      "shiftNight": "Soir et nuit (18:00–06:00)",
+      "shiftT": "Toute la journée",
+      "shiftTotal": "Total (toutes plages)",
+      "singleTotalLine": "Ligne unique « revenu total »",
+      "tableFnB": "F et B"
+    },
+    "g": {
+      "imageFromFile": "Photo depuis l'appareil",
+      "orImageUrl": "Ou URL d'image (https)"
+    },
+    "grid": {
+      "stampCreated": "CreatedDate",
+      "stampEdited": "EditDate"
+    },
+    "minimart": {
+      "confirmVoidOpenBill": "Annuler cette note chambre impayée ? Elle ne sera pas facturée.",
+      "toastBillOnCustomer": "Note ajoutée aux commandes actives (non payée) — {n}",
+      "toastNoOpenBills": "Aucune note impayée à régler. Utilisez d'abord Mettre la note au client, ou payez le panier en Espèces/Carte.",
+      "toastSettleOrCart": "Réglez la note chambre dans Payer le total, ou payez le panier en Espèces/Carte. Videz le panier ou finalisez le paiement d'abord.",
+      "voidOpenBill": "Annuler la note",
+      "voidOpenBillOk": "Note ouverte annulée."
+    },
+    "msg": {
+      "appStillLoading": "L'application charge encore. Attendez quelques secondes, puis réessayez.",
+      "cannotDeleteUnpaidOrder": "Cette commande n'est pas payée. Encaissez, annulez la commande, ou utilisez Supprimer seulement après paiement ou annulation.",
+      "cannotMarkPaidWithoutPayment": "Vous ne pouvez pas marquer une commande comme payée ici sans paiement enregistré. Utilisez l'action de paiement sur la commande.",
+      "cannotVoidPostedOrder": "Cette commande est déjà portée au grand livre. Remboursez la transaction ou contactez un administrateur.",
+      "confirmVoidOrder": "Annuler cette commande impayée ? Aucun paiement ne sera requis et elle sera exclue des totaux actifs.",
+      "imageNotImage": "Veuillez choisir un fichier image.",
+      "imageTooLarge": "L'image est trop volumineuse (max 700 Ko).",
+      "orderAlreadyFinal": "Cette commande ne peut plus être annulée (déjà servie ou finalisée).",
+      "orderIsVoidNoPay": "Cette commande est annulée — aucun paiement n'est dû.",
+      "orderVoided": "Commande annulée.",
+      "restoreInvalid": "Le fichier de sauvegarde doit être un objet JSON.",
+      "saveFailed": "Enregistrement impossible. Réessayez ou rechargez la page.",
+      "storageError": "Stockage bloqué. Autorisez les données du site pour cette page dans les paramètres du navigateur, puis réessayez."
+    },
+    "orderHistory": {
+      "voidOrder": "Annuler"
+    },
+    "restaurant": {
+      "addTable": "Ajouter une table",
+      "addTableTitle": "Ajouter une table au plan de salle",
+      "fieldTableCapacity": "Places (capacité)",
+      "fieldTableLabel": "Nom / libellé de table",
+      "fieldTableNotes": "Notes (facultatif)",
+      "maxTables": "Vous pouvez ajouter au maximum {n} tables.",
+      "modalAddTableTitle": "Ajouter une table",
+      "phTableLabel": "ex. Table 11 ou Terrasse 2",
+      "phTableNotes": "Emplacement, VIP, etc.",
+      "tableAdded": "La salle compte maintenant {n} tables.",
+      "toastEnterTableLabel": "Saisissez un nom ou libellé de table",
+      "toastTableAdded": "{name} ajouté(e).",
+      "toastTableLabelExists": "Une table avec ce libellé existe déjà"
+    },
+    "settings": {
+      "csvBtnMartOpen": "Notes ouvertes supérette",
+      "csvBtnRestTables": "Tables restaurant",
+      "freshStart": "Effacement complet et nouvelle configuration",
+      "freshStartConfirm": "Cela supprimera TOUTES les données et votre configuration système (e-mail et mot de passe) sur cet appareil. Continuer ?",
+      "freshStartConfirm2": "Cette action est irréversible. Procéder à un effacement complet et une nouvelle configuration ?",
+      "freshStartHint": "Supprime toutes les données et la configuration initiale du système (e-mail et mot de passe) dans ce navigateur. Après rechargement, vous devrez relancer la configuration avant la connexion. Utilisez ceci après une mise à jour majeure ou pour remettre l'appareil.",
+      "reloadDemoKeepCatalog": "Recharger les données d'exemple (conserver menu et produits boutique)",
+      "reloadDemoKeepCatalogHint": "Efface réservations, chambres, commandes et transactions, puis charge de nouvelles données démo. Vos articles de menu restaurant et produits supérette actuels sont conservés.",
+      "rowMartOpen": "Notes ouvertes supérette (Mettre la note au client, pas encore payée)",
+      "rowRestTables": "Plan de salle restaurant (libellés pour walk-in / onglets caisse)"
+    }
+  },
+  "de": {
+    "dashboard": {
+      "axisFbRevenue": "F&B",
+      "comprehensiveSubtitle": "PMS, Restaurant und Minimarkt in einer Ansicht. Zimmergebühren nach Kalendertag; F&B- und Shop-Umsätze nutzen Zeitstempel für Schichtfilter.",
+      "exportCsv": "CSV exportieren",
+      "exportCsvOk": "Bericht heruntergeladen",
+      "filterShift": "Schicht",
+      "multiSeries": "Mehrfachserie (pro Geschäftseinheit)",
+      "occVsFb": "Belegung % vs. F&B (Restaurant + Shop)",
+      "posTransTitle": "Shop- / Kassenumsätze ({n})",
+      "printOrPdf": "Drucken / als PDF speichern",
+      "restOrdersTitle": "Restaurantbestellungen ({n})",
+      "revenueByUnit": "Umsatz nach Geschäftseinheit",
+      "shiftA": "Nachmittag",
+      "shiftAfternoon": "Nachmittag (12:00–18:00)",
+      "shiftCompare": "Umsatz nach Tageszeit (im Zeitraum)",
+      "shiftM": "Morgen",
+      "shiftMorning": "Morgen (06:00–12:00)",
+      "shiftN": "Abend und Nacht",
+      "shiftNight": "Abend & Nacht (18:00–06:00)",
+      "shiftT": "Ganzer Tag",
+      "shiftTotal": "Gesamt (alle Tageszeiten)",
+      "singleTotalLine": "Einzelne \"Gesamtumsatz\"-Linie",
+      "tableFnB": "F&B"
+    },
+    "g": {
+      "imageFromFile": "Foto vom Gerät",
+      "orImageUrl": "Oder Bild-URL (https)"
+    },
+    "grid": {
+      "stampCreated": "CreatedDate",
+      "stampEdited": "EditDate"
+    },
+    "minimart": {
+      "confirmVoidOpenBill": "Diese unbezahlte Zimmerrechnung stornieren? Sie wird nicht berechnet.",
+      "toastBillOnCustomer": "Rechnung zu aktiven Bestellungen hinzugefügt (noch nicht bezahlt) — {n}",
+      "toastNoOpenBills": "Keine unbezahlte Rechnung zum Abrechnen. Zuerst Rechnung auf Kunde legen oder Warenkorb bar/Karte bezahlen.",
+      "toastSettleOrCart": "Zimmerrechnung unter Gesamt bezahlen abrechnen oder Warenkorb bar/Karte bezahlen. Warenkorb leeren oder Zahlung zuerst abschließen.",
+      "voidOpenBill": "Rechnung stornieren",
+      "voidOpenBillOk": "Offene Rechnung storniert."
+    },
+    "msg": {
+      "appStillLoading": "App wird noch geladen. Warten Sie einige Sekunden und versuchen Sie es erneut.",
+      "cannotDeleteUnpaidOrder": "Diese Bestellung ist nicht bezahlt. Zahlung einziehen, Bestellung stornieren oder Löschen erst nach Bezahlung oder Storno verwenden.",
+      "cannotMarkPaidWithoutPayment": "Sie können eine Bestellung hier nicht als bezahlt markieren ohne erfasste Zahlung. Verwenden Sie die Zahlungsaktion an der Bestellung.",
+      "cannotVoidPostedOrder": "Diese Bestellung ist bereits im Hauptbuch gebucht. Transaktion erstatten oder Admin kontaktieren.",
+      "confirmVoidOrder": "Diese unbezahlte Bestellung stornieren? Keine Zahlung erforderlich; sie wird von aktiven Summen ausgeschlossen.",
+      "imageNotImage": "Bitte wählen Sie eine Bilddatei.",
+      "imageTooLarge": "Bild ist zu groß (max. 700 KB).",
+      "orderAlreadyFinal": "Diese Bestellung kann nicht mehr storniert werden (bereits serviert oder abgeschlossen).",
+      "orderIsVoidNoPay": "Diese Bestellung ist storniert — keine Zahlung fällig.",
+      "orderVoided": "Bestellung storniert.",
+      "restoreInvalid": "Sicherungsdatei muss ein JSON-Objekt sein.",
+      "saveFailed": "Speichern fehlgeschlagen. Erneut versuchen oder Seite neu laden.",
+      "storageError": "Speicher blockiert. Erlauben Sie Site-Daten für diese Seite in den Browser-Einstellungen und versuchen Sie es erneut."
+    },
+    "orderHistory": {
+      "voidOrder": "Stornieren"
+    },
+    "restaurant": {
+      "addTable": "Tisch hinzufügen",
+      "addTableTitle": "Einen Tisch zum Saalplan hinzufügen",
+      "fieldTableCapacity": "Plätze (Kapazität)",
+      "fieldTableLabel": "Tischname / Bezeichnung",
+      "fieldTableNotes": "Notizen (optional)",
+      "maxTables": "Sie können höchstens {n} Tische hinzufügen.",
+      "modalAddTableTitle": "Tisch hinzufügen",
+      "phTableLabel": "z. B. Tisch 11 oder Terrasse 2",
+      "phTableNotes": "Standort, VIP usw.",
+      "tableAdded": "Der Saal hat jetzt {n} Tische.",
+      "toastEnterTableLabel": "Tischname oder Bezeichnung eingeben",
+      "toastTableAdded": "{name} hinzugefügt.",
+      "toastTableLabelExists": "Ein Tisch mit dieser Bezeichnung existiert bereits"
+    },
+    "settings": {
+      "csvBtnMartOpen": "Offene Minimarkt-Rechnungen",
+      "csvBtnRestTables": "Restaurant-Tische",
+      "freshStart": "Vollständiges Löschen und Neueinrichtung",
+      "freshStartConfirm": "Dies löscht ALLE Daten und Ihre Systemeinrichtung (E-Mail und Passwort) auf diesem Gerät. Fortfahren?",
+      "freshStartConfirm2": "Dies kann nicht rückgängig gemacht werden. Vollständiges Löschen und Neueinrichtung durchführen?",
+      "freshStartHint": "Löscht alle Daten und die Ersteinrichtung (E-Mail und Passwort) in diesem Browser. Nach dem Neuladen müssen Sie die Einrichtung vor der Anmeldung erneut durchführen. Nach größeren Updates oder bei Geräteübergabe verwenden.",
+      "reloadDemoKeepCatalog": "Beispieldaten neu laden (Menü & Shop-Produkte behalten)",
+      "reloadDemoKeepCatalogHint": "Löscht Buchungen, Zimmer, Bestellungen und Transaktionen, lädt dann frische Demo-Daten. Aktuelle Restaurant-Menüpunkte und Minimarkt-Produkte bleiben erhalten.",
+      "rowMartOpen": "Offene Minimarkt-Rechnungen (Rechnung auf Kunde, noch nicht bezahlt)",
+      "rowRestTables": "Restaurant-Tischplan (Bezeichnungen für Walk-in / Kassen-Tabs)"
+    }
+  },
+  "ja": {
+    "dashboard": {
+      "axisFbRevenue": "F&B",
+      "comprehensiveSubtitle": "PMS、レストラン、ミニマートを一画面で表示。客室料金は暦日単位、F&Bとショップ売上はシフトフィルター用にタイムスタンプを使用します。",
+      "exportCsv": "CSVをエクスポート",
+      "exportCsvOk": "レポートをダウンロードしました",
+      "filterShift": "シフト",
+      "multiSeries": "複数系列（事業単位別）",
+      "occVsFb": "稼働率 % vs F&B（レストラン＋ショップ）",
+      "posTransTitle": "ショップ / POS 売上 ({n})",
+      "printOrPdf": "印刷 / PDFとして保存",
+      "restOrdersTitle": "レストラン注文 ({n})",
+      "revenueByUnit": "事業単位別収益",
+      "shiftA": "午後",
+      "shiftAfternoon": "午後 (12:00–18:00)",
+      "shiftCompare": "時間帯別収益（期間内）",
+      "shiftM": "午前",
+      "shiftMorning": "午前 (06:00–12:00)",
+      "shiftN": "夕方・夜",
+      "shiftNight": "夕方・夜 (18:00–06:00)",
+      "shiftT": "終日",
+      "shiftTotal": "合計（全時間帯）",
+      "singleTotalLine": "単一の「総収益」ライン",
+      "tableFnB": "F&B"
+    },
+    "g": {
+      "imageFromFile": "端末から写真",
+      "orImageUrl": "または画像URL (https)"
+    },
+    "grid": {
+      "stampCreated": "CreatedDate",
+      "stampEdited": "EditDate"
+    },
+    "minimart": {
+      "confirmVoidOpenBill": "この未払いの客室請求を取消しますか？請求されません。",
+      "toastBillOnCustomer": "アクティブ注文に請求を追加しました（未払い）— {n}",
+      "toastNoOpenBills": "精算する未払い請求がありません。先に「客室に請求」を使用するか、現金/カードでカートを支払ってください。",
+      "toastSettleOrCart": "「合計を支払う」で客室請求を精算するか、現金/カードでカートを支払ってください。先にカートを空にするか支払いを完了してください。",
+      "voidOpenBill": "請求を取消",
+      "voidOpenBillOk": "未精算請求を取消しました。"
+    },
+    "msg": {
+      "appStillLoading": "アプリを読み込み中です。数秒待ってから再試行してください。",
+      "cannotDeleteUnpaidOrder": "この注文は未払いです。支払いを受け取るか、注文を取消すか、支払いまたは取消後にのみ削除してください。",
+      "cannotMarkPaidWithoutPayment": "記録された支払いなしにここで支払済みにできません。注文の支払い操作を使用してください。",
+      "cannotVoidPostedOrder": "この注文はすでに元帳に転記されています。返金するか管理者に連絡してください。",
+      "confirmVoidOrder": "この未払い注文を取消しますか？支払いは不要で、アクティブ合計から除外されます。",
+      "imageNotImage": "画像ファイルを選択してください。",
+      "imageTooLarge": "画像が大きすぎます（最大700 KB）。",
+      "orderAlreadyFinal": "この注文はもう取消できません（提供済みまたは確定済み）。",
+      "orderIsVoidNoPay": "この注文は取消済み — 支払いは不要です。",
+      "orderVoided": "注文を取消しました。",
+      "restoreInvalid": "バックアップファイルはJSONオブジェクトである必要があります。",
+      "saveFailed": "保存できませんでした。再試行するかページを再読み込みしてください。",
+      "storageError": "ストレージがブロックされています。ブラウザ設定でこのページのサイトデータを許可してから再試行してください。"
+    },
+    "orderHistory": {
+      "voidOrder": "取消"
+    },
+    "restaurant": {
+      "addTable": "テーブルを追加",
+      "addTableTitle": "フロアプランにテーブルを追加",
+      "fieldTableCapacity": "席数（定員）",
+      "fieldTableLabel": "テーブル名 / ラベル",
+      "fieldTableNotes": "メモ（任意）",
+      "maxTables": "最大 {n} テーブルまで追加できます。",
+      "modalAddTableTitle": "テーブルを追加",
+      "phTableLabel": "例：テーブル11 または パティオ2",
+      "phTableNotes": "場所、VIP など",
+      "tableAdded": "フロアは現在 {n} テーブルです。",
+      "toastEnterTableLabel": "テーブル名またはラベルを入力",
+      "toastTableAdded": "{name} を追加しました。",
+      "toastTableLabelExists": "そのラベルのテーブルはすでに存在します"
+    },
+    "settings": {
+      "csvBtnMartOpen": "ミニマート未精算請求",
+      "csvBtnRestTables": "レストランテーブル",
+      "freshStart": "完全消去と新規セットアップ",
+      "freshStartConfirm": "このデバイスのすべてのデータとシステム設定（メールとパスワード）が削除されます。続行しますか？",
+      "freshStartConfirm2": "元に戻せません。完全消去と新規セットアップを実行しますか？",
+      "freshStartHint": "このブラウザのすべてのデータと初回システム設定（メールとパスワード）を削除します。再読み込み後、サインイン前にセットアップを再実行する必要があります。大規模更新後や端末引き渡し時に使用してください。",
+      "reloadDemoKeepCatalog": "サンプルデータを再読み込み（メニューと店舗商品を保持）",
+      "reloadDemoKeepCatalogHint": "予約、客室、注文、取引を消去し、新しいデモデータを読み込みます。現在のレストランメニューとミニマート商品は保持されます。",
+      "rowMartOpen": "ミニマート未精算請求（客室に請求、未払い）",
+      "rowRestTables": "レストランテーブルフロア（ウォークイン / POSタブ用ラベル）"
+    }
+  },
+  "ko": {
+    "dashboard": {
+      "axisFbRevenue": "F&B",
+      "comprehensiveSubtitle": "PMS, 레스토랑, 미니마트를 한 화면에서. 객실 요금은 달력일 기준, F&B 및 매장 매출은 교대 필터에 타임스탬프를 사용합니다.",
+      "exportCsv": "CSV 내보내기",
+      "exportCsvOk": "보고서 다운로드됨",
+      "filterShift": "교대",
+      "multiSeries": "다중 계열 (사업 단위별)",
+      "occVsFb": "점유율 % vs F&B (레스토랑 + 매장)",
+      "posTransTitle": "매장 / POS 매출 ({n})",
+      "printOrPdf": "인쇄 / PDF로 저장",
+      "restOrdersTitle": "레스토랑 주문 ({n})",
+      "revenueByUnit": "사업 단위별 수익",
+      "shiftA": "오후",
+      "shiftAfternoon": "오후 (12:00–18:00)",
+      "shiftCompare": "시간대별 수익 (기간 내)",
+      "shiftM": "오전",
+      "shiftMorning": "오전 (06:00–12:00)",
+      "shiftN": "저녁 및 야간",
+      "shiftNight": "저녁 및 야간 (18:00–06:00)",
+      "shiftT": "종일",
+      "shiftTotal": "합계 (모든 시간대)",
+      "singleTotalLine": "단일 \"총 수익\" 선",
+      "tableFnB": "F&B"
+    },
+    "g": {
+      "imageFromFile": "기기에서 사진",
+      "orImageUrl": "또는 이미지 URL (https)"
+    },
+    "grid": {
+      "stampCreated": "CreatedDate",
+      "stampEdited": "EditDate"
+    },
+    "minimart": {
+      "confirmVoidOpenBill": "미결제 객실 청구서를 취소하시겠습니까? 청구되지 않습니다.",
+      "toastBillOnCustomer": "활성 주문에 청구서 추가됨 (미결제) — {n}",
+      "toastNoOpenBills": "정산할 미결제 청구서가 없습니다. 먼저 고객에게 청구를 사용하거나 현금/카드로 장바구니를 결제하세요.",
+      "toastSettleOrCart": "총액 결제에서 객실 청구서를 정산하거나 현금/카드로 장바구니를 결제하세요. 장바구니를 비우거나 먼저 결제를 완료하세요.",
+      "voidOpenBill": "청구서 취소",
+      "voidOpenBillOk": "미결제 청구서가 취소되었습니다."
+    },
+    "msg": {
+      "appStillLoading": "앱이 아직 로드 중입니다. 몇 초 기다린 후 다시 시도하세요.",
+      "cannotDeleteUnpaidOrder": "이 주문은 결제되지 않았습니다. 결제를 받거나 주문을 취소하거나, 결제 또는 취소 후에만 삭제하세요.",
+      "cannotMarkPaidWithoutPayment": "기록된 결제 없이 여기서 주문을 결제됨으로 표시할 수 없습니다. 주문의 결제 작업을 사용하세요.",
+      "cannotVoidPostedOrder": "이 주문은 이미 원장에 기록되었습니다. 거래를 환불하거나 관리자에게 문의하세요.",
+      "confirmVoidOrder": "미결제 주문을 취소하시겠습니까? 결제가 필요 없으며 활성 합계에서 제외됩니다.",
+      "imageNotImage": "이미지 파일을 선택하세요.",
+      "imageTooLarge": "이미지가 너무 큽니다 (최대 700 KB).",
+      "orderAlreadyFinal": "이 주문은 더 이상 취소할 수 없습니다 (이미 제공됨 또는 확정됨).",
+      "orderIsVoidNoPay": "이 주문은 취소됨 — 결제가 필요 없습니다.",
+      "orderVoided": "주문이 취소되었습니다.",
+      "restoreInvalid": "백업 파일은 JSON 객체여야 합니다.",
+      "saveFailed": "저장할 수 없습니다. 다시 시도하거나 페이지를 새로고침하세요.",
+      "storageError": "저장소가 차단되었습니다. 브라우저 설정에서 이 페이지의 사이트 데이터를 허용한 후 다시 시도하세요."
+    },
+    "orderHistory": {
+      "voidOrder": "취소"
+    },
+    "restaurant": {
+      "addTable": "테이블 추가",
+      "addTableTitle": "플로어 플랜에 테이블 추가",
+      "fieldTableCapacity": "좌석 (수용 인원)",
+      "fieldTableLabel": "테이블 이름 / 라벨",
+      "fieldTableNotes": "메모 (선택)",
+      "maxTables": "최대 {n}개 테이블까지 추가할 수 있습니다.",
+      "modalAddTableTitle": "테이블 추가",
+      "phTableLabel": "예: 테이블 11 또는 파티오 2",
+      "phTableNotes": "위치, VIP 등",
+      "tableAdded": "플로어에 현재 {n}개 테이블이 있습니다.",
+      "toastEnterTableLabel": "테이블 이름 또는 라벨 입력",
+      "toastTableAdded": "{name} 추가됨.",
+      "toastTableLabelExists": "해당 라벨의 테이블이 이미 있습니다"
+    },
+    "settings": {
+      "csvBtnMartOpen": "미니마트 미결제 청구서",
+      "csvBtnRestTables": "레스토랑 테이블",
+      "freshStart": "전체 삭제 및 새 설정",
+      "freshStartConfirm": "이 기기의 모든 데이터와 시스템 설정(이메일 및 비밀번호)이 삭제됩니다. 계속하시겠습니까?",
+      "freshStartConfirm2": "되돌릴 수 없습니다. 전체 삭제 및 새 설정을 진행하시겠습니까?",
+      "freshStartHint": "이 브라우저의 모든 데이터와 최초 시스템 설정(이메일 및 비밀번호)을 삭제합니다. 새로고침 후 로그인 전에 설정을 다시 실행해야 합니다. 주요 업데이트 후 또는 기기 인수인계 시 사용하세요.",
+      "reloadDemoKeepCatalog": "샘플 데이터 다시 로드 (메뉴 및 매장 상품 유지)",
+      "reloadDemoKeepCatalogHint": "예약, 객실, 주문, 거래를 지운 후 새 데모 데이터를 로드합니다. 현재 레스토랑 메뉴와 미니마트 상품은 유지됩니다.",
+      "rowMartOpen": "미니마트 미결제 청구서 (고객에게 청구, 아직 미결제)",
+      "rowRestTables": "레스토랑 테이블 플로어 (워크인 / POS 탭용 라벨)"
+    }
+  },
+  "ar": {
+    "dashboard": {
+      "axisFbRevenue": "المأكولات والمشروبات",
+      "comprehensiveSubtitle": "نظام إدارة الممتلكات والمطعم والمتجر الصغير في عرض واحد. رسوم الغرف حسب اليوم التقويمي؛ مبيعات F&B والمتجر تستخدم الطوابع الزمنية لفلاتر الورديات.",
+      "exportCsv": "تصدير CSV",
+      "exportCsvOk": "تم تنزيل التقرير",
+      "filterShift": "وردية",
+      "multiSeries": "متعدد السلاسل (لكل وحدة أعمال)",
+      "occVsFb": "نسبة الإشغال % مقابل F&B (مطعم + متجر)",
+      "posTransTitle": "مبيعات المتجر / نقطة البيع ({n})",
+      "printOrPdf": "طباعة / حفظ كـ PDF",
+      "restOrdersTitle": "طلبات المطعم ({n})",
+      "revenueByUnit": "الإيرادات حسب وحدة الأعمال",
+      "shiftA": "بعد الظهر",
+      "shiftAfternoon": "بعد الظهر (12:00–18:00)",
+      "shiftCompare": "الإيرادات حسب فترة اليوم (في النطاق)",
+      "shiftM": "صباح",
+      "shiftMorning": "صباح (06:00–12:00)",
+      "shiftN": "مساء وليل",
+      "shiftNight": "مساء وليل (18:00–06:00)",
+      "shiftT": "طوال اليوم",
+      "shiftTotal": "الإجمالي (جميع الفترات)",
+      "singleTotalLine": "خط واحد \"إجمالي الإيرادات\"",
+      "tableFnB": "F&B"
+    },
+    "g": {
+      "imageFromFile": "صورة من الجهاز",
+      "orImageUrl": "أو رابط صورة (https)"
+    },
+    "grid": {
+      "stampCreated": "CreatedDate",
+      "stampEdited": "EditDate"
+    },
+    "minimart": {
+      "confirmVoidOpenBill": "إلغاء فاتورة الغرفة غير المدفوعة؟ لن يتم تحصيلها.",
+      "toastBillOnCustomer": "أُضيفت الفاتورة إلى الطلبات النشطة (غير مدفوعة بعد) — {n}",
+      "toastNoOpenBills": "لا توجد فاتورة غير مدفوعة للتسوية. استخدم وضع الفاتورة على العميل أولاً، أو ادفع السلة نقداً/بطاقة.",
+      "toastSettleOrCart": "سوِّ فاتورة الغرفة في دفع الإجمالي، أو ادفع السلة نقداً/بطاقة. أفرغ السلة أو أكمل الدفع أولاً.",
+      "voidOpenBill": "إلغاء الفاتورة",
+      "voidOpenBillOk": "تم إلغاء الفاتورة المفتوحة."
+    },
+    "msg": {
+      "appStillLoading": "التطبيق لا يزال يحمّل. انتظر بضع ثوانٍ ثم حاول مرة أخرى.",
+      "cannotDeleteUnpaidOrder": "هذا الطلب غير مدفوع. حصّل الدفع أو ألغِ الطلب، أو استخدم الحذف فقط بعد الدفع أو الإلغاء.",
+      "cannotMarkPaidWithoutPayment": "لا يمكنك وضع علامة مدفوع هنا دون دفعة مسجلة. استخدم إجراء الدفع على الطلب.",
+      "cannotVoidPostedOrder": "هذا الطلب مُسجّل بالفعل في الدفتر. استرد المعاملة أو اتصل بمسؤول.",
+      "confirmVoidOrder": "إلغاء هذا الطلب غير المدفوع؟ لن يتطلب دفعاً وسيُستبعد من الإجماليات النشطة.",
+      "imageNotImage": "يرجى اختيار ملف صورة.",
+      "imageTooLarge": "الصورة كبيرة جداً (الحد الأقصى 700 ك.ب).",
+      "orderAlreadyFinal": "لا يمكن إلغاء هذا الطلب بعد (تم تقديمه أو أُنهي).",
+      "orderIsVoidNoPay": "هذا الطلب ملغى — لا دفعة مستحقة.",
+      "orderVoided": "تم إلغاء الطلب.",
+      "restoreInvalid": "يجب أن يكون ملف النسخ الاحتياطي كائناً JSON.",
+      "saveFailed": "تعذر الحفظ. حاول مرة أخرى أو أعد تحميل الصفحة.",
+      "storageError": "التخزين محظور. اسمح ببيانات الموقع لهذه الصفحة في إعدادات المتصفح ثم حاول مرة أخرى."
+    },
+    "orderHistory": {
+      "voidOrder": "إلغاء"
+    },
+    "restaurant": {
+      "addTable": "إضافة طاولة",
+      "addTableTitle": "إضافة طاولة إلى مخطط القاعة",
+      "fieldTableCapacity": "المقاعد (السعة)",
+      "fieldTableLabel": "اسم / تسمية الطاولة",
+      "fieldTableNotes": "ملاحظات (اختياري)",
+      "maxTables": "يمكنك إضافة {n} طاولة كحد أقصى.",
+      "modalAddTableTitle": "إضافة طاولة",
+      "phTableLabel": "مثال: طاولة 11 أو فناء 2",
+      "phTableNotes": "الموقع، VIP، إلخ.",
+      "tableAdded": "القاعة تحتوي الآن على {n} طاولة.",
+      "toastEnterTableLabel": "أدخل اسم أو تسمية الطاولة",
+      "toastTableAdded": "تمت إضافة {name}.",
+      "toastTableLabelExists": "توجد طاولة بهذه التسمية بالفعل"
+    },
+    "settings": {
+      "csvBtnMartOpen": "فواتير المتجر الصغير المفتوحة",
+      "csvBtnRestTables": "طاولات المطعم",
+      "freshStart": "مسح كامل وإعداد جديد",
+      "freshStartConfirm": "سيحذف هذا جميع البيانات وإعداد النظام (البريد وكلمة المرور) على هذا الجهاز. متابعة؟",
+      "freshStartConfirm2": "لا يمكن التراجع. المتابعة بالمسح الكامل والإعداد الجديد؟",
+      "freshStartHint": "يحذف جميع البيانات والإعداد الأولي للنظام (البريد وكلمة المرور) في هذا المتصفح. بعد إعادة التحميل، يجب تشغيل الإعداد قبل تسجيل الدخول. استخدمه بعد تحديث رئيسي أو لتسليم الجهاز.",
+      "reloadDemoKeepCatalog": "إعادة تحميل بيانات العينة (الاحتفاظ بالقائمة ومنتجات المتجر)",
+      "reloadDemoKeepCatalogHint": "يمسح الحجوزات والغرف والطلبات والمعاملات، ثم يحمّل بيانات تجريبية جديدة. تبقى عناصر قائمة المطعم ومنتجات المتجر الصغير الحالية.",
+      "rowMartOpen": "فواتير المتجر الصغير المفتوحة (وضع الفاتورة على العميل، غير مدفوعة بعد)",
+      "rowRestTables": "طابق طاولات المطعم (تسميات للزبائن المباشرين / تبويبات نقطة البيع)"
+    }
+  },
+  "hi": {
+    "dashboard": {
+      "axisFbRevenue": "F&B",
+      "comprehensiveSubtitle": "PMS, रेस्तरां और मिनी-मार्ट एक दृश्य में। कमरे के शुल्क कैलेंडर दिन के अनुसार; F&B और दुकान की बिक्री शिफ्ट फ़िल्टर के लिए टाइमस्टैम्प का उपयोग करती है।",
+      "exportCsv": "CSV निर्यात करें",
+      "exportCsvOk": "रिपोर्ट डाउनलोड हुई",
+      "filterShift": "शिफ्ट",
+      "multiSeries": "बहु-श्रृंखला (प्रति व्यवसाय इकाई)",
+      "occVsFb": "अधिभोग % बनाम F&B (रेस्तरां + दुकान)",
+      "posTransTitle": "दुकान / POS बिक्री ({n})",
+      "printOrPdf": "प्रिंट / PDF के रूप में सहेजें",
+      "restOrdersTitle": "रेस्तरां ऑर्डर ({n})",
+      "revenueByUnit": "व्यवसाय इकाई के अनुसार राजस्व",
+      "shiftA": "दोपहर",
+      "shiftAfternoon": "दोपहर (12:00–18:00)",
+      "shiftCompare": "दिन के भाग के अनुसार राजस्व (सीमा में)",
+      "shiftM": "सुबह",
+      "shiftMorning": "सुबह (06:00–12:00)",
+      "shiftN": "शाम और रात",
+      "shiftNight": "शाम और रात (18:00–06:00)",
+      "shiftT": "पूरा दिन",
+      "shiftTotal": "कुल (सभी दिन के भाग)",
+      "singleTotalLine": "एकल \"कुल राजस्व\" रेखा",
+      "tableFnB": "F&B"
+    },
+    "g": {
+      "imageFromFile": "डिवाइस से फ़ोटो",
+      "orImageUrl": "या छवि URL (https)"
+    },
+    "grid": {
+      "stampCreated": "CreatedDate",
+      "stampEdited": "EditDate"
+    },
+    "minimart": {
+      "confirmVoidOpenBill": "इस अवैतनिक कमरे का बिल रद्द करें? शुल्क नहीं लगेगा।",
+      "toastBillOnCustomer": "बिल सक्रिय ऑर्डर में जोड़ा गया (अभी भुगतान नहीं) — {n}",
+      "toastNoOpenBills": "निपटाने के लिए कोई अवैतनिक बिल नहीं। पहले ग्राहक पर बिल रखें, या नकद/कार्ड से कार्ट का भुगतान करें।",
+      "toastSettleOrCart": "कुल भुगतान में कमरे का बिल निपटाएं, या नकद/कार्ड से कार्ट का भुगतान करें। पहले कार्ट साफ़ करें या भुगतान पूरा करें।",
+      "voidOpenBill": "बिल रद्द करें",
+      "voidOpenBillOk": "खुला बिल रद्द किया गया।"
+    },
+    "msg": {
+      "appStillLoading": "ऐप अभी भी लोड हो रहा है। कुछ सेकंड प्रतीक्षा करें, फिर पुनः प्रयास करें।",
+      "cannotDeleteUnpaidOrder": "यह ऑर्डर भुगतान नहीं हुआ। भुगतान लें, ऑर्डर रद्द करें, या भुगतान/रद्दीकरण के बाद ही हटाएं।",
+      "cannotMarkPaidWithoutPayment": "बिना दर्ज भुगतान के यहाँ ऑर्डर को भुगतान किया हुआ चिह्नित नहीं कर सकते। ऑर्डर पर भुगतान क्रिया का उपयोग करें।",
+      "cannotVoidPostedOrder": "यह ऑर्डर पहले से खाता बही में पोस्ट है। लेनदेन वापस करें या व्यवस्थापक से संपर्क करें।",
+      "confirmVoidOrder": "इस अवैतनिक ऑर्डर को रद्द करें? भुगतान आवश्यक नहीं होगा और सक्रिय कुल से बाहर रहेगा।",
+      "imageNotImage": "कृपया एक छवि फ़ाइल चुनें।",
+      "imageTooLarge": "छवि बहुत बड़ी है (अधिकतम 700 KB)।",
+      "orderAlreadyFinal": "यह ऑर्डर अब रद्द नहीं किया जा सकता (पहले से परोसा या अंतिम)।",
+      "orderIsVoidNoPay": "यह ऑर्डर रद्द है — कोई भुगतान देय नहीं।",
+      "orderVoided": "ऑर्डर रद्द किया गया।",
+      "restoreInvalid": "बैकअप फ़ाइल JSON ऑब्जेक्ट होनी चाहिए।",
+      "saveFailed": "सहेजा नहीं जा सका। पुनः प्रयास करें या पृष्ठ पुनः लोड करें।",
+      "storageError": "स्टोरेज अवरुद्ध है। ब्राउज़र सेटिंग में इस पृष्ठ के लिए साइट डेटा की अनुमति दें, फिर पुनः प्रयास करें।"
+    },
+    "orderHistory": {
+      "voidOrder": "रद्द करें"
+    },
+    "restaurant": {
+      "addTable": "टेबल जोड़ें",
+      "addTableTitle": "फ़्लोर प्लान में टेबल जोड़ें",
+      "fieldTableCapacity": "सीटें (क्षमता)",
+      "fieldTableLabel": "टेबल नाम / लेबल",
+      "fieldTableNotes": "नोट (वैकल्पिक)",
+      "maxTables": "आप अधिकतम {n} टेबल जोड़ सकते हैं।",
+      "modalAddTableTitle": "टेबल जोड़ें",
+      "phTableLabel": "उदा. टेबल 11 या Patio 2",
+      "phTableNotes": "स्थान, VIP, आदि",
+      "tableAdded": "फ़्लोर में अब {n} टेबल हैं।",
+      "toastEnterTableLabel": "टेबल नाम या लेबल दर्ज करें",
+      "toastTableAdded": "{name} जोड़ा गया।",
+      "toastTableLabelExists": "उस लेबल वाली टेबल पहले से मौजूद है"
+    },
+    "settings": {
+      "csvBtnMartOpen": "मिनी-मार्ट खुले बिल",
+      "csvBtnRestTables": "रेस्तरां टेबल",
+      "freshStart": "पूर्ण मिटाना और नया सेटअप",
+      "freshStartConfirm": "यह इस डिवाइस पर सभी डेटा और सिस्टम सेटअप (ईमेल और पासवर्ड) हटा देगा। जारी रखें?",
+      "freshStartConfirm2": "इसे पूर्ववत नहीं किया जा सकता। पूर्ण मिटाने और नए सेटअप के साथ आगे बढ़ें?",
+      "freshStartHint": "इस ब्राउज़र में सभी डेटा और प्रथम बार सिस्टम सेटअप (ईमेल और पासवर्ड) हटाता है। पुनः लोड के बाद, साइन-इन से पहले सेटअप फिर चलाना होगा। बड़े अपडेट के बाद या डिवाइस सौंपने पर उपयोग करें।",
+      "reloadDemoKeepCatalog": "नमूना डेटा पुनः लोड करें (मेनू और स्टोर उत्पाद रखें)",
+      "reloadDemoKeepCatalogHint": "बुकिंग, कमरे, ऑर्डर और लेनदेन साफ़ करता है, फिर नया डेमो डेटा लोड करता है। वर्तमान रेस्तरां मेनू और मिनी-मार्ट उत्पाद रखे जाते हैं।",
+      "rowMartOpen": "मिनी-मार्ट खुले बिल (ग्राहक पर बिल, अभी भुगतान नहीं)",
+      "rowRestTables": "रेस्तरां टेबल फ़्लोर (वॉक-इन / POS टैब के लिए लेबल)"
+    }
+  },
+  "th": {
+    "dashboard": {
+      "axisFbRevenue": "F&B",
+      "comprehensiveSubtitle": "PMS ร้านอาหาร และมินิมาร์ทในหน้าเดียว ค่าห้องตามวันปฏิทิน ยอดขาย F&B และร้านใช้ timestamp สำหรับตัวกรองกะ",
+      "exportCsv": "ส่งออก CSV",
+      "exportCsvOk": "ดาวน์โหลดรายงานแล้ว",
+      "filterShift": "กะ",
+      "multiSeries": "หลายชุดข้อมูล (ต่อหน่วยธุรกิจ)",
+      "occVsFb": "อัตราเข้าพัก % เทียบ F&B (ร้านอาหาร + ร้านค้า)",
+      "posTransTitle": "ยอดขายร้าน / POS ({n})",
+      "printOrPdf": "พิมพ์ / บันทึกเป็น PDF",
+      "restOrdersTitle": "ออเดอร์ร้านอาหาร ({n})",
+      "revenueByUnit": "รายได้ตามหน่วยธุรกิจ",
+      "shiftA": "บ่าย",
+      "shiftAfternoon": "บ่าย (12:00–18:00)",
+      "shiftCompare": "รายได้ตามช่วงเวลา (ในช่วงที่เลือก)",
+      "shiftM": "เช้า",
+      "shiftMorning": "เช้า (06:00–12:00)",
+      "shiftN": "เย็นและกลางคืน",
+      "shiftNight": "เย็นและกลางคืน (18:00–06:00)",
+      "shiftT": "ทั้งวัน",
+      "shiftTotal": "รวม (ทุกช่วงเวลา)",
+      "singleTotalLine": "เส้น \"รายได้รวม\" เดียว",
+      "tableFnB": "F&B"
+    },
+    "g": {
+      "imageFromFile": "รูปจากอุปกรณ์",
+      "orImageUrl": "หรือ URL รูปภาพ (https)"
+    },
+    "grid": {
+      "stampCreated": "CreatedDate",
+      "stampEdited": "EditDate"
+    },
+    "minimart": {
+      "confirmVoidOpenBill": "ยกเลิกบิลห้องที่ยังไม่ชำระ? จะไม่ถูกเรียกเก็บ",
+      "toastBillOnCustomer": "เพิ่มบิลในออเดอร์ที่ใช้งาน (ยังไม่ชำระ) — {n}",
+      "toastNoOpenBills": "ไม่มีบิลค้างชำระ ใช้ใส่บิลให้ลูกค้าก่อน หรือชำระตะกร้าด้วยเงินสด/บัตร",
+      "toastSettleOrCart": "ชำระบิลห้องใน ชำระรวม หรือชำระตะกร้าด้วยเงินสด/บัตร ล้างตะกร้าหรือชำระให้เสร็จก่อน",
+      "voidOpenBill": "ยกเลิกบิล",
+      "voidOpenBillOk": "ยกเลิกบิลเปิดแล้ว"
+    },
+    "msg": {
+      "appStillLoading": "แอปยังโหลดอยู่ รอสักครู่แล้วลองอีกครั้ง",
+      "cannotDeleteUnpaidOrder": "ออเดอร์นี้ยังไม่ชำระ เก็บเงิน ยกเลิกออเดอร์ หรือใช้ลบหลังชำระหรือยกเลิกแล้วเท่านั้น",
+      "cannotMarkPaidWithoutPayment": "ไม่สามารถทำเครื่องหมายชำระแล้วที่นี่โดยไม่มีการชำระที่บันทึก ใช้การชำระเงินบนออเดอร์",
+      "cannotVoidPostedOrder": "ออเดอร์นี้ลงบัญชีแล้ว คืนเงินธุรกรรมหรือติดต่อผู้ดูแล",
+      "confirmVoidOrder": "ยกเลิกออเดอร์ที่ยังไม่ชำระ? ไม่ต้องชำระและจะไม่รวมในยอดที่ใช้งาน",
+      "imageNotImage": "กรุณาเลือกไฟล์รูปภาพ",
+      "imageTooLarge": "รูปใหญ่เกินไป (สูงสุด 700 KB)",
+      "orderAlreadyFinal": "ออเดอร์นี้ยกเลิกไม่ได้แล้ว (เสิร์ฟหรือจบแล้ว)",
+      "orderIsVoidNoPay": "ออเดอร์นี้ถูกยกเลิก — ไม่ต้องชำระ",
+      "orderVoided": "ยกเลิกออเดอร์แล้ว",
+      "restoreInvalid": "ไฟล์สำรองต้องเป็นอ็อบเจ็กต์ JSON",
+      "saveFailed": "บันทึกไม่ได้ ลองอีกครั้งหรือโหลดหน้าใหม่",
+      "storageError": "ที่เก็บข้อมูลถูกบล็อก อนุญาตข้อมูลไซต์สำหรับหน้านี้ในการตั้งค่าเบราว์เซอร์ แล้วลองอีกครั้ง"
+    },
+    "orderHistory": {
+      "voidOrder": "ยกเลิก"
+    },
+    "restaurant": {
+      "addTable": "เพิ่มโต๊ะ",
+      "addTableTitle": "เพิ่มโต๊ะในแผนผังพื้น",
+      "fieldTableCapacity": "ที่นั่ง (ความจุ)",
+      "fieldTableLabel": "ชื่อ / ป้ายโต๊ะ",
+      "fieldTableNotes": "หมายเหตุ (ไม่บังคับ)",
+      "maxTables": "เพิ่มได้สูงสุด {n} โต๊ะ",
+      "modalAddTableTitle": "เพิ่มโต๊ะ",
+      "phTableLabel": "เช่น โต๊ะ 11 หรือ Patio 2",
+      "phTableNotes": "ตำแหน่ง VIP ฯลฯ",
+      "tableAdded": "พื้นมี {n} โต๊ะแล้ว",
+      "toastEnterTableLabel": "ใส่ชื่อหรือป้ายโต๊ะ",
+      "toastTableAdded": "เพิ่ม {name} แล้ว",
+      "toastTableLabelExists": "มีโต๊ะที่ป้ายนี้อยู่แล้ว"
+    },
+    "settings": {
+      "csvBtnMartOpen": "บิลเปิดมินิมาร์ท",
+      "csvBtnRestTables": "โต๊ะร้านอาหาร",
+      "freshStart": "ลบทั้งหมดและตั้งค่าใหม่",
+      "freshStartConfirm": "จะลบข้อมูลทั้งหมดและการตั้งค่าระบบ (อีเมลและรหัสผ่าน) บนอุปกรณ์นี้ ดำเนินการต่อ?",
+      "freshStartConfirm2": "ไม่สามารถย้อนกลับได้ ดำเนินการลบทั้งหมดและตั้งค่าใหม่?",
+      "freshStartHint": "ลบข้อมูลทั้งหมดและการตั้งค่าระบบครั้งแรก (อีเมลและรหัสผ่าน) ในเบราว์เซอร์นี้ หลังโหลดใหม่ต้องตั้งค่าก่อนเข้าสู่ระบบ ใช้หลังอัปเดตใหญ่หรือส่งมอบอุปกรณ์",
+      "reloadDemoKeepCatalog": "โหลดข้อมูลตัวอย่างใหม่ (เก็บเมนูและสินค้าร้าน)",
+      "reloadDemoKeepCatalogHint": "ล้างการจอง ห้อง ออเดอร์ และธุรกรรม แล้วโหลดข้อมูลเดโมใหม่ เก็บเมนูร้านอาหารและสินค้ามินิมาร์ทปัจจุบัน",
+      "rowMartOpen": "บิลเปิดมินิมาร์ท (ใส่บิลให้ลูกค้า ยังไม่ชำระ)",
+      "rowRestTables": "พื้นโต๊ะร้านอาหาร (ป้ายสำหรับ walk-in / แท็บ POS)"
+    }
+  },
+  "vi": {
+    "dashboard": {
+      "axisFbRevenue": "F&B",
+      "comprehensiveSubtitle": "PMS, nhà hàng và cửa hàng tiện lợi trong một giao diện. Phí phòng theo ngày dương lịch; doanh thu F&B và cửa hàng dùng dấu thời gian cho bộ lọc ca.",
+      "exportCsv": "Xuất CSV",
+      "exportCsvOk": "Đã tải báo cáo",
+      "filterShift": "Ca",
+      "multiSeries": "Đa chuỗi (theo đơn vị kinh doanh)",
+      "occVsFb": "Công suất % so với F&B (nhà hàng + cửa hàng)",
+      "posTransTitle": "Doanh thu cửa hàng / POS ({n})",
+      "printOrPdf": "In / lưu dưới dạng PDF",
+      "restOrdersTitle": "Đơn nhà hàng ({n})",
+      "revenueByUnit": "Doanh thu theo đơn vị kinh doanh",
+      "shiftA": "Chiều",
+      "shiftAfternoon": "Chiều (12:00–18:00)",
+      "shiftCompare": "Doanh thu theo khung giờ (trong phạm vi)",
+      "shiftM": "Sáng",
+      "shiftMorning": "Sáng (06:00–12:00)",
+      "shiftN": "Tối và đêm",
+      "shiftNight": "Tối và đêm (18:00–06:00)",
+      "shiftT": "Cả ngày",
+      "shiftTotal": "Tổng (mọi khung giờ)",
+      "singleTotalLine": "Một đường \"tổng doanh thu\"",
+      "tableFnB": "F&B"
+    },
+    "g": {
+      "imageFromFile": "Ảnh từ thiết bị",
+      "orImageUrl": "Hoặc URL ảnh (https)"
+    },
+    "grid": {
+      "stampCreated": "CreatedDate",
+      "stampEdited": "EditDate"
+    },
+    "minimart": {
+      "confirmVoidOpenBill": "Hủy hóa đơn phòng chưa thanh toán? Sẽ không bị tính phí.",
+      "toastBillOnCustomer": "Đã thêm hóa đơn vào đơn đang hoạt động (chưa thanh toán) — {n}",
+      "toastNoOpenBills": "Không có hóa đơn chưa thanh toán để quyết toán. Dùng Ghi hóa đơn cho khách trước, hoặc thanh toán giỏ bằng Tiền mặt/Thẻ.",
+      "toastSettleOrCart": "Quyết toán hóa đơn phòng trong Thanh toán tổng, hoặc thanh toán giỏ bằng Tiền mặt/Thẻ. Xóa giỏ hoặc hoàn tất thanh toán trước.",
+      "voidOpenBill": "Hủy hóa đơn",
+      "voidOpenBillOk": "Đã hủy hóa đơn mở."
+    },
+    "msg": {
+      "appStillLoading": "Ứng dụng vẫn đang tải. Đợi vài giây rồi thử lại.",
+      "cannotDeleteUnpaidOrder": "Đơn này chưa thanh toán. Thu tiền, hủy đơn, hoặc chỉ Xóa sau khi đã thanh toán hoặc hủy.",
+      "cannotMarkPaidWithoutPayment": "Không thể đánh dấu đã thanh toán ở đây mà không có khoản thanh toán đã ghi. Dùng thao tác thanh toán trên đơn.",
+      "cannotVoidPostedOrder": "Đơn này đã ghi sổ. Hoàn tiền giao dịch hoặc liên hệ quản trị viên.",
+      "confirmVoidOrder": "Hủy đơn chưa thanh toán? Không cần thanh toán và sẽ loại khỏi tổng đang hoạt động.",
+      "imageNotImage": "Vui lòng chọn tệp hình ảnh.",
+      "imageTooLarge": "Ảnh quá lớn (tối đa 700 KB).",
+      "orderAlreadyFinal": "Đơn này không thể hủy nữa (đã phục vụ hoặc đã chốt).",
+      "orderIsVoidNoPay": "Đơn này đã hủy — không cần thanh toán.",
+      "orderVoided": "Đã hủy đơn.",
+      "restoreInvalid": "Tệp sao lưu phải là đối tượng JSON.",
+      "saveFailed": "Không thể lưu. Thử lại hoặc tải lại trang.",
+      "storageError": "Bộ nhớ bị chặn. Cho phép dữ liệu trang cho trang này trong cài đặt trình duyệt, rồi thử lại."
+    },
+    "orderHistory": {
+      "voidOrder": "Hủy"
+    },
+    "restaurant": {
+      "addTable": "Thêm bàn",
+      "addTableTitle": "Thêm bàn vào sơ đồ sàn",
+      "fieldTableCapacity": "Ghế (sức chứa)",
+      "fieldTableLabel": "Tên / nhãn bàn",
+      "fieldTableNotes": "Ghi chú (tùy chọn)",
+      "maxTables": "Bạn có thể thêm tối đa {n} bàn.",
+      "modalAddTableTitle": "Thêm bàn",
+      "phTableLabel": "vd. Bàn 11 hoặc Sân 2",
+      "phTableNotes": "Vị trí, VIP, v.v.",
+      "tableAdded": "Sàn hiện có {n} bàn.",
+      "toastEnterTableLabel": "Nhập tên hoặc nhãn bàn",
+      "toastTableAdded": "Đã thêm {name}.",
+      "toastTableLabelExists": "Đã có bàn với nhãn đó"
+    },
+    "settings": {
+      "csvBtnMartOpen": "Hóa đơn mở cửa hàng tiện lợi",
+      "csvBtnRestTables": "Bàn nhà hàng",
+      "freshStart": "Xóa toàn bộ và thiết lập mới",
+      "freshStartConfirm": "Thao tác này sẽ xóa TẤT CẢ dữ liệu và thiết lập hệ thống (email và mật khẩu) trên thiết bị này. Tiếp tục?",
+      "freshStartConfirm2": "Không thể hoàn tác. Tiếp tục xóa toàn bộ và thiết lập mới?",
+      "freshStartHint": "Xóa mọi dữ liệu và thiết lập hệ thống lần đầu (email và mật khẩu) trên trình duyệt này. Sau khi tải lại, bạn phải chạy thiết lập trước khi đăng nhập. Dùng sau cập nhật lớn hoặc bàn giao thiết bị.",
+      "reloadDemoKeepCatalog": "Tải lại dữ liệu mẫu (giữ thực đơn và sản phẩm cửa hàng)",
+      "reloadDemoKeepCatalogHint": "Xóa đặt phòng, phòng, đơn và giao dịch, rồi tải dữ liệu demo mới. Giữ món nhà hàng và sản phẩm cửa hàng tiện lợi hiện tại.",
+      "rowMartOpen": "Hóa đơn mở cửa hàng tiện lợi (Ghi hóa đơn cho khách, chưa thanh toán)",
+      "rowRestTables": "Sàn bàn nhà hàng (nhãn cho walk-in / tab POS)"
+    }
+  },
+  "id": {
+    "dashboard": {
+      "axisFbRevenue": "F&B",
+      "comprehensiveSubtitle": "PMS, restoran, dan mini-mart dalam satu tampilan. Biaya kamar per hari kalender; penjualan F&B dan toko memakai stempel waktu untuk filter shift.",
+      "exportCsv": "Ekspor CSV",
+      "exportCsvOk": "Laporan diunduh",
+      "filterShift": "Shift",
+      "multiSeries": "Multi-seri (per unit bisnis)",
+      "occVsFb": "Okupansi % vs F&B (restoran + toko)",
+      "posTransTitle": "Penjualan toko / POS ({n})",
+      "printOrPdf": "Cetak / simpan sebagai PDF",
+      "restOrdersTitle": "Pesanan restoran ({n})",
+      "revenueByUnit": "Pendapatan per unit bisnis",
+      "shiftA": "Sore",
+      "shiftAfternoon": "Sore (12:00–18:00)",
+      "shiftCompare": "Pendapatan per bagian hari (dalam rentang)",
+      "shiftM": "Pagi",
+      "shiftMorning": "Pagi (06:00–12:00)",
+      "shiftN": "Malam",
+      "shiftNight": "Malam (18:00–06:00)",
+      "shiftT": "Sepanjang hari",
+      "shiftTotal": "Total (semua bagian hari)",
+      "singleTotalLine": "Garis tunggal \"total pendapatan\"",
+      "tableFnB": "F&B"
+    },
+    "g": {
+      "imageFromFile": "Foto dari perangkat",
+      "orImageUrl": "Atau URL gambar (https)"
+    },
+    "grid": {
+      "stampCreated": "CreatedDate",
+      "stampEdited": "EditDate"
+    },
+    "minimart": {
+      "confirmVoidOpenBill": "Batalkan tagihan kamar yang belum dibayar? Tidak akan ditagih.",
+      "toastBillOnCustomer": "Tagihan ditambahkan ke pesanan aktif (belum dibayar) — {n}",
+      "toastNoOpenBills": "Tidak ada tagihan belum dibayar untuk diselesaikan. Gunakan Taruh tagihan ke pelanggan dulu, atau bayar keranjang dengan Tunai/Kartu.",
+      "toastSettleOrCart": "Selesaikan tagihan kamar di Bayar total, atau bayar keranjang dengan Tunai/Kartu. Kosongkan keranjang atau selesaikan pembayaran dulu.",
+      "voidOpenBill": "Batalkan tagihan",
+      "voidOpenBillOk": "Tagihan terbuka dibatalkan."
+    },
+    "msg": {
+      "appStillLoading": "Aplikasi masih memuat. Tunggu beberapa detik, lalu coba lagi.",
+      "cannotDeleteUnpaidOrder": "Pesanan ini belum dibayar. Terima pembayaran, batalkan pesanan, atau gunakan Hapus hanya setelah dibayar atau dibatalkan.",
+      "cannotMarkPaidWithoutPayment": "Anda tidak dapat menandai pesanan lunas di sini tanpa pembayaran tercatat. Gunakan aksi pembayaran pada pesanan.",
+      "cannotVoidPostedOrder": "Pesanan ini sudah diposting ke buku besar. Refund transaksi atau hubungi admin.",
+      "confirmVoidOrder": "Batalkan pesanan belum dibayar ini? Tidak perlu pembayaran dan akan dikecualikan dari total aktif.",
+      "imageNotImage": "Pilih file gambar.",
+      "imageTooLarge": "Gambar terlalu besar (maks. 700 KB).",
+      "orderAlreadyFinal": "Pesanan ini tidak dapat dibatalkan lagi (sudah disajikan atau final).",
+      "orderIsVoidNoPay": "Pesanan ini dibatalkan — tidak ada pembayaran.",
+      "orderVoided": "Pesanan dibatalkan.",
+      "restoreInvalid": "File cadangan harus berupa objek JSON.",
+      "saveFailed": "Tidak dapat menyimpan. Coba lagi atau muat ulang halaman.",
+      "storageError": "Penyimpanan diblokir. Izinkan data situs untuk halaman ini di pengaturan browser, lalu coba lagi."
+    },
+    "orderHistory": {
+      "voidOrder": "Batalkan"
+    },
+    "restaurant": {
+      "addTable": "Tambah meja",
+      "addTableTitle": "Tambahkan meja ke denah lantai",
+      "fieldTableCapacity": "Kursi (kapasitas)",
+      "fieldTableLabel": "Nama / label meja",
+      "fieldTableNotes": "Catatan (opsional)",
+      "maxTables": "Anda dapat menambahkan paling banyak {n} meja.",
+      "modalAddTableTitle": "Tambah meja",
+      "phTableLabel": "mis. Meja 11 atau Patio 2",
+      "phTableNotes": "Lokasi, VIP, dll.",
+      "tableAdded": "Lantai sekarang memiliki {n} meja.",
+      "toastEnterTableLabel": "Masukkan nama atau label meja",
+      "toastTableAdded": "Ditambahkan {name}.",
+      "toastTableLabelExists": "Meja dengan label itu sudah ada"
+    },
+    "settings": {
+      "csvBtnMartOpen": "Tagihan terbuka mini-mart",
+      "csvBtnRestTables": "Meja restoran",
+      "freshStart": "Hapus total dan setup baru",
+      "freshStartConfirm": "Ini akan menghapus SEMUA data dan setup sistem (email dan kata sandi) di perangkat ini. Lanjutkan?",
+      "freshStartConfirm2": "Tidak dapat dibatalkan. Lanjutkan hapus total dan setup baru?",
+      "freshStartHint": "Menghapus semua data dan setup sistem pertama kali (email dan kata sandi) di browser ini. Setelah muat ulang, Anda harus menjalankan setup sebelum masuk. Gunakan setelah pembaruan besar atau menyerahkan perangkat.",
+      "reloadDemoKeepCatalog": "Muat ulang data sampel (pertahankan menu & produk toko)",
+      "reloadDemoKeepCatalogHint": "Menghapus pemesanan, kamar, pesanan, dan transaksi, lalu memuat data demo baru. Item menu restoran dan produk mini-mart saat ini dipertahankan.",
+      "rowMartOpen": "Tagihan terbuka mini-mart (Taruh tagihan ke pelanggan, belum dibayar)",
+      "rowRestTables": "Denah meja restoran (label untuk walk-in / tab POS)"
+    }
+  },
+  "tr": {
+    "dashboard": {
+      "axisFbRevenue": "F&B",
+      "comprehensiveSubtitle": "PMS, restoran ve mini-market tek görünümde. Oda ücretleri takvim gününe göre; F&B ve mağaza satışları vardiya filtreleri için zaman damgası kullanır.",
+      "exportCsv": "CSV dışa aktar",
+      "exportCsvOk": "Rapor indirildi",
+      "filterShift": "Vardiya",
+      "multiSeries": "Çoklu seri (iş birimi başına)",
+      "occVsFb": "Doluluk % vs F&B (restoran + mağaza)",
+      "posTransTitle": "Mağaza / POS satışları ({n})",
+      "printOrPdf": "Yazdır / PDF olarak kaydet",
+      "restOrdersTitle": "Restoran siparişleri ({n})",
+      "revenueByUnit": "İş birimine göre gelir",
+      "shiftA": "Öğleden sonra",
+      "shiftAfternoon": "Öğleden sonra (12:00–18:00)",
+      "shiftCompare": "Gün bölümüne göre gelir (aralıkta)",
+      "shiftM": "Sabah",
+      "shiftMorning": "Sabah (06:00–12:00)",
+      "shiftN": "Akşam ve gece",
+      "shiftNight": "Akşam ve gece (18:00–06:00)",
+      "shiftT": "Tüm gün",
+      "shiftTotal": "Toplam (tüm gün bölümleri)",
+      "singleTotalLine": "Tek \"toplam gelir\" çizgisi",
+      "tableFnB": "F&B"
+    },
+    "g": {
+      "imageFromFile": "Cihazdan fotoğraf",
+      "orImageUrl": "Veya görsel URL (https)"
+    },
+    "grid": {
+      "stampCreated": "CreatedDate",
+      "stampEdited": "EditDate"
+    },
+    "minimart": {
+      "confirmVoidOpenBill": "Bu ödenmemiş oda faturası iptal edilsin mi? Ücretlendirilmeyecek.",
+      "toastBillOnCustomer": "Fatura aktif siparişlere eklendi (henüz ödenmedi) — {n}",
+      "toastNoOpenBills": "Kapatılacak ödenmemiş fatura yok. Önce Müşteriye fatura koy kullanın veya sepeti Nakit/Kart ile ödeyin.",
+      "toastSettleOrCart": "Oda faturasını Toplam öde'de kapatın veya sepeti Nakit/Kart ile ödeyin. Önce sepeti temizleyin veya ödemeyi tamamlayın.",
+      "voidOpenBill": "Faturayı iptal et",
+      "voidOpenBillOk": "Açık fatura iptal edildi."
+    },
+    "msg": {
+      "appStillLoading": "Uygulama hâlâ yükleniyor. Birkaç saniye bekleyin, sonra tekrar deneyin.",
+      "cannotDeleteUnpaidOrder": "Bu sipariş ödenmedi. Ödeme alın, siparişi iptal edin veya yalnızca ödendikten veya iptal edildikten sonra Sil kullanın.",
+      "cannotMarkPaidWithoutPayment": "Kayıtlı ödeme olmadan burada siparişi ödendi olarak işaretleyemezsiniz. Siparişteki ödeme eylemini kullanın.",
+      "cannotVoidPostedOrder": "Bu sipariş zaten deftere kayıtlı. İşlemi iade edin veya yöneticiyle iletişime geçin.",
+      "confirmVoidOrder": "Bu ödenmemiş sipariş iptal edilsin mi? Ödeme gerekmez ve aktif toplamlardan hariç tutulur.",
+      "imageNotImage": "Lütfen bir görsel dosyası seçin.",
+      "imageTooLarge": "Görsel çok büyük (maks. 700 KB).",
+      "orderAlreadyFinal": "Bu sipariş artık iptal edilemez (zaten servis edildi veya kesinleşti).",
+      "orderIsVoidNoPay": "Bu sipariş iptal — ödeme gerekmez.",
+      "orderVoided": "Sipariş iptal edildi.",
+      "restoreInvalid": "Yedek dosya bir JSON nesnesi olmalıdır.",
+      "saveFailed": "Kaydedilemedi. Tekrar deneyin veya sayfayı yenileyin.",
+      "storageError": "Depolama engellendi. Tarayıcı ayarlarında bu sayfa için site verilerine izin verin, sonra tekrar deneyin."
+    },
+    "orderHistory": {
+      "voidOrder": "İptal"
+    },
+    "restaurant": {
+      "addTable": "Masa ekle",
+      "addTableTitle": "Kat planına masa ekle",
+      "fieldTableCapacity": "Koltuk (kapasite)",
+      "fieldTableLabel": "Masa adı / etiket",
+      "fieldTableNotes": "Notlar (isteğe bağlı)",
+      "maxTables": "En fazla {n} masa ekleyebilirsiniz.",
+      "modalAddTableTitle": "Masa ekle",
+      "phTableLabel": "örn. Masa 11 veya Teras 2",
+      "phTableNotes": "Konum, VIP vb.",
+      "tableAdded": "Salonda artık {n} masa var.",
+      "toastEnterTableLabel": "Masa adı veya etiket girin",
+      "toastTableAdded": "{name} eklendi.",
+      "toastTableLabelExists": "Bu etiketli masa zaten var"
+    },
+    "settings": {
+      "csvBtnMartOpen": "Mini-market açık faturalar",
+      "csvBtnRestTables": "Restoran masaları",
+      "freshStart": "Tam silme ve yeni kurulum",
+      "freshStartConfirm": "Bu, bu cihazdaki TÜM verileri ve sistem kurulumunuzu (e-posta ve şifre) silecek. Devam?",
+      "freshStartConfirm2": "Geri alınamaz. Tam silme ve yeni kuruluma devam edilsin mi?",
+      "freshStartHint": "Bu tarayıcıdaki tüm verileri ve ilk sistem kurulumunu (e-posta ve şifre) siler. Yeniden yüklemeden sonra oturum açmadan önce kurulumu tekrar çalıştırmalısınız. Büyük güncelleme sonrası veya cihaz devri için kullanın.",
+      "reloadDemoKeepCatalog": "Örnek veriyi yeniden yükle (menü ve mağaza ürünlerini koru)",
+      "reloadDemoKeepCatalogHint": "Rezervasyonları, odaları, siparişleri ve işlemleri temizler, ardından yeni demo verisi yükler. Mevcut restoran menüsü ve mini-market ürünleri korunur.",
+      "rowMartOpen": "Mini-market açık faturalar (Müşteriye fatura koy, henüz ödenmedi)",
+      "rowRestTables": "Restoran masa katı (walk-in / POS sekmeleri için etiketler)"
+    }
+  },
+  "ru": {
+    "dashboard": {
+      "axisFbRevenue": "F&B",
+      "comprehensiveSubtitle": "PMS, ресторан и минимаркет в одном представлении. Плата за номер по календарному дню; продажи F&B и магазина используют метки времени для фильтров смен.",
+      "exportCsv": "Экспорт CSV",
+      "exportCsvOk": "Отчёт загружен",
+      "filterShift": "Смена",
+      "multiSeries": "Несколько серий (по подразделению)",
+      "occVsFb": "Загрузка % vs F&B (ресторан + магазин)",
+      "posTransTitle": "Продажи магазина / POS ({n})",
+      "printOrPdf": "Печать / сохранить как PDF",
+      "restOrdersTitle": "Заказы ресторана ({n})",
+      "revenueByUnit": "Выручка по подразделению",
+      "shiftA": "День",
+      "shiftAfternoon": "День (12:00–18:00)",
+      "shiftCompare": "Выручка по части дня (в диапазоне)",
+      "shiftM": "Утро",
+      "shiftMorning": "Утро (06:00–12:00)",
+      "shiftN": "Вечер и ночь",
+      "shiftNight": "Вечер и ночь (18:00–06:00)",
+      "shiftT": "Весь день",
+      "shiftTotal": "Итого (все части дня)",
+      "singleTotalLine": "Одна линия «общая выручка»",
+      "tableFnB": "F&B"
+    },
+    "g": {
+      "imageFromFile": "Фото с устройства",
+      "orImageUrl": "Или URL изображения (https)"
+    },
+    "grid": {
+      "stampCreated": "CreatedDate",
+      "stampEdited": "EditDate"
+    },
+    "minimart": {
+      "confirmVoidOpenBill": "Аннулировать неоплаченный счёт номера? Он не будет начислен.",
+      "toastBillOnCustomer": "Счёт добавлен в активные заказы (ещё не оплачен) — {n}",
+      "toastNoOpenBills": "Нет неоплаченного счёта для закрытия. Сначала используйте Выставить счёт клиенту или оплатите корзину наличными/картой.",
+      "toastSettleOrCart": "Закройте счёт номера в Оплатить итого или оплатите корзину наличными/картой. Сначала очистите корзину или завершите оплату.",
+      "voidOpenBill": "Аннулировать счёт",
+      "voidOpenBillOk": "Открытый счёт аннулирован."
+    },
+    "msg": {
+      "appStillLoading": "Приложение ещё загружается. Подождите несколько секунд и повторите.",
+      "cannotDeleteUnpaidOrder": "Заказ не оплачен. Примите оплату, аннулируйте заказ или удаляйте только после оплаты или аннулирования.",
+      "cannotMarkPaidWithoutPayment": "Нельзя отметить заказ оплаченным здесь без записанного платежа. Используйте действие оплаты на заказе.",
+      "cannotVoidPostedOrder": "Заказ уже проведён в журнале. Верните транзакцию или обратитесь к администратору.",
+      "confirmVoidOrder": "Аннулировать неоплаченный заказ? Оплата не потребуется, он будет исключён из активных итогов.",
+      "imageNotImage": "Выберите файл изображения.",
+      "imageTooLarge": "Изображение слишком большое (макс. 700 КБ).",
+      "orderAlreadyFinal": "Этот заказ больше нельзя аннулировать (уже подан или завершён).",
+      "orderIsVoidNoPay": "Заказ аннулирован — оплата не требуется.",
+      "orderVoided": "Заказ аннулирован.",
+      "restoreInvalid": "Файл резервной копии должен быть объектом JSON.",
+      "saveFailed": "Не удалось сохранить. Повторите или перезагрузите страницу.",
+      "storageError": "Хранилище заблокировано. Разрешите данные сайта для этой страницы в настройках браузера и повторите."
+    },
+    "orderHistory": {
+      "voidOrder": "Аннулировать"
+    },
+    "restaurant": {
+      "addTable": "Добавить стол",
+      "addTableTitle": "Добавить стол на план зала",
+      "fieldTableCapacity": "Места (вместимость)",
+      "fieldTableLabel": "Название / метка стола",
+      "fieldTableNotes": "Заметки (необязательно)",
+      "maxTables": "Можно добавить не более {n} столов.",
+      "modalAddTableTitle": "Добавить стол",
+      "phTableLabel": "напр. Стол 11 или Терраса 2",
+      "phTableNotes": "Расположение, VIP и т. д.",
+      "tableAdded": "В зале теперь {n} столов.",
+      "toastEnterTableLabel": "Введите название или метку стола",
+      "toastTableAdded": "Добавлено {name}.",
+      "toastTableLabelExists": "Стол с такой меткой уже существует"
+    },
+    "settings": {
+      "csvBtnMartOpen": "Открытые счета минимаркета",
+      "csvBtnRestTables": "Столы ресторана",
+      "freshStart": "Полная очистка и новая настройка",
+      "freshStartConfirm": "Это удалит ВСЕ данные и настройку системы (e-mail и пароль) на этом устройстве. Продолжить?",
+      "freshStartConfirm2": "Это нельзя отменить. Выполнить полную очистку и новую настройку?",
+      "freshStartHint": "Удаляет все данные и первоначальную настройку системы (e-mail и пароль) в этом браузере. После перезагрузки нужно снова выполнить настройку перед входом. Используйте после крупного обновления или при передаче устройства.",
+      "reloadDemoKeepCatalog": "Перезагрузить демо-данные (сохранить меню и товары)",
+      "reloadDemoKeepCatalogHint": "Очищает бронирования, номера, заказы и транзакции, затем загружает новые демо-данные. Текущие блюда ресторана и товары минимаркета сохраняются.",
+      "rowMartOpen": "Открытые счета минимаркета (Выставить счёт клиенту, ещё не оплачен)",
+      "rowRestTables": "План столов ресторана (метки для walk-in / вкладок POS)"
+    }
+  },
+  "it": {
+    "dashboard": {
+      "axisFbRevenue": "F&B",
+      "comprehensiveSubtitle": "PMS, ristorante e minimarket in un'unica vista. Addebiti camera per giorno di calendario; vendite F&B e negozio usano timestamp per filtri turno.",
+      "exportCsv": "Esporta CSV",
+      "exportCsvOk": "Report scaricato",
+      "filterShift": "Turno",
+      "multiSeries": "Multi-serie (per unità operativa)",
+      "occVsFb": "Occupazione % vs F&B (ristorante + negozio)",
+      "posTransTitle": "Vendite negozio / POS ({n})",
+      "printOrPdf": "Stampa / salva come PDF",
+      "restOrdersTitle": "Ordini ristorante ({n})",
+      "revenueByUnit": "Ricavi per unità operativa",
+      "shiftA": "Pomeriggio",
+      "shiftAfternoon": "Pomeriggio (12:00–18:00)",
+      "shiftCompare": "Ricavi per fascia oraria (nell'intervallo)",
+      "shiftM": "Mattina",
+      "shiftMorning": "Mattina (06:00–12:00)",
+      "shiftN": "Sera e notte",
+      "shiftNight": "Sera e notte (18:00–06:00)",
+      "shiftT": "Tutto il giorno",
+      "shiftTotal": "Totale (tutte le fasce)",
+      "singleTotalLine": "Singola linea \"ricavi totali\"",
+      "tableFnB": "F&B"
+    },
+    "g": {
+      "imageFromFile": "Foto dal dispositivo",
+      "orImageUrl": "O URL immagine (https)"
+    },
+    "grid": {
+      "stampCreated": "CreatedDate",
+      "stampEdited": "EditDate"
+    },
+    "minimart": {
+      "confirmVoidOpenBill": "Annullare questo conto camera non pagato? Non verrà addebitato.",
+      "toastBillOnCustomer": "Conto aggiunto agli ordini attivi (non ancora pagato) — {n}",
+      "toastNoOpenBills": "Nessun conto non pagato da saldare. Usa prima Metti conto al cliente, o paga il carrello in Contanti/Carta.",
+      "toastSettleOrCart": "Salda il conto camera in Paga totale, o paga il carrello in Contanti/Carta. Svuota il carrello o completa il pagamento prima.",
+      "voidOpenBill": "Annulla conto",
+      "voidOpenBillOk": "Conto aperto annullato."
+    },
+    "msg": {
+      "appStillLoading": "L'app è ancora in caricamento. Attendi qualche secondo e riprova.",
+      "cannotDeleteUnpaidOrder": "Questo ordine non è pagato. Incassa, annulla l'ordine o usa Elimina solo dopo pagamento o annullamento.",
+      "cannotMarkPaidWithoutPayment": "Non puoi segnare un ordine come pagato qui senza un pagamento registrato. Usa l'azione di pagamento sull'ordine.",
+      "cannotVoidPostedOrder": "Questo ordine è già registrato nel libro mastro. Rimborsa la transazione o contatta un admin.",
+      "confirmVoidOrder": "Annullare questo ordine non pagato? Non richiederà pagamento e sarà escluso dai totali attivi.",
+      "imageNotImage": "Scegli un file immagine.",
+      "imageTooLarge": "Immagine troppo grande (max 700 KB).",
+      "orderAlreadyFinal": "Questo ordine non può più essere annullato (già servito o finale).",
+      "orderIsVoidNoPay": "Questo ordine è annullato — nessun pagamento dovuto.",
+      "orderVoided": "Ordine annullato.",
+      "restoreInvalid": "Il file di backup deve essere un oggetto JSON.",
+      "saveFailed": "Impossibile salvare. Riprova o ricarica la pagina.",
+      "storageError": "Archiviazione bloccata. Consenti i dati del sito per questa pagina nelle impostazioni del browser, poi riprova."
+    },
+    "orderHistory": {
+      "voidOrder": "Annulla"
+    },
+    "restaurant": {
+      "addTable": "Aggiungi tavolo",
+      "addTableTitle": "Aggiungi un tavolo alla pianta della sala",
+      "fieldTableCapacity": "Posti (capacità)",
+      "fieldTableLabel": "Nome / etichetta tavolo",
+      "fieldTableNotes": "Note (facoltativo)",
+      "maxTables": "Puoi aggiungere al massimo {n} tavoli.",
+      "modalAddTableTitle": "Aggiungi tavolo",
+      "phTableLabel": "es. Tavolo 11 o Patio 2",
+      "phTableNotes": "Posizione, VIP, ecc.",
+      "tableAdded": "La sala ha ora {n} tavoli.",
+      "toastEnterTableLabel": "Inserisci un nome o etichetta tavolo",
+      "toastTableAdded": "Aggiunto {name}.",
+      "toastTableLabelExists": "Esiste già un tavolo con quell'etichetta"
+    },
+    "settings": {
+      "csvBtnMartOpen": "Conti aperti minimarket",
+      "csvBtnRestTables": "Tavoli ristorante",
+      "freshStart": "Cancellazione completa e nuova configurazione",
+      "freshStartConfirm": "Questo eliminerà TUTTI i dati e la configurazione di sistema (e-mail e password) su questo dispositivo. Continuare?",
+      "freshStartConfirm2": "Non può essere annullato. Procedere con cancellazione completa e nuova configurazione?",
+      "freshStartHint": "Elimina tutti i dati e la configurazione iniziale del sistema (e-mail e password) in questo browser. Dopo il ricaricamento devi eseguire di nuovo la configurazione prima dell'accesso. Usalo dopo un aggiornamento importante o per consegnare il dispositivo.",
+      "reloadDemoKeepCatalog": "Ricarica dati di esempio (mantieni menu e prodotti negozio)",
+      "reloadDemoKeepCatalogHint": "Cancella prenotazioni, camere, ordini e transazioni, poi carica nuovi dati demo. Gli articoli del menu ristorante e i prodotti minimarket attuali vengono mantenuti.",
+      "rowMartOpen": "Conti aperti minimarket (Metti conto al cliente, non ancora pagato)",
+      "rowRestTables": "Pianta tavoli ristorante (etichette per walk-in / schede POS)"
+    }
+  },
+  "nl": {
+    "dashboard": {
+      "axisFbRevenue": "F&B",
+      "comprehensiveSubtitle": "PMS, restaurant en minimarkt in één weergave. Kamerkosten per kalenderdag; F&B- en winkelverkopen gebruiken tijdstempels voor shiftfilters.",
+      "exportCsv": "CSV exporteren",
+      "exportCsvOk": "Rapport gedownload",
+      "filterShift": "Shift",
+      "multiSeries": "Meerdere reeksen (per business unit)",
+      "occVsFb": "Bezetting % vs F&B (restaurant + winkel)",
+      "posTransTitle": "Winkel- / kassa-omzet ({n})",
+      "printOrPdf": "Afdrukken / opslaan als PDF",
+      "restOrdersTitle": "Restaurantbestellingen ({n})",
+      "revenueByUnit": "Omzet per business unit",
+      "shiftA": "Middag",
+      "shiftAfternoon": "Middag (12:00–18:00)",
+      "shiftCompare": "Omzet per dagdeel (in bereik)",
+      "shiftM": "Ochtend",
+      "shiftMorning": "Ochtend (06:00–12:00)",
+      "shiftN": "Avond en nacht",
+      "shiftNight": "Avond en nacht (18:00–06:00)",
+      "shiftT": "Hele dag",
+      "shiftTotal": "Totaal (alle dagdelen)",
+      "singleTotalLine": "Enkele \"totale omzet\"-lijn",
+      "tableFnB": "F&B"
+    },
+    "g": {
+      "imageFromFile": "Foto van apparaat",
+      "orImageUrl": "Of afbeeldings-URL (https)"
+    },
+    "grid": {
+      "stampCreated": "CreatedDate",
+      "stampEdited": "EditDate"
+    },
+    "minimart": {
+      "confirmVoidOpenBill": "Deze onbetaalde kamerrekening annuleren? Er wordt niet gefactureerd.",
+      "toastBillOnCustomer": "Rekening toegevoegd aan actieve bestellingen (nog niet betaald) — {n}",
+      "toastNoOpenBills": "Geen onbetaalde rekening om af te rekenen. Gebruik eerst Rekening op klant, of betaal de winkelwagen contant/kaart.",
+      "toastSettleOrCart": "Reken de kamerrekening af in Totaal betalen, of betaal de winkelwagen contant/kaart. Leeg de winkelwagen of rond betaling eerst af.",
+      "voidOpenBill": "Rekening annuleren",
+      "voidOpenBillOk": "Open rekening geannuleerd."
+    },
+    "msg": {
+      "appStillLoading": "App wordt nog geladen. Wacht enkele seconden en probeer opnieuw.",
+      "cannotDeleteUnpaidOrder": "Deze bestelling is niet betaald. Innen, annuleren of Verwijderen pas na betaling of annulering.",
+      "cannotMarkPaidWithoutPayment": "U kunt een bestelling hier niet als betaald markeren zonder geregistreerde betaling. Gebruik de betaalactie op de bestelling.",
+      "cannotVoidPostedOrder": "Deze bestelling staat al in het grootboek. Restitueer de transactie of neem contact op met een beheerder.",
+      "confirmVoidOrder": "Deze onbetaalde bestelling annuleren? Geen betaling vereist; wordt uitgesloten van actieve totalen.",
+      "imageNotImage": "Kies een afbeeldingsbestand.",
+      "imageTooLarge": "Afbeelding is te groot (max. 700 KB).",
+      "orderAlreadyFinal": "Deze bestelling kan niet meer worden geannuleerd (al geserveerd of afgerond).",
+      "orderIsVoidNoPay": "Deze bestelling is geannuleerd — geen betaling verschuldigd.",
+      "orderVoided": "Bestelling geannuleerd.",
+      "restoreInvalid": "Back-upbestand moet een JSON-object zijn.",
+      "saveFailed": "Opslaan mislukt. Probeer opnieuw of laad de pagina opnieuw.",
+      "storageError": "Opslag geblokkeerd. Sta sitegegevens toe voor deze pagina in browserinstellingen en probeer opnieuw."
+    },
+    "orderHistory": {
+      "voidOrder": "Annuleren"
+    },
+    "restaurant": {
+      "addTable": "Tafel toevoegen",
+      "addTableTitle": "Een tafel toevoegen aan het zaalplan",
+      "fieldTableCapacity": "Stoelen (capaciteit)",
+      "fieldTableLabel": "Tafelnaam / label",
+      "fieldTableNotes": "Notities (optioneel)",
+      "maxTables": "U kunt maximaal {n} tafels toevoegen.",
+      "modalAddTableTitle": "Tafel toevoegen",
+      "phTableLabel": "bijv. Tafel 11 of Terras 2",
+      "phTableNotes": "Locatie, VIP, enz.",
+      "tableAdded": "De zaal heeft nu {n} tafels.",
+      "toastEnterTableLabel": "Voer een tafelnaam of label in",
+      "toastTableAdded": "{name} toegevoegd.",
+      "toastTableLabelExists": "Er bestaat al een tafel met dat label"
+    },
+    "settings": {
+      "csvBtnMartOpen": "Open minimarkt-rekeningen",
+      "csvBtnRestTables": "Restauranttafels",
+      "freshStart": "Volledige wipe en nieuwe setup",
+      "freshStartConfirm": "Dit verwijdert ALLE gegevens en uw systeemsetup (e-mail en wachtwoord) op dit apparaat. Doorgaan?",
+      "freshStartConfirm2": "Dit kan niet ongedaan worden gemaakt. Doorgaan met volledige wipe en nieuwe setup?",
+      "freshStartHint": "Verwijdert alle gegevens en de eerste systeemsetup (e-mail en wachtwoord) in deze browser. Na herladen moet u setup opnieuw uitvoeren vóór aanmelden. Gebruik na een grote update of bij overdracht van het apparaat.",
+      "reloadDemoKeepCatalog": "Demogegevens herladen (menu en winkelproducten behouden)",
+      "reloadDemoKeepCatalogHint": "Wist boekingen, kamers, bestellingen en transacties, laadt daarna nieuwe demogegevens. Huidige restaurantmenu-items en minimarktproducten blijven behouden.",
+      "rowMartOpen": "Open minimarkt-rekeningen (Rekening op klant, nog niet betaald)",
+      "rowRestTables": "Restauranttafelvloer (labels voor walk-in / kassatabbladen)"
+    }
+  },
+  "pl": {
+    "dashboard": {
+      "axisFbRevenue": "F&B",
+      "comprehensiveSubtitle": "PMS, restauracja i minimarket w jednym widoku. Opłaty za pokój według dnia kalendarzowego; sprzedaż F&B i sklepu używa znaczników czasu do filtrów zmian.",
+      "exportCsv": "Eksportuj CSV",
+      "exportCsvOk": "Raport pobrany",
+      "filterShift": "Zmiana",
+      "multiSeries": "Wiele serii (na jednostkę biznesową)",
+      "occVsFb": "Obłożenie % vs F&B (restauracja + sklep)",
+      "posTransTitle": "Sprzedaż sklepu / POS ({n})",
+      "printOrPdf": "Drukuj / zapisz jako PDF",
+      "restOrdersTitle": "Zamówienia restauracji ({n})",
+      "revenueByUnit": "Przychód według jednostki biznesowej",
+      "shiftA": "Popołudnie",
+      "shiftAfternoon": "Popołudnie (12:00–18:00)",
+      "shiftCompare": "Przychód według pory dnia (w zakresie)",
+      "shiftM": "Rano",
+      "shiftMorning": "Rano (06:00–12:00)",
+      "shiftN": "Wieczór i noc",
+      "shiftNight": "Wieczór i noc (18:00–06:00)",
+      "shiftT": "Cały dzień",
+      "shiftTotal": "Razem (wszystkie pory)",
+      "singleTotalLine": "Pojedyncza linia \"całkowity przychód\"",
+      "tableFnB": "F&B"
+    },
+    "g": {
+      "imageFromFile": "Zdjęcie z urządzenia",
+      "orImageUrl": "Lub URL obrazu (https)"
+    },
+    "grid": {
+      "stampCreated": "CreatedDate",
+      "stampEdited": "EditDate"
+    },
+    "minimart": {
+      "confirmVoidOpenBill": "Anulować ten nieopłacony rachunek pokoju? Nie zostanie naliczony.",
+      "toastBillOnCustomer": "Rachunek dodany do aktywnych zamówień (jeszcze nieopłacony) — {n}",
+      "toastNoOpenBills": "Brak nieopłaconego rachunku do rozliczenia. Najpierw użyj Rachunek na klienta lub zapłać koszyk gotówką/kartą.",
+      "toastSettleOrCart": "Rozlicz rachunek pokoju w Zapłać łącznie lub zapłać koszyk gotówką/kartą. Najpierw opróżnij koszyk lub dokończ płatność.",
+      "voidOpenBill": "Anuluj rachunek",
+      "voidOpenBillOk": "Otwarty rachunek anulowany."
+    },
+    "msg": {
+      "appStillLoading": "Aplikacja nadal się ładuje. Poczekaj kilka sekund i spróbuj ponownie.",
+      "cannotDeleteUnpaidOrder": "To zamówienie nie jest opłacone. Pobierz płatność, anuluj zamówienie lub użyj Usuń dopiero po opłaceniu lub anulowaniu.",
+      "cannotMarkPaidWithoutPayment": "Nie możesz oznaczyć zamówienia jako opłacone bez zarejestrowanej płatności. Użyj akcji płatności na zamówieniu.",
+      "cannotVoidPostedOrder": "To zamówienie jest już w księdze. Zwróć transakcję lub skontaktuj się z administratorem.",
+      "confirmVoidOrder": "Anulować to nieopłacone zamówienie? Płatność nie będzie wymagana i zostanie wykluczone z aktywnych sum.",
+      "imageNotImage": "Wybierz plik obrazu.",
+      "imageTooLarge": "Obraz jest za duży (maks. 700 KB).",
+      "orderAlreadyFinal": "Tego zamówienia nie można już anulować (już podane lub zakończone).",
+      "orderIsVoidNoPay": "To zamówienie jest anulowane — brak płatności.",
+      "orderVoided": "Zamówienie anulowane.",
+      "restoreInvalid": "Plik kopii zapasowej musi być obiektem JSON.",
+      "saveFailed": "Nie udało się zapisać. Spróbuj ponownie lub odśwież stronę.",
+      "storageError": "Pamięć zablokowana. Zezwól na dane witryny dla tej strony w ustawieniach przeglądarki i spróbuj ponownie."
+    },
+    "orderHistory": {
+      "voidOrder": "Anuluj"
+    },
+    "restaurant": {
+      "addTable": "Dodaj stolik",
+      "addTableTitle": "Dodaj stolik do planu sali",
+      "fieldTableCapacity": "Miejsca (pojemność)",
+      "fieldTableLabel": "Nazwa / etykieta stolika",
+      "fieldTableNotes": "Notatki (opcjonalnie)",
+      "maxTables": "Możesz dodać co najwyżej {n} stolików.",
+      "modalAddTableTitle": "Dodaj stolik",
+      "phTableLabel": "np. Stolik 11 lub Taras 2",
+      "phTableNotes": "Lokalizacja, VIP itd.",
+      "tableAdded": "Sala ma teraz {n} stolików.",
+      "toastEnterTableLabel": "Wprowadź nazwę lub etykietę stolika",
+      "toastTableAdded": "Dodano {name}.",
+      "toastTableLabelExists": "Stolik z tą etykietą już istnieje"
+    },
+    "settings": {
+      "csvBtnMartOpen": "Otwarte rachunki minimarketu",
+      "csvBtnRestTables": "Stoliki restauracji",
+      "freshStart": "Pełne wyczyszczenie i nowa konfiguracja",
+      "freshStartConfirm": "To usunie WSZYSTKIE dane i konfigurację systemu (e-mail i hasło) na tym urządzeniu. Kontynuować?",
+      "freshStartConfirm2": "Tego nie można cofnąć. Kontynuować pełne wyczyszczenie i nową konfigurację?",
+      "freshStartHint": "Usuwa wszystkie dane i pierwszą konfigurację systemu (e-mail i hasło) w tej przeglądarce. Po przeładowaniu musisz ponownie uruchomić konfigurację przed logowaniem. Użyj po dużej aktualizacji lub przy przekazaniu urządzenia.",
+      "reloadDemoKeepCatalog": "Przeładuj dane przykładowe (zachowaj menu i produkty sklepu)",
+      "reloadDemoKeepCatalogHint": "Czyści rezerwacje, pokoje, zamówienia i transakcje, następnie ładuje świeże dane demo. Bieżące pozycje menu restauracji i produkty minimarketu są zachowane.",
+      "rowMartOpen": "Otwarte rachunki minimarketu (Rachunek na klienta, jeszcze nieopłacony)",
+      "rowRestTables": "Plan stolików restauracji (etykiety dla walk-in / kart POS)"
+    }
+  },
+  "he": {
+    "dashboard": {
+      "axisFbRevenue": "F&B",
+      "comprehensiveSubtitle": "PMS, מסעדה ומינימארט בתצוגה אחת. חיובי חדר לפי יום לוח שנה; מכירות F&B וחנות משתמשות בחותמות זמן לסינון משמרות.",
+      "exportCsv": "ייצוא CSV",
+      "exportCsvOk": "הדוח הורד",
+      "filterShift": "משמרת",
+      "multiSeries": "ריבוי סדרות (לפי יחידה עסקית)",
+      "occVsFb": "תפוסה % מול F&B (מסעדה + חנות)",
+      "posTransTitle": "מכירות חנות / קופה ({n})",
+      "printOrPdf": "הדפסה / שמירה כ-PDF",
+      "restOrdersTitle": "הזמנות מסעדה ({n})",
+      "revenueByUnit": "הכנסות לפי יחידה עסקית",
+      "shiftA": "צהריים",
+      "shiftAfternoon": "צהריים (12:00–18:00)",
+      "shiftCompare": "הכנסות לפי חלק יום (בטווח)",
+      "shiftM": "בוקר",
+      "shiftMorning": "בוקר (06:00–12:00)",
+      "shiftN": "ערב ולילה",
+      "shiftNight": "ערב ולילה (18:00–06:00)",
+      "shiftT": "כל היום",
+      "shiftTotal": "סה\"כ (כל חלקי היום)",
+      "singleTotalLine": "קו \"הכנסה כוללת\" יחיד",
+      "tableFnB": "F&B"
+    },
+    "g": {
+      "imageFromFile": "תמונה מהמכשיר",
+      "orImageUrl": "או כתובת URL לתמונה (https)"
+    },
+    "grid": {
+      "stampCreated": "CreatedDate",
+      "stampEdited": "EditDate"
+    },
+    "minimart": {
+      "confirmVoidOpenBill": "לבטל חשבון חדר שלא שולם? לא יחויב.",
+      "toastBillOnCustomer": "חשבון נוסף להזמנות פעילות (עדיין לא שולם) — {n}",
+      "toastNoOpenBills": "אין חשבון שלא שולם לסגירה. השתמשו תחילה בהעברת חשבון ללקוח, או שלמו את העגלה במזומן/כרטיס.",
+      "toastSettleOrCart": "סגרו את חשבון החדר ב'שלם סה\"כ', או שלמו את העגלה במזומן/כרטיס. רוקנו את העגלה או השלימו תשלום תחילה.",
+      "voidOpenBill": "ביטול חשבון",
+      "voidOpenBillOk": "חשבון פתוח בוטל."
+    },
+    "msg": {
+      "appStillLoading": "האפליקציה עדיין נטענת. המתינו מספר שניות ונסו שוב.",
+      "cannotDeleteUnpaidOrder": "הזמנה זו לא שולמה. גבו תשלום, בטלו את ההזמנה, או השתמשו במחיקה רק לאחר תשלום או ביטול.",
+      "cannotMarkPaidWithoutPayment": "לא ניתן לסמן הזמנה כשולמה כאן ללא תשלום רשום. השתמשו בפעולת התשלום על ההזמנה.",
+      "cannotVoidPostedOrder": "הזמנה זו כבר נרשמה בספרים. החזירו את העסקה או פנו למנהל.",
+      "confirmVoidOrder": "לבטל הזמנה שלא שולמה? לא יידרש תשלום והיא תוצא מסכומים פעילים.",
+      "imageNotImage": "בחרו קובץ תמונה.",
+      "imageTooLarge": "התמונה גדולה מדי (מקסימום 700 KB).",
+      "orderAlreadyFinal": "לא ניתן עוד לבטל הזמנה זו (כבר הוגשה או סופית).",
+      "orderIsVoidNoPay": "הזמנה זו מבוטלת — אין תשלום.",
+      "orderVoided": "ההזמנה בוטלה.",
+      "restoreInvalid": "קובץ הגיבוי חייב להיות אובייקט JSON.",
+      "saveFailed": "לא ניתן לשמור. נסו שוב או רעננו את הדף.",
+      "storageError": "האחסון חסום. אפשרו נתוני אתר לדף זה בהגדרות הדפדפן ונסו שוב."
+    },
+    "orderHistory": {
+      "voidOrder": "ביטול"
+    },
+    "restaurant": {
+      "addTable": "הוספת שולחן",
+      "addTableTitle": "הוספת שולחן לתוכנית הרצפה",
+      "fieldTableCapacity": "מושבים (קיבולת)",
+      "fieldTableLabel": "שם / תווית שולחן",
+      "fieldTableNotes": "הערות (אופציונלי)",
+      "maxTables": "ניתן להוסיף לכל היותר {n} שולחנות.",
+      "modalAddTableTitle": "הוספת שולחן",
+      "phTableLabel": "למשל שולחן 11 או פátio 2",
+      "phTableNotes": "מיקום, VIP וכו'",
+      "tableAdded": "ברצפה יש כעת {n} שולחנות.",
+      "toastEnterTableLabel": "הזינו שם או תווית שולחן",
+      "toastTableAdded": "נוסף {name}.",
+      "toastTableLabelExists": "שולחן עם תווית זו כבר קיים"
+    },
+    "settings": {
+      "csvBtnMartOpen": "חשבונות פתוחים מינימארט",
+      "csvBtnRestTables": "שולחנות מסעדה",
+      "freshStart": "מחיקה מלאה והגדרה מחדש",
+      "freshStartConfirm": "פעולה זו תמחק את כל הנתונים וההגדרה (אימייל וסיסמה) במכשיר זה. להמשיך?",
+      "freshStartConfirm2": "לא ניתן לבטל. להמשיך במחיקה מלאה והגדרה מחדש?",
+      "freshStartHint": "מוחק את כל הנתונים וההגדרה הראשונית (אימייל וסיסמה) בדפדפן זה. לאחר טעינה מחדש יש להריץ הגדרה לפני כניסה. לשימוש אחרי עדכון גדול או מסירת המכשיר.",
+      "reloadDemoKeepCatalog": "טעינת נתוני דוגמה מחדש (שמירת תפריט ומוצרי חנות)",
+      "reloadDemoKeepCatalogHint": "מנקה הזמנות, חדרים, הזמנות ועסקאות, ואז טוען נתוני demo חדשים. פריטי תפריט המסעדה ומוצרי המינימארט הנוכחיים נשמרים.",
+      "rowMartOpen": "חשבונות פתוחים מינימארט (העברת חשבון ללקוח, עדיין לא שולם)",
+      "rowRestTables": "רצפת שולחנות מסעדה (תוויות ל-walk-in / לשוניות קופה)"
+    }
+  },
+  "lo": {
+    "dashboard": {
+      "axisFbRevenue": "F&B",
+      "comprehensiveSubtitle": "PMS, ຮ້ານອາຫານ ແລະ ມິນິມາກ ໃນມຸມມອງດຽວ. ຄ່າຫ້ອງຕາມວັນປະຕິທິນ; ຍອດຂາຍ F&B ແລະ ຮ້ານໃຊ້ timestamp ສຳລັບຕົວກອງກະ.",
+      "exportCsv": "ສົ່ງອອກ CSV",
+      "exportCsvOk": "ດາວໂຫຼດລາຍງານແລ້ວ",
+      "filterShift": "ກະ",
+      "multiSeries": "ຫຼາຍຊຸດ (ຕໍ່ຫນ່ວຍທຸລະກິດ)",
+      "occVsFb": "ອັດຕາເຂົ້າພັກ % ທຽບ F&B (ຮ້ານອາຫານ + ຮ້ານ)",
+      "posTransTitle": "ຍອດຂາຍຮ້ານ / POS ({n})",
+      "printOrPdf": "ພິມ / ບັນທຶເປັນ PDF",
+      "restOrdersTitle": "ອໍເດີຮ້ານອາຫານ ({n})",
+      "revenueByUnit": "ລາຍຮັບຕາມຫນ່ວຍທຸລະກິດ",
+      "shiftA": "ບ່າຍ",
+      "shiftAfternoon": "ບ່າຍ (12:00–18:00)",
+      "shiftCompare": "ລາຍຮັບຕາມຊ່ວງເວລາ (ໃນຊ່ວງ)",
+      "shiftM": "ເຊົ້າ",
+      "shiftMorning": "ເຊົ້າ (06:00–12:00)",
+      "shiftN": "ແລງ ແລະ ກາງຄືນ",
+      "shiftNight": "ແລງ ແລະ ກາງຄືນ (18:00–06:00)",
+      "shiftT": "ທັງມື້",
+      "shiftTotal": "ລວມ (ທຸກຊ່ວງ)",
+      "singleTotalLine": "ເສັ້ນ \"ລາຍຮັບລວມ\" ດຽວ",
+      "tableFnB": "F&B"
+    },
+    "g": {
+      "imageFromFile": "ຮູບຈາກອຸປະກອນ",
+      "orImageUrl": "ຫຼື URL ຮູບ (https)"
+    },
+    "grid": {
+      "stampCreated": "CreatedDate",
+      "stampEdited": "EditDate"
+    },
+    "minimart": {
+      "confirmVoidOpenBill": "ຍົກເລີກບິນຫ້ອງທີ່ຍັງບໍ່ຈ່າຍ? ຈະບໍ່ຖືກເກັບເງິນ.",
+      "toastBillOnCustomer": "ເພີ່ມບິນໃນອໍເດີທີ່ໃຊ້ງານ (ຍັງບໍ່ຈ່າຍ) — {n}",
+      "toastNoOpenBills": "ບໍ່ມີບິນຄ້າງຈ່າຍ. ໃຊ້ໃສ່ບິນໃຫ້ລູກຄ້າກ່ອນ, ຫຼື ຈ່າຍກະຕ່າດ້ວຍເງິນສົດ/ບັດ.",
+      "toastSettleOrCart": "ຊຳລະບິນຫ້ອງໃນ ຈ່າຍລວມ, ຫຼື ຈ່າຍກະຕ່າດ້ວຍເງິນສົດ/ບັດ. ລ້າງກະຕ່າຫຼື ຈ່າຍໃຫ້ສຳເລັດກ່ອນ.",
+      "voidOpenBill": "ຍົກເລີກບິນ",
+      "voidOpenBillOk": "ຍົກເລີກບິນເປີດແລ້ວ."
+    },
+    "msg": {
+      "appStillLoading": "ແອັກຍັງໂຫຼດຢູ່. ລໍຖ້າສອງສາມວິນາທີ ແລ້ວລອງອີກ.",
+      "cannotDeleteUnpaidOrder": "ອໍເດີນີ້ຍັງບໍ່ຈ່າຍ. ເກັບເງິນ, ຍົກເລີກອໍເດີ, ຫຼື ລຶບຫຼັງຈ່າຍ ຫຼື ຍົກເລີກແລ້ວເທົ່ານັ້ນ.",
+      "cannotMarkPaidWithoutPayment": "ບໍ່ສາມາດໝາຍວ່າຈ່າຍແລ້ວທີ່ນີ້ໂດຍບໍ່ມີການຈ່າຍທີ່ບັນທຶກ. ໃຊ້ການຈ່າຍເງິນໃນອໍເດີ.",
+      "cannotVoidPostedOrder": "ອໍເດີນີ້ລົງບັນຊີແລ້ວ. ຄືນເງິນທຸລະກຳ ຫຼື ຕິດຕໍ່ຜູ້ດູແລ.",
+      "confirmVoidOrder": "ຍົກເລີກອໍເດີທີ່ຍັງບໍ່ຈ່າຍ? ບໍ່ຕ້ອງຈ່າຍ ແລະ ຈະຖືກຍົກເວັ້ນຈາກຍອດທີ່ໃຊ້ງານ.",
+      "imageNotImage": "ເລືອກໄຟລ์ຮູບ.",
+      "imageTooLarge": "ຮູບໃຫຍ່ເກີນ (ສູງສຸດ 700 KB).",
+      "orderAlreadyFinal": "ອໍເດີນີ້ຍົກເລີກບໍ່ໄດ້ອີກ (ເສີບ ຫຼື ສຳເລັດແລ້ວ).",
+      "orderIsVoidNoPay": "ອໍເດີນີ້ຖືກຍົກເລີກ — ບໍ່ຕ້ອງຈ່າຍ.",
+      "orderVoided": "ຍົກເລີກອໍເດີແລ້ວ.",
+      "restoreInvalid": "ໄຟລ์ສຳຮອງຕ້ອງເປັນ JSON object.",
+      "saveFailed": "ບັນທຶກບໍ່ໄດ້. ລອງອີກ ຫຼື ໂຫຼດໜ້າໃໝ່.",
+      "storageError": "ການເກັບຂໍ້ມູນຖືກບລັອກ. ອະນຸຍາດຂໍ້ມູນໄຊທ໌ສຳລັບໜ້ານີ້ໃນການຕັ້ງຄ່າເບຣວເຊີ ແລ້ວລອງອີກ."
+    },
+    "orderHistory": {
+      "voidOrder": "ຍົກເລີກ"
+    },
+    "restaurant": {
+      "addTable": "ເພີ່ມໂຕະ",
+      "addTableTitle": "ເພີ່ມໂຕະໃນແຜນຜັງພື້ນ",
+      "fieldTableCapacity": "ບ່ອນນັ່ງ (ຄວາມຈຸ)",
+      "fieldTableLabel": "ຊື່ / ປ້າຍໂຕະ",
+      "fieldTableNotes": "ໝາຍເຫດ (ທາງເລືອກ)",
+      "maxTables": "ເພີ່ມໄດ້ສູງສຸດ {n} ໂຕະ.",
+      "modalAddTableTitle": "ເພີ່ມໂຕະ",
+      "phTableLabel": "ຕົວຢ່າງ ໂຕະ 11 ຫຼື Patio 2",
+      "phTableNotes": "ສະຖານທີ່, VIP ແລະອື່ນໆ",
+      "tableAdded": "ພື້ນມີ {n} ໂຕະແລ້ວ.",
+      "toastEnterTableLabel": "ໃສ່ຊື່ ຫຼື ປ້າຍໂຕະ",
+      "toastTableAdded": "ເພີ່ມ {name} ແລ້ວ.",
+      "toastTableLabelExists": "ມີໂຕະທີ່ປ້າຍນີ້ແລ້ວ"
+    },
+    "settings": {
+      "csvBtnMartOpen": "ບິນເປີດມິນິມາກ",
+      "csvBtnRestTables": "ໂຕະຮ້ານອາຫານ",
+      "freshStart": "ລຶບທັງໝົດ ແລະ ຕັ້ງຄ່າໃໝ່",
+      "freshStartConfirm": "ຈະລຶບຂໍ້ມູນທັງໝົດ ແລະ ການຕັ້ງຄ່າລະບົບ (ອີເມວ ແລະ ລະຫັດ) ໃນອຸປະກອນນີ້. ສືບຕໍ?",
+      "freshStartConfirm2": "ກູ້ຄືນບໍ່ໄດ້. ດຳເນີນການລຶບທັງໝົດ ແລະ ຕັ້ງຄ່າໃໝ່?",
+      "freshStartHint": "ລຶບຂໍ້ມູນທັງໝົດ ແລະ ການຕັ້ງຄ່າຄັ້ງທຳອິດ (ອີເມວ ແລະ ລະຫັດ) ໃນເບຣວເຊີນີ້. ຫຼັງໂຫຼດໃໝ່ ຕ້ອງຕັ້ງຄ່າກ່ອນເຂົ້າສູ່ລະບົບ. ໃຊ້ຫຼັງອັບເດດໃຫຍ່ ຫຼື ມອບອຸປະກອນ.",
+      "reloadDemoKeepCatalog": "ໂຫຼດຂໍ້ມູນຕົວຢ່າງໃໝ່ (ເກັບເມນູ ແລະ ສິນຄ້າຮ້ານ)",
+      "reloadDemoKeepCatalogHint": "ລ້າງການຈອງ, ຫ້ອງ, ອໍເດີ ແລະ ທຸລະກຳ ແລ້ວໂຫຼດຂໍ້ມູນ demo ໃໝ່. ເມນູຮ້ານອາຫານ ແລະ ສິນຄ້າມິນິມາກປັจຈຸບັນຍັງຄົງ.",
+      "rowMartOpen": "ບິນເປີດມິນິມາກ (ໃສ່ບິນໃຫ້ລູກຄ້າ, ຍັງບໍ່ຈ່າຍ)",
+      "rowRestTables": "ພື້ນໂຕະຮ້ານອາຫານ (ປ້າຍສຳລັບ walk-in / ແຖບ POS)"
+    }
+  },
+  "pt-BR": {
+    "dashboard": {
+      "axisFbRevenue": "F&B",
+      "comprehensiveSubtitle": "PMS, restaurante e mini-mercado em uma visão. Cobranças de quarto por dia calendário; vendas F&B e loja usam timestamps para filtros de turno.",
+      "exportCsv": "Exportar CSV",
+      "exportCsvOk": "Relatório baixado",
+      "filterShift": "Turno",
+      "multiSeries": "Multissérie (por unidade de negócio)",
+      "occVsFb": "Ocupação % vs F&B (restaurante + loja)",
+      "posTransTitle": "Vendas loja / PDV ({n})",
+      "printOrPdf": "Imprimir / salvar como PDF",
+      "restOrdersTitle": "Pedidos do restaurante ({n})",
+      "revenueByUnit": "Receita por unidade de negócio",
+      "shiftA": "Tarde",
+      "shiftAfternoon": "Tarde (12:00–18:00)",
+      "shiftCompare": "Receita por período do dia (no intervalo)",
+      "shiftM": "Manhã",
+      "shiftMorning": "Manhã (06:00–12:00)",
+      "shiftN": "Noite",
+      "shiftNight": "Noite (18:00–06:00)",
+      "shiftT": "Dia inteiro",
+      "shiftTotal": "Total (todos os períodos)",
+      "singleTotalLine": "Linha única de \"receita total\"",
+      "tableFnB": "F&B"
+    },
+    "g": {
+      "imageFromFile": "Foto do dispositivo",
+      "orImageUrl": "Ou URL da imagem (https)"
+    },
+    "grid": {
+      "stampCreated": "CreatedDate",
+      "stampEdited": "EditDate"
+    },
+    "minimart": {
+      "confirmVoidOpenBill": "Anular esta conta de quarto não paga? Não será cobrada.",
+      "toastBillOnCustomer": "Conta adicionada aos pedidos ativos (ainda não paga) — {n}",
+      "toastNoOpenBills": "Nenhuma conta em aberto para quitar. Use Colocar conta no cliente primeiro ou pague o carrinho em Dinheiro/Cartão.",
+      "toastSettleOrCart": "Quite a conta do quarto em Pagar total ou pague o carrinho em Dinheiro/Cartão. Esvazie o carrinho ou conclua o pagamento primeiro.",
+      "voidOpenBill": "Anular conta",
+      "voidOpenBillOk": "Conta em aberto anulada."
+    },
+    "msg": {
+      "appStillLoading": "O app ainda está carregando. Aguarde alguns segundos e tente novamente.",
+      "cannotDeleteUnpaidOrder": "Este pedido não está pago. Receba o pagamento, anule o pedido ou use Excluir somente após pagamento ou anulação.",
+      "cannotMarkPaidWithoutPayment": "Você não pode marcar um pedido como pago aqui sem pagamento registrado. Use a ação de pagamento no pedido.",
+      "cannotVoidPostedOrder": "Este pedido já foi lançado no razão. Reembolse a transação ou contate um administrador.",
+      "confirmVoidOrder": "Anular este pedido não pago? Não exigirá pagamento e será excluído dos totais ativos.",
+      "imageNotImage": "Escolha um arquivo de imagem.",
+      "imageTooLarge": "A imagem é grande demais (máx. 700 KB).",
+      "orderAlreadyFinal": "Este pedido não pode mais ser anulado (já servido ou finalizado).",
+      "orderIsVoidNoPay": "Este pedido está anulado — nenhum pagamento devido.",
+      "orderVoided": "Pedido anulado.",
+      "restoreInvalid": "O arquivo de backup deve ser um objeto JSON.",
+      "saveFailed": "Não foi possível salvar. Tente novamente ou recarregue a página.",
+      "storageError": "Armazenamento bloqueado. Permita dados do site para esta página nas configurações do navegador e tente novamente."
+    },
+    "orderHistory": {
+      "voidOrder": "Anular"
+    },
+    "restaurant": {
+      "addTable": "Adicionar mesa",
+      "addTableTitle": "Adicionar uma mesa ao plano do salão",
+      "fieldTableCapacity": "Lugares (capacidade)",
+      "fieldTableLabel": "Nome / rótulo da mesa",
+      "fieldTableNotes": "Notas (opcional)",
+      "maxTables": "Você pode adicionar no máximo {n} mesas.",
+      "modalAddTableTitle": "Adicionar mesa",
+      "phTableLabel": "ex. Mesa 11 ou Pátio 2",
+      "phTableNotes": "Local, VIP, etc.",
+      "tableAdded": "O salão agora tem {n} mesas.",
+      "toastEnterTableLabel": "Digite um nome ou rótulo de mesa",
+      "toastTableAdded": "Adicionado {name}.",
+      "toastTableLabelExists": "Já existe uma mesa com esse rótulo"
+    },
+    "settings": {
+      "csvBtnMartOpen": "Contas em aberto mini-mercado",
+      "csvBtnRestTables": "Mesas do restaurante",
+      "freshStart": "Limpeza total e nova configuração",
+      "freshStartConfirm": "Isso excluirá TODOS os dados e a configuração do sistema (e-mail e senha) neste dispositivo. Continuar?",
+      "freshStartConfirm2": "Isso não pode ser desfeito. Prosseguir com limpeza total e nova configuração?",
+      "freshStartHint": "Exclui todos os dados e a configuração inicial do sistema (e-mail e senha) neste navegador. Após recarregar, você deve executar a configuração antes de entrar. Use após uma atualização importante ou para entregar o dispositivo.",
+      "reloadDemoKeepCatalog": "Recarregar dados de amostra (manter cardápio e produtos da loja)",
+      "reloadDemoKeepCatalogHint": "Limpa reservas, quartos, pedidos e transações, depois carrega novos dados demo. Itens do cardápio do restaurante e produtos do mini-mercado atuais são mantidos.",
+      "rowMartOpen": "Contas em aberto mini-mercado (Colocar conta no cliente, ainda não paga)",
+      "rowRestTables": "Planta de mesas do restaurante (rótulos para walk-in / abas PDV)"
+    }
+  },
+  "zh-Hans": {
+    "dashboard": {
+      "axisFbRevenue": "餐饮",
+      "comprehensiveSubtitle": "PMS、餐厅和便利店一屏展示。客房费用按日历日；餐饮和商店销售使用时间戳进行班次筛选。",
+      "exportCsv": "导出 CSV",
+      "exportCsvOk": "报告已下载",
+      "filterShift": "班次",
+      "multiSeries": "多系列（按业务单元）",
+      "occVsFb": "入住率 % 对比餐饮（餐厅 + 商店）",
+      "posTransTitle": "商店 / POS 销售 ({n})",
+      "printOrPdf": "打印 / 另存为 PDF",
+      "restOrdersTitle": "餐厅订单 ({n})",
+      "revenueByUnit": "按业务单元收入",
+      "shiftA": "下午",
+      "shiftAfternoon": "下午 (12:00–18:00)",
+      "shiftCompare": "按时段收入（范围内）",
+      "shiftM": "上午",
+      "shiftMorning": "上午 (06:00–12:00)",
+      "shiftN": "晚间和夜间",
+      "shiftNight": "晚间和夜间 (18:00–06:00)",
+      "shiftT": "全天",
+      "shiftTotal": "合计（所有时段）",
+      "singleTotalLine": "单一“总收入”线",
+      "tableFnB": "餐饮"
+    },
+    "g": {
+      "imageFromFile": "从设备选择照片",
+      "orImageUrl": "或图片 URL (https)"
+    },
+    "grid": {
+      "stampCreated": "CreatedDate",
+      "stampEdited": "EditDate"
+    },
+    "minimart": {
+      "confirmVoidOpenBill": "作废此未付客房账单？不会收费。",
+      "toastBillOnCustomer": "账单已加入活动订单（尚未付款）— {n}",
+      "toastNoOpenBills": "没有未付账单可结算。请先使用挂账到客户，或使用现金/卡支付购物车。",
+      "toastSettleOrCart": "在支付合计中结算客房账单，或使用现金/卡支付购物车。请先清空购物车或完成付款。",
+      "voidOpenBill": "作废账单",
+      "voidOpenBillOk": "未结账单已作废。"
+    },
+    "msg": {
+      "appStillLoading": "应用仍在加载。请等待几秒后重试。",
+      "cannotDeleteUnpaidOrder": "此订单未付款。请收款、作废订单，或仅在已付款或作废后删除。",
+      "cannotMarkPaidWithoutPayment": "没有记录的付款时无法在此标记为已付。请使用订单上的付款操作。",
+      "cannotVoidPostedOrder": "此订单已过账。请退款或联系管理员。",
+      "confirmVoidOrder": "作废此未付订单？无需付款，且将从活动合计中排除。",
+      "imageNotImage": "请选择图片文件。",
+      "imageTooLarge": "图片过大（最大 700 KB）。",
+      "orderAlreadyFinal": "此订单无法再作废（已上菜或已完结）。",
+      "orderIsVoidNoPay": "此订单已作废 — 无需付款。",
+      "orderVoided": "订单已作废。",
+      "restoreInvalid": "备份文件必须是 JSON 对象。",
+      "saveFailed": "无法保存。请重试或重新加载页面。",
+      "storageError": "存储被阻止。请在浏览器设置中允许此页面的站点数据，然后重试。"
+    },
+    "orderHistory": {
+      "voidOrder": "作废"
+    },
+    "restaurant": {
+      "addTable": "添加餐桌",
+      "addTableTitle": "向平面图添加餐桌",
+      "fieldTableCapacity": "座位（容量）",
+      "fieldTableLabel": "餐桌名称 / 标签",
+      "fieldTableNotes": "备注（可选）",
+      "maxTables": "最多可添加 {n} 张餐桌。",
+      "modalAddTableTitle": "添加餐桌",
+      "phTableLabel": "例如 11号桌 或  patio 2",
+      "phTableNotes": "位置、VIP 等",
+      "tableAdded": "楼面现有 {n} 张餐桌。",
+      "toastEnterTableLabel": "请输入餐桌名称或标签",
+      "toastTableAdded": "已添加 {name}。",
+      "toastTableLabelExists": "该标签的餐桌已存在"
+    },
+    "settings": {
+      "csvBtnMartOpen": "便利店未结账单",
+      "csvBtnRestTables": "餐厅餐桌",
+      "freshStart": "完全清除并重新设置",
+      "freshStartConfirm": "将删除此设备上的所有数据和系统设置（电子邮件和密码）。继续？",
+      "freshStartConfirm2": "此操作无法撤销。是否继续完全清除并重新设置？",
+      "freshStartHint": "删除此浏览器中的所有数据和首次系统设置（电子邮件和密码）。重新加载后，登录前必须再次运行设置。适用于重大更新后或移交设备。",
+      "reloadDemoKeepCatalog": "重新加载示例数据（保留菜单和商店商品）",
+      "reloadDemoKeepCatalogHint": "清除预订、客房、订单和交易，然后加载新的演示数据。保留当前餐厅菜单和便利店商品。",
+      "rowMartOpen": "便利店未结账单（挂账到客户，尚未付款）",
+      "rowRestTables": "餐厅餐桌楼面（用于散客 / POS 标签）"
+    }
+  },
+  "zh-Hant": {
+    "dashboard": {
+      "axisFbRevenue": "餐飲",
+      "comprehensiveSubtitle": "PMS、餐廳和便利商店一屏展示。客房費用按日曆日；餐飲和商店銷售使用時間戳記進行班次篩選。",
+      "exportCsv": "匯出 CSV",
+      "exportCsvOk": "報告已下載",
+      "filterShift": "班次",
+      "multiSeries": "多系列（依業務單位）",
+      "occVsFb": "住房率 % 對比餐飲（餐廳 + 商店）",
+      "posTransTitle": "商店 / POS 銷售 ({n})",
+      "printOrPdf": "列印 / 另存為 PDF",
+      "restOrdersTitle": "餐廳訂單 ({n})",
+      "revenueByUnit": "依業務單位收入",
+      "shiftA": "下午",
+      "shiftAfternoon": "下午 (12:00–18:00)",
+      "shiftCompare": "依時段收入（範圍內）",
+      "shiftM": "上午",
+      "shiftMorning": "上午 (06:00–12:00)",
+      "shiftN": "晚間和夜間",
+      "shiftNight": "晚間和夜間 (18:00–06:00)",
+      "shiftT": "全天",
+      "shiftTotal": "合計（所有時段）",
+      "singleTotalLine": "單一「總收入」線",
+      "tableFnB": "餐飲"
+    },
+    "g": {
+      "imageFromFile": "從裝置選擇照片",
+      "orImageUrl": "或圖片 URL (https)"
+    },
+    "grid": {
+      "stampCreated": "CreatedDate",
+      "stampEdited": "EditDate"
+    },
+    "minimart": {
+      "confirmVoidOpenBill": "作廢此未付客房帳單？不會收費。",
+      "toastBillOnCustomer": "帳單已加入使用中訂單（尚未付款）— {n}",
+      "toastNoOpenBills": "沒有未付帳單可結算。請先使用掛帳到客戶，或使用現金/卡支付購物車。",
+      "toastSettleOrCart": "在支付合計中結算客房帳單，或使用現金/卡支付購物車。請先清空購物車或完成付款。",
+      "voidOpenBill": "作廢帳單",
+      "voidOpenBillOk": "未結帳單已作廢。"
+    },
+    "msg": {
+      "appStillLoading": "應用程式仍在載入。請等待數秒後重試。",
+      "cannotDeleteUnpaidOrder": "此訂單未付款。請收款、作廢訂單，或僅在已付款或作廢後刪除。",
+      "cannotMarkPaidWithoutPayment": "沒有記錄的付款時無法在此標記為已付。請使用訂單上的付款操作。",
+      "cannotVoidPostedOrder": "此訂單已過帳。請退款或聯絡管理員。",
+      "confirmVoidOrder": "作廢此未付訂單？無需付款，且將從使用中合計中排除。",
+      "imageNotImage": "請選擇圖片檔案。",
+      "imageTooLarge": "圖片過大（最大 700 KB）。",
+      "orderAlreadyFinal": "此訂單無法再作廢（已上菜或已完結）。",
+      "orderIsVoidNoPay": "此訂單已作廢 — 無需付款。",
+      "orderVoided": "訂單已作廢。",
+      "restoreInvalid": "備份檔案必須是 JSON 物件。",
+      "saveFailed": "無法儲存。請重試或重新載入頁面。",
+      "storageError": "儲存空間已封鎖。請在瀏覽器設定中允許此頁面的網站資料，然後重試。"
+    },
+    "orderHistory": {
+      "voidOrder": "作廢"
+    },
+    "restaurant": {
+      "addTable": "新增餐桌",
+      "addTableTitle": "向平面圖新增餐桌",
+      "fieldTableCapacity": "座位（容量）",
+      "fieldTableLabel": "餐桌名稱 / 標籤",
+      "fieldTableNotes": "備註（選填）",
+      "maxTables": "最多可新增 {n} 張餐桌。",
+      "modalAddTableTitle": "新增餐桌",
+      "phTableLabel": "例如 11號桌 或 Patio 2",
+      "phTableNotes": "位置、VIP 等",
+      "tableAdded": "樓面現有 {n} 張餐桌。",
+      "toastEnterTableLabel": "請輸入餐桌名稱或標籤",
+      "toastTableAdded": "已新增 {name}。",
+      "toastTableLabelExists": "該標籤的餐桌已存在"
+    },
+    "settings": {
+      "csvBtnMartOpen": "便利商店未結帳單",
+      "csvBtnRestTables": "餐廳餐桌",
+      "freshStart": "完全清除並重新設定",
+      "freshStartConfirm": "將刪除此裝置上的所有資料和系統設定（電子郵件和密碼）。繼續？",
+      "freshStartConfirm2": "此操作無法復原。是否繼續完全清除並重新設定？",
+      "freshStartHint": "刪除此瀏覽器中的所有資料和首次系統設定（電子郵件和密碼）。重新載入後，登入前必須再次執行設定。適用於重大更新後或移交裝置。",
+      "reloadDemoKeepCatalog": "重新載入範例資料（保留選單和商店商品）",
+      "reloadDemoKeepCatalogHint": "清除預訂、客房、訂單和交易，然後載入新的示範資料。保留目前餐廳選單和便利商店商品。",
+      "rowMartOpen": "便利商店未結帳單（掛帳到客戶，尚未付款）",
+      "rowRestTables": "餐廳餐桌樓面（用於散客 / POS 標籤）"
+    }
+  }
+}

@@ -9,4 +9,4 @@
 - **迷你超市與 POS** — 門市銷售、客房掛帳、收銀操作
 - **管理** — 設定、帳戶、報表、備份、本地化
 
-包含受眾與功能表的完整概述請參閱 [English overview](../en/overview.md).
+包含受眾與功能表的完整概述請參閱 [English overview](https://hotel-restaurant-minimart2-4.web.app/doc/?lang=en#/overview).

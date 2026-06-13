@@ -9,4 +9,4 @@
 - **Mini-mart & POS** — Penjualan toko, tagihan kamar, operasi kasir
 - **Administrasi** — Pengaturan, akun, laporan, cadangan, lokalisasi
 
-Untuk ikhtisar lengkap dengan tabel audiens dan kemampuan, lihat [English overview](../en/overview.md).
+Untuk ikhtisar lengkap dengan tabel audiens dan kemampuan, lihat [English overview](https://hotel-restaurant-minimart2-4.web.app/doc/?lang=en#/overview).

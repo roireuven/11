@@ -4,7 +4,7 @@
 > 일부 페이지는 영어로만 제공됩니다. 링크는 영어 버전을 가리킵니다.
 
 
-> **온라인에서 보기(Firebase):** [https://hotel-restaurant-minimart.firebaseapp.com/doc/?lang=ko](https://hotel-restaurant-minimart.firebaseapp.com/doc/?lang=ko)  
+> **온라인에서 보기(Firebase):** [https://hotel-restaurant-minimart2-4.web.app/doc/?lang=ko](https://hotel-restaurant-minimart2-4.web.app/doc/?lang=ko)  
 > **앱 내부:** 사이드바 → **문서**(모든 역할) — 내장 도움말  
 > **미러(GitHub Pages):** [GitHub Pages doc](https://roireuven.github.io/11/doc/?lang=ko)
 
@@ -12,8 +12,8 @@
 
 | 플랫폼 | URL |
 |----------|-----|
-| **웹(Firebase Hosting)** | [hotel-restaurant-minimart.firebaseapp.com](https://hotel-restaurant-minimart.firebaseapp.com/) |
-| **대체 도메인** | [hotel-restaurant-minimart.web.app](https://hotel-restaurant-minimart.web.app/) |
+| **웹(Firebase Hosting)** | [hotel-restaurant-minimart2-4.web.app](https://hotel-restaurant-minimart2-4.web.app/) |
+| **대체 도메인** | [hotel-restaurant-minimart2-4.firebaseapp.com](https://hotel-restaurant-minimart2-4.firebaseapp.com/) |
 
 ## 문서 색인
 
@@ -21,8 +21,8 @@
 
 ## 버전
 
-- **앱 버전:** v2.0
-- **문서 생성 출처:** hotel-restaurant-minimart.firebaseapp.com
+- **앱 버전:** v2.4 (stable production)
+- **문서 생성 출처:** hotel-restaurant-minimart2-4.web.app
 
 ## 지원 절차
 

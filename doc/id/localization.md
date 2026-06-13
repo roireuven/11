@@ -30,4 +30,4 @@ HotelRestaurantMini-MartManagement mendukung **21 bahasa antarmuka** dengan tata
 
 Dokumentasi tersedia dalam semua bahasa UI aplikasi. Halaman yang belum diterjemahkan menaut ke sumber bahasa Inggris.
 
-Untuk mengubah bahasa, RTL, dan lokasi file locale, lihat [English localization guide](../en/localization.md).
+Untuk mengubah bahasa, RTL, dan lokasi file locale, lihat [English localization guide](https://hotel-restaurant-minimart2-4.web.app/doc/?lang=en#/localization).

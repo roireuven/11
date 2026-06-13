@@ -11,17 +11,23 @@ Full documentation for **HotelRestaurantMini-MartManagement** (hotel, restaurant
 | **Docs site (Firebase)** | [https://hotel-restaurant-minimart.firebaseapp.com/doc/](https://hotel-restaurant-minimart.firebaseapp.com/doc/) |
 | **Docs site (GitHub Pages)** | [https://roireuven.github.io/11/doc/](https://roireuven.github.io/11/doc/) |
 | **Markdown source** | [doc/README.md](doc/README.md) |
-| **Live app** | [hotel-restaurant-minimart.firebaseapp.com](https://hotel-restaurant-minimart.firebaseapp.com/) |
+| **Stable v2.4 (production)** | [hotel-restaurant-minimart2-4.web.app](https://hotel-restaurant-minimart2-4.web.app/) |
+| **Stable v2.3 (legacy snapshot)** | [hotel-restaurant-minimart2-3.web.app](https://hotel-restaurant-minimart2-3.web.app/) |
+| **Development (not auto-deployed)** | [hotel-restaurant-minimart.web.app](https://hotel-restaurant-minimart.web.app/) |
 
 Deploy **app + documentation** to Firebase from repo root:
 
 ```bash
 npm install
 firebase login
-npm run deploy
+npm run deploy        # stable v2.4 only (default — staff production URL)
+npm run deploy:2.4    # same as npm run deploy
+npm run deploy:2.3    # legacy v2.3 only (manual)
+npm run deploy:dev    # development site + Firestore (manual)
+npm run deploy:all    # every hosting target + Firestore (manual)
 ```
 
-This builds `public/` with the app (Documentation button in top bar), embeds docs in the app, and uploads `/doc/` (26 guides). CI: add `FIREBASE_TOKEN` secret and push to `main`, or run **Actions → Deploy Firebase Hosting → Run workflow**.
+This builds `public/` with the app (Documentation button in top bar), embeds docs in the app, and uploads `/doc/` (30 guides, 21 locales). See [What's new in v2.3 / v2.4](doc/en/whats-new-v2.md). CI: add `FIREBASE_TOKEN` secret and push to `main`, or run **Actions → Deploy Firebase Hosting → Run workflow**.
 
 ## Live site
 

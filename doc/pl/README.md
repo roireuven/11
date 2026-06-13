@@ -4,7 +4,7 @@ Pełna dokumentacja **HotelRestaurantMini-MartManagement** (v2.0) — kompleksow
 > Niektóre strony są dostępne tylko po angielsku; linki prowadzą do wersji angielskiej.
 
 
-> **Przeglądaj online (Firebase):** [https://hotel-restaurant-minimart.firebaseapp.com/doc/?lang=pl](https://hotel-restaurant-minimart.firebaseapp.com/doc/?lang=pl)  
+> **Przeglądaj online (Firebase):** [https://hotel-restaurant-minimart2-4.web.app/doc/?lang=pl](https://hotel-restaurant-minimart2-4.web.app/doc/?lang=pl)  
 > **W aplikacji:** Pasek boczny → **Dokumentacja** (wszystkie role) — wbudowana pomoc  
 > **Kopia lustrzana (GitHub Pages):** [GitHub Pages doc](https://roireuven.github.io/11/doc/?lang=pl)
 
@@ -12,8 +12,8 @@ Pełna dokumentacja **HotelRestaurantMini-MartManagement** (v2.0) — kompleksow
 
 | Platforma | URL |
 |----------|-----|
-| **Web (Firebase Hosting)** | [hotel-restaurant-minimart.firebaseapp.com](https://hotel-restaurant-minimart.firebaseapp.com/) |
-| **Alternatywna domena** | [hotel-restaurant-minimart.web.app](https://hotel-restaurant-minimart.web.app/) |
+| **Web (Firebase Hosting)** | [hotel-restaurant-minimart2-4.web.app](https://hotel-restaurant-minimart2-4.web.app/) |
+| **Alternatywna domena** | [hotel-restaurant-minimart2-4.firebaseapp.com](https://hotel-restaurant-minimart2-4.firebaseapp.com/) |
 
 ## Indeks dokumentacji
 
@@ -21,8 +21,8 @@ Przewodniki użytkownika dotyczące konfiguracji, codziennej obsługi, administr
 
 ## Wersja
 
-- **Wersja aplikacji:** v2.0
-- **Dokumentacja wygenerowana z:** hotel-restaurant-minimart.firebaseapp.com
+- **Wersja aplikacji:** v2.4 (stable production)
+- **Dokumentacja wygenerowana z:** hotel-restaurant-minimart2-4.web.app
 
 ## Przebieg wsparcia
 

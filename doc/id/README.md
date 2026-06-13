@@ -4,7 +4,7 @@ Dokumentasi lengkap untuk **HotelRestaurantMini-MartManagement** (v2.0), sistem 
 > Beberapa halaman hanya tersedia dalam bahasa Inggris; tautan mengarah ke versi bahasa Inggris.
 
 
-> **Jelajahi online (Firebase):** [https://hotel-restaurant-minimart.firebaseapp.com/doc/?lang=id](https://hotel-restaurant-minimart.firebaseapp.com/doc/?lang=id)  
+> **Jelajahi online (Firebase):** [https://hotel-restaurant-minimart2-4.web.app/doc/?lang=id](https://hotel-restaurant-minimart2-4.web.app/doc/?lang=id)  
 > **Di dalam aplikasi:** Sidebar → **Dokumentasi** (semua peran) — bantuan tersemat  
 > **Cermin (GitHub Pages):** [GitHub Pages doc](https://roireuven.github.io/11/doc/?lang=id)
 
@@ -12,8 +12,8 @@ Dokumentasi lengkap untuk **HotelRestaurantMini-MartManagement** (v2.0), sistem 
 
 | Platform | URL |
 |----------|-----|
-| **Web (Firebase Hosting)** | [hotel-restaurant-minimart.firebaseapp.com](https://hotel-restaurant-minimart.firebaseapp.com/) |
-| **Domain alternatif** | [hotel-restaurant-minimart.web.app](https://hotel-restaurant-minimart.web.app/) |
+| **Web (Firebase Hosting)** | [hotel-restaurant-minimart2-4.web.app](https://hotel-restaurant-minimart2-4.web.app/) |
+| **Domain alternatif** | [hotel-restaurant-minimart2-4.firebaseapp.com](https://hotel-restaurant-minimart2-4.firebaseapp.com/) |
 
 ## Indeks dokumentasi
 
@@ -21,8 +21,8 @@ Panduan pengguna untuk penyiapan, operasi harian, administrasi, dan referensi te
 
 ## Versi
 
-- **Versi aplikasi:** v2.0
-- **Dokumentasi dibuat dari:** hotel-restaurant-minimart.firebaseapp.com
+- **Versi aplikasi:** v2.4 (stable production)
+- **Dokumentasi dibuat dari:** hotel-restaurant-minimart2-4.web.app
 
 ## Alur dukungan
 

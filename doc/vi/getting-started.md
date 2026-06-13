@@ -12,4 +12,4 @@ Hướng dẫn này đưa cơ sở mới từ con số không đến vận hành
 
 ## Hướng dẫn đầy đủ
 
-Để có hướng dẫn chi tiết từng bước, xem [English getting started guide](../en/getting-started.md).
+Để có hướng dẫn chi tiết từng bước, xem [English getting started guide](https://hotel-restaurant-minimart2-4.web.app/doc/?lang=en#/getting-started).

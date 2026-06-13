@@ -1,5 +1,20 @@
 {
   "projects": {
     "default": "hotel-restaurant-minimart"
+  },
+  "targets": {
+    "hotel-restaurant-minimart": {
+      "hosting": {
+        "production": [
+          "hotel-restaurant-minimart"
+        ],
+        "stable23": [
+          "hotel-restaurant-minimart2-3"
+        ],
+        "stable24": [
+          "hotel-restaurant-minimart2-4"
+        ]
+      }
+    }
   }
 }

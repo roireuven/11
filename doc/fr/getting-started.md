@@ -12,4 +12,4 @@ Ce guide permet à un nouvel établissement de passer de zéro aux opérations q
 
 ## Guide complet
 
-Pour des instructions détaillées pas à pas, consultez le [English getting started guide](../en/getting-started.md).
+Pour des instructions détaillées pas à pas, consultez le [English getting started guide](https://hotel-restaurant-minimart2-4.web.app/doc/?lang=en#/getting-started).

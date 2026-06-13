@@ -10,4 +10,4 @@
 | **漢堡選單 (☰)** | 說明 → 文件 | 側邊欄頂端的第一個區段 |
 | **底部列** | Docs | 底部導覽（行動端） |
 
-版面詳情、深色模式與語言選擇器請參閱 [English navigation guide](../en/navigation-and-ui.md).
+版面詳情、深色模式與語言選擇器請參閱 [English navigation guide](https://hotel-restaurant-minimart2-4.web.app/doc/?lang=en#/navigation-and-ui).

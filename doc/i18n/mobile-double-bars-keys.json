@@ -1,0 +1,86 @@
+{
+  "en": {
+    "topbar.more": "More",
+    "bnav.more": "More"
+  },
+  "ar": {
+    "topbar.more": "أكثر",
+    "bnav.more": "أكثر"
+  },
+  "de": {
+    "topbar.more": "Mehr",
+    "bnav.more": "Mehr"
+  },
+  "es": {
+    "topbar.more": "Más",
+    "bnav.more": "Más"
+  },
+  "fr": {
+    "topbar.more": "Plus",
+    "bnav.more": "Plus"
+  },
+  "he": {
+    "topbar.more": "יוֹתֵר",
+    "bnav.more": "יוֹתֵר"
+  },
+  "hi": {
+    "topbar.more": "अधिक",
+    "bnav.more": "अधिक"
+  },
+  "id": {
+    "topbar.more": "Lagi",
+    "bnav.more": "Lagi"
+  },
+  "it": {
+    "topbar.more": "Di più",
+    "bnav.more": "Di più"
+  },
+  "ja": {
+    "topbar.more": "もっと",
+    "bnav.more": "もっと"
+  },
+  "ko": {
+    "topbar.more": "더",
+    "bnav.more": "더"
+  },
+  "lo": {
+    "topbar.more": "ເພີ່ມເຕີມ",
+    "bnav.more": "ເພີ່ມເຕີມ"
+  },
+  "nl": {
+    "topbar.more": "Meer",
+    "bnav.more": "Meer"
+  },
+  "pl": {
+    "topbar.more": "Więcej",
+    "bnav.more": "Więcej"
+  },
+  "pt-BR": {
+    "topbar.more": "Mais",
+    "bnav.more": "Mais"
+  },
+  "ru": {
+    "topbar.more": "Более",
+    "bnav.more": "Более"
+  },
+  "th": {
+    "topbar.more": "มากกว่า",
+    "bnav.more": "มากกว่า"
+  },
+  "tr": {
+    "topbar.more": "Daha",
+    "bnav.more": "Daha"
+  },
+  "vi": {
+    "topbar.more": "Hơn",
+    "bnav.more": "Hơn"
+  },
+  "zh-Hans": {
+    "topbar.more": "更多的",
+    "bnav.more": "更多的"
+  },
+  "zh-Hant": {
+    "topbar.more": "更多的",
+    "bnav.more": "更多的"
+  }
+}

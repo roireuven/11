@@ -1,6 +1,7 @@
 * [Home](README.md)
 
 * **Getting started**
+  * [What's new in v2.4](whats-new-v2.md)
   * [Overview](overview.md)
   * [Getting started](getting-started.md)
   * [Visual guide (screenshots)](visual-guide.md)
@@ -15,6 +16,8 @@
   * [Services & billing](services-and-billing.md)
   * [Restaurant & kitchen](restaurant-and-kitchen.md)
   * [Mini-mart & POS](minimart-and-pos.md)
+  * [Vehicle rental](vehicle-rental.md)
+  * [Guest QR orders](guest-qr-orders.md)
   * [Inventory & catalog](inventory-and-catalog.md)
   * [Guest portal](guest-portal.md)
   * [Reports](reports.md)
@@ -35,5 +38,5 @@
   * [Glossary](glossary.md)
 
 * **Links**
-  * [Live web app ↗](https://hotel-restaurant-minimart.firebaseapp.com/)
+  * [Live web app (v2.4) ↗](https://hotel-restaurant-minimart2-4.web.app/)
   * [APK landing (GitHub) ↗](https://roireuven.github.io/11/)

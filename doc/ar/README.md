@@ -4,7 +4,7 @@
 > بعض الصفحات متاحة بالإنجليزية فقط؛ تشير الروابط إلى النسخة الإنجليزية.
 
 
-> **تصفح عبر الإنترنت (Firebase):** [https://hotel-restaurant-minimart.firebaseapp.com/doc/?lang=ar](https://hotel-restaurant-minimart.firebaseapp.com/doc/?lang=ar)  
+> **تصفح عبر الإنترنت (Firebase):** [https://hotel-restaurant-minimart2-4.web.app/doc/?lang=ar](https://hotel-restaurant-minimart2-4.web.app/doc/?lang=ar)  
 > **داخل التطبيق:** الشريط الجانبي → **التوثيق** (جميع الأدوار) — مساعدة مدمجة  
 > **نسخة مرآة (GitHub Pages):** [GitHub Pages doc](https://roireuven.github.io/11/doc/?lang=ar)
 
@@ -12,8 +12,8 @@
 
 | المنصة | URL |
 |----------|-----|
-| **الويب (Firebase Hosting)** | [hotel-restaurant-minimart.firebaseapp.com](https://hotel-restaurant-minimart.firebaseapp.com/) |
-| **نطاق بديل** | [hotel-restaurant-minimart.web.app](https://hotel-restaurant-minimart.web.app/) |
+| **الويب (Firebase Hosting)** | [hotel-restaurant-minimart2-4.web.app](https://hotel-restaurant-minimart2-4.web.app/) |
+| **نطاق بديل** | [hotel-restaurant-minimart2-4.firebaseapp.com](https://hotel-restaurant-minimart2-4.firebaseapp.com/) |
 
 ## فهرس التوثيق
 
@@ -21,8 +21,8 @@
 
 ## الإصدار
 
-- **إصدار التطبيق:** v2.0
-- **تم إنشاء التوثيق من:** hotel-restaurant-minimart.firebaseapp.com
+- **إصدار التطبيق:** v2.4 (stable production)
+- **تم إنشاء التوثيق من:** hotel-restaurant-minimart2-4.web.app
 
 ## سير عمل الدعم
 

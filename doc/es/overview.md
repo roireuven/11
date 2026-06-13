@@ -9,4 +9,4 @@
 - **Minimarket y TPV** — Ventas de tienda, cargos a habitación, caja
 - **Administración** — Ajustes, cuentas, informes, copias de seguridad, localización
 
-Para el resumen completo con tablas de audiencia y capacidades, consulte el [English overview](../en/overview.md).
+Para el resumen completo con tablas de audiencia y capacidades, consulte el [English overview](https://hotel-restaurant-minimart2-4.web.app/doc/?lang=en#/overview).

@@ -4,7 +4,7 @@
 > חלק מהדפים זמינים רק באנגלית; קישורים מפנים לגרסה האנגלית.
 
 
-> **עיון מקוון (Firebase):** [https://hotel-restaurant-minimart.firebaseapp.com/doc/?lang=he](https://hotel-restaurant-minimart.firebaseapp.com/doc/?lang=he)  
+> **עיון מקוון (Firebase):** [https://hotel-restaurant-minimart2-4.web.app/doc/?lang=he](https://hotel-restaurant-minimart2-4.web.app/doc/?lang=he)  
 > **בתוך האפליקציה:** סרגל צד → **תיעוד** (כל התפקידים) — עזרה מוטמעת  
 > **מראה (GitHub Pages):** [GitHub Pages doc](https://roireuven.github.io/11/doc/?lang=he)
 
@@ -12,8 +12,8 @@
 
 | פלטפורמה | URL |
 |----------|-----|
-| **Web (Firebase Hosting)** | [hotel-restaurant-minimart.firebaseapp.com](https://hotel-restaurant-minimart.firebaseapp.com/) |
-| **דומיין חלופי** | [hotel-restaurant-minimart.web.app](https://hotel-restaurant-minimart.web.app/) |
+| **Web (Firebase Hosting)** | [hotel-restaurant-minimart2-4.web.app](https://hotel-restaurant-minimart2-4.web.app/) |
+| **דומיין חלופי** | [hotel-restaurant-minimart2-4.firebaseapp.com](https://hotel-restaurant-minimart2-4.firebaseapp.com/) |
 
 ## אינדקס תיעוד
 
@@ -21,8 +21,8 @@
 
 ## גרסה
 
-- **גרסת האפליקציה:** v2.0
-- **תיעוד נוצר מ:** hotel-restaurant-minimart.firebaseapp.com
+- **גרסת האפליקציה:** v2.4 (stable production)
+- **תיעוד נוצר מ:** hotel-restaurant-minimart2-4.web.app
 
 ## תהליך תמיכה
 

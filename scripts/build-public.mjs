@@ -52,8 +52,123 @@ runPython("scripts/patch-app-features.py");
 console.log("Adding Settings shortcut to top bar...");
 runPython("scripts/patch-app-topbar-settings.py");
 
+console.log("Patching invoice items table and logo...");
+runPython("scripts/patch-app-invoice.py");
+
+console.log("Patching shifts to start closed by default...");
+runPython("scripts/patch-app-shifts.py");
+
+console.log("Adding guest QR restaurant self-order...");
+runPython("scripts/patch-app-guest-qr-order.py");
+
+console.log("Adding guest QR order reports...");
+runPython("scripts/patch-app-guest-qr-reports.py");
+
+console.log("Adding guest QR cloud sync (Firestore)...");
+runPython("scripts/patch-app-guest-qr-cloud.py");
+
+console.log("Adding restaurant QR order numbers floor...");
+runPython("scripts/patch-app-rest-qr-orders-floor.py");
+
+console.log("Adding Mini-Mart + POS QR order numbers floor...");
+runPython("scripts/patch-app-mart-pos-qr-orders-floor.py");
+
+console.log("Invoice bills: bank payment QR + logo only...");
+runPython("scripts/patch-app-invoice-payment-qr-only.py");
+
+console.log("Restricting invoice edits to Admin...");
+runPython("scripts/patch-app-invoice-admin-edit.py");
+
+console.log("Adding pay for QR scan orders...");
+runPython("scripts/patch-app-qr-order-pay.py");
+
+console.log("Completing backup export/import (all CSV + JSON)...");
+runPython("scripts/patch-app-backup-complete.py");
+
+console.log("Patching full-screen modals...");
+runPython("scripts/patch-app-shell-modal.py");
+
+console.log("Fixing small-phone layout (scroll, buttons, safe areas)...");
+runPython("scripts/patch-app-mobile-small-screens.py");
+
+console.log("Mobile double-height bars + overflow menus...");
+runPython("scripts/generate-mobile-double-bars-keys.py");
+runPython("scripts/patch-locale-mobile-double-bars-keys.py");
+runPython("scripts/patch-app-mobile-double-bars.py");
+
+console.log("Login/setup language dropdown (21 locales)...");
+runPython("scripts/patch-app-login-lang-header.py");
+
+console.log("Wiring setup screen i18n...");
+runPython("scripts/patch-app-setup-i18n.py");
+
+console.log("Adding setup business/admin form fields...");
+runPython("scripts/patch-app-setup-form.py");
+
+console.log("Auth screens RTL + small-phone layout...");
+runPython("scripts/patch-app-auth-rtl-mobile.py");
+
+console.log("Syncing setup/login locale across auth screens...");
+runPython("scripts/patch-app-auth-locale-sync.py");
+
+console.log("Applying core i18n fixes (uiT, bottom nav, embedded locales)...");
+runPython("scripts/patch-app-i18n-fixes.py");
+
+console.log("Generating guest order locale keys...");
+runPython("scripts/generate-guest-order-locale-keys.py");
+
+console.log("Adding invoice i18n keys to app locale files...");
+runPython("scripts/patch-locale-invoice-keys.py");
+
 console.log("Adding documentation keys to app locale files...");
 runPython("scripts/patch-locale-doc-keys.py");
+
+console.log("Adding guest order / QR report keys to app locale files...");
+runPython("scripts/patch-locale-guest-order-keys.py");
+
+console.log("Adding restaurant QR order floor keys to app locale files...");
+runPython("scripts/patch-locale-rest-qr-floor-keys.py");
+
+console.log("Adding login/setup i18n keys to app locale files...");
+runPython("scripts/patch-locale-login-keys.py");
+
+console.log("Adding setup screen i18n keys to app locale files...");
+runPython("scripts/patch-locale-setup-keys.py");
+
+console.log("Adding setup form + gap i18n keys to app locale files...");
+runPython("scripts/patch-locale-setup-form-keys.py");
+runPython("scripts/patch-locale-gap-keys.py");
+
+console.log("Applying full locale translations...");
+runPython("scripts/patch-locale-full-translations.py");
+
+console.log("Adding PMS module form i18n keys...");
+runPython("scripts/patch-locale-pms-modules-keys.py");
+
+console.log("Adding dashboard PMS quick-action module grid...");
+runPython("scripts/patch-app-pms-modules-grid.py");
+
+console.log("Modal forms RTL alignment fix...");
+runPython("scripts/patch-app-modal-rtl.py");
+
+console.log("Modal forms i18n wiring...");
+runPython("scripts/patch-app-modal-i18n.py");
+
+console.log("Adding modal form i18n keys...");
+runPython("scripts/patch-locale-modal-form-keys.py");
+
+console.log("Booking new-guest modal i18n...");
+runPython("scripts/patch-app-booking-guest-i18n.py");
+
+console.log("Generating vehicle rental i18n keys (21 locales)...");
+runPython("scripts/generate-vehicle-rental-keys.py");
+runPython("scripts/patch-locale-vehicle-rental-keys.py");
+
+console.log("Vehicle rental module (cars & motorbikes)...");
+runPython("scripts/patch-app-vehicle-rental.py");
+
+console.log("Generating What's new v2.3/v2.4 documentation (21 locales)...");
+runPython("scripts/generate-whats-new-v2-docs.py");
 
 console.log("Generating multilingual documentation (21 locales)...");
 runPython("scripts/generate-doc-locales.py");

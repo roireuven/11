@@ -10,4 +10,4 @@ L'application est une SPA avec barre supérieure, barre latérale (menu), zone d
 | **Menu hamburger (☰)** | Aide → Documentation | Première section en haut de la barre latérale |
 | **Barre inférieure** | Docs | Navigation inférieure (mobile) |
 
-Pour les détails de mise en page, le mode sombre et le sélecteur de langue, consultez le [English navigation guide](../en/navigation-and-ui.md).
+Pour les détails de mise en page, le mode sombre et le sélecteur de langue, consultez le [English navigation guide](https://hotel-restaurant-minimart2-4.web.app/doc/?lang=en#/navigation-and-ui).

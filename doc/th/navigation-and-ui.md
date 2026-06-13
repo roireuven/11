@@ -10,4 +10,4 @@
 | **เมนูแฮมเบอร์เกอร์ (☰)** | ความช่วยเหลือ → เอกสาร | ส่วนแรกด้านบนของแถบด้านข้าง |
 | **แถบด้านล่าง** | Docs | การนำทางด้านล่าง (มือถือ) |
 
-สำหรับรายละเอียดเลย์เอาต์ โหมดมืด และตัวเลือกภาษา ดู [English navigation guide](../en/navigation-and-ui.md).
+สำหรับรายละเอียดเลย์เอาต์ โหมดมืด และตัวเลือกภาษา ดู [English navigation guide](https://hotel-restaurant-minimart2-4.web.app/doc/?lang=en#/navigation-and-ui).

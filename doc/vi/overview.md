@@ -9,4 +9,4 @@
 - **Cửa hàng tiện lợi & POS** — Bán hàng, tính phòng, vận hành quầy
 - **Quản trị** — Cài đặt, tài khoản, báo cáo, sao lưu, bản địa hóa
 
-Để xem tổng quan đầy đủ với bảng đối tượng và khả năng, xem [English overview](../en/overview.md).
+Để xem tổng quan đầy đủ với bảng đối tượng và khả năng, xem [English overview](https://hotel-restaurant-minimart2-4.web.app/doc/?lang=en#/overview).

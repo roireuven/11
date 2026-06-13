@@ -61,8 +61,34 @@ In production, locale JSON files are static assets. Developers edit `assets/loca
 
 Keys follow module structure: `nav.*`, `settings.*`, `restaurant.*`, `msg.*`, etc.
 
+### Guest QR order keys (v2.1+)
+
+Additional sections in locale JSON files:
+
+| Section | Examples |
+|---------|----------|
+| `bnav` | `guestOrderRest`, `guestOrderMart` — bottom nav QR labels |
+| `guestOrder` | Modal titles, order number picker, guest self-order screen, submit buttons |
+| `guestQrReport` | QR Orders Report stats, chart labels, grid columns, CSV export |
+
+### Setup, PMS, and modal keys (v2.3 / v2.4)
+
+| Section | Examples |
+|---------|----------|
+| `setup` | Business name, admin username/email/password on first-time setup |
+| `pms` | Dashboard quick-action button labels (`btnAddRoom`, `btnAddBk`, …) |
+| `modal` | Add/edit forms: invoice, inventory, menu, store, maintenance ticket, user |
+| `guest` / `msg` | Booking **New guest** modal, nationality picker, `addGuestReturn` |
+
+All **21 locales** include these keys (built from `doc/i18n/*.json` patch scripts at deploy time).
+
+Modal forms use **RTL-safe alignment** (`text-align: start`) so English and other LTR languages display correctly when Arabic or Hebrew UI is active.
+
+Embedded fallback blocks in `index.html` cover en, fr, es, he, th, lo; other languages load `/assets/locales/{code}.json`.
+
 ## Related
 
+- [Guest QR orders](guest-qr-orders.md)
 - [Settings & configuration](settings-and-configuration.md)
 - [Navigation & UI](navigation-and-ui.md)
 - [Development](development.md)

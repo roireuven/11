@@ -4,7 +4,7 @@
 > ບາງໜ້າມີແຕ່ພາສາອັງກິດ; ລິ້ງຊີ້ໄປທີ່ຮຸ່ນພາສາອັງກິດ.
 
 
-> **ເບິ່ງອອນໄລນ໌ (Firebase):** [https://hotel-restaurant-minimart.firebaseapp.com/doc/?lang=lo](https://hotel-restaurant-minimart.firebaseapp.com/doc/?lang=lo)  
+> **ເບິ່ງອອນໄລນ໌ (Firebase):** [https://hotel-restaurant-minimart2-4.web.app/doc/?lang=lo](https://hotel-restaurant-minimart2-4.web.app/doc/?lang=lo)  
 > **ໃນແອັບ:** ແຖບຂ້າງ → **ເອກະສານ** (ທຸກບົດບາດ) — ຄວາມຊ່ວຍເຫຼືອຝັງໃນແອັບ  
 > **ສຳເนา (GitHub Pages):** [GitHub Pages doc](https://roireuven.github.io/11/doc/?lang=lo)
 
@@ -12,8 +12,8 @@
 
 | ແພລດຟອร์ມ | URL |
 |----------|-----|
-| **ເວັບ (Firebase Hosting)** | [hotel-restaurant-minimart.firebaseapp.com](https://hotel-restaurant-minimart.firebaseapp.com/) |
-| **ໂດເມນສຳຮອງ** | [hotel-restaurant-minimart.web.app](https://hotel-restaurant-minimart.web.app/) |
+| **ເວັບ (Firebase Hosting)** | [hotel-restaurant-minimart2-4.web.app](https://hotel-restaurant-minimart2-4.web.app/) |
+| **ໂດເມນສຳຮອງ** | [hotel-restaurant-minimart2-4.firebaseapp.com](https://hotel-restaurant-minimart2-4.firebaseapp.com/) |
 
 ## ດັດຊນີເອກະສານ
 
@@ -21,8 +21,8 @@
 
 ## ເວີຊັນ
 
-- **ເວີຊັນແອັບ:** v2.0
-- **ເອກະສານສ້າງຈາກ:** hotel-restaurant-minimart.firebaseapp.com
+- **ເວີຊັນແອັບ:** v2.4 (stable production)
+- **ເອກະສານສ້າງຈາກ:** hotel-restaurant-minimart2-4.web.app
 
 ## ຂັ້ນຕອນການຊ່ວຍເຫຼືອ
 

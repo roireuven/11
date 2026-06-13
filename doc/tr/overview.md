@@ -9,4 +9,4 @@
 - **Mini market ve POS** — Mağaza satışları, oda ücretleri, kasa işlemleri
 - **Yönetim** — Ayarlar, hesaplar, raporlar, yedekleme, yerelleştirme
 
-Hedef kitle ve yetenek tablolarıyla tam genel bakış için bkz. [English overview](../en/overview.md).
+Hedef kitle ve yetenek tablolarıyla tam genel bakış için bkz. [English overview](https://hotel-restaurant-minimart2-4.web.app/doc/?lang=en#/overview).

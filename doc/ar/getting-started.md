@@ -12,4 +12,4 @@
 
 ## الدليل الكامل
 
-للحصول على تعليمات مفصلة خطوة بخطوة، راجع [English getting started guide](../en/getting-started.md).
+للحصول على تعليمات مفصلة خطوة بخطوة، راجع [English getting started guide](https://hotel-restaurant-minimart2-4.web.app/doc/?lang=en#/getting-started).

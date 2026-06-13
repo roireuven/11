@@ -10,4 +10,4 @@ Aplikasi ini adalah SPA dengan bar atas, sidebar (menu), area konten utama, dan 
 | **Menu hamburger (☰)** | Bantuan → Dokumentasi | Bagian pertama di atas sidebar |
 | **Bar bawah** | Docs | Navigasi bawah (mobile) |
 
-Untuk detail tata letak, mode gelap, dan pemilih bahasa, lihat [English navigation guide](../en/navigation-and-ui.md).
+Untuk detail tata letak, mode gelap, dan pemilih bahasa, lihat [English navigation guide](https://hotel-restaurant-minimart2-4.web.app/doc/?lang=en#/navigation-and-ui).

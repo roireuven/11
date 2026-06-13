@@ -2,7 +2,7 @@
 
 **Path:** Sidebar → **Settings** — **Admin only**
 
-![Settings — property name, currency, taxes, seasons](/doc/en/assets/screenshots/11-settings.png)
+![Settings — property name, currency, taxes, seasons](assets/screenshots/11-settings.png)
 
 ## Hotel settings
 
@@ -30,9 +30,22 @@ Click **Save settings** after changes.
 
 ## App language
 
-**Interface language** — same as top-bar locale control. Applies to menus and labels app-wide.
+**Interface language** — same as top-bar locale control. Applies to menus and labels app-wide (including guest QR modal, guest self-order screens, and QR Orders Report in all **21 locales**).
 
 For Lao operations, Settings may suggest **Use LAK for hotel currency** when interface is Lao.
+
+## Invoice payment QR (Settings)
+
+Under **Settings → Hotel settings**:
+
+| Option | Purpose |
+|--------|---------|
+| Invoice logo / picture | Shown at top of printed and on-screen invoices |
+| Payment QR text or URL | Bank payment link or QR payload |
+| Payment QR image (Browse) | Upload bank QR image |
+| Include invoice number & total in payment QR | Adds INV/TOTAL to payment payload |
+
+**Invoices do not include guest-order QRs.** Restaurant and mini-mart self-order links are on the bottom nav (**Restaurant QR**, **Mini-Mart QR**). See [Guest QR orders](guest-qr-orders.md).
 
 ## Regulations
 
@@ -77,6 +90,7 @@ See [Backup, restore & data](backup-restore-and-data.md) for:
 
 ## Related
 
+- [Guest QR orders](guest-qr-orders.md)
 - [Localization](localization.md)
 - [Backup, restore & data](backup-restore-and-data.md)
 - [Data model](data-model.md)

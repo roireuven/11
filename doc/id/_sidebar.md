@@ -1,8 +1,10 @@
 * [Home](README.md)
 
 * **Memulai**
+  * [Apa yang baru di v2.3/v2.4](whats-new-v2.md)
   * [Ikhtisar](overview.md)
   * [Memulai](getting-started.md)
+  * [Visual guide (screenshots)](visual-guide.md)
   * [Instalasi](installation.md)
   * [Penyiapan pertama kali](first-time-setup.md)
   * [Kredensial demo](demo-credentials.md)
@@ -14,6 +16,8 @@
   * [Layanan & penagihan](services-and-billing.md)
   * [Restoran & dapur](restaurant-and-kitchen.md)
   * [Mini-mart & POS](minimart-and-pos.md)
+  * [Vehicle rental](vehicle-rental.md)
+  * [Guest QR orders](guest-qr-orders.md)
   * [Inventaris & katalog](inventory-and-catalog.md)
   * [Portal tamu](guest-portal.md)
   * [Laporan](reports.md)
@@ -23,6 +27,7 @@
   * [Pengaturan & konfigurasi](settings-and-configuration.md)
   * [Cadangan, pemulihan & data](backup-restore-and-data.md)
   * [Lokalisasi](localization.md)
+  * [Multilingual documentation](multilingual-documentation.md)
   * [Model data](data-model.md)
 
 * **Teknis**
@@ -33,5 +38,5 @@
   * [Glosarium](glossary.md)
 
 * **Tautan**
-  * [Live web app ↗](https://hotel-restaurant-minimart.firebaseapp.com/)
-  * [APK landing ↗](https://roireuven.github.io/11/)
+  * [Live web app (v2.4) ↗](https://hotel-restaurant-minimart2-4.web.app/)
+  * [APK landing (GitHub) ↗](https://roireuven.github.io/11/)
