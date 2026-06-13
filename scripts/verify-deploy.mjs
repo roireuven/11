@@ -247,14 +247,20 @@ if (!html.includes("HRMM-MODAL-RTL-v1")) {
 if (!html.includes("HRMM-BOOKING-GUEST-I18N-v1") || !html.includes("newGuestFromBookingModalMarkup")) {
   fail("app missing booking new-guest modal i18n (HRMM-BOOKING-GUEST-I18N-v1)");
 }
-if (!html.includes("HRMM-VEHICLE-RENTAL-v1") || !html.includes("function renderVehicleRental")) {
-  fail("app missing vehicle rental module (HRMM-VEHICLE-RENTAL-v1)");
+if (!html.includes("HRMM-VEHICLE-RENTAL-v2") || !html.includes("function renderVehicleRental")) {
+  fail("app missing vehicle rental module (HRMM-VEHICLE-RENTAL-v2)");
 }
 if (!html.includes('data-page="vehiclerental"') || !html.includes("rent-vehicle-floor")) {
   fail("app missing vehicle rental floor UI");
 }
 if (!html.includes("vehiclerental:renderVehicleRental") || !html.includes("let vehicles = load('vehicles'")) {
   fail("app missing vehicle rental page wiring");
+}
+if (!html.includes("rentHasConflict") || !html.includes("rentOpenWhatsApp")) {
+  fail("app missing boutique rental v2 (conflict prevention + messaging)");
+}
+if (!html.includes("rentRenderCalendarHtml") || !html.includes("vehicleExpenses")) {
+  fail("app missing rental schedule grid + expense tracker");
 }
 if (!html.includes("tx.source !== 'Vehicle Rental'") || !html.includes("s.indexOf('vehicle')")) {
   fail("app missing vehicle rental revenue / shift normalization");

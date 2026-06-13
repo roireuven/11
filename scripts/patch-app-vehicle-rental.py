@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Vehicle rental module — cars & motorbikes floor, guest/booking link, reports, sales."""
+"""Vehicle rental module — boutique fleet v2 with calendar, messaging, contract, P&L."""
 from __future__ import annotations
 
 import importlib.util
@@ -7,8 +7,10 @@ import re
 import sys
 from pathlib import Path
 
-MARKER = "HRMM-VEHICLE-RENTAL-v1"
+MARKER = "HRMM-VEHICLE-RENTAL-v2"
 INDEX = Path("public/index.html")
+ROOT = Path(__file__).resolve().parents[1]
+V2_MODULE = ROOT / "scripts" / "_vehicle_rental_v2_module.js"
 
 NAV_ANCHOR = (
     '      <a data-page="pos"><span class="icon">&#128181;</span>'
@@ -28,6 +30,8 @@ PAGE_NEW = (
 )
 
 DATA_ANCHOR = "let storeItems = load('storeItems', null);"
+VEHICLE_DATA_ANCHOR = "let rentCrmGuestId = null;"
+
 RENDER_PAGE_OLD = (
     "const fn = {dashboard:renderDashboard,rooms:renderRooms,bookings:renderBookings,"
     "guests:renderGuests,housekeeping:renderHousekeeping,maintenance:renderMaintenance,"
@@ -149,6 +153,8 @@ EXPORT_TABLES_NEW = (
     "    {name:'work_periods.csv', data:workPeriods},\n"
     "    {name:'vehicles.csv', data:vehicles},\n"
     "    {name:'vehicle_rentals.csv', data:vehicleRentals},\n"
+    "    {name:'vehicle_expenses.csv', data:vehicleExpenses},\n"
+    "    {name:'vehicle_maint_blocks.csv', data:vehicleMaintBlocks},\n"
     "  ];"
 )
 
@@ -157,7 +163,7 @@ BACKUP_DATA_OLD = (
 )
 BACKUP_DATA_NEW = (
     "restaurantTables,storeItems,serviceRequests,transactions,workPeriods,"
-    "vehicles,vehicleRentals};"
+    "vehicles,vehicleRentals,vehicleExpenses,vehicleMaintBlocks,rentLocations};"
 )
 
 RESTORE_OLD = (
@@ -168,6 +174,9 @@ RESTORE_NEW = (
     "  r = takeArr('workPeriods'); if (r) { workPeriods = r; save('workPeriods', workPeriods); }\n"
     "  r = takeArr('vehicles'); if (r) { vehicles = r; save('vehicles', vehicles); }\n"
     "  r = takeArr('vehicleRentals'); if (r) { vehicleRentals = r; save('vehicleRentals', vehicleRentals); }\n"
+    "  r = takeArr('vehicleExpenses'); if (r) { vehicleExpenses = r; save('vehicleExpenses', vehicleExpenses); }\n"
+    "  r = takeArr('vehicleMaintBlocks'); if (r) { vehicleMaintBlocks = r; save('vehicleMaintBlocks', vehicleMaintBlocks); }\n"
+    "  r = takeArr('rentLocations'); if (r) { rentLocations = r; save('rentLocations', rentLocations); }\n"
     "  r = takeArr('auditLog');"
 )
 
@@ -178,7 +187,9 @@ ASSEMBLE_MAP_OLD = (
 ASSEMBLE_MAP_NEW = (
     "    'work_periods.csv': ['workPeriods', []],\n"
     "    'vehicles.csv': ['vehicles', []],\n"
-    "    'vehicle_rentals.csv': ['vehicleRentals', []]\n"
+    "    'vehicle_rentals.csv': ['vehicleRentals', []],\n"
+    "    'vehicle_expenses.csv': ['vehicleExpenses', []],\n"
+    "    'vehicle_maint_blocks.csv': ['vehicleMaintBlocks', []]\n"
     "  };"
 )
 
@@ -190,6 +201,7 @@ CSV_DEF_NEW = (
     "    { k: 'workPeriods', tr: 'settings.csvBtnWorkPeriods' },\n"
     "    { k: 'vehicles', tr: 'settings.csvBtnVehicles' },\n"
     "    { k: 'vehicleRentals', tr: 'settings.csvBtnVehicleRentals' },\n"
+    "    { k: 'vehicleExpenses', tr: 'settings.csvBtnVehicleExpenses' },\n"
     "    { k: 'auditLog', tr: 'settings.csvBtnAudit' },"
 )
 
@@ -198,11 +210,16 @@ EXPORT_SINGLE_OLD = (
 )
 EXPORT_SINGLE_NEW = (
     "restaurantTables,serviceRequests,messages,workPeriods,vehicles,vehicleRentals,"
-    "auditLog,bookingLog,inventoryLog};"
+    "vehicleExpenses,vehicleMaintBlocks,rentLocations,auditLog,bookingLog,inventoryLog};"
+)
+
+MODULE_RE = re.compile(
+    r"function rentVehicleIcon\([^)]*\)[\s\S]*?\nfunction renderRestaurant\(\)",
+    re.MULTILINE,
 )
 
 
-def _load_fragments():
+def _load_v1_fragments():
     frag_path = Path(__file__).resolve().parent / "_vehicle_rental_v1_fragments.py"
     spec = importlib.util.spec_from_file_location("_vehicle_rental_v1_fragments", frag_path)
     if spec is None or spec.loader is None:
@@ -210,6 +227,22 @@ def _load_fragments():
     mod = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(mod)
     return mod
+
+
+def _load_v2_boutique():
+    frag_path = Path(__file__).resolve().parent / "_vehicle_rental_v2_boutique.py"
+    spec = importlib.util.spec_from_file_location("_vehicle_rental_v2_boutique", frag_path)
+    if spec is None or spec.loader is None:
+        raise SystemExit(f"Missing boutique fragments: {frag_path}")
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
+def _load_v2_module() -> str:
+    if not V2_MODULE.is_file():
+        raise SystemExit(f"Missing {V2_MODULE}")
+    return V2_MODULE.read_text(encoding="utf-8").strip()
 
 
 def _replace(content: str, old: str, new: str, label: str) -> str:
@@ -221,22 +254,30 @@ def _replace(content: str, old: str, new: str, label: str) -> str:
 
 
 def patch(content: str) -> str:
-    frag = _load_fragments()
+    v1 = _load_v1_fragments()
+    v2 = _load_v2_boutique()
+    module_js = _load_v2_module()
 
-    if MARKER in content and "function renderVehicleRental()" in content:
-        print(f"Already patched {MARKER} — running integrity repair")
-    else:
-        if MARKER not in content:
-            content = content.replace(
-                "<title>HotelRestaurantMini-MartManagement</title>",
-                f"<title>HotelRestaurantMini-MartManagement</title>\n  <!-- {MARKER} -->",
-                1,
-            )
+    content = re.sub(r"<!-- HRMM-VEHICLE-RENTAL-v\d+ -->", f"<!-- {MARKER} -->", content)
+    if MARKER not in content:
+        content = content.replace(
+            "<title>HotelRestaurantMini-MartManagement</title>",
+            f"<title>HotelRestaurantMini-MartManagement</title>\n  <!-- {MARKER} -->",
+            1,
+        )
 
     if "/* HRMM vehicle rental floor */" not in content:
         content = content.replace(
             "    /* HRMM guest QR restaurant order */",
-            "    /* HRMM vehicle rental floor */" + frag.VEHICLE_CSS + "\n"
+            "    /* HRMM vehicle rental floor */" + v1.VEHICLE_CSS + "\n"
+            "    /* HRMM guest QR restaurant order */",
+            1,
+        )
+
+    if "/* HRMM vehicle rental boutique v2 */" not in content:
+        content = content.replace(
+            "    /* HRMM guest QR restaurant order */",
+            "    /* HRMM vehicle rental boutique v2 */" + v2.VEHICLE_V2_CSS + "\n"
             "    /* HRMM guest QR restaurant order */",
             1,
         )
@@ -244,14 +285,30 @@ def patch(content: str) -> str:
     if "let vehicles = load('vehicles'" not in content:
         content = content.replace(
             DATA_ANCHOR,
-            frag.VEHICLE_DATA_INIT.strip() + "\n" + DATA_ANCHOR,
+            v1.VEHICLE_DATA_INIT.strip() + "\n" + DATA_ANCHOR,
             1,
         )
 
-    if "function renderVehicleRental()" not in content:
+    if "let vehicleExpenses = load('vehicleExpenses'" not in content:
+        if VEHICLE_DATA_ANCHOR in content:
+            content = content.replace(
+                VEHICLE_DATA_ANCHOR,
+                VEHICLE_DATA_ANCHOR + "\n" + v2.VEHICLE_V2_DATA.strip(),
+                1,
+            )
+        else:
+            content = content.replace(
+                DATA_ANCHOR,
+                v2.VEHICLE_V2_DATA.strip() + "\n" + DATA_ANCHOR,
+                1,
+            )
+
+    if MODULE_RE.search(content):
+        content = MODULE_RE.sub(lambda _m: module_js + "\n\nfunction renderRestaurant()", content, count=1)
+    elif "function renderVehicleRental()" not in content:
         content = content.replace(
             "function renderRestaurant() {",
-            frag.VEHICLE_MODULE_JS.strip() + "\n\nfunction renderRestaurant() {",
+            module_js + "\n\nfunction renderRestaurant() {",
             1,
         )
 
@@ -287,24 +344,32 @@ def patch(content: str) -> str:
         content = content.replace(BACKUP_DATA_OLD, BACKUP_DATA_NEW)
         if EXPORT_SINGLE_OLD in content:
             content = content.replace(EXPORT_SINGLE_OLD, EXPORT_SINGLE_NEW, 1)
-        content = _replace(content, RESTORE_OLD, RESTORE_NEW, "restoreFromJson")
-        content = _replace(content, ASSEMBLE_MAP_OLD, ASSEMBLE_MAP_NEW, "assembleBackupFromZipEntries")
-        if CSV_DEF_OLD in content:
+        if RESTORE_OLD in content and "vehicleExpenses" not in content.split("restoreFromJson")[1][:1200]:
+            content = _replace(content, RESTORE_OLD, RESTORE_NEW, "restoreFromJson")
+        if ASSEMBLE_MAP_OLD in content:
+            content = _replace(content, ASSEMBLE_MAP_OLD, ASSEMBLE_MAP_NEW, "assembleBackupFromZipEntries")
+        if CSV_DEF_OLD in content and "vehicleExpenses" not in content:
             content = content.replace(CSV_DEF_OLD, CSV_DEF_NEW, 1)
+    elif "vehicle_expenses.csv" not in content:
+        content = content.replace(
+            "    {name:'vehicle_rentals.csv', data:vehicleRentals},\n  ];",
+            "    {name:'vehicle_rentals.csv', data:vehicleRentals},\n"
+            "    {name:'vehicle_expenses.csv', data:vehicleExpenses},\n"
+            "    {name:'vehicle_maint_blocks.csv', data:vehicleMaintBlocks},\n  ];",
+            1,
+        )
 
-    content = re.sub(r"<!-- HRMM-VEHICLE-RENTAL-v\d+ -->", f"<!-- {MARKER} -->", content)
     return content
 
 
 def main() -> int:
-    root = Path(__file__).resolve().parents[1]
-    index = root / INDEX
+    index = ROOT / INDEX
     if not index.is_file():
         print(f"Missing {index}", file=sys.stderr)
         return 1
     text = index.read_text(encoding="utf-8")
     index.write_text(patch(text), encoding="utf-8")
-    print(f"Patched {index} — vehicle rental module (cars & motorbikes)")
+    print(f"Patched {index} — boutique vehicle rental v2")
     return 0
 
 

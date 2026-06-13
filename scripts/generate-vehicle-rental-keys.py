@@ -73,17 +73,64 @@ def main() -> int:
         "rental.checkedOut": "Rental {num} checked out",
         "rental.returned": "Rental {num} returned",
         "rental.vehicleAdded": "Vehicle added to fleet",
+        "rental.tabFloor": "Fleet floor",
+        "rental.tabCalendar": "Schedule grid",
+        "rental.tabFleet": "Fleet P&L",
+        "rental.conflict": "Schedule conflict — vehicle booked or in maintenance for these dates.",
+        "rental.conflictBlocked": "Cannot book — schedule conflict (overbooking prevented).",
+        "rental.pickupLoc": "Pick-up location",
+        "rental.dropoffLoc": "Drop-off location",
+        "rental.deliveryFee": "Delivery fee",
+        "rental.guestPhone": "Guest phone (SMS / WhatsApp)",
+        "rental.guestEmail": "Guest email",
+        "rental.needPhone": "Add guest phone number for messaging",
+        "rental.needEmail": "Add guest email address",
+        "rental.sendWhatsApp": "WhatsApp",
+        "rental.sendSms": "SMS",
+        "rental.sendEmail": "Email contract",
+        "rental.msgLocation": "Send location",
+        "rental.contractSign": "Digital signature",
+        "rental.signHere": "Printed name",
+        "rental.clearSig": "Clear",
+        "rental.printContract": "Print contract",
+        "rental.detailTitle": "Rental details",
+        "rental.calendarTitle": "7-day fleet schedule",
+        "rental.openMaps": "Open map",
+        "rental.deposit": "Deposit ($)",
+        "rental.notes": "Notes",
+        "rental.extraCharges": "Extra charges (fuel / damage / late)",
+        "rental.searchGuest": "Search guest or room…",
+        "rental.revenue": "Revenue",
+        "rental.expenses": "Expenses",
+        "rental.netProfit": "Net profit",
+        "rental.addExpense": "Add expense",
+        "rental.expenseSaved": "Expense recorded",
+        "rental.expCategory": "Category",
+        "rental.scheduleMaint": "Schedule maintenance",
+        "rental.maintWindow": "Service / repair window",
+        "rental.maintScheduled": "Maintenance block saved",
+        "rental.clearMaint": "Mark available",
         "settings.csvBtnVehicles": "Vehicles",
         "settings.csvBtnVehicleRentals": "Vehicle rentals",
+        "settings.csvBtnVehicleExpenses": "Vehicle expenses",
     }
     data: dict = {"en": en}
+    existing: dict = {}
+    if OUT.is_file():
+        try:
+            existing = json.loads(OUT.read_text(encoding="utf-8"))
+        except Exception:
+            existing = {}
     for code in LOCALES:
         if code == "en":
             continue
-        block = {}
+        prev = existing.get(code) or {}
+        block = dict(prev)
         tgt = TARGETS.get(code, code)
         tr = GoogleTranslator(source="en", target=tgt)
         for k, v in en.items():
+            if block.get(k):
+                continue
             for attempt in range(4):
                 try:
                     block[k] = tr.translate(v)
