@@ -1,6 +1,6 @@
 # Vehicle rental (cars & motorbikes)
 
-The **Vehicle Rental** module lets front desk and management staff rent **cars** and **motorbikes** to hotel guests and walk-in customers. It uses a visual **fleet floor** (similar to restaurant table tiles), links rentals to **guests** and **bookings**, records **checkout/return**, and posts revenue to **transactions** and the **dashboard**.
+The **Vehicle Rental** module is a boutique fleet system for small-scale car and motorbike operations. It combines a visual **fleet floor** (like restaurant tables), **conflict-free scheduling**, **guest/booking linking**, **WhatsApp/SMS messaging**, **pick-up/drop-off locations**, **digital contracts**, and **per-vehicle profit tracking**.
 
 ## Who can access it
 
@@ -13,94 +13,107 @@ The **Vehicle Rental** module lets front desk and management staff rent **cars**
 
 Open from the sidebar: **Services → Vehicle Rental** (🚗 icon).
 
-## Fleet floor
+## Three views (tabs)
 
-The main screen shows a grid of vehicle tiles:
+| Tab | Purpose |
+|-----|---------|
+| **Fleet floor** | Color-coded tiles — tap to check out or open rental details |
+| **Schedule grid** | 7-day calendar per vehicle — prevents overbooking visually |
+| **Fleet P&L** | Revenue vs expenses per vehicle, maintenance scheduling |
 
-| Tile color | Meaning |
-|------------|---------|
-| **Green** | Available — tap to start checkout |
-| **Red** | Rented out (active rental) — tap to process return |
-| **Amber** | Due / payment pending |
-| **Grey** | Maintenance — not rentable |
+## Conflict prevention (no overbooking)
 
-Each tile shows the vehicle type icon (🚗 car or 🏍️ motorbike), **plate number**, and status label.
+Before checkout, the system checks whether the vehicle is already:
 
-On phones the grid uses three columns; on desktop, five columns.
+- Rented for overlapping dates
+- Blocked for **maintenance** in that window
 
-## Checkout (rent out)
+If there is a conflict, checkout is **blocked** and a warning appears. The **Schedule grid** tab shows booked days (red), maintenance (grey), and completed rentals (blue).
 
-1. Optionally select a **booking** or **guest** from the pickers at the top (fills guest name, room, booking reference).
-2. Tap an **available** (green) vehicle.
-3. In the checkout modal, confirm or edit:
-   - Guest name, room number, booking reference
-   - Start and end date/time
-   - Fuel level out, odometer out
-   - Daily rate (from vehicle profile)
-   - Deposit and payment method
-   - Notes
-4. Tap **Check out** — the rental is created, the vehicle tile turns red, and a **transaction** is recorded with source **Vehicle Rental**.
+## Guest & booking linking
 
-Rental numbers use the format `RNT-1001`, `RNT-1002`, etc.
+Use the **searchable guest card grid** (same pattern as restaurant room service):
+
+- Tap an **in-house booking** card to pre-fill guest, room, and booking reference
+- Tap a **CRM guest** card for walk-in customers
+
+Phone and email are pulled from the guest profile when available.
+
+## Pick-up / drop-off locations
+
+At checkout, choose **pick-up** and **drop-off** locations:
+
+| Preset | Delivery fee |
+|--------|----------------|
+| Hotel front desk | Free |
+| Airport | +$15 |
+| Train station | +$10 |
+| Custom delivery | +$20 |
+
+Delivery fees are added to the rental total automatically. Use **Open map** in the rental detail modal for Google Maps links.
+
+## Checkout flow
+
+1. Select guest/booking from the card grid (optional).
+2. Tap an **available** (green) vehicle on the fleet floor.
+3. Confirm dates, locations, fuel/odometer, deposit, and payment method.
+4. Guest signs on the **digital signature pad** and enters printed name.
+5. Tap **Check out** — rental posts to transactions if paid or charged to room.
+
+## Customer messaging (WhatsApp / SMS / Email)
+
+From the **Rental details** modal or active rentals grid:
+
+| Button | Action |
+|--------|--------|
+| **WhatsApp** | Opens WhatsApp with booking confirmation text |
+| **SMS** | Opens SMS app with return reminder |
+| **Email contract** | Opens email client with agreement summary |
+| **Send location** | WhatsApp with pick-up location and map link |
+
+Requires guest **phone** (WhatsApp/SMS) or **email** on the rental record.
 
 ## Return
 
-1. Tap an **occupied** (red) or **pending** (amber) vehicle.
-2. In the return modal, enter:
-   - Return date/time
-   - Fuel level in, odometer in
-   - Extra charges (fuel, damage, late fee) if any
-   - Final payment / balance
-3. Tap **Complete return** — rental status becomes **Completed**, vehicle returns to **Available**, and any balance posts to transactions.
+1. Tap an occupied vehicle or use **Return** on the active rentals grid.
+2. Enter return date, fuel/mileage in, and **extra charges** (fuel, damage, late fee).
+3. Settle payment if still pending.
+
+## Digital contract & PDF
+
+- Signature and printed name stored on the rental record
+- **Print contract** generates a printable rental agreement (browser print → save as PDF)
+- **Email contract** sends summary via the guest's email app
+
+## Fleet P&L & maintenance
+
+On the **Fleet P&L** tab, each vehicle shows:
+
+- **Revenue** from completed rentals
+- **Expenses** (insurance, registration, repair, fuel, other)
+- **Net profit**
+
+Actions per vehicle:
+
+- **+ Add expense** — log cost against that vehicle
+- **Schedule maintenance** — block dates on the calendar and mark vehicle as maintenance (grey tile)
 
 ## Active rentals & history
 
-Below the fleet floor:
+- **Active rentals** grid — view details, return, or send WhatsApp
+- **Rental history** — completed rentals with revenue totals
+- Export fleet data via **Settings → Backup** (vehicles, rentals, expenses CSV)
 
-- **Active rentals** — grid of open rentals with guest, vehicle, dates, and total
-- **Rental history** — completed and cancelled rentals
+## Integration
 
-Use **Export CSV** on the module header to back up rental data.
-
-## Vehicle management
-
-Use **+ Add vehicle** to register fleet items:
-
-| Field | Description |
-|-------|-------------|
-| Type | Car or Motorbike |
-| Brand / Model | e.g. Toyota Yaris |
-| Plate number | Unique ID on the floor |
-| Daily rate / Hourly rate | Pricing |
-| Status | Available or Maintenance |
-| Sort order | Tile position on the floor |
-
-Edit or hide vehicles with the row actions. Hidden vehicles respect the same visibility rules as other data rows.
-
-## Integration with hotel & billing
-
-- **Guest picker** — link rental to an existing guest profile
-- **Booking picker** — pre-fill guest, room, and booking ID from an active reservation
-- **Transactions** — checkout and return create rows with `source: Vehicle Rental`
-- **Dashboard** — vehicle rental revenue included in shift and daily totals
-- **Audit log** — checkout and return actions logged
-
-## Reports
-
-Vehicle rental revenue appears in:
-
-- **Dashboard** shift summaries
-- **Reports** — filter transactions by source **Vehicle Rental**
-- **All Transactions** (Admin) — full ledger
-
-## Default demo fleet
-
-On first use, the app seeds sample vehicles (two cars, two motorbikes) if the fleet is empty. Replace these with your property's real fleet in production.
+- **Transactions** — `source: Vehicle Rental`
+- **Dashboard** — rental revenue in hotel totals
+- **Audit log** — checkout and return events
 
 ## Related guides
 
 - [Hotel operations](hotel-operations.md) — bookings and guests
-- [Services & billing](services-and-billing.md) — invoices and charges
+- [Restaurant & kitchen](restaurant-and-kitchen.md) — similar floor and guest-picker patterns
+- [Guest QR orders](guest-qr-orders.md) — guest messaging patterns
 - [Reports](reports.md) — revenue reporting
-- [Navigation & UI](navigation-and-ui.md) — sidebar and mobile layout
-- [Data model](data-model.md) — `vehicles` and `vehicleRentals` entities
+- [Data model](data-model.md) — entities
