@@ -262,6 +262,9 @@ if (!html.includes("rentHasConflict") || !html.includes("rentOpenWhatsApp")) {
 if (!html.includes("rentRenderCalendarHtml") || !html.includes("vehicleExpenses")) {
   fail("app missing rental schedule grid + expense tracker");
 }
+if (!html.includes("rentPostRentalSale") || !html.includes("rentApplyBillToRental")) {
+  fail("app missing rental billing helpers (subtotal/tax/grand total)");
+}
 if (!html.includes("tx.source !== 'Vehicle Rental'") || !html.includes("s.indexOf('vehicle')")) {
   fail("app missing vehicle rental revenue / shift normalization");
 }
