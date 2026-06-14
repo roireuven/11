@@ -154,6 +154,28 @@ function rentGetDisplayGrandTotal(r) {
   rentApplyBillToRental(r);
   return r.grandTotal || 0;
 }
+function rentMapPayMethod(payMethod) {
+  if (payMethod === 'Charged to Room' || payMethod === 'Room Charge') return 'Room Charge';
+  if (payMethod === 'Credit Card') return 'Credit Card';
+  if (payMethod === 'Pending') return 'Pending';
+  return 'Cash';
+}
+function rentPaymentStatusFromMethod(payMethod) {
+  if (payMethod === 'Pending') return 'Pending';
+  if (payMethod === 'Charged to Room' || payMethod === 'Room Charge') return 'Charged to Room';
+  return 'Paid';
+}
+function rentIsPaidMethod(payMethod) {
+  return payMethod && payMethod !== 'Pending';
+}
+function rentFormatPaymentDisplay(r) {
+  if (!r) return '—';
+  if (r.paymentMethod && r.paymentMethod !== 'Pending') return r.paymentMethod;
+  if (r.paymentStatus === 'Charged to Room') return 'Room Charge';
+  if (r.paymentStatus === 'Pending') return (typeof t === 'function' ? t('rental.payPending') : 'Pending');
+  if (r.paymentStatus === 'Paid') return 'Cash';
+  return r.paymentStatus || '—';
+}
 function rentPostRentalSale(rental, payMethod, items, orderSuffix) {
   if (!items || !items.length || payMethod === 'Pending') return null;
   return processSale({
@@ -162,10 +184,29 @@ function rentPostRentalSale(rental, payMethod, items, orderSuffix) {
     guestName: rental.guestName,
     roomNumber: rental.roomNumber,
     bookingId: rental.bookingId,
-    paymentMethod: payMethod === 'Charged to Room' ? 'Room Charge' : 'Cash',
+    paymentMethod: rentMapPayMethod(payMethod),
     items: items,
     taxRate: rentGetTaxRate()
   });
+}
+function rentBuildPayBarHtml(total, opts) {
+  opts = opts || {};
+  var amt = parseFloat(total) || 0;
+  var totalLbl = (typeof t === 'function' && t('minimart.grandTotal') !== 'minimart.grandTotal') ? t('minimart.grandTotal') : 'Grand total';
+  var cashLbl = (typeof t === 'function' && t('minimart.payTotalCash') !== 'minimart.payTotalCash') ? t('minimart.payTotalCash') : 'Pay total — Cash';
+  var cardLbl = (typeof t === 'function' && t('minimart.payTotalCard') !== 'minimart.payTotalCard') ? t('minimart.payTotalCard') : 'Pay total — Credit card';
+  var roomLbl = (typeof t === 'function' ? t('rental.payRoom') : 'Charge to room');
+  var pendingLbl = (typeof t === 'function' ? t('rental.payPending') : 'Pending');
+  var btns = '';
+  if (opts.cashOnclick) btns += '<button type="button" class="btn btn-sm btn-success" style="width:100%;" onclick="' + opts.cashOnclick + '">' + cashLbl + '</button>';
+  if (opts.cardOnclick) btns += '<button type="button" class="btn btn-sm btn-outline" style="width:100%;" onclick="' + opts.cardOnclick + '">' + cardLbl + '</button>';
+  if (opts.roomOnclick) btns += '<button type="button" class="btn btn-sm btn-outline" style="width:100%;" onclick="' + opts.roomOnclick + '">' + roomLbl + '</button>';
+  if (opts.pendingOnclick) btns += '<button type="button" class="btn btn-sm btn-outline" style="width:100%;" onclick="' + opts.pendingOnclick + '">' + pendingLbl + '</button>';
+  return '<div class="rent-pay-bar">' +
+    '<div style="display:flex;flex-wrap:wrap;align-items:center;gap:0.5rem 0.75rem;margin-bottom:0.5rem;">' +
+    '<span style="font-size:0.85rem;color:var(--text-light);">' + totalLbl + '</span>' +
+    '<strong style="font-size:1.05rem;">' + fmt$(amt) + '</strong></div>' +
+    '<div style="display:flex;flex-direction:column;gap:0.45rem;">' + btns + '</div></div>';
 }
 function rentRenderBillSummaryHtml(bill) {
   var subLbl = (typeof t === 'function' && t('minimart.subtotal') !== 'minimart.subtotal') ? t('minimart.subtotal') : 'Subtotal';
@@ -200,6 +241,13 @@ function rentUpdateCheckoutBillSummary(vehicleId) {
   var bill = rentReadCheckoutBill(v);
   var box = document.getElementById('rCkBillSummary');
   if (box) box.innerHTML = rentRenderBillSummaryHtml(bill);
+  var payBar = document.getElementById('rCkPayBar');
+  if (payBar) payBar.innerHTML = rentBuildPayBarHtml(bill.grandTotal, {
+    cashOnclick: "rentSaveCheckoutWithPay('" + vehicleId + "','Cash')",
+    cardOnclick: "rentSaveCheckoutWithPay('" + vehicleId + "','Credit Card')",
+    roomOnclick: "rentSaveCheckoutWithPay('" + vehicleId + "','Charged to Room')",
+    pendingOnclick: "rentSaveCheckoutWithPay('" + vehicleId + "','Pending')"
+  });
   var sub = document.getElementById('rCkSubtotal');
   if (sub && document.activeElement !== sub) sub.value = bill.subtotal;
 }
@@ -402,64 +450,80 @@ window.rentOpenCheckoutModal = function(vehicleId) {
     '<div id="rCkBillSummary">' + rentRenderBillSummaryHtml(initBill) + '</div>' +
     '<div class="form-row"><div class="form-group"><label>' + t('rental.deposit') + '</label><input type="number" class="form-control" id="rCkDeposit" step="0.01" value="0"></div></div>' +
     '<div class="form-group"><label>' + t('rental.notes') + '</label><textarea class="form-control" id="rCkNotes" rows="2"></textarea></div>' +
-    '<div class="form-group"><label>' + t('g.payment') + '</label><select class="form-control" id="rCkPay"><option value="Pending">' + t('rental.payPending') + '</option><option value="Charged to Room">' + t('rental.payRoom') + '</option><option value="Paid">' + t('rental.payPaid') + '</option></select></div>' +
+    '<div id="rCkPayBar">' + rentBuildPayBarHtml(initBill.grandTotal, {
+      cashOnclick: "rentSaveCheckoutWithPay('" + v.id + "','Cash')",
+      cardOnclick: "rentSaveCheckoutWithPay('" + v.id + "','Credit Card')",
+      roomOnclick: "rentSaveCheckoutWithPay('" + v.id + "','Charged to Room')",
+      pendingOnclick: "rentSaveCheckoutWithPay('" + v.id + "','Pending')"
+    }) + '</div>' +
     '<div class="rent-sig-wrap"><label>' + t('rental.contractSign') + '</label><canvas id="rCkSig" width="320" height="80"></canvas>' +
     '<div style="display:flex;gap:0.35rem;margin-top:0.35rem;"><input type="text" class="form-control" id="rCkSignName" placeholder="' + t('rental.signHere') + '" style="flex:1;">' +
     '<button type="button" class="btn btn-sm btn-outline" onclick="rentClearSig()">' + t('rental.clearSig') + '</button></div></div>' +
-  '</div><div class="modal-footer"><button class="btn btn-outline" onclick="closeModal()">' + t('common.cancel') + '</button><button class="btn btn-primary" onclick="rentSaveCheckout(\'' + v.id + '\')">' + t('rental.checkoutBtn') + '</button></div>');
+  '</div><div class="modal-footer"><button class="btn btn-outline" onclick="closeModal()">' + t('common.cancel') + '</button></div>');
   setTimeout(function() { rentInitSigPad(); rentRecalcCheckoutTotal(v.id); }, 50);
 };
-window.rentSaveCheckout = function(vehicleId) {
+function rentBuildCheckoutRental(vehicleId) {
   var v = vehicles.find(function(x) { return x.id === vehicleId; });
-  if (!v) return;
+  if (!v) return null;
   var start = document.getElementById('rCkStart').value;
   var end = document.getElementById('rCkEnd').value;
   if (rentHasConflict(vehicleId, start, end, null)) {
     toast(typeof t === 'function' ? t('rental.conflictBlocked') : 'Cannot book — schedule conflict');
-    return;
+    return null;
   }
   var guestName = (document.getElementById('rCkGuest') && document.getElementById('rCkGuest').value.trim()) || '';
-  if (!guestName) { toast(t('rental.needGuest')); return; }
+  if (!guestName) { toast(t('rental.needGuest')); return null; }
   var puLoc = rentGetLocationById(document.getElementById('rCkPickup').value);
   var drLoc = rentGetLocationById(document.getElementById('rCkDropoff').value);
   var delFee = rentDeliveryFeeForCheckout();
   var bill = rentReadCheckoutBill(v);
-  var pay = document.getElementById('rCkPay').value;
   var ctx = rentFillContextFromSelection();
-  var rental = {
-    id: genId(), rentalNumber: rentNextRentalNumber(), vehicleId: v.id,
-    vehicleLabel: v.plateNumber + ' ' + v.brand + ' ' + v.model, vehicleType: v.type,
-    guestId: rentCrmGuestId || ctx.guestId || '',
-    guestName: guestName,
-    guestPhone: document.getElementById('rCkPhone').value.trim(),
-    guestEmail: document.getElementById('rCkEmail').value.trim(),
-    roomNumber: document.getElementById('rCkRoom').value.trim(),
-    bookingId: document.getElementById('rCkBk').value.trim(),
-    pickupLocationId: puLoc.id, pickupLocationName: puLoc.name, pickupMapsUrl: puLoc.mapsUrl || '',
-    dropoffLocationId: drLoc.id, dropoffLocationName: drLoc.name, dropoffMapsUrl: drLoc.mapsUrl || '',
-    deliveryFee: delFee,
-    baseSubtotal: rentRoundMoney(bill.subtotal - delFee),
-    startDate: start, endDate: end,
-    actualReturnDate: null, initialFuelLevel: document.getElementById('rCkFuel').value,
-    returnFuelLevel: null, initialMileage: parseInt(document.getElementById('rCkMile').value, 10) || 0,
-    returnMileage: null, deposit: parseFloat(document.getElementById('rCkDeposit').value) || 0,
-    extraCharges: 0, notes: document.getElementById('rCkNotes').value.trim(),
-    subtotal: bill.subtotal, taxAmount: bill.taxAmount, grandTotal: bill.grandTotal, taxRate: bill.taxRate,
-    totalPrice: bill.subtotal, paymentStatus: pay, status: 'Out',
-    contractSignature: rentGetSigData(), contractSignedName: document.getElementById('rCkSignName').value.trim(),
-    timestamp: new Date().toISOString(), staffName: currentUser ? currentUser.name : currentRole, visible: true
+  return {
+    v: v,
+    rental: {
+      id: genId(), rentalNumber: rentNextRentalNumber(), vehicleId: v.id,
+      vehicleLabel: v.plateNumber + ' ' + v.brand + ' ' + v.model, vehicleType: v.type,
+      guestId: rentCrmGuestId || ctx.guestId || '',
+      guestName: guestName,
+      guestPhone: document.getElementById('rCkPhone').value.trim(),
+      guestEmail: document.getElementById('rCkEmail').value.trim(),
+      roomNumber: document.getElementById('rCkRoom').value.trim(),
+      bookingId: document.getElementById('rCkBk').value.trim(),
+      pickupLocationId: puLoc.id, pickupLocationName: puLoc.name, pickupMapsUrl: puLoc.mapsUrl || '',
+      dropoffLocationId: drLoc.id, dropoffLocationName: drLoc.name, dropoffMapsUrl: drLoc.mapsUrl || '',
+      deliveryFee: delFee,
+      baseSubtotal: rentRoundMoney(bill.subtotal - delFee),
+      startDate: start, endDate: end,
+      actualReturnDate: null, initialFuelLevel: document.getElementById('rCkFuel').value,
+      returnFuelLevel: null, initialMileage: parseInt(document.getElementById('rCkMile').value, 10) || 0,
+      returnMileage: null, deposit: parseFloat(document.getElementById('rCkDeposit').value) || 0,
+      extraCharges: 0, notes: document.getElementById('rCkNotes').value.trim(),
+      subtotal: bill.subtotal, taxAmount: bill.taxAmount, grandTotal: bill.grandTotal, taxRate: bill.taxRate,
+      totalPrice: bill.subtotal, paymentStatus: 'Pending', paymentMethod: 'Pending', status: 'Out',
+      contractSignature: rentGetSigData(), contractSignedName: document.getElementById('rCkSignName').value.trim(),
+      timestamp: new Date().toISOString(), staffName: currentUser ? currentUser.name : currentRole, visible: true
+    }
   };
-  if (pay === 'Paid' || pay === 'Charged to Room') {
-    var txn = rentPostRentalSale(rental, pay, rentBuildSaleItems(rental), '');
+}
+window.rentSaveCheckoutWithPay = function(vehicleId, payMethod) {
+  var built = rentBuildCheckoutRental(vehicleId);
+  if (!built) return;
+  var rental = built.rental;
+  var v = built.v;
+  rental.paymentMethod = rentMapPayMethod(payMethod);
+  rental.paymentStatus = rentPaymentStatusFromMethod(payMethod);
+  if (rentIsPaidMethod(payMethod)) {
+    var txn = rentPostRentalSale(rental, payMethod, rentBuildSaleItems(rental), '');
     if (!txn) return;
     rental.transactionId = txn.transactionId;
   }
   vehicleRentals.push(rental);
   v.status = 'Rented';
   save('vehicleRentals', vehicleRentals); save('vehicles', vehicles);
-  logAudit('Checkout', 'Vehicle Rental', rental.rentalNumber, 'Checked out ' + v.plateNumber + ' to ' + guestName + ' · ' + fmt$(rental.grandTotal));
+  logAudit('Checkout', 'Vehicle Rental', rental.rentalNumber, 'Checked out ' + v.plateNumber + ' to ' + rental.guestName + ' · ' + fmt$(rental.grandTotal) + ' · ' + rental.paymentMethod);
   closeModal(); renderVehicleRental(); toast(t('rental.checkedOut', { num: rental.rentalNumber }));
 };
+window.rentSaveCheckout = function(vehicleId) { rentSaveCheckoutWithPay(vehicleId, 'Pending'); };
 window.rentOpenRentalDetail = function(rentalId) {
   var r = vehicleRentals.find(function(x) { return x.id === rentalId; });
   if (!r) return;
@@ -472,7 +536,7 @@ window.rentOpenRentalDetail = function(rentalId) {
     '<p style="font-size:0.85rem;">' + escAttr(r.startDate) + ' → ' + escAttr(r.endDate) + '<br>' +
     t('rental.pickupLoc') + ': ' + escAttr(r.pickupLocationName || '—') + '<br>' +
     t('rental.dropoffLoc') + ': ' + escAttr(r.dropoffLocationName || '—') + '<br>' +
-    escAttr(r.paymentStatus) + (r.transactionId ? ' · Txn ' + escAttr(r.transactionId) : '') + '</p>' +
+    escAttr(rentFormatPaymentDisplay(r)) + (r.transactionId ? ' · Txn ' + escAttr(r.transactionId) : '') + '</p>' +
     rentRenderBillSummaryHtml(bill) +
     '<div class="rent-comm-btns">' +
     '<button type="button" class="btn btn-sm btn-primary" onclick="rentOpenWhatsApp(\'' + r.id + '\',\'confirm\')">' + t('rental.sendWhatsApp') + '</button>' +
@@ -494,6 +558,13 @@ window.rentUpdateReturnBillSummary = function(rentalId) {
   rentApplyBillToRental(draft);
   var box = document.getElementById('rRtBillSummary');
   if (box) box.innerHTML = rentRenderBillSummaryHtml(draft);
+  var payBar = document.getElementById('rRtPayBar');
+  if (payBar) payBar.innerHTML = rentBuildPayBarHtml(draft.grandTotal, {
+    cashOnclick: "rentCompleteReturnWithPay('" + rentalId + "','Cash')",
+    cardOnclick: "rentCompleteReturnWithPay('" + rentalId + "','Credit Card')",
+    roomOnclick: "rentCompleteReturnWithPay('" + rentalId + "','Charged to Room')",
+    pendingOnclick: "rentCompleteReturnWithPay('" + rentalId + "','Pending')"
+  });
 };
 window.rentOpenReturnModal = function(rentalId) {
   var r = vehicleRentals.find(function(x) { return x.id === rentalId; });
@@ -509,22 +580,32 @@ window.rentOpenReturnModal = function(rentalId) {
     '<div class="form-group"><label>' + t('rental.mileageIn') + '</label><input type="number" class="form-control" id="rRtMile" value="' + (r.initialMileage || 0) + '" min="0"></div></div>' +
     '<div class="form-group"><label>' + t('rental.extraCharges') + '</label><input type="number" class="form-control" id="rRtExtra" step="0.01" value="0" oninput="rentUpdateReturnBillSummary(\'' + r.id + '\')"></div>' +
     '<div id="rRtBillSummary">' + rentRenderBillSummaryHtml(draft) + '</div>' +
-    '<div class="form-group"><label>' + t('g.payment') + '</label><select class="form-control" id="rRtPay"><option value="Pending" ' + (r.paymentStatus === 'Pending' ? 'selected' : '') + '>' + t('rental.payPending') + '</option><option value="Charged to Room">' + t('rental.payRoom') + '</option><option value="Paid">' + t('rental.payPaid') + '</option></select></div>' +
-  '</div><div class="modal-footer"><button class="btn btn-outline" onclick="closeModal()">' + t('common.cancel') + '</button><button class="btn btn-primary" onclick="rentCompleteReturn(\'' + r.id + '\')">' + t('rental.returnBtn') + '</button></div>');
+    '<div id="rRtPayBar">' + rentBuildPayBarHtml(draft.grandTotal, {
+      cashOnclick: "rentCompleteReturnWithPay('" + r.id + "','Cash')",
+      cardOnclick: "rentCompleteReturnWithPay('" + r.id + "','Credit Card')",
+      roomOnclick: "rentCompleteReturnWithPay('" + r.id + "','Charged to Room')",
+      pendingOnclick: "rentCompleteReturnWithPay('" + r.id + "','Pending')"
+    }) + '</div>' +
+  '</div><div class="modal-footer"><button class="btn btn-outline" onclick="closeModal()">' + t('common.cancel') + '</button></div>');
 };
-window.rentCompleteReturn = function(rentalId) {
+function rentApplyReturnFields(rentalId) {
   var r = vehicleRentals.find(function(x) { return x.id === rentalId; });
-  if (!r) return;
+  if (!r) return null;
   r.actualReturnDate = document.getElementById('rRtDate').value;
   r.returnFuelLevel = document.getElementById('rRtFuel').value;
   r.returnMileage = parseInt(document.getElementById('rRtMile').value, 10) || 0;
   r.extraCharges = rentRoundMoney(parseFloat(document.getElementById('rRtExtra').value) || 0);
   rentApplyBillToRental(r);
-  var pay = document.getElementById('rRtPay').value;
+  return r;
+}
+window.rentCompleteReturnWithPay = function(rentalId, payMethod) {
+  var r = rentApplyReturnFields(rentalId);
+  if (!r) return;
+  var pay = payMethod || 'Pending';
   r.status = 'Completed';
   var v = vehicles.find(function(x) { return x.id === r.vehicleId; });
   if (v) { v.status = 'Available'; save('vehicles', vehicles); }
-  if (pay !== 'Pending') {
+  if (rentIsPaidMethod(pay)) {
     if (!r.transactionId) {
       var txn = rentPostRentalSale(r, pay, rentBuildSaleItems(r), '');
       if (!txn) {
@@ -533,16 +614,28 @@ window.rentCompleteReturn = function(rentalId) {
         return;
       }
       r.transactionId = txn.transactionId;
+      r.paymentMethod = rentMapPayMethod(pay);
+      r.paymentStatus = rentPaymentStatusFromMethod(pay);
     } else if (r.extraCharges > 0 && !r.extraTransactionId) {
-      var extraTxn = rentPostRentalSale(r, pay, [{ name: r.vehicleLabel + ' extra charges', qty: 1, unitPrice: r.extraCharges }], '-X');
-      if (extraTxn) r.extraTransactionId = extraTxn.transactionId;
+      var extraPay = pay;
+      if (r.paymentMethod && r.paymentMethod !== 'Pending') extraPay = r.paymentMethod;
+      var extraTxn = rentPostRentalSale(r, extraPay, [{ name: r.vehicleLabel + ' extra charges', qty: 1, unitPrice: r.extraCharges }], '-X');
+      if (!extraTxn) {
+        r.status = 'Out';
+        if (v) { v.status = 'Rented'; save('vehicles', vehicles); }
+        return;
+      }
+      r.extraTransactionId = extraTxn.transactionId;
     }
+  } else {
+    r.paymentMethod = 'Pending';
+    r.paymentStatus = 'Pending';
   }
-  r.paymentStatus = pay;
   save('vehicleRentals', vehicleRentals);
-  logAudit('Return', 'Vehicle Rental', r.rentalNumber, 'Returned ' + r.vehicleLabel + ' · ' + fmt$(r.grandTotal));
+  logAudit('Return', 'Vehicle Rental', r.rentalNumber, 'Returned ' + r.vehicleLabel + ' · ' + fmt$(r.grandTotal) + ' · ' + rentFormatPaymentDisplay(r));
   closeModal(); renderVehicleRental(); toast(t('rental.returned', { num: r.rentalNumber }));
 };
+window.rentCompleteReturn = function(rentalId) { rentCompleteReturnWithPay(rentalId, 'Pending'); };
 window.rentSelectBooking = function(id) { rentSelectedBooking = id || null; rentCrmGuestId = null; renderVehicleRental(); };
 window.rentSelectGuestDir = function(id) { rentCrmGuestId = id || null; rentSelectedBooking = null; renderVehicleRental(); };
 window.rentSetView = function(mode) { window.rentViewMode = mode; renderVehicleRental(); };
@@ -777,7 +870,7 @@ function renderVehicleRental() {
       {field:'startDate',label:t('rental.startDate'),width:'130px'},
       {field:'endDate',label:t('rental.endDate'),width:'130px'},
       {field:'grandTotal',label:(typeof t === 'function' && t('minimart.grandTotal') !== 'minimart.grandTotal') ? t('minimart.grandTotal') : 'Grand total',format:function(v){return fmt$(v);},width:'95px'},
-      {field:'paymentStatus',label:t('g.payment'),filterable:true,width:'110px'}
+      {field:'paymentMethod',label:t('g.payment'),filterable:true,width:'110px',format:function(v,row){return rentFormatPaymentDisplay(row);}}
     ],
     data: active,
     showSearch: true,
@@ -797,7 +890,7 @@ function renderVehicleRental() {
       {field:'vehicleType',label:t('rental.type'),filterable:true,width:'90px'},
       {field:'guestName',label:t('g.guest'),filterable:true},
       {field:'grandTotal',label:(typeof t === 'function' && t('minimart.grandTotal') !== 'minimart.grandTotal') ? t('minimart.grandTotal') : 'Grand total',format:function(v){return fmt$(v);}},
-      {field:'paymentStatus',label:t('g.payment'),filterable:true},
+      {field:'paymentMethod',label:t('g.payment'),filterable:true,format:function(v,row){return rentFormatPaymentDisplay(row);}},
       {field:'status',label:t('g.status'),filterable:true},
       {field:'timestamp',label:t('g.date'),format:function(v){try{return new Date(v).toLocaleString();}catch(e){return v;}},width:'140px'}
     ],

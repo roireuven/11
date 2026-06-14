@@ -26,6 +26,7 @@ VEHICLE_V2_CSS = """
     body.dark-mode .rent-sig-wrap canvas { background: #1e293b; }
     .rent-comm-btns { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: 0.5rem; }
     .rent-guest-search { margin-bottom: 0.5rem; }
+    .rent-pay-bar { border: 1px solid var(--border); border-radius: 10px; padding: 0.75rem 0.85rem; margin: 0.65rem 0; background: linear-gradient(180deg, rgba(26,115,232,0.07) 0%, var(--card-bg) 55%); box-shadow: 0 -2px 8px rgba(0,0,0,0.04); }
 """
 
 VEHICLE_V2_DATA = """

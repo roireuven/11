@@ -265,6 +265,9 @@ if (!html.includes("rentRenderCalendarHtml") || !html.includes("vehicleExpenses"
 if (!html.includes("rentPostRentalSale") || !html.includes("rentApplyBillToRental")) {
   fail("app missing rental billing helpers (subtotal/tax/grand total)");
 }
+if (!html.includes("rentSaveCheckoutWithPay") || !html.includes("rentMapPayMethod")) {
+  fail("app missing rental cash/credit card payment helpers");
+}
 if (!html.includes("tx.source !== 'Vehicle Rental'") || !html.includes("s.indexOf('vehicle')")) {
   fail("app missing vehicle rental revenue / shift normalization");
 }

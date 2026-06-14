@@ -56,9 +56,14 @@ Delivery fees are added to the rental total automatically. Use **Open map** in t
 
 1. Select guest/booking from the card grid (optional).
 2. Tap an **available** (green) vehicle on the fleet floor.
-3. Confirm dates, locations, fuel/odometer, deposit, and payment method.
+3. Confirm dates, locations, fuel/odometer, and deposit.
 4. Guest signs on the **digital signature pad** and enters printed name.
-5. Tap **Check out** — rental posts to transactions if paid or charged to room.
+5. Choose how to pay using the payment bar (same pattern as Restaurant / Mini-Mart):
+   - **Pay total — Cash**
+   - **Pay total — Credit card**
+   - **Charge to room**
+   - **Pending** (collect payment on return)
+6. Paid methods post immediately to **Transactions** with correct tax breakdown (subtotal + tax + grand total).
 
 ## Customer messaging (WhatsApp / SMS / Email)
 
@@ -77,7 +82,8 @@ Requires guest **phone** (WhatsApp/SMS) or **email** on the rental record.
 
 1. Tap an occupied vehicle or use **Return** on the active rentals grid.
 2. Enter return date, fuel/mileage in, and **extra charges** (fuel, damage, late fee).
-3. Settle payment if still pending.
+3. Settle the balance with the payment bar — **Cash**, **Credit card**, **Charge to room**, or leave **Pending**.
+4. If the rental was already paid at checkout, only extra charges are posted as a separate transaction.
 
 ## Digital contract & PDF
 
