@@ -143,6 +143,7 @@ console.log("Applying full locale translations...");
 runPython("scripts/patch-locale-full-translations.py");
 
 console.log("Adding PMS module form i18n keys...");
+runPython("scripts/generate-pms-modules-keys.py");
 runPython("scripts/patch-locale-pms-modules-keys.py");
 
 console.log("Adding dashboard PMS quick-action module grid...");
@@ -166,6 +167,9 @@ runPython("scripts/patch-locale-vehicle-rental-keys.py");
 
 console.log("Vehicle rental module (cars & motorbikes)...");
 runPython("scripts/patch-app-vehicle-rental.py");
+
+console.log("Dashboard vehicle rental integration...");
+runPython("scripts/patch-app-dashboard-rental.py");
 
 console.log("Generating What's new v2.3/v2.4 documentation (21 locales)...");
 runPython("scripts/generate-whats-new-v2-docs.py");

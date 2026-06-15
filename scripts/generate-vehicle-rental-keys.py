@@ -114,6 +114,10 @@ def main() -> int:
         "settings.csvBtnVehicles": "Vehicles",
         "settings.csvBtnVehicleRentals": "Vehicle rentals",
         "settings.csvBtnVehicleExpenses": "Vehicle expenses",
+        "rental.openFleet": "Open fleet",
+        "rental.todayRevenue": "Today's revenue",
+        "rental.dueAlert": "{n} rental(s) due or unpaid — open fleet to follow up",
+        "dashboard.rentalsCount": "Vehicle rentals ({n})",
     }
     data: dict = {"en": en}
     existing: dict = {}

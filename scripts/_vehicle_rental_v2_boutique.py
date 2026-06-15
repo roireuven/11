@@ -27,6 +27,9 @@ VEHICLE_V2_CSS = """
     .rent-comm-btns { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: 0.5rem; }
     .rent-guest-search { margin-bottom: 0.5rem; }
     .rent-pay-bar { border: 1px solid var(--border); border-radius: 10px; padding: 0.75rem 0.85rem; margin: 0.65rem 0; background: linear-gradient(180deg, rgba(26,115,232,0.07) 0%, var(--card-bg) 55%); box-shadow: 0 -2px 8px rgba(0,0,0,0.04); }
+    .rent-dash-card .stats-grid { grid-template-columns: repeat(auto-fill, minmax(7rem, 1fr)); }
+    .rent-dash-alert { background: #fff3e0; border: 1px solid #ffb74d; border-radius: 8px; padding: 0.45rem 0.65rem; font-size: 0.82rem; color: #e65100; margin: 0; }
+    body.dark-mode .rent-dash-alert { background: rgba(255,152,0,0.12); color: #ffb74d; }
 """
 
 VEHICLE_V2_DATA = """

@@ -71,7 +71,9 @@
     "uAdm": "مسؤول",
     "uRec": "الاستقبال",
     "uStf": "الموظفون",
-    "uBtn": "حفظ"
+    "uBtn": "حفظ",
+    "btnOpenRental": "Open Vehicle Rental",
+    "btnAddVehicle": "Add Vehicle"
   },
   "de": {
     "sysTitle": "Hotel-, Restaurant- und Minimarkt-Management",
@@ -145,7 +147,9 @@
     "uAdm": "Admin",
     "uRec": "Rezeption",
     "uStf": "Personal",
-    "uBtn": "Speichern"
+    "uBtn": "Speichern",
+    "btnOpenRental": "Open Vehicle Rental",
+    "btnAddVehicle": "Add Vehicle"
   },
   "en": {
     "sysTitle": "Hotel Restaurant Mini-Mart Management",
@@ -161,6 +165,8 @@
     "btnAddShop": "Add Shop Item",
     "btnAddTx": "Add Transaction",
     "btnAddUsr": "Add User",
+    "btnOpenRental": "Open Vehicle Rental",
+    "btnAddVehicle": "Add Vehicle",
     "rTitle": "Room",
     "rNum": "Room No.",
     "rType": "Type",
@@ -293,7 +299,9 @@
     "uAdm": "Administrador",
     "uRec": "Recepción",
     "uStf": "Personal",
-    "uBtn": "Guardar"
+    "uBtn": "Guardar",
+    "btnOpenRental": "Open Vehicle Rental",
+    "btnAddVehicle": "Add Vehicle"
   },
   "fr": {
     "sysTitle": "Gestion d'hôtel, de restaurant et de supérette",
@@ -367,7 +375,9 @@
     "uAdm": "Admin",
     "uRec": "Réception",
     "uStf": "Personnel",
-    "uBtn": "Enregistrer"
+    "uBtn": "Enregistrer",
+    "btnOpenRental": "Open Vehicle Rental",
+    "btnAddVehicle": "Add Vehicle"
   },
   "he": {
     "sysTitle": "ניהול מלון, מסעדה ומינימרקט",
@@ -441,7 +451,9 @@
     "uAdm": "מנהל",
     "uRec": "קבלה",
     "uStf": "צוות",
-    "uBtn": "שמור"
+    "uBtn": "שמור",
+    "btnOpenRental": "Open Vehicle Rental",
+    "btnAddVehicle": "Add Vehicle"
   },
   "hi": {
     "sysTitle": "होटल, रेस्तरां और मिनीमार्ट प्रबंधन",
@@ -515,7 +527,9 @@
     "uAdm": "व्यवस्थापक",
     "uRec": "रिसेप्शन",
     "uStf": "कर्मचारी",
-    "uBtn": "सहेजें"
+    "uBtn": "सहेजें",
+    "btnOpenRental": "Open Vehicle Rental",
+    "btnAddVehicle": "Add Vehicle"
   },
   "id": {
     "sysTitle": "Manajemen hotel, restoran, dan minimarket",
@@ -589,7 +603,9 @@
     "uAdm": "Admin",
     "uRec": "Resepsi",
     "uStf": "Staf",
-    "uBtn": "Simpan"
+    "uBtn": "Simpan",
+    "btnOpenRental": "Open Vehicle Rental",
+    "btnAddVehicle": "Add Vehicle"
   },
   "it": {
     "sysTitle": "Gestione di hotel, ristorante e minimarket",
@@ -663,7 +679,9 @@
     "uAdm": "Admin",
     "uRec": "Reception",
     "uStf": "Personale",
-    "uBtn": "Salva"
+    "uBtn": "Salva",
+    "btnOpenRental": "Open Vehicle Rental",
+    "btnAddVehicle": "Add Vehicle"
   },
   "ja": {
     "sysTitle": "ホテル・レストラン・ミニマート管理",
@@ -737,7 +755,9 @@
     "uAdm": "管理者",
     "uRec": "フロント",
     "uStf": "スタッフ",
-    "uBtn": "保存"
+    "uBtn": "保存",
+    "btnOpenRental": "Open Vehicle Rental",
+    "btnAddVehicle": "Add Vehicle"
   },
   "ko": {
     "sysTitle": "호텔, 레스토랑, 미니마트 관리",
@@ -811,7 +831,9 @@
     "uAdm": "관리자",
     "uRec": "리셉션",
     "uStf": "직원",
-    "uBtn": "저장"
+    "uBtn": "저장",
+    "btnOpenRental": "Open Vehicle Rental",
+    "btnAddVehicle": "Add Vehicle"
   },
   "lo": {
     "sysTitle": "ໂຮງແຮມຮ້ານອາຫານ Mini-Mart Management",
@@ -827,6 +849,8 @@
     "btnAddShop": "ເພີ່ມລາຍການຮ້ານຄ້າ",
     "btnAddTx": "ເພີ່ມທຸລະກໍາ",
     "btnAddUsr": "ເພີ່ມຜູ້ໃຊ້",
+    "btnOpenRental": "ເປີດໃຫ້ເຊົ່າຍານພາຫະນະ",
+    "btnAddVehicle": "ເພີ່ມຍານພາຫະນະ",
     "rTitle": "ຫ້ອງ",
     "rNum": "ຫ້ອງ No.",
     "rType": "ປະເພດ",
@@ -959,7 +983,9 @@
     "uAdm": "Beheerder",
     "uRec": "Receptie",
     "uStf": "Personeel",
-    "uBtn": "Opslaan"
+    "uBtn": "Opslaan",
+    "btnOpenRental": "Open Vehicle Rental",
+    "btnAddVehicle": "Add Vehicle"
   },
   "pl": {
     "sysTitle": "Zarządzanie hotelową restauracją Mini-Mart",
@@ -975,6 +1001,8 @@
     "btnAddShop": "Dodaj przedmiot w sklepie",
     "btnAddTx": "Dodaj transakcję",
     "btnAddUsr": "Dodaj użytkownika",
+    "btnOpenRental": "Otwórz wypożyczalnię pojazdów",
+    "btnAddVehicle": "Dodaj pojazd",
     "rTitle": "Pokój",
     "rNum": "Pokój nr",
     "rType": "Typ",
@@ -1107,7 +1135,9 @@
     "uAdm": "Admin",
     "uRec": "Recepção",
     "uStf": "Equipe",
-    "uBtn": "Salvar"
+    "uBtn": "Salvar",
+    "btnOpenRental": "Open Vehicle Rental",
+    "btnAddVehicle": "Add Vehicle"
   },
   "ru": {
     "sysTitle": "Управление отелем, рестораном и минимаркетом",
@@ -1181,7 +1211,9 @@
     "uAdm": "Админ",
     "uRec": "Ресепшен",
     "uStf": "Персонал",
-    "uBtn": "Сохранить"
+    "uBtn": "Сохранить",
+    "btnOpenRental": "Open Vehicle Rental",
+    "btnAddVehicle": "Add Vehicle"
   },
   "th": {
     "sysTitle": "การจัดการโรงแรม ร้านอาหาร และมินิมาร์ท",
@@ -1255,7 +1287,9 @@
     "uAdm": "ผู้ดูแล",
     "uRec": "แผนกต้อนรับ",
     "uStf": "พนักงาน",
-    "uBtn": "บันทึก"
+    "uBtn": "บันทึก",
+    "btnOpenRental": "Open Vehicle Rental",
+    "btnAddVehicle": "Add Vehicle"
   },
   "tr": {
     "sysTitle": "Otel, restoran ve minimarket yönetimi",
@@ -1329,7 +1363,9 @@
     "uAdm": "Yönetici",
     "uRec": "Resepsiyon",
     "uStf": "Personel",
-    "uBtn": "Kaydet"
+    "uBtn": "Kaydet",
+    "btnOpenRental": "Open Vehicle Rental",
+    "btnAddVehicle": "Add Vehicle"
   },
   "vi": {
     "sysTitle": "Quản lý khách sạn, nhà hàng và siêu thị mini",
@@ -1403,7 +1439,9 @@
     "uAdm": "Quản trị",
     "uRec": "Lễ tân",
     "uStf": "Nhân viên",
-    "uBtn": "Lưu"
+    "uBtn": "Lưu",
+    "btnOpenRental": "Open Vehicle Rental",
+    "btnAddVehicle": "Add Vehicle"
   },
   "zh-Hans": {
     "sysTitle": "酒店、餐厅及便利店管理",
@@ -1477,7 +1515,9 @@
     "uAdm": "管理员",
     "uRec": "前台",
     "uStf": "员工",
-    "uBtn": "保存"
+    "uBtn": "保存",
+    "btnOpenRental": "Open Vehicle Rental",
+    "btnAddVehicle": "Add Vehicle"
   },
   "zh-Hant": {
     "sysTitle": "飯店餐廳小超商管理",
@@ -1493,6 +1533,8 @@
     "btnAddShop": "添加商店商品",
     "btnAddTx": "新增交易",
     "btnAddUsr": "新增用戶",
+    "btnOpenRental": "開放式車輛租賃",
+    "btnAddVehicle": "添加車輛",
     "rTitle": "房間",
     "rNum": "房號",
     "rType": "類型",

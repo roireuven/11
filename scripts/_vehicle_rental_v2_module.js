@@ -43,12 +43,95 @@ function rentGetActiveRentalForVehicle(vehicleId) {
     return rowDataVisible(r) && r.vehicleId === vehicleId && r.status !== 'Completed' && r.status !== 'Cancelled';
   }) || null;
 }
+function rentSyncOverdueRentals() {
+  var now = new Date();
+  var changed = false;
+  (vehicleRentals || []).forEach(function(r) {
+    if (!rowDataVisible(r) || r.status === 'Completed' || r.status === 'Cancelled') return;
+    var end = rentParseDt(r.endDate);
+    if (end && end < now && r.status !== 'Due') { r.status = 'Due'; changed = true; }
+  });
+  if (changed) save('vehicleRentals', vehicleRentals);
+}
 function rentGetVehicleFloorState(v) {
   if (!v || v.status === 'Maintenance') return 'maintenance';
   var active = rentGetActiveRentalForVehicle(v.id);
   if (!active) return 'available';
   if (active.paymentStatus === 'Pending' || active.status === 'Due') return 'pending';
   return 'occupied';
+}
+function rentGetFleetStats() {
+  rentSyncOverdueRentals();
+  var list = rentSortedVehicles();
+  var active = (vehicleRentals || []).filter(function(r) { return rowDataVisible(r) && r.status !== 'Completed' && r.status !== 'Cancelled'; });
+  var today = (typeof dashYmd === 'function') ? dashYmd(new Date()) : new Date().toISOString().slice(0, 10);
+  var todayRev = 0;
+  (transactions || []).forEach(function(tx) {
+    if (!rowDataVisible(tx) || tx.source !== 'Vehicle Rental') return;
+    if (typeof dashTimestampDay === 'function' && dashTimestampDay(tx.timestamp) === today) todayRev += parseFloat(tx.grandTotal) || 0;
+  });
+  return {
+    total: list.length,
+    avail: list.filter(function(v) { return rentGetVehicleFloorState(v) === 'available'; }).length,
+    out: active.length,
+    due: active.filter(function(r) { return r.status === 'Due' || r.paymentStatus === 'Pending'; }).length,
+    todayRev: rentRoundMoney(todayRev)
+  };
+}
+function rentRenderDashboardCardHtml() {
+  if (typeof currentRole !== 'undefined' && currentRole === 'Housekeeper') return '';
+  var s = rentGetFleetStats();
+  var alert = s.due > 0 ? '<p class="rent-dash-alert">' + t('rental.dueAlert', { n: String(s.due) }) + '</p>' : '';
+  return '<div class="card rent-dash-card" style="margin-bottom:0.85rem;"><div class="card-header" style="flex-wrap:wrap;gap:0.5rem;"><h2>🚗 ' + t('pageTitle.vehiclerental') + '</h2>' +
+    '<div style="display:flex;gap:0.35rem;flex-wrap:wrap;"><button type="button" class="btn btn-sm btn-primary" onclick="showPage(\'vehiclerental\')">' + t('rental.openFleet') + '</button>' +
+    '<button type="button" class="btn btn-sm btn-outline" onclick="showAddVehicle()">+ ' + t('rental.addVehicle') + '</button></div></div>' +
+    '<div class="card-body"><div class="stats-grid" style="margin-bottom:0.5rem;">' +
+    '<div class="stat-card"><div class="stat-info"><h3>' + s.avail + '</h3><p>' + t('rental.stAvailable') + '</p></div></div>' +
+    '<div class="stat-card"><div class="stat-info"><h3>' + s.out + '</h3><p>' + t('rental.stOut') + '</p></div></div>' +
+    '<div class="stat-card"><div class="stat-info"><h3>' + s.due + '</h3><p>' + t('rental.stDue') + '</p></div></div>' +
+    '<div class="stat-card"><div class="stat-info"><h3>' + fmt$(s.todayRev) + '</h3><p>' + t('rental.todayRevenue') + '</p></div></div></div>' +
+    alert + '</div></div>';
+}
+function rentRefreshRelatedViews() {
+  rentSyncOverdueRentals();
+  var dashPg = document.getElementById('page-dashboard');
+  if (dashPg && dashPg.classList.contains('active') && typeof renderDashboard === 'function') {
+    renderDashboard();
+  } else {
+    if (typeof updateDashChart === 'function' && document.getElementById('dashChartArea')) updateDashChart();
+    var card = document.querySelector('.rent-dash-card');
+    if (card && typeof rentRenderDashboardCardHtml === 'function') {
+      var wrap = document.createElement('div');
+      wrap.innerHTML = rentRenderDashboardCardHtml();
+      if (wrap.firstElementChild) card.replaceWith(wrap.firstElementChild);
+    }
+  }
+  if (document.getElementById('page-vehiclerental')) renderVehicleRental();
+}
+function rentGetRentalsForDay(ymd) {
+  return (vehicleRentals || []).filter(function(r) {
+    if (!rowDataVisible(r)) return false;
+    if (r.timestamp && typeof dashTimestampDay === 'function' && dashTimestampDay(r.timestamp) === ymd) return true;
+    if (r.startDate && String(r.startDate).slice(0, 10) === ymd) return true;
+    if (r.endDate && String(r.endDate).slice(0, 10) === ymd) return true;
+    if (r.actualReturnDate && String(r.actualReturnDate).slice(0, 10) === ymd) return true;
+    return false;
+  });
+}
+function rentRenderDayDetailSection(dateStr) {
+  var rentDay = rentGetRentalsForDay(dateStr);
+  var html = '<p style="font-size:0.85rem;font-weight:600;margin:0.75rem 0 0.5rem;">' + t('dashboard.rentalsCount', { n: String(rentDay.length) }) + '</p>';
+  if (rentDay.length) {
+    html += '<div class="table-wrap"><table style="font-size:0.8rem;"><thead><tr><th>' + t('rental.rentalNum') + '</th><th>' + t('rental.vehicle') + '</th><th>' + t('g.guest') + '</th><th>' + t('g.total') + '</th><th>' + t('g.status') + '</th></tr></thead><tbody>';
+    rentDay.forEach(function(r) {
+      rentApplyBillToRental(r);
+      html += '<tr style="cursor:pointer" onclick="showPage(\'vehiclerental\');rentOpenRentalDetail(\'' + escAttr(r.id) + '\')"><td>' + escAttr(r.rentalNumber) + '</td><td>' + escAttr(r.vehicleLabel) + '</td><td>' + escAttr(r.guestName) + '</td><td>' + fmt$(r.grandTotal) + '</td><td>' + escAttr(r.status) + '</td></tr>';
+    });
+    html += '</tbody></table></div>';
+  } else {
+    html += '<p style="color:var(--text-light);font-size:0.85rem;">—</p>';
+  }
+  return html;
 }
 function rentFillContextFromSelection() {
   if (rentSelectedBooking) {
@@ -539,8 +622,8 @@ window.rentSaveCheckoutWithPay = function(vehicleId, payMethod, skipCashModal) {
   var rental = built.rental;
   var v = built.v;
   if (payMethod === 'Cash' && !skipCashModal) {
-    rentOpenCashPayModal(rental.grandTotal, t('rental.checkoutTitle') + ' — ' + rental.vehicleLabel, function(tender, change) {
-      toast(typeof t === 'function' ? t('msg.changeDue', { amount: fmt$(change) }) : ('Change: ' + fmt$(change)));
+    rentOpenCashPayModal(rental.grandTotal, t('rental.checkoutTitle') + ' — ' + rental.vehicleLabel, function(tenderAmt, changeDue) {
+      toast(typeof t === 'function' ? t('msg.changeDue', { amount: fmt$(changeDue) }) : ('Change: ' + fmt$(changeDue)));
       rentSaveCheckoutWithPay(vehicleId, 'Cash', true);
     });
     return;
@@ -556,7 +639,7 @@ window.rentSaveCheckoutWithPay = function(vehicleId, payMethod, skipCashModal) {
   v.status = 'Rented';
   save('vehicleRentals', vehicleRentals); save('vehicles', vehicles);
   logAudit('Checkout', 'Vehicle Rental', rental.rentalNumber, 'Checked out ' + v.plateNumber + ' to ' + rental.guestName + ' · ' + fmt$(rental.grandTotal) + ' · ' + rental.paymentMethod);
-  closeModal(); renderVehicleRental(); toast(t('rental.checkedOut', { num: rental.rentalNumber }));
+  closeModal(); rentRefreshRelatedViews(); toast(t('rental.checkedOut', { num: rental.rentalNumber }));
 };
 window.rentSaveCheckout = function(vehicleId) { rentSaveCheckoutWithPay(vehicleId, 'Pending'); };
 window.rentPayRental = function(rentalId, payMethod, skipCashModal) {
@@ -570,8 +653,8 @@ window.rentPayRental = function(rentalId, payMethod, skipCashModal) {
     return;
   }
   if (payMethod === 'Cash' && !skipCashModal) {
-    rentOpenCashPayModal(r.grandTotal, t('rental.detailTitle') + ' — ' + r.rentalNumber, function(tender, change) {
-      toast(typeof t === 'function' ? t('msg.changeDue', { amount: fmt$(change) }) : ('Change: ' + fmt$(change)));
+    rentOpenCashPayModal(r.grandTotal, t('rental.detailTitle') + ' — ' + r.rentalNumber, function(tenderAmt, changeDue) {
+      toast(typeof t === 'function' ? t('msg.changeDue', { amount: fmt$(changeDue) }) : ('Change: ' + fmt$(changeDue)));
       rentPayRental(rentalId, 'Cash', true);
     });
     return;
@@ -583,7 +666,7 @@ window.rentPayRental = function(rentalId, payMethod, skipCashModal) {
   r.paymentStatus = rentPaymentStatusFromMethod(payMethod);
   save('vehicleRentals', vehicleRentals);
   logAudit('Payment', 'Vehicle Rental', r.rentalNumber, 'Paid ' + fmt$(r.grandTotal) + ' · ' + r.paymentMethod);
-  closeModal(); renderVehicleRental();
+  closeModal(); rentRefreshRelatedViews();
   toast(typeof t === 'function' ? t('rental.paid', { num: r.rentalNumber }) : ('Rental paid: ' + r.rentalNumber));
 };
 window.rentOpenRentalDetail = function(rentalId) {
@@ -666,8 +749,8 @@ window.rentCompleteReturnWithPay = function(rentalId, payMethod, skipCashModal) 
   if (!draft) return;
   var pay = payMethod || 'Pending';
   if (pay === 'Cash' && !skipCashModal) {
-    rentOpenCashPayModal(draft.grandTotal, t('rental.returnTitle') + ' — ' + draft.rentalNumber, function(tender, change) {
-      toast(typeof t === 'function' ? t('msg.changeDue', { amount: fmt$(change) }) : ('Change: ' + fmt$(change)));
+    rentOpenCashPayModal(draft.grandTotal, t('rental.returnTitle') + ' — ' + draft.rentalNumber, function(tenderAmt, changeDue) {
+      toast(typeof t === 'function' ? t('msg.changeDue', { amount: fmt$(changeDue) }) : ('Change: ' + fmt$(changeDue)));
       rentCompleteReturnWithPay(rentalId, 'Cash', true);
     });
     return;
@@ -705,7 +788,7 @@ window.rentCompleteReturnWithPay = function(rentalId, payMethod, skipCashModal) 
   }
   save('vehicleRentals', vehicleRentals);
   logAudit('Return', 'Vehicle Rental', r.rentalNumber, 'Returned ' + r.vehicleLabel + ' · ' + fmt$(r.grandTotal) + ' · ' + rentFormatPaymentDisplay(r));
-  closeModal(); renderVehicleRental(); toast(t('rental.returned', { num: r.rentalNumber }));
+  closeModal(); rentRefreshRelatedViews(); toast(t('rental.returned', { num: r.rentalNumber }));
 };
 window.rentCompleteReturn = function(rentalId) { rentCompleteReturnWithPay(rentalId, 'Pending'); };
 window.rentSelectBooking = function(id) { rentSelectedBooking = id || null; rentCrmGuestId = null; renderVehicleRental(); };
@@ -832,7 +915,7 @@ window.rentSaveExpense = function(vehicleId) {
     visible: true, timestamp: new Date().toISOString()
   });
   save('vehicleExpenses', vehicleExpenses);
-  closeModal(); renderVehicleRental(); toast(t('rental.expenseSaved'));
+  closeModal(); rentRefreshRelatedViews(); toast(t('rental.expenseSaved'));
 };
 window.rentShowScheduleMaint = function(vehicleId) {
   var now = new Date();
@@ -853,12 +936,12 @@ window.rentSaveMaintBlock = function(vehicleId) {
   var v = vehicles.find(function(x) { return x.id === vehicleId; });
   if (v) { v.status = 'Maintenance'; save('vehicles', vehicles); }
   save('vehicleMaintBlocks', vehicleMaintBlocks);
-  closeModal(); renderVehicleRental(); toast(t('rental.maintScheduled'));
+  closeModal(); rentRefreshRelatedViews(); toast(t('rental.maintScheduled'));
 };
 window.rentClearMaint = function(vehicleId) {
   var v = vehicles.find(function(x) { return x.id === vehicleId; });
   if (v) { v.status = 'Available'; save('vehicles', vehicles); }
-  renderVehicleRental();
+  rentRefreshRelatedViews();
 };
 window.showAddVehicle = function() {
   openModal('<div class="modal-header"><h2>' + t('rental.addVehicleTitle') + '</h2><button class="modal-close" onclick="closeModal()">&times;</button></div><div class="modal-body">' +
@@ -881,9 +964,10 @@ window.addVehicle = function() {
     hourlyRate: parseFloat(document.getElementById('mVHourly').value) || null,
     status: 'Available', sortOrder: maxSort + 1, visible: true
   });
-  save('vehicles', vehicles); closeModal(); renderVehicleRental(); toast(t('rental.vehicleAdded'));
+  save('vehicles', vehicles); closeModal(); rentRefreshRelatedViews(); toast(t('rental.vehicleAdded'));
 };
 function renderVehicleRental() {
+  rentSyncOverdueRentals();
   var pg = document.getElementById('page-vehiclerental');
   if (!pg) return;
   var list = rentSortedVehicles();

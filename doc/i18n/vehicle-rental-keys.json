@@ -89,7 +89,11 @@
     "rental.clearMaint": "Mark available",
     "settings.csvBtnVehicles": "Vehicles",
     "settings.csvBtnVehicleRentals": "Vehicle rentals",
-    "settings.csvBtnVehicleExpenses": "Vehicle expenses"
+    "settings.csvBtnVehicleExpenses": "Vehicle expenses",
+    "rental.openFleet": "Open fleet",
+    "rental.todayRevenue": "Today's revenue",
+    "rental.dueAlert": "{n} rental(s) due or unpaid — open fleet to follow up",
+    "dashboard.rentalsCount": "Vehicle rentals ({n})"
   },
   "ar": {
     "nav.vehiclerental": "تأجير المركبات",
@@ -181,7 +185,11 @@
     "rental.maintScheduled": "تم حفظ كتلة الصيانة",
     "rental.clearMaint": "العلامة المتاحة",
     "settings.csvBtnVehicleExpenses": "مصاريف المركبات",
-    "rental.paid": "الإيجار {num} مدفوع"
+    "rental.paid": "الإيجار {num} مدفوع",
+    "rental.openFleet": "أسطول مفتوح",
+    "rental.todayRevenue": "إيرادات اليوم",
+    "rental.dueAlert": "{n} الإيجارات المستحقة أو غير المدفوعة — أسطول مفتوح للمتابعة",
+    "dashboard.rentalsCount": "تأجير المركبات ({ن})"
   },
   "de": {
     "nav.vehiclerental": "Fahrzeugvermietung",
@@ -273,7 +281,11 @@
     "rental.maintScheduled": "Wartungsblock gespeichert",
     "rental.clearMaint": "Mark verfügbar",
     "settings.csvBtnVehicleExpenses": "Fahrzeugkosten",
-    "rental.paid": "Miete {num} bezahlt"
+    "rental.paid": "Miete {num} bezahlt",
+    "rental.openFleet": "Offene Flotte",
+    "rental.todayRevenue": "Der heutige Umsatz",
+    "rental.dueAlert": "{n} Miete(n) fällig oder unbezahlt – offene Flotte zur Nachverfolgung",
+    "dashboard.rentalsCount": "Fahrzeugmieten ({n})"
   },
   "es": {
     "nav.vehiclerental": "Alquiler de vehículos",
@@ -365,7 +377,11 @@
     "rental.maintScheduled": "Bloque de mantenimiento guardado",
     "rental.clearMaint": "Marca disponible",
     "settings.csvBtnVehicleExpenses": "Gastos de vehículo",
-    "rental.paid": "Alquiler {num} pagado"
+    "rental.paid": "Alquiler {num} pagado",
+    "rental.openFleet": "Flota abierta",
+    "rental.todayRevenue": "Los ingresos de hoy",
+    "rental.dueAlert": "{n} alquileres vencidos o impagos: abrir flota para realizar un seguimiento",
+    "dashboard.rentalsCount": "Alquiler de vehículos ({n})"
   },
   "fr": {
     "nav.vehiclerental": "Location de véhicules",
@@ -457,7 +473,11 @@
     "rental.maintScheduled": "Bloc de maintenance enregistré",
     "rental.clearMaint": "Marque disponible",
     "settings.csvBtnVehicleExpenses": "Frais de véhicule",
-    "rental.paid": "Location {num} payée"
+    "rental.paid": "Location {num} payée",
+    "rental.openFleet": "Flotte ouverte",
+    "rental.todayRevenue": "Les revenus d'aujourd'hui",
+    "rental.dueAlert": "{n} location(s) due(s) ou impayées – flotte ouverte pour suivi",
+    "dashboard.rentalsCount": "Location de véhicules ({n})"
   },
   "he": {
     "nav.vehiclerental": "השכרת רכב",
@@ -549,7 +569,11 @@
     "rental.maintScheduled": "בלוק התחזוקה נשמר",
     "rental.clearMaint": "סמן זמין",
     "settings.csvBtnVehicleExpenses": "הוצאות רכב",
-    "rental.paid": "שכירות {num} שולמה"
+    "rental.paid": "שכירות {num} שולמה",
+    "rental.openFleet": "צי פתוח",
+    "rental.todayRevenue": "ההכנסות של היום",
+    "rental.dueAlert": "{n} שכירות בתשלום או ללא תשלום - צי פתוח למעקב",
+    "dashboard.rentalsCount": "השכרת רכב ({n})"
   },
   "hi": {
     "nav.vehiclerental": "वाहन किराया",
@@ -641,7 +665,11 @@
     "rental.maintScheduled": "रखरखाव ब्लॉक सहेजा गया",
     "rental.clearMaint": "उपलब्ध चिह्नित करें",
     "settings.csvBtnVehicleExpenses": "वाहन व्यय",
-    "rental.paid": "किराया {संख्या} भुगतान किया गया"
+    "rental.paid": "किराया {संख्या} भुगतान किया गया",
+    "rental.openFleet": "खुला बेड़ा",
+    "rental.todayRevenue": "आज का राजस्व",
+    "rental.dueAlert": "{n} किराया देय या अवैतनिक - अनुवर्ती कार्रवाई के लिए खुला बेड़ा",
+    "dashboard.rentalsCount": "वाहन किराया ({n})"
   },
   "id": {
     "nav.vehiclerental": "Penyewaan Kendaraan",
@@ -733,7 +761,11 @@
     "rental.maintScheduled": "Blok pemeliharaan disimpan",
     "rental.clearMaint": "Tandai tersedia",
     "settings.csvBtnVehicleExpenses": "Biaya kendaraan",
-    "rental.paid": "Sewa {num} dibayar"
+    "rental.paid": "Sewa {num} dibayar",
+    "rental.openFleet": "Armada terbuka",
+    "rental.todayRevenue": "Pendapatan hari ini",
+    "rental.dueAlert": "{n} sewa yang jatuh tempo atau belum dibayar — buka armada untuk ditindaklanjuti",
+    "dashboard.rentalsCount": "Penyewaan kendaraan ({n})"
   },
   "it": {
     "nav.vehiclerental": "Noleggio veicoli",
@@ -825,7 +857,11 @@
     "rental.maintScheduled": "Blocco di manutenzione salvato",
     "rental.clearMaint": "Segna disponibile",
     "settings.csvBtnVehicleExpenses": "Spese del veicolo",
-    "rental.paid": "Noleggio {num} pagato"
+    "rental.paid": "Noleggio {num} pagato",
+    "rental.openFleet": "Flotta aperta",
+    "rental.todayRevenue": "Le entrate di oggi",
+    "rental.dueAlert": "{n} noleggi scaduti o non pagati: flotta aperta da seguire",
+    "dashboard.rentalsCount": "Noleggio veicoli ({n})"
   },
   "ja": {
     "nav.vehiclerental": "レンタカー",
@@ -917,7 +953,11 @@
     "rental.maintScheduled": "メンテナンスブロックが保存されました",
     "rental.clearMaint": "利用可能なマークを付ける",
     "settings.csvBtnVehicleExpenses": "車両費",
-    "rental.paid": "レンタル料 {num} 支払い済み"
+    "rental.paid": "レンタル料 {num} 支払い済み",
+    "rental.openFleet": "オープンフリート",
+    "rental.todayRevenue": "今日の収益",
+    "rental.dueAlert": "{n} 台のレンタルの期限または未払い — フリートを開放してフォローアップします",
+    "dashboard.rentalsCount": "レンタカー ({n})"
   },
   "ko": {
     "nav.vehiclerental": "차량대여",
@@ -1009,7 +1049,11 @@
     "rental.maintScheduled": "유지보수 블록이 저장되었습니다.",
     "rental.clearMaint": "사용 가능으로 표시",
     "settings.csvBtnVehicleExpenses": "차량 비용",
-    "rental.paid": "대여 {num} 지불됨"
+    "rental.paid": "대여 {num} 지불됨",
+    "rental.openFleet": "공개 함대",
+    "rental.todayRevenue": "오늘의 수익",
+    "rental.dueAlert": "{n} 렌트 만기 또는 미지급 - 후속 조치를 위해 차량 공개",
+    "dashboard.rentalsCount": "차량 렌탈({n})"
   },
   "lo": {
     "nav.vehiclerental": "ການເຊົ່າຍານພາຫະນະ",
@@ -1101,7 +1145,11 @@
     "rental.maintScheduled": "ບັນທຶກການບຳລຸງຮັກສາແລ້ວ",
     "rental.clearMaint": "ມີເຄື່ອງໝາຍ",
     "settings.csvBtnVehicleExpenses": "ຄ່າ​ໃຊ້​ຈ່າຍ​ພາ​ຫະ​ນະ​",
-    "rental.paid": "ຄ່າເຊົ່າ {num} ຈ່າຍແລ້ວ"
+    "rental.paid": "ຄ່າເຊົ່າ {num} ຈ່າຍແລ້ວ",
+    "rental.openFleet": "ເປີດເຮືອ",
+    "rental.todayRevenue": "ລາຍໄດ້ຂອງມື້ນີ້",
+    "rental.dueAlert": "ການເຊົ່າ {n} ຮອດກຳນົດ ຫຼື ບໍ່ໄດ້ຈ່າຍ — ເປີດເຮືອເພື່ອຕິດຕາມ",
+    "dashboard.rentalsCount": "ການເຊົ່າພາຫະນະ ({n})"
   },
   "nl": {
     "nav.vehiclerental": "Voertuigverhuur",
@@ -1193,7 +1241,11 @@
     "rental.maintScheduled": "Onderhoudsblok opgeslagen",
     "rental.clearMaint": "Markeer beschikbaar",
     "settings.csvBtnVehicleExpenses": "Voertuigkosten",
-    "rental.paid": "Huur {num} betaald"
+    "rental.paid": "Huur {num} betaald",
+    "rental.openFleet": "Open vloot",
+    "rental.todayRevenue": "De inkomsten van vandaag",
+    "rental.dueAlert": "{n} huur(en) verschuldigd of onbetaald — open vloot om op te volgen",
+    "dashboard.rentalsCount": "Voertuigverhuur ({n})"
   },
   "pl": {
     "nav.vehiclerental": "Wynajem pojazdów",
@@ -1285,7 +1337,11 @@
     "rental.maintScheduled": "Blok konserwacyjny zapisany",
     "rental.clearMaint": "Oznacz dostępny",
     "settings.csvBtnVehicleExpenses": "Wydatki na pojazd",
-    "rental.paid": "Wynajem {num} opłacony"
+    "rental.paid": "Wynajem {num} opłacony",
+    "rental.openFleet": "Otwarta flota",
+    "rental.todayRevenue": "Dzisiejsze dochody",
+    "rental.dueAlert": "{n} czynsze należne lub nieopłacone — otwarta flota do sprawdzenia",
+    "dashboard.rentalsCount": "Wynajem pojazdów ({n})"
   },
   "pt-BR": {
     "nav.vehiclerental": "Aluguel de veículos",
@@ -1377,7 +1433,11 @@
     "rental.maintScheduled": "Bloco de manutenção salvo",
     "rental.clearMaint": "Marcar disponível",
     "settings.csvBtnVehicleExpenses": "Despesas com veículos",
-    "rental.paid": "Aluguel {num} pago"
+    "rental.paid": "Aluguel {num} pago",
+    "rental.openFleet": "Frota aberta",
+    "rental.todayRevenue": "Receita de hoje",
+    "rental.dueAlert": "{n} aluguel(s) vencido(s) ou não pago(s) — frota aberta para acompanhamento",
+    "dashboard.rentalsCount": "Aluguel de veículos ({n})"
   },
   "ru": {
     "nav.vehiclerental": "Прокат автомобилей",
@@ -1469,7 +1529,11 @@
     "rental.maintScheduled": "Блокировка обслуживания сохранена.",
     "rental.clearMaint": "Отметить доступным",
     "settings.csvBtnVehicleExpenses": "Расходы на транспортное средство",
-    "rental.paid": "Арендная плата {num} оплачена"
+    "rental.paid": "Арендная плата {num} оплачена",
+    "rental.openFleet": "Открытый флот",
+    "rental.todayRevenue": "Сегодняшний доход",
+    "rental.dueAlert": "{n} арендная плата с оплаченным сроком или неоплаченная — открытый парк для дальнейшего наблюдения",
+    "dashboard.rentalsCount": "Прокат автомобилей ({n})"
   },
   "th": {
     "nav.vehiclerental": "รถเช่า",
@@ -1561,7 +1625,11 @@
     "rental.maintScheduled": "บันทึกบล็อกการบำรุงรักษาแล้ว",
     "rental.clearMaint": "มาร์คว่าง",
     "settings.csvBtnVehicleExpenses": "ค่าพาหนะ",
-    "rental.paid": "จ่ายค่าเช่าแล้ว {num}"
+    "rental.paid": "จ่ายค่าเช่าแล้ว {num}",
+    "rental.openFleet": "เปิดกองเรือ",
+    "rental.todayRevenue": "รายได้วันนี้",
+    "rental.dueAlert": "{n} ค่าเช่าที่ถึงกำหนดหรือค้างชำระ — เปิดกองเรือเพื่อติดตามผล",
+    "dashboard.rentalsCount": "การเช่ายานพาหนะ ({n})"
   },
   "tr": {
     "nav.vehiclerental": "Araç Kiralama",
@@ -1653,7 +1721,11 @@
     "rental.maintScheduled": "Bakım bloğu kaydedildi",
     "rental.clearMaint": "Kullanılabilir olarak işaretle",
     "settings.csvBtnVehicleExpenses": "Araç giderleri",
-    "rental.paid": "{num} kira ödendi"
+    "rental.paid": "{num} kira ödendi",
+    "rental.openFleet": "Açık filo",
+    "rental.todayRevenue": "Bugünkü gelir",
+    "rental.dueAlert": "Vadesi gelmiş veya ödenmemiş {n} kira(lar) — takip edilecek açık filo",
+    "dashboard.rentalsCount": "Araç kiralama ({n})"
   },
   "vi": {
     "nav.vehiclerental": "Cho thuê xe",
@@ -1745,7 +1817,11 @@
     "rental.maintScheduled": "Đã lưu khối bảo trì",
     "rental.clearMaint": "Đánh dấu có sẵn",
     "settings.csvBtnVehicleExpenses": "Chi phí phương tiện",
-    "rental.paid": "Tiền thuê {num} đã trả"
+    "rental.paid": "Tiền thuê {num} đã trả",
+    "rental.openFleet": "Hạm đội mở",
+    "rental.todayRevenue": "Doanh thu hôm nay",
+    "rental.dueAlert": "{n} (các) tiền thuê đến hạn hoặc chưa thanh toán — mở đội xe để theo dõi",
+    "dashboard.rentalsCount": "Thuê phương tiện ({n})"
   },
   "zh-Hans": {
     "nav.vehiclerental": "车辆租赁",
@@ -1837,7 +1913,11 @@
     "rental.maintScheduled": "已保存维护块",
     "rental.clearMaint": "标记可用",
     "settings.csvBtnVehicleExpenses": "车辆费用",
-    "rental.paid": "已支付租金 {num}"
+    "rental.paid": "已支付租金 {num}",
+    "rental.openFleet": "开放舰队",
+    "rental.todayRevenue": "今日收入",
+    "rental.dueAlert": "{n} 笔到期或未付租金 — 开放车队进行跟进",
+    "dashboard.rentalsCount": "车辆租赁 ({n})"
   },
   "zh-Hant": {
     "nav.vehiclerental": "車輛租賃",
@@ -1929,6 +2009,10 @@
     "rental.maintScheduled": "已儲存維護塊",
     "rental.clearMaint": "標記可用",
     "settings.csvBtnVehicleExpenses": "車輛費用",
-    "rental.paid": "已支付租金 {num}"
+    "rental.paid": "已支付租金 {num}",
+    "rental.openFleet": "開放艦隊",
+    "rental.todayRevenue": "今日收入",
+    "rental.dueAlert": "{n} 筆到期或未付租金 — 開放車隊進行跟進",
+    "dashboard.rentalsCount": "車輛租賃 ({n})"
   }
 }

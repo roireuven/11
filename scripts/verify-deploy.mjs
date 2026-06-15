@@ -274,6 +274,18 @@ if (!html.includes("rentPayRental") || !html.includes("rentRentalIsPayable")) {
 if (!html.includes("tx.source !== 'Vehicle Rental'") || !html.includes("s.indexOf('vehicle')")) {
   fail("app missing vehicle rental revenue / shift normalization");
 }
+if (!html.includes("HRMM-DASHBOARD-RENTAL-v1") || !html.includes("rentRenderDashboardCardHtml")) {
+  fail("app missing dashboard vehicle rental fleet card (HRMM-DASHBOARD-RENTAL-v1)");
+}
+if (!html.includes("rentRefreshRelatedViews") || !html.includes("rentRenderDayDetailSection")) {
+  fail("app missing dashboard rental refresh + day drill-down");
+}
+if (!html.includes("pms.btnOpenRental") || !html.includes("showPage('vehiclerental')") && !html.includes("showPage(\\'vehiclerental\\')")) {
+  fail("app missing dashboard Open Vehicle Rental quick action");
+}
+if (!html.includes("takeArr('vehicleExpenses')") || !html.includes("vehicleExpenses,vehicleMaintBlocks,rentLocations")) {
+  fail("app missing complete vehicle rental backup/restore");
+}
 try {
   const arLoc = JSON.parse(readFileSync(join(PUBLIC, "assets/locales/ar.json"), "utf8"));
   if (arLoc.msg?.accountCreated === "Account created! Sign in with your email and password.") {

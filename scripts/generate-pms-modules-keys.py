@@ -41,6 +41,8 @@ EN: dict[str, str] = {
     "btnAddShop": "Add Shop Item",
     "btnAddTx": "Add Transaction",
     "btnAddUsr": "Add User",
+    "btnOpenRental": "Open Vehicle Rental",
+    "btnAddVehicle": "Add Vehicle",
     "rTitle": "Room",
     "rNum": "Room No.",
     "rType": "Type",
@@ -1489,16 +1491,18 @@ def translate_locale(code: str, target: str, translator_cls) -> dict[str, str]:
 
 
 def main() -> int:
-    if len(EN) != 72:
-        print(f"EN must have 72 keys, got {len(EN)}", file=sys.stderr)
+    if len(EN) != 74:
+        print(f"EN must have 74 keys, got {len(EN)}", file=sys.stderr)
         return 1
 
     payload: dict[str, dict[str, str]] = {"en": dict(EN)}
 
     for code in EMBEDDED_LOCALES:
-        block = EMBEDDED.get(code) or build_from_locale_file(code)
-        if len(block) != 72:
-            print(f"{code}: expected 72 keys, got {len(block)}", file=sys.stderr)
+        block = dict(EMBEDDED.get(code) or build_from_locale_file(code))
+        for key, val in EN.items():
+            block.setdefault(key, val)
+        if len(block) != 74:
+            print(f"{code}: expected 74 keys, got {len(block)}", file=sys.stderr)
             return 1
         payload[code] = block
 
@@ -1517,8 +1521,8 @@ def main() -> int:
         return 1
 
     for loc, block in payload.items():
-        if len(block) != 72:
-            print(f"{loc}: expected 72 keys, got {len(block)}", file=sys.stderr)
+        if len(block) != 74:
+            print(f"{loc}: expected 74 keys, got {len(block)}", file=sys.stderr)
             return 1
         extra = set(block) - set(EN)
         if extra:
