@@ -268,6 +268,9 @@ if (!html.includes("rentPostRentalSale") || !html.includes("rentApplyBillToRenta
 if (!html.includes("rentSaveCheckoutWithPay") || !html.includes("rentMapPayMethod")) {
   fail("app missing rental cash/credit card payment helpers");
 }
+if (!html.includes("rentPayRental") || !html.includes("rentRentalIsPayable")) {
+  fail("app missing rental pay-from-grid (restaurant-style cash/card)");
+}
 if (!html.includes("tx.source !== 'Vehicle Rental'") || !html.includes("s.indexOf('vehicle')")) {
   fail("app missing vehicle rental revenue / shift normalization");
 }

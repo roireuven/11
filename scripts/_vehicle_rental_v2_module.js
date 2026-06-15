@@ -168,6 +168,23 @@ function rentPaymentStatusFromMethod(payMethod) {
 function rentIsPaidMethod(payMethod) {
   return payMethod && payMethod !== 'Pending';
 }
+function rentRentalIsPayable(r) {
+  return r && rowDataVisible(r) && r.status !== 'Completed' && r.status !== 'Cancelled' && !r.transactionId;
+}
+function rentCanChargeRoom(r) {
+  return rentRentalIsPayable(r) && String(r.roomNumber || '').trim() !== '' && String(r.bookingId || '').trim() !== '';
+}
+function rentOpenCashPayModal(grandTotal, title, onValid) {
+  if (typeof openCashPaymentModal !== 'function') {
+    if (typeof onValid === 'function') onValid(grandTotal, 0);
+    return;
+  }
+  openCashPaymentModal({
+    grandTotal: grandTotal,
+    title: title,
+    onValid: onValid
+  });
+}
 function rentFormatPaymentDisplay(r) {
   if (!r) return '—';
   if (r.paymentMethod && r.paymentMethod !== 'Pending') return r.paymentMethod;
@@ -192,21 +209,42 @@ function rentPostRentalSale(rental, payMethod, items, orderSuffix) {
 function rentBuildPayBarHtml(total, opts) {
   opts = opts || {};
   var amt = parseFloat(total) || 0;
-  var totalLbl = (typeof t === 'function' && t('minimart.grandTotal') !== 'minimart.grandTotal') ? t('minimart.grandTotal') : 'Grand total';
-  var cashLbl = (typeof t === 'function' && t('minimart.payTotalCash') !== 'minimart.payTotalCash') ? t('minimart.payTotalCash') : 'Pay total — Cash';
-  var cardLbl = (typeof t === 'function' && t('minimart.payTotalCard') !== 'minimart.payTotalCard') ? t('minimart.payTotalCard') : 'Pay total — Credit card';
+  if (!(amt > 0) && !opts.allowZero) return '';
   var roomLbl = (typeof t === 'function' ? t('rental.payRoom') : 'Charge to room');
   var pendingLbl = (typeof t === 'function' ? t('rental.payPending') : 'Pending');
+  var extraBtns = '';
+  if (opts.roomOnclick) extraBtns += '<button type="button" class="btn btn-sm btn-primary" style="width:100%;" onclick="' + opts.roomOnclick + '">' + roomLbl + '</button>';
+  if (opts.pendingOnclick) extraBtns += '<button type="button" class="btn btn-sm btn-outline" style="width:100%;" onclick="' + opts.pendingOnclick + '">' + pendingLbl + '</button>';
+  if (typeof guestQrBuildOpenBillPayBarHtml === 'function' && opts.cashOnclick && opts.cardOnclick) {
+    var core = guestQrBuildOpenBillPayBarHtml(amt, opts.cashOnclick, opts.cardOnclick, opts.seeInvoiceOnclick || '');
+    if (!extraBtns) return core;
+    return core.replace('</div></div>', extraBtns + '</div></div>');
+  }
+  var totalLbl = (typeof t === 'function' && t('minimart.totalActiveOrder') !== 'minimart.totalActiveOrder') ? t('minimart.totalActiveOrder') : 'Total';
+  var cashLbl = (typeof t === 'function' && t('minimart.payTotalCash') !== 'minimart.payTotalCash') ? t('minimart.payTotalCash') : 'Pay total — Cash';
+  var cardLbl = (typeof t === 'function' && t('minimart.payTotalCard') !== 'minimart.payTotalCard') ? t('minimart.payTotalCard') : 'Pay total — Credit card';
   var btns = '';
   if (opts.cashOnclick) btns += '<button type="button" class="btn btn-sm btn-success" style="width:100%;" onclick="' + opts.cashOnclick + '">' + cashLbl + '</button>';
   if (opts.cardOnclick) btns += '<button type="button" class="btn btn-sm btn-outline" style="width:100%;" onclick="' + opts.cardOnclick + '">' + cardLbl + '</button>';
-  if (opts.roomOnclick) btns += '<button type="button" class="btn btn-sm btn-outline" style="width:100%;" onclick="' + opts.roomOnclick + '">' + roomLbl + '</button>';
+  if (opts.roomOnclick) btns += '<button type="button" class="btn btn-sm btn-primary" style="width:100%;" onclick="' + opts.roomOnclick + '">' + roomLbl + '</button>';
   if (opts.pendingOnclick) btns += '<button type="button" class="btn btn-sm btn-outline" style="width:100%;" onclick="' + opts.pendingOnclick + '">' + pendingLbl + '</button>';
-  return '<div class="rent-pay-bar">' +
+  return '<div class="rest-bill-table-actions rent-pay-bar" style="position:sticky;bottom:0;z-index:1;border:1px solid var(--border);border-radius:10px;padding:0.75rem 0.85rem;margin:0.65rem 0 0.25rem;background:linear-gradient(180deg, rgba(26,115,232,0.07) 0%, var(--card-bg) 55%);box-shadow:0 -4px 12px rgba(0,0,0,0.05);">' +
     '<div style="display:flex;flex-wrap:wrap;align-items:center;gap:0.5rem 0.75rem;margin-bottom:0.5rem;">' +
     '<span style="font-size:0.85rem;color:var(--text-light);">' + totalLbl + '</span>' +
     '<strong style="font-size:1.05rem;">' + fmt$(amt) + '</strong></div>' +
     '<div style="display:flex;flex-direction:column;gap:0.45rem;">' + btns + '</div></div>';
+}
+function rentBuildPayBarOpts(prefix, id, extra) {
+  extra = extra || {};
+  var opts = {
+    cashOnclick: prefix + "('" + id + "','Cash')",
+    cardOnclick: prefix + "('" + id + "','Credit Card')",
+    roomOnclick: prefix + "('" + id + "','Charged to Room')",
+    pendingOnclick: prefix + "('" + id + "','Pending')"
+  };
+  if (extra.hideRoom) delete opts.roomOnclick;
+  if (extra.hidePending) delete opts.pendingOnclick;
+  return opts;
 }
 function rentRenderBillSummaryHtml(bill) {
   var subLbl = (typeof t === 'function' && t('minimart.subtotal') !== 'minimart.subtotal') ? t('minimart.subtotal') : 'Subtotal';
@@ -242,12 +280,7 @@ function rentUpdateCheckoutBillSummary(vehicleId) {
   var box = document.getElementById('rCkBillSummary');
   if (box) box.innerHTML = rentRenderBillSummaryHtml(bill);
   var payBar = document.getElementById('rCkPayBar');
-  if (payBar) payBar.innerHTML = rentBuildPayBarHtml(bill.grandTotal, {
-    cashOnclick: "rentSaveCheckoutWithPay('" + vehicleId + "','Cash')",
-    cardOnclick: "rentSaveCheckoutWithPay('" + vehicleId + "','Credit Card')",
-    roomOnclick: "rentSaveCheckoutWithPay('" + vehicleId + "','Charged to Room')",
-    pendingOnclick: "rentSaveCheckoutWithPay('" + vehicleId + "','Pending')"
-  });
+  if (payBar) payBar.innerHTML = rentBuildPayBarHtml(bill.grandTotal, rentBuildPayBarOpts('rentSaveCheckoutWithPay', vehicleId));
   var sub = document.getElementById('rCkSubtotal');
   if (sub && document.activeElement !== sub) sub.value = bill.subtotal;
 }
@@ -450,12 +483,7 @@ window.rentOpenCheckoutModal = function(vehicleId) {
     '<div id="rCkBillSummary">' + rentRenderBillSummaryHtml(initBill) + '</div>' +
     '<div class="form-row"><div class="form-group"><label>' + t('rental.deposit') + '</label><input type="number" class="form-control" id="rCkDeposit" step="0.01" value="0"></div></div>' +
     '<div class="form-group"><label>' + t('rental.notes') + '</label><textarea class="form-control" id="rCkNotes" rows="2"></textarea></div>' +
-    '<div id="rCkPayBar">' + rentBuildPayBarHtml(initBill.grandTotal, {
-      cashOnclick: "rentSaveCheckoutWithPay('" + v.id + "','Cash')",
-      cardOnclick: "rentSaveCheckoutWithPay('" + v.id + "','Credit Card')",
-      roomOnclick: "rentSaveCheckoutWithPay('" + v.id + "','Charged to Room')",
-      pendingOnclick: "rentSaveCheckoutWithPay('" + v.id + "','Pending')"
-    }) + '</div>' +
+    '<div id="rCkPayBar">' + rentBuildPayBarHtml(initBill.grandTotal, rentBuildPayBarOpts('rentSaveCheckoutWithPay', v.id)) + '</div>' +
     '<div class="rent-sig-wrap"><label>' + t('rental.contractSign') + '</label><canvas id="rCkSig" width="320" height="80"></canvas>' +
     '<div style="display:flex;gap:0.35rem;margin-top:0.35rem;"><input type="text" class="form-control" id="rCkSignName" placeholder="' + t('rental.signHere') + '" style="flex:1;">' +
     '<button type="button" class="btn btn-sm btn-outline" onclick="rentClearSig()">' + t('rental.clearSig') + '</button></div></div>' +
@@ -505,11 +533,18 @@ function rentBuildCheckoutRental(vehicleId) {
     }
   };
 }
-window.rentSaveCheckoutWithPay = function(vehicleId, payMethod) {
+window.rentSaveCheckoutWithPay = function(vehicleId, payMethod, skipCashModal) {
   var built = rentBuildCheckoutRental(vehicleId);
   if (!built) return;
   var rental = built.rental;
   var v = built.v;
+  if (payMethod === 'Cash' && !skipCashModal) {
+    rentOpenCashPayModal(rental.grandTotal, t('rental.checkoutTitle') + ' — ' + rental.vehicleLabel, function(tender, change) {
+      toast(typeof t === 'function' ? t('msg.changeDue', { amount: fmt$(change) }) : ('Change: ' + fmt$(change)));
+      rentSaveCheckoutWithPay(vehicleId, 'Cash', true);
+    });
+    return;
+  }
   rental.paymentMethod = rentMapPayMethod(payMethod);
   rental.paymentStatus = rentPaymentStatusFromMethod(payMethod);
   if (rentIsPaidMethod(payMethod)) {
@@ -524,12 +559,42 @@ window.rentSaveCheckoutWithPay = function(vehicleId, payMethod) {
   closeModal(); renderVehicleRental(); toast(t('rental.checkedOut', { num: rental.rentalNumber }));
 };
 window.rentSaveCheckout = function(vehicleId) { rentSaveCheckoutWithPay(vehicleId, 'Pending'); };
+window.rentPayRental = function(rentalId, payMethod, skipCashModal) {
+  var r = vehicleRentals.find(function(x) { return x.id === rentalId; });
+  if (!r) return;
+  if (r.transactionId) { toast(typeof t === 'function' ? t('msg.alreadyCharged') : 'Already paid'); return; }
+  if (!rentRentalIsPayable(r)) return;
+  rentApplyBillToRental(r);
+  if (payMethod === 'Charged to Room' && !rentCanChargeRoom(r)) {
+    toast(typeof t === 'function' ? t('msg.filterOneRoomToCharge') : 'Select an in-house booking with room');
+    return;
+  }
+  if (payMethod === 'Cash' && !skipCashModal) {
+    rentOpenCashPayModal(r.grandTotal, t('rental.detailTitle') + ' — ' + r.rentalNumber, function(tender, change) {
+      toast(typeof t === 'function' ? t('msg.changeDue', { amount: fmt$(change) }) : ('Change: ' + fmt$(change)));
+      rentPayRental(rentalId, 'Cash', true);
+    });
+    return;
+  }
+  var txn = rentPostRentalSale(r, payMethod, rentBuildSaleItems(r), '');
+  if (!txn) return;
+  r.transactionId = txn.transactionId;
+  r.paymentMethod = rentMapPayMethod(payMethod);
+  r.paymentStatus = rentPaymentStatusFromMethod(payMethod);
+  save('vehicleRentals', vehicleRentals);
+  logAudit('Payment', 'Vehicle Rental', r.rentalNumber, 'Paid ' + fmt$(r.grandTotal) + ' · ' + r.paymentMethod);
+  closeModal(); renderVehicleRental();
+  toast(typeof t === 'function' ? t('rental.paid', { num: r.rentalNumber }) : ('Rental paid: ' + r.rentalNumber));
+};
 window.rentOpenRentalDetail = function(rentalId) {
   var r = vehicleRentals.find(function(x) { return x.id === rentalId; });
   if (!r) return;
   var mapsBtn = (r.pickupMapsUrl || r.dropoffMapsUrl) ?
     '<button type="button" class="btn btn-sm btn-outline" onclick="window.open(\'' + escAttr(r.pickupMapsUrl || r.dropoffMapsUrl) + '\',\'_blank\')">' + t('rental.openMaps') + '</button>' : '';
   var bill = rentApplyBillToRental(Object.assign({}, r));
+  var payOpts = rentBuildPayBarOpts('rentPayRental', r.id, { hidePending: true });
+  if (!rentCanChargeRoom(r)) payOpts.hideRoom = true;
+  var payBarHtml = rentRentalIsPayable(r) ? rentBuildPayBarHtml(bill.grandTotal, payOpts) : '';
   openModal('<div class="modal-header"><h2>' + t('rental.detailTitle') + '</h2><button class="modal-close" onclick="closeModal()">&times;</button></div>' +
     '<div class="modal-body">' +
     '<p><strong>' + escAttr(r.rentalNumber) + '</strong> · ' + escAttr(r.guestName) + ' · ' + escAttr(r.vehicleLabel) + '</p>' +
@@ -537,7 +602,7 @@ window.rentOpenRentalDetail = function(rentalId) {
     t('rental.pickupLoc') + ': ' + escAttr(r.pickupLocationName || '—') + '<br>' +
     t('rental.dropoffLoc') + ': ' + escAttr(r.dropoffLocationName || '—') + '<br>' +
     escAttr(rentFormatPaymentDisplay(r)) + (r.transactionId ? ' · Txn ' + escAttr(r.transactionId) : '') + '</p>' +
-    rentRenderBillSummaryHtml(bill) +
+    rentRenderBillSummaryHtml(bill) + payBarHtml +
     '<div class="rent-comm-btns">' +
     '<button type="button" class="btn btn-sm btn-primary" onclick="rentOpenWhatsApp(\'' + r.id + '\',\'confirm\')">' + t('rental.sendWhatsApp') + '</button>' +
     '<button type="button" class="btn btn-sm btn-outline" onclick="rentOpenSms(\'' + r.id + '\',\'reminder\')">' + t('rental.sendSms') + '</button>' +
@@ -559,13 +624,16 @@ window.rentUpdateReturnBillSummary = function(rentalId) {
   var box = document.getElementById('rRtBillSummary');
   if (box) box.innerHTML = rentRenderBillSummaryHtml(draft);
   var payBar = document.getElementById('rRtPayBar');
-  if (payBar) payBar.innerHTML = rentBuildPayBarHtml(draft.grandTotal, {
-    cashOnclick: "rentCompleteReturnWithPay('" + rentalId + "','Cash')",
-    cardOnclick: "rentCompleteReturnWithPay('" + rentalId + "','Credit Card')",
-    roomOnclick: "rentCompleteReturnWithPay('" + rentalId + "','Charged to Room')",
-    pendingOnclick: "rentCompleteReturnWithPay('" + rentalId + "','Pending')"
-  });
+  if (payBar) payBar.innerHTML = rentBuildPayBarHtml(draft.grandTotal, rentBuildPayBarOpts('rentCompleteReturnWithPay', rentalId));
 };
+function rentReadReturnDraft(rentalId) {
+  var r = vehicleRentals.find(function(x) { return x.id === rentalId; });
+  if (!r) return null;
+  var extra = parseFloat(document.getElementById('rRtExtra') && document.getElementById('rRtExtra').value) || 0;
+  var draft = Object.assign({}, r, { extraCharges: rentRoundMoney(extra) });
+  rentApplyBillToRental(draft);
+  return draft;
+}
 window.rentOpenReturnModal = function(rentalId) {
   var r = vehicleRentals.find(function(x) { return x.id === rentalId; });
   if (!r) return;
@@ -580,12 +648,7 @@ window.rentOpenReturnModal = function(rentalId) {
     '<div class="form-group"><label>' + t('rental.mileageIn') + '</label><input type="number" class="form-control" id="rRtMile" value="' + (r.initialMileage || 0) + '" min="0"></div></div>' +
     '<div class="form-group"><label>' + t('rental.extraCharges') + '</label><input type="number" class="form-control" id="rRtExtra" step="0.01" value="0" oninput="rentUpdateReturnBillSummary(\'' + r.id + '\')"></div>' +
     '<div id="rRtBillSummary">' + rentRenderBillSummaryHtml(draft) + '</div>' +
-    '<div id="rRtPayBar">' + rentBuildPayBarHtml(draft.grandTotal, {
-      cashOnclick: "rentCompleteReturnWithPay('" + r.id + "','Cash')",
-      cardOnclick: "rentCompleteReturnWithPay('" + r.id + "','Credit Card')",
-      roomOnclick: "rentCompleteReturnWithPay('" + r.id + "','Charged to Room')",
-      pendingOnclick: "rentCompleteReturnWithPay('" + r.id + "','Pending')"
-    }) + '</div>' +
+    '<div id="rRtPayBar">' + rentBuildPayBarHtml(draft.grandTotal, rentBuildPayBarOpts('rentCompleteReturnWithPay', r.id)) + '</div>' +
   '</div><div class="modal-footer"><button class="btn btn-outline" onclick="closeModal()">' + t('common.cancel') + '</button></div>');
 };
 function rentApplyReturnFields(rentalId) {
@@ -598,10 +661,19 @@ function rentApplyReturnFields(rentalId) {
   rentApplyBillToRental(r);
   return r;
 }
-window.rentCompleteReturnWithPay = function(rentalId, payMethod) {
+window.rentCompleteReturnWithPay = function(rentalId, payMethod, skipCashModal) {
+  var draft = rentReadReturnDraft(rentalId);
+  if (!draft) return;
+  var pay = payMethod || 'Pending';
+  if (pay === 'Cash' && !skipCashModal) {
+    rentOpenCashPayModal(draft.grandTotal, t('rental.returnTitle') + ' — ' + draft.rentalNumber, function(tender, change) {
+      toast(typeof t === 'function' ? t('msg.changeDue', { amount: fmt$(change) }) : ('Change: ' + fmt$(change)));
+      rentCompleteReturnWithPay(rentalId, 'Cash', true);
+    });
+    return;
+  }
   var r = rentApplyReturnFields(rentalId);
   if (!r) return;
-  var pay = payMethod || 'Pending';
   r.status = 'Completed';
   var v = vehicles.find(function(x) { return x.id === r.vehicleId; });
   if (v) { v.status = 'Available'; save('vehicles', vehicles); }
@@ -877,6 +949,9 @@ function renderVehicleRental() {
     emptyMessage: t('rental.noActive'),
     actions: [
       {name:'detail',label:t('common.view'),cls:'btn-outline',handler:function(id){ rentOpenRentalDetail(id); }},
+      {name:'payRoom',label:t('rental.payRoom'),cls:'btn-primary',condition:function(r){ return rentCanChargeRoom(r); },handler:function(id){ rentPayRental(id,'Charged to Room'); }},
+      {name:'payCash',label:t('minimart.cash'),cls:'btn-success',condition:function(r){ return rentRentalIsPayable(r); },handler:function(id){ rentPayRental(id,'Cash'); }},
+      {name:'payCard',label:t('minimart.creditCard'),cls:'btn-warning',condition:function(r){ return rentRentalIsPayable(r); },handler:function(id){ rentPayRental(id,'Credit Card'); }},
       {name:'return',label:t('rental.returnBtn'),cls:'btn-primary',handler:function(id){ rentOpenReturnModal(id); }},
       {name:'wa',label:'WA',cls:'btn-outline',handler:function(id){ rentOpenWhatsApp(id,'confirm'); }}
     ]

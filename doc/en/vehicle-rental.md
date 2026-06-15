@@ -59,11 +59,13 @@ Delivery fees are added to the rental total automatically. Use **Open map** in t
 3. Confirm dates, locations, fuel/odometer, and deposit.
 4. Guest signs on the **digital signature pad** and enters printed name.
 5. Choose how to pay using the payment bar (same pattern as Restaurant / Mini-Mart):
-   - **Pay total — Cash**
+   - **Pay total — Cash** (opens cash keypad with change due)
    - **Pay total — Credit card**
-   - **Charge to room**
+   - **Charge to room** (when guest is linked to an in-house booking)
    - **Pending** (collect payment on return)
 6. Paid methods post immediately to **Transactions** with correct tax breakdown (subtotal + tax + grand total).
+
+For **unpaid active rentals**, use **Cash** / **Credit card** / **Charge to room** actions on the Active rentals grid (same as Restaurant order actions).
 
 ## Customer messaging (WhatsApp / SMS / Email)
 
