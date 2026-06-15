@@ -71,6 +71,7 @@ def main() -> int:
         "rental.needPlate": "Enter plate number",
         "rental.inMaintenance": "Vehicle is in maintenance",
         "rental.checkedOut": "Rental {num} checked out",
+        "rental.paid": "Rental {num} paid",
         "rental.returned": "Rental {num} returned",
         "rental.vehicleAdded": "Vehicle added to fleet",
         "rental.tabFloor": "Fleet floor",

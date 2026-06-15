@@ -180,7 +180,8 @@
     "rental.maintWindow": "نافذة الخدمة / الإصلاح",
     "rental.maintScheduled": "تم حفظ كتلة الصيانة",
     "rental.clearMaint": "العلامة المتاحة",
-    "settings.csvBtnVehicleExpenses": "مصاريف المركبات"
+    "settings.csvBtnVehicleExpenses": "مصاريف المركبات",
+    "rental.paid": "الإيجار {num} مدفوع"
   },
   "de": {
     "nav.vehiclerental": "Fahrzeugvermietung",
@@ -271,7 +272,8 @@
     "rental.maintWindow": "Service-/Reparaturfenster",
     "rental.maintScheduled": "Wartungsblock gespeichert",
     "rental.clearMaint": "Mark verfügbar",
-    "settings.csvBtnVehicleExpenses": "Fahrzeugkosten"
+    "settings.csvBtnVehicleExpenses": "Fahrzeugkosten",
+    "rental.paid": "Miete {num} bezahlt"
   },
   "es": {
     "nav.vehiclerental": "Alquiler de vehículos",
@@ -362,7 +364,8 @@
     "rental.maintWindow": "Ventana de servicio/reparación",
     "rental.maintScheduled": "Bloque de mantenimiento guardado",
     "rental.clearMaint": "Marca disponible",
-    "settings.csvBtnVehicleExpenses": "Gastos de vehículo"
+    "settings.csvBtnVehicleExpenses": "Gastos de vehículo",
+    "rental.paid": "Alquiler {num} pagado"
   },
   "fr": {
     "nav.vehiclerental": "Location de véhicules",
@@ -453,7 +456,8 @@
     "rental.maintWindow": "Fenêtre de service/réparation",
     "rental.maintScheduled": "Bloc de maintenance enregistré",
     "rental.clearMaint": "Marque disponible",
-    "settings.csvBtnVehicleExpenses": "Frais de véhicule"
+    "settings.csvBtnVehicleExpenses": "Frais de véhicule",
+    "rental.paid": "Location {num} payée"
   },
   "he": {
     "nav.vehiclerental": "השכרת רכב",
@@ -544,7 +548,8 @@
     "rental.maintWindow": "חלון שירות/תיקון",
     "rental.maintScheduled": "בלוק התחזוקה נשמר",
     "rental.clearMaint": "סמן זמין",
-    "settings.csvBtnVehicleExpenses": "הוצאות רכב"
+    "settings.csvBtnVehicleExpenses": "הוצאות רכב",
+    "rental.paid": "שכירות {num} שולמה"
   },
   "hi": {
     "nav.vehiclerental": "वाहन किराया",
@@ -635,7 +640,8 @@
     "rental.maintWindow": "सेवा/मरम्मत खिड़की",
     "rental.maintScheduled": "रखरखाव ब्लॉक सहेजा गया",
     "rental.clearMaint": "उपलब्ध चिह्नित करें",
-    "settings.csvBtnVehicleExpenses": "वाहन व्यय"
+    "settings.csvBtnVehicleExpenses": "वाहन व्यय",
+    "rental.paid": "किराया {संख्या} भुगतान किया गया"
   },
   "id": {
     "nav.vehiclerental": "Penyewaan Kendaraan",
@@ -726,7 +732,8 @@
     "rental.maintWindow": "Jendela servis/perbaikan",
     "rental.maintScheduled": "Blok pemeliharaan disimpan",
     "rental.clearMaint": "Tandai tersedia",
-    "settings.csvBtnVehicleExpenses": "Biaya kendaraan"
+    "settings.csvBtnVehicleExpenses": "Biaya kendaraan",
+    "rental.paid": "Sewa {num} dibayar"
   },
   "it": {
     "nav.vehiclerental": "Noleggio veicoli",
@@ -817,7 +824,8 @@
     "rental.maintWindow": "Finestra di assistenza/riparazione",
     "rental.maintScheduled": "Blocco di manutenzione salvato",
     "rental.clearMaint": "Segna disponibile",
-    "settings.csvBtnVehicleExpenses": "Spese del veicolo"
+    "settings.csvBtnVehicleExpenses": "Spese del veicolo",
+    "rental.paid": "Noleggio {num} pagato"
   },
   "ja": {
     "nav.vehiclerental": "レンタカー",
@@ -908,7 +916,8 @@
     "rental.maintWindow": "サービス・修理窓口",
     "rental.maintScheduled": "メンテナンスブロックが保存されました",
     "rental.clearMaint": "利用可能なマークを付ける",
-    "settings.csvBtnVehicleExpenses": "車両費"
+    "settings.csvBtnVehicleExpenses": "車両費",
+    "rental.paid": "レンタル料 {num} 支払い済み"
   },
   "ko": {
     "nav.vehiclerental": "차량대여",
@@ -999,7 +1008,8 @@
     "rental.maintWindow": "서비스/수리 창구",
     "rental.maintScheduled": "유지보수 블록이 저장되었습니다.",
     "rental.clearMaint": "사용 가능으로 표시",
-    "settings.csvBtnVehicleExpenses": "차량 비용"
+    "settings.csvBtnVehicleExpenses": "차량 비용",
+    "rental.paid": "대여 {num} 지불됨"
   },
   "lo": {
     "nav.vehiclerental": "ການເຊົ່າຍານພາຫະນະ",
@@ -1090,7 +1100,8 @@
     "rental.maintWindow": "ປ່ອງຢ້ຽມບໍລິການ / ສ້ອມແປງ",
     "rental.maintScheduled": "ບັນທຶກການບຳລຸງຮັກສາແລ້ວ",
     "rental.clearMaint": "ມີເຄື່ອງໝາຍ",
-    "settings.csvBtnVehicleExpenses": "ຄ່າ​ໃຊ້​ຈ່າຍ​ພາ​ຫະ​ນະ​"
+    "settings.csvBtnVehicleExpenses": "ຄ່າ​ໃຊ້​ຈ່າຍ​ພາ​ຫະ​ນະ​",
+    "rental.paid": "ຄ່າເຊົ່າ {num} ຈ່າຍແລ້ວ"
   },
   "nl": {
     "nav.vehiclerental": "Voertuigverhuur",
@@ -1181,7 +1192,8 @@
     "rental.maintWindow": "Service-/reparatievenster",
     "rental.maintScheduled": "Onderhoudsblok opgeslagen",
     "rental.clearMaint": "Markeer beschikbaar",
-    "settings.csvBtnVehicleExpenses": "Voertuigkosten"
+    "settings.csvBtnVehicleExpenses": "Voertuigkosten",
+    "rental.paid": "Huur {num} betaald"
   },
   "pl": {
     "nav.vehiclerental": "Wynajem pojazdów",
@@ -1272,7 +1284,8 @@
     "rental.maintWindow": "Okno serwisowe/naprawcze",
     "rental.maintScheduled": "Blok konserwacyjny zapisany",
     "rental.clearMaint": "Oznacz dostępny",
-    "settings.csvBtnVehicleExpenses": "Wydatki na pojazd"
+    "settings.csvBtnVehicleExpenses": "Wydatki na pojazd",
+    "rental.paid": "Wynajem {num} opłacony"
   },
   "pt-BR": {
     "nav.vehiclerental": "Aluguel de veículos",
@@ -1363,7 +1376,8 @@
     "rental.maintWindow": "Janela de serviço/reparo",
     "rental.maintScheduled": "Bloco de manutenção salvo",
     "rental.clearMaint": "Marcar disponível",
-    "settings.csvBtnVehicleExpenses": "Despesas com veículos"
+    "settings.csvBtnVehicleExpenses": "Despesas com veículos",
+    "rental.paid": "Aluguel {num} pago"
   },
   "ru": {
     "nav.vehiclerental": "Прокат автомобилей",
@@ -1454,7 +1468,8 @@
     "rental.maintWindow": "Окно обслуживания/ремонта",
     "rental.maintScheduled": "Блокировка обслуживания сохранена.",
     "rental.clearMaint": "Отметить доступным",
-    "settings.csvBtnVehicleExpenses": "Расходы на транспортное средство"
+    "settings.csvBtnVehicleExpenses": "Расходы на транспортное средство",
+    "rental.paid": "Арендная плата {num} оплачена"
   },
   "th": {
     "nav.vehiclerental": "รถเช่า",
@@ -1545,7 +1560,8 @@
     "rental.maintWindow": "หน้าต่างบริการ / ซ่อมแซม",
     "rental.maintScheduled": "บันทึกบล็อกการบำรุงรักษาแล้ว",
     "rental.clearMaint": "มาร์คว่าง",
-    "settings.csvBtnVehicleExpenses": "ค่าพาหนะ"
+    "settings.csvBtnVehicleExpenses": "ค่าพาหนะ",
+    "rental.paid": "จ่ายค่าเช่าแล้ว {num}"
   },
   "tr": {
     "nav.vehiclerental": "Araç Kiralama",
@@ -1636,7 +1652,8 @@
     "rental.maintWindow": "Servis / onarım penceresi",
     "rental.maintScheduled": "Bakım bloğu kaydedildi",
     "rental.clearMaint": "Kullanılabilir olarak işaretle",
-    "settings.csvBtnVehicleExpenses": "Araç giderleri"
+    "settings.csvBtnVehicleExpenses": "Araç giderleri",
+    "rental.paid": "{num} kira ödendi"
   },
   "vi": {
     "nav.vehiclerental": "Cho thuê xe",
@@ -1727,7 +1744,8 @@
     "rental.maintWindow": "Cửa sổ dịch vụ / sửa chữa",
     "rental.maintScheduled": "Đã lưu khối bảo trì",
     "rental.clearMaint": "Đánh dấu có sẵn",
-    "settings.csvBtnVehicleExpenses": "Chi phí phương tiện"
+    "settings.csvBtnVehicleExpenses": "Chi phí phương tiện",
+    "rental.paid": "Tiền thuê {num} đã trả"
   },
   "zh-Hans": {
     "nav.vehiclerental": "车辆租赁",
@@ -1818,7 +1836,8 @@
     "rental.maintWindow": "服务/维修窗口",
     "rental.maintScheduled": "已保存维护块",
     "rental.clearMaint": "标记可用",
-    "settings.csvBtnVehicleExpenses": "车辆费用"
+    "settings.csvBtnVehicleExpenses": "车辆费用",
+    "rental.paid": "已支付租金 {num}"
   },
   "zh-Hant": {
     "nav.vehiclerental": "車輛租賃",
@@ -1909,6 +1928,7 @@
     "rental.maintWindow": "服務/維修窗口",
     "rental.maintScheduled": "已儲存維護塊",
     "rental.clearMaint": "標記可用",
-    "settings.csvBtnVehicleExpenses": "車輛費用"
+    "settings.csvBtnVehicleExpenses": "車輛費用",
+    "rental.paid": "已支付租金 {num}"
   }
 }
