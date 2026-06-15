@@ -91,8 +91,10 @@
     "settings.csvBtnVehicleRentals": "Vehicle rentals",
     "settings.csvBtnVehicleExpenses": "Vehicle expenses",
     "rental.openFleet": "Open fleet",
+    "rental.viewFleet": "View fleet",
     "rental.todayRevenue": "Today's revenue",
     "rental.dueAlert": "{n} rental(s) due or unpaid — open fleet to follow up",
+    "dashboard.rentalShift": "Vehicle rental shift",
     "dashboard.rentalsCount": "Vehicle rentals ({n})"
   },
   "ar": {
@@ -189,7 +191,9 @@
     "rental.openFleet": "أسطول مفتوح",
     "rental.todayRevenue": "إيرادات اليوم",
     "rental.dueAlert": "{n} الإيجارات المستحقة أو غير المدفوعة — أسطول مفتوح للمتابعة",
-    "dashboard.rentalsCount": "تأجير المركبات ({ن})"
+    "dashboard.rentalsCount": "تأجير المركبات ({ن})",
+    "rental.viewFleet": "عرض الأسطول",
+    "dashboard.rentalShift": "تحول تأجير المركبات"
   },
   "de": {
     "nav.vehiclerental": "Fahrzeugvermietung",
@@ -285,7 +289,9 @@
     "rental.openFleet": "Offene Flotte",
     "rental.todayRevenue": "Der heutige Umsatz",
     "rental.dueAlert": "{n} Miete(n) fällig oder unbezahlt – offene Flotte zur Nachverfolgung",
-    "dashboard.rentalsCount": "Fahrzeugmieten ({n})"
+    "dashboard.rentalsCount": "Fahrzeugmieten ({n})",
+    "rental.viewFleet": "Flotte ansehen",
+    "dashboard.rentalShift": "Schicht der Fahrzeugvermietung"
   },
   "es": {
     "nav.vehiclerental": "Alquiler de vehículos",
@@ -381,7 +387,9 @@
     "rental.openFleet": "Flota abierta",
     "rental.todayRevenue": "Los ingresos de hoy",
     "rental.dueAlert": "{n} alquileres vencidos o impagos: abrir flota para realizar un seguimiento",
-    "dashboard.rentalsCount": "Alquiler de vehículos ({n})"
+    "dashboard.rentalsCount": "Alquiler de vehículos ({n})",
+    "rental.viewFleet": "Ver flota",
+    "dashboard.rentalShift": "Turno de alquiler de vehículos"
   },
   "fr": {
     "nav.vehiclerental": "Location de véhicules",
@@ -477,7 +485,9 @@
     "rental.openFleet": "Flotte ouverte",
     "rental.todayRevenue": "Les revenus d'aujourd'hui",
     "rental.dueAlert": "{n} location(s) due(s) ou impayées – flotte ouverte pour suivi",
-    "dashboard.rentalsCount": "Location de véhicules ({n})"
+    "dashboard.rentalsCount": "Location de véhicules ({n})",
+    "rental.viewFleet": "Voir la flotte",
+    "dashboard.rentalShift": "Changement de location de véhicules"
   },
   "he": {
     "nav.vehiclerental": "השכרת רכב",
@@ -573,7 +583,9 @@
     "rental.openFleet": "צי פתוח",
     "rental.todayRevenue": "ההכנסות של היום",
     "rental.dueAlert": "{n} שכירות בתשלום או ללא תשלום - צי פתוח למעקב",
-    "dashboard.rentalsCount": "השכרת רכב ({n})"
+    "dashboard.rentalsCount": "השכרת רכב ({n})",
+    "rental.viewFleet": "צפה בצי",
+    "dashboard.rentalShift": "משמרת השכרת רכב"
   },
   "hi": {
     "nav.vehiclerental": "वाहन किराया",
@@ -669,7 +681,9 @@
     "rental.openFleet": "खुला बेड़ा",
     "rental.todayRevenue": "आज का राजस्व",
     "rental.dueAlert": "{n} किराया देय या अवैतनिक - अनुवर्ती कार्रवाई के लिए खुला बेड़ा",
-    "dashboard.rentalsCount": "वाहन किराया ({n})"
+    "dashboard.rentalsCount": "वाहन किराया ({n})",
+    "rental.viewFleet": "बेड़ा देखें",
+    "dashboard.rentalShift": "वाहन किराया शिफ्ट"
   },
   "id": {
     "nav.vehiclerental": "Penyewaan Kendaraan",
@@ -765,7 +779,9 @@
     "rental.openFleet": "Armada terbuka",
     "rental.todayRevenue": "Pendapatan hari ini",
     "rental.dueAlert": "{n} sewa yang jatuh tempo atau belum dibayar — buka armada untuk ditindaklanjuti",
-    "dashboard.rentalsCount": "Penyewaan kendaraan ({n})"
+    "dashboard.rentalsCount": "Penyewaan kendaraan ({n})",
+    "rental.viewFleet": "Lihat armada",
+    "dashboard.rentalShift": "Pergeseran sewa kendaraan"
   },
   "it": {
     "nav.vehiclerental": "Noleggio veicoli",
@@ -861,7 +877,9 @@
     "rental.openFleet": "Flotta aperta",
     "rental.todayRevenue": "Le entrate di oggi",
     "rental.dueAlert": "{n} noleggi scaduti o non pagati: flotta aperta da seguire",
-    "dashboard.rentalsCount": "Noleggio veicoli ({n})"
+    "dashboard.rentalsCount": "Noleggio veicoli ({n})",
+    "rental.viewFleet": "Visualizza la flotta",
+    "dashboard.rentalShift": "Turno di noleggio veicoli"
   },
   "ja": {
     "nav.vehiclerental": "レンタカー",
@@ -957,7 +975,9 @@
     "rental.openFleet": "オープンフリート",
     "rental.todayRevenue": "今日の収益",
     "rental.dueAlert": "{n} 台のレンタルの期限または未払い — フリートを開放してフォローアップします",
-    "dashboard.rentalsCount": "レンタカー ({n})"
+    "dashboard.rentalsCount": "レンタカー ({n})",
+    "rental.viewFleet": "フリートを見る",
+    "dashboard.rentalShift": "レンタカーのシフト"
   },
   "ko": {
     "nav.vehiclerental": "차량대여",
@@ -1053,7 +1073,9 @@
     "rental.openFleet": "공개 함대",
     "rental.todayRevenue": "오늘의 수익",
     "rental.dueAlert": "{n} 렌트 만기 또는 미지급 - 후속 조치를 위해 차량 공개",
-    "dashboard.rentalsCount": "차량 렌탈({n})"
+    "dashboard.rentalsCount": "차량 렌탈({n})",
+    "rental.viewFleet": "차량 보기",
+    "dashboard.rentalShift": "차량 렌탈 교대"
   },
   "lo": {
     "nav.vehiclerental": "ການເຊົ່າຍານພາຫະນະ",
@@ -1149,7 +1171,9 @@
     "rental.openFleet": "ເປີດເຮືອ",
     "rental.todayRevenue": "ລາຍໄດ້ຂອງມື້ນີ້",
     "rental.dueAlert": "ການເຊົ່າ {n} ຮອດກຳນົດ ຫຼື ບໍ່ໄດ້ຈ່າຍ — ເປີດເຮືອເພື່ອຕິດຕາມ",
-    "dashboard.rentalsCount": "ການເຊົ່າພາຫະນະ ({n})"
+    "dashboard.rentalsCount": "ການເຊົ່າພາຫະນະ ({n})",
+    "rental.viewFleet": "ເບິ່ງເຮືອ",
+    "dashboard.rentalShift": "ການ​ປ່ຽນ​ແປງ​ການ​ເຊົ່າ​ລົດ​"
   },
   "nl": {
     "nav.vehiclerental": "Voertuigverhuur",
@@ -1245,7 +1269,9 @@
     "rental.openFleet": "Open vloot",
     "rental.todayRevenue": "De inkomsten van vandaag",
     "rental.dueAlert": "{n} huur(en) verschuldigd of onbetaald — open vloot om op te volgen",
-    "dashboard.rentalsCount": "Voertuigverhuur ({n})"
+    "dashboard.rentalsCount": "Voertuigverhuur ({n})",
+    "rental.viewFleet": "Bekijk vloot",
+    "dashboard.rentalShift": "Verschuiving autoverhuur"
   },
   "pl": {
     "nav.vehiclerental": "Wynajem pojazdów",
@@ -1341,7 +1367,9 @@
     "rental.openFleet": "Otwarta flota",
     "rental.todayRevenue": "Dzisiejsze dochody",
     "rental.dueAlert": "{n} czynsze należne lub nieopłacone — otwarta flota do sprawdzenia",
-    "dashboard.rentalsCount": "Wynajem pojazdów ({n})"
+    "dashboard.rentalsCount": "Wynajem pojazdów ({n})",
+    "rental.viewFleet": "Zobacz flotę",
+    "dashboard.rentalShift": "Zmiana wynajmu pojazdu"
   },
   "pt-BR": {
     "nav.vehiclerental": "Aluguel de veículos",
@@ -1437,7 +1465,9 @@
     "rental.openFleet": "Frota aberta",
     "rental.todayRevenue": "Receita de hoje",
     "rental.dueAlert": "{n} aluguel(s) vencido(s) ou não pago(s) — frota aberta para acompanhamento",
-    "dashboard.rentalsCount": "Aluguel de veículos ({n})"
+    "dashboard.rentalsCount": "Aluguel de veículos ({n})",
+    "rental.viewFleet": "Ver frota",
+    "dashboard.rentalShift": "Turno de aluguel de veículos"
   },
   "ru": {
     "nav.vehiclerental": "Прокат автомобилей",
@@ -1533,7 +1563,9 @@
     "rental.openFleet": "Открытый флот",
     "rental.todayRevenue": "Сегодняшний доход",
     "rental.dueAlert": "{n} арендная плата с оплаченным сроком или неоплаченная — открытый парк для дальнейшего наблюдения",
-    "dashboard.rentalsCount": "Прокат автомобилей ({n})"
+    "dashboard.rentalsCount": "Прокат автомобилей ({n})",
+    "rental.viewFleet": "Посмотреть автопарк",
+    "dashboard.rentalShift": "Смена аренды автомобилей"
   },
   "th": {
     "nav.vehiclerental": "รถเช่า",
@@ -1629,7 +1661,9 @@
     "rental.openFleet": "เปิดกองเรือ",
     "rental.todayRevenue": "รายได้วันนี้",
     "rental.dueAlert": "{n} ค่าเช่าที่ถึงกำหนดหรือค้างชำระ — เปิดกองเรือเพื่อติดตามผล",
-    "dashboard.rentalsCount": "การเช่ายานพาหนะ ({n})"
+    "dashboard.rentalsCount": "การเช่ายานพาหนะ ({n})",
+    "rental.viewFleet": "ดูกองเรือ",
+    "dashboard.rentalShift": "กะการเช่ายานพาหนะ"
   },
   "tr": {
     "nav.vehiclerental": "Araç Kiralama",
@@ -1725,7 +1759,9 @@
     "rental.openFleet": "Açık filo",
     "rental.todayRevenue": "Bugünkü gelir",
     "rental.dueAlert": "Vadesi gelmiş veya ödenmemiş {n} kira(lar) — takip edilecek açık filo",
-    "dashboard.rentalsCount": "Araç kiralama ({n})"
+    "dashboard.rentalsCount": "Araç kiralama ({n})",
+    "rental.viewFleet": "Filoyu görüntüle",
+    "dashboard.rentalShift": "Araç kiralama vardiyası"
   },
   "vi": {
     "nav.vehiclerental": "Cho thuê xe",
@@ -1821,7 +1857,9 @@
     "rental.openFleet": "Hạm đội mở",
     "rental.todayRevenue": "Doanh thu hôm nay",
     "rental.dueAlert": "{n} (các) tiền thuê đến hạn hoặc chưa thanh toán — mở đội xe để theo dõi",
-    "dashboard.rentalsCount": "Thuê phương tiện ({n})"
+    "dashboard.rentalsCount": "Thuê phương tiện ({n})",
+    "rental.viewFleet": "Xem đội tàu",
+    "dashboard.rentalShift": "Ca thuê xe"
   },
   "zh-Hans": {
     "nav.vehiclerental": "车辆租赁",
@@ -1917,7 +1955,9 @@
     "rental.openFleet": "开放舰队",
     "rental.todayRevenue": "今日收入",
     "rental.dueAlert": "{n} 笔到期或未付租金 — 开放车队进行跟进",
-    "dashboard.rentalsCount": "车辆租赁 ({n})"
+    "dashboard.rentalsCount": "车辆租赁 ({n})",
+    "rental.viewFleet": "查看机队",
+    "dashboard.rentalShift": "车辆租赁班次"
   },
   "zh-Hant": {
     "nav.vehiclerental": "車輛租賃",
@@ -2013,6 +2053,8 @@
     "rental.openFleet": "開放艦隊",
     "rental.todayRevenue": "今日收入",
     "rental.dueAlert": "{n} 筆到期或未付租金 — 開放車隊進行跟進",
-    "dashboard.rentalsCount": "車輛租賃 ({n})"
+    "dashboard.rentalsCount": "車輛租賃 ({n})",
+    "rental.viewFleet": "查看機隊",
+    "dashboard.rentalShift": "車輛租賃班次"
   }
 }

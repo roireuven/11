@@ -78,13 +78,31 @@ function rentGetFleetStats() {
     todayRev: rentRoundMoney(todayRev)
   };
 }
+function rentEnsureShiftOpen() {
+  if (typeof getActiveWorkPeriod !== 'function') return true;
+  if (getActiveWorkPeriod('Vehicle Rental')) return true;
+  if (typeof toast === 'function') toast(typeof t === 'function' ? t('msg.workPeriodNoActive') : 'Open a shift on the dashboard first.');
+  return false;
+}
+function rentRenderShiftNoticeHtml() {
+  if (typeof getActiveWorkPeriod !== 'function') return '';
+  var wp = getActiveWorkPeriod('Vehicle Rental');
+  if (wp) return '';
+  return '<div class="work-period-bar card rent-shift-notice" style="border-left:4px solid #c62828;margin-bottom:0.75rem;box-shadow:0 2px 8px rgba(0,0,0,0.06);">' +
+    '<div class="card-body" style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:0.75rem;">' +
+    '<div><strong style="font-size:0.72rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-light);">' +
+    (typeof t === 'function' ? t('dashboard.rentalShift') : 'Vehicle rental shift') + '</strong> ' +
+    '<span style="color:#c62828;">' + (typeof t === 'function' ? t('dashboard.workPeriodNoShift') : 'No open shift') + '</span></div>' +
+    '<button type="button" class="btn btn-sm btn-primary" onclick="showPage(\'dashboard\')">' +
+    (typeof t === 'function' ? t('dashboard.workPeriodOpen') : 'Open shift') + '</button></div></div>';
+}
 function rentRenderDashboardCardHtml() {
   if (typeof currentRole !== 'undefined' && currentRole === 'Housekeeper') return '';
   var s = rentGetFleetStats();
   var alert = s.due > 0 ? '<p class="rent-dash-alert">' + t('rental.dueAlert', { n: String(s.due) }) + '</p>' : '';
-  return '<div class="card rent-dash-card" style="margin-bottom:0.85rem;"><div class="card-header" style="flex-wrap:wrap;gap:0.5rem;"><h2>🚗 ' + t('pageTitle.vehiclerental') + '</h2>' +
-    '<div style="display:flex;gap:0.35rem;flex-wrap:wrap;"><button type="button" class="btn btn-sm btn-primary" onclick="showPage(\'vehiclerental\')">' + t('rental.openFleet') + '</button>' +
-    '<button type="button" class="btn btn-sm btn-outline" onclick="showAddVehicle()">+ ' + t('rental.addVehicle') + '</button></div></div>' +
+  return '<div class="card rent-dash-card" style="margin-bottom:0.85rem;cursor:pointer;" onclick="showPage(\'vehiclerental\')">' +
+    '<div class="card-header" style="flex-wrap:wrap;gap:0.5rem;"><h2>🚗 ' + t('pageTitle.vehiclerental') + '</h2>' +
+    '<span style="font-size:0.78rem;color:var(--text-light);">' + t('rental.viewFleet') + ' →</span></div>' +
     '<div class="card-body"><div class="stats-grid" style="margin-bottom:0.5rem;">' +
     '<div class="stat-card"><div class="stat-info"><h3>' + s.avail + '</h3><p>' + t('rental.stAvailable') + '</p></div></div>' +
     '<div class="stat-card"><div class="stat-info"><h3>' + s.out + '</h3><p>' + t('rental.stOut') + '</p></div></div>' +
@@ -532,9 +550,13 @@ window.rentFloorClick = function(vehicleId) {
   if (v.status === 'Maintenance') { toast(t('rental.inMaintenance')); return; }
   var active = rentGetActiveRentalForVehicle(vehicleId);
   if (active) rentOpenRentalDetail(active.id);
-  else rentOpenCheckoutModal(vehicleId);
+  else {
+    if (!rentEnsureShiftOpen()) return;
+    rentOpenCheckoutModal(vehicleId);
+  }
 };
 window.rentOpenCheckoutModal = function(vehicleId) {
+  if (!rentEnsureShiftOpen()) return;
   var v = vehicles.find(function(x) { return x.id === vehicleId; });
   if (!v) return;
   var ctx = rentFillContextFromSelection();
@@ -617,6 +639,7 @@ function rentBuildCheckoutRental(vehicleId) {
   };
 }
 window.rentSaveCheckoutWithPay = function(vehicleId, payMethod, skipCashModal) {
+  if (!rentEnsureShiftOpen()) return;
   var built = rentBuildCheckoutRental(vehicleId);
   if (!built) return;
   var rental = built.rental;
@@ -643,6 +666,7 @@ window.rentSaveCheckoutWithPay = function(vehicleId, payMethod, skipCashModal) {
 };
 window.rentSaveCheckout = function(vehicleId) { rentSaveCheckoutWithPay(vehicleId, 'Pending'); };
 window.rentPayRental = function(rentalId, payMethod, skipCashModal) {
+  if (!rentEnsureShiftOpen()) return;
   var r = vehicleRentals.find(function(x) { return x.id === rentalId; });
   if (!r) return;
   if (r.transactionId) { toast(typeof t === 'function' ? t('msg.alreadyCharged') : 'Already paid'); return; }
@@ -745,6 +769,7 @@ function rentApplyReturnFields(rentalId) {
   return r;
 }
 window.rentCompleteReturnWithPay = function(rentalId, payMethod, skipCashModal) {
+  if (!rentEnsureShiftOpen()) return;
   var draft = rentReadReturnDraft(rentalId);
   if (!draft) return;
   var pay = payMethod || 'Pending';
@@ -1005,7 +1030,7 @@ function renderVehicleRental() {
       '<p style="font-size:0.78rem;color:var(--text-light);margin:0 0 0.5rem;">' + t('rental.floorHint') + '</p>' +
       '<div class="rent-vehicle-floor">' + (tiles || '<p>' + t('rental.noVehicles') + '</p>') + '</div>';
   }
-  pg.innerHTML =
+  pg.innerHTML = rentRenderShiftNoticeHtml() +
     '<div class="card"><div class="card-header" style="flex-wrap:wrap;gap:0.5rem;"><h2>' + t('pageTitle.vehiclerental') + '</h2>' +
     '<div style="display:flex;gap:0.35rem;flex-wrap:wrap;"><button type="button" class="btn btn-sm btn-primary" onclick="showAddVehicle()">+ ' + t('rental.addVehicle') + '</button></div></div>' +
     '<div class="card-body">' + tabs +

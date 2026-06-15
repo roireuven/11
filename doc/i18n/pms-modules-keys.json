@@ -72,7 +72,6 @@
     "uRec": "الاستقبال",
     "uStf": "الموظفون",
     "uBtn": "حفظ",
-    "btnOpenRental": "Open Vehicle Rental",
     "btnAddVehicle": "Add Vehicle"
   },
   "de": {
@@ -148,7 +147,6 @@
     "uRec": "Rezeption",
     "uStf": "Personal",
     "uBtn": "Speichern",
-    "btnOpenRental": "Open Vehicle Rental",
     "btnAddVehicle": "Add Vehicle"
   },
   "en": {
@@ -165,7 +163,6 @@
     "btnAddShop": "Add Shop Item",
     "btnAddTx": "Add Transaction",
     "btnAddUsr": "Add User",
-    "btnOpenRental": "Open Vehicle Rental",
     "btnAddVehicle": "Add Vehicle",
     "rTitle": "Room",
     "rNum": "Room No.",
@@ -300,7 +297,6 @@
     "uRec": "Recepción",
     "uStf": "Personal",
     "uBtn": "Guardar",
-    "btnOpenRental": "Open Vehicle Rental",
     "btnAddVehicle": "Add Vehicle"
   },
   "fr": {
@@ -376,7 +372,6 @@
     "uRec": "Réception",
     "uStf": "Personnel",
     "uBtn": "Enregistrer",
-    "btnOpenRental": "Open Vehicle Rental",
     "btnAddVehicle": "Add Vehicle"
   },
   "he": {
@@ -452,7 +447,6 @@
     "uRec": "קבלה",
     "uStf": "צוות",
     "uBtn": "שמור",
-    "btnOpenRental": "Open Vehicle Rental",
     "btnAddVehicle": "Add Vehicle"
   },
   "hi": {
@@ -528,7 +522,6 @@
     "uRec": "रिसेप्शन",
     "uStf": "कर्मचारी",
     "uBtn": "सहेजें",
-    "btnOpenRental": "Open Vehicle Rental",
     "btnAddVehicle": "Add Vehicle"
   },
   "id": {
@@ -604,7 +597,6 @@
     "uRec": "Resepsi",
     "uStf": "Staf",
     "uBtn": "Simpan",
-    "btnOpenRental": "Open Vehicle Rental",
     "btnAddVehicle": "Add Vehicle"
   },
   "it": {
@@ -680,7 +672,6 @@
     "uRec": "Reception",
     "uStf": "Personale",
     "uBtn": "Salva",
-    "btnOpenRental": "Open Vehicle Rental",
     "btnAddVehicle": "Add Vehicle"
   },
   "ja": {
@@ -756,7 +747,6 @@
     "uRec": "フロント",
     "uStf": "スタッフ",
     "uBtn": "保存",
-    "btnOpenRental": "Open Vehicle Rental",
     "btnAddVehicle": "Add Vehicle"
   },
   "ko": {
@@ -832,7 +822,6 @@
     "uRec": "리셉션",
     "uStf": "직원",
     "uBtn": "저장",
-    "btnOpenRental": "Open Vehicle Rental",
     "btnAddVehicle": "Add Vehicle"
   },
   "lo": {
@@ -849,7 +838,6 @@
     "btnAddShop": "ເພີ່ມລາຍການຮ້ານຄ້າ",
     "btnAddTx": "ເພີ່ມທຸລະກໍາ",
     "btnAddUsr": "ເພີ່ມຜູ້ໃຊ້",
-    "btnOpenRental": "ເປີດໃຫ້ເຊົ່າຍານພາຫະນະ",
     "btnAddVehicle": "ເພີ່ມຍານພາຫະນະ",
     "rTitle": "ຫ້ອງ",
     "rNum": "ຫ້ອງ No.",
@@ -984,7 +972,6 @@
     "uRec": "Receptie",
     "uStf": "Personeel",
     "uBtn": "Opslaan",
-    "btnOpenRental": "Open Vehicle Rental",
     "btnAddVehicle": "Add Vehicle"
   },
   "pl": {
@@ -1001,7 +988,6 @@
     "btnAddShop": "Dodaj przedmiot w sklepie",
     "btnAddTx": "Dodaj transakcję",
     "btnAddUsr": "Dodaj użytkownika",
-    "btnOpenRental": "Otwórz wypożyczalnię pojazdów",
     "btnAddVehicle": "Dodaj pojazd",
     "rTitle": "Pokój",
     "rNum": "Pokój nr",
@@ -1136,7 +1122,6 @@
     "uRec": "Recepção",
     "uStf": "Equipe",
     "uBtn": "Salvar",
-    "btnOpenRental": "Open Vehicle Rental",
     "btnAddVehicle": "Add Vehicle"
   },
   "ru": {
@@ -1212,7 +1197,6 @@
     "uRec": "Ресепшен",
     "uStf": "Персонал",
     "uBtn": "Сохранить",
-    "btnOpenRental": "Open Vehicle Rental",
     "btnAddVehicle": "Add Vehicle"
   },
   "th": {
@@ -1288,7 +1272,6 @@
     "uRec": "แผนกต้อนรับ",
     "uStf": "พนักงาน",
     "uBtn": "บันทึก",
-    "btnOpenRental": "Open Vehicle Rental",
     "btnAddVehicle": "Add Vehicle"
   },
   "tr": {
@@ -1364,7 +1347,6 @@
     "uRec": "Resepsiyon",
     "uStf": "Personel",
     "uBtn": "Kaydet",
-    "btnOpenRental": "Open Vehicle Rental",
     "btnAddVehicle": "Add Vehicle"
   },
   "vi": {
@@ -1440,7 +1422,6 @@
     "uRec": "Lễ tân",
     "uStf": "Nhân viên",
     "uBtn": "Lưu",
-    "btnOpenRental": "Open Vehicle Rental",
     "btnAddVehicle": "Add Vehicle"
   },
   "zh-Hans": {
@@ -1516,7 +1497,6 @@
     "uRec": "前台",
     "uStf": "员工",
     "uBtn": "保存",
-    "btnOpenRental": "Open Vehicle Rental",
     "btnAddVehicle": "Add Vehicle"
   },
   "zh-Hant": {
@@ -1533,7 +1513,6 @@
     "btnAddShop": "添加商店商品",
     "btnAddTx": "新增交易",
     "btnAddUsr": "新增用戶",
-    "btnOpenRental": "開放式車輛租賃",
     "btnAddVehicle": "添加車輛",
     "rTitle": "房間",
     "rNum": "房號",

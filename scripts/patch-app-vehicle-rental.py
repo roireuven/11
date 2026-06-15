@@ -92,7 +92,7 @@ NORMALIZE_OLD = (
 )
 NORMALIZE_NEW = (
     "  if (s.indexOf('hotel') >= 0) return 'Hotel';\n"
-    "  if (s.indexOf('vehicle') >= 0 || s.indexOf('rental') >= 0) return 'Hotel';\n"
+    "  if (s.indexOf('vehicle') >= 0 || s.indexOf('rental') >= 0) return 'Vehicle Rental';\n"
     "  // PMS / room services, etc. (processSale source \"Service\")\n"
     "  if (s.indexOf('service') >= 0) return 'Hotel';"
 )

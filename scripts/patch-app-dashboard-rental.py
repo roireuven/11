@@ -1,13 +1,18 @@
 #!/usr/bin/env python3
-"""Dashboard vehicle rental integration — fleet card, PMS buttons, backup/restore, day drill-down."""
+"""Dashboard vehicle rental — fleet card, shift bar, backup/restore, day drill-down."""
 from __future__ import annotations
 
 import re
 import sys
 from pathlib import Path
 
-MARKER = "HRMM-DASHBOARD-RENTAL-v1"
+MARKER = "HRMM-DASHBOARD-RENTAL-v2"
 INDEX = Path("public/index.html")
+
+PMS_OPEN_RENTAL_BTN = (
+    "'<button type=\"button\" class=\"btn btn-primary pms-mod-btn\" "
+    "onclick=\"showPage(\\'vehiclerental\\')\">' + t('pms.btnOpenRental') + '</button>' +\n      "
+)
 
 PMS_BTN_ANCHOR = (
     "'<button type=\"button\" class=\"btn btn-primary pms-mod-btn\" "
@@ -18,10 +23,40 @@ PMS_BTN_NEW = (
     "'<button type=\"button\" class=\"btn btn-primary pms-mod-btn\" "
     "onclick=\"if(window.showAddAccount)showAddAccount()\">+ ' + t('pms.btnAddUsr') + '</button>' +\n"
     "      '<button type=\"button\" class=\"btn btn-primary pms-mod-btn\" "
-    "onclick=\"showPage(\\'vehiclerental\\')\">' + t('pms.btnOpenRental') + '</button>' +\n"
-    "      '<button type=\"button\" class=\"btn btn-primary pms-mod-btn\" "
     "onclick=\"if(window.showAddVehicle)showAddVehicle()\">+ ' + t('pms.btnAddVehicle') + '</button>' +\n"
     "      '</div></div></div>';"
+)
+
+WPBAR_TITLE_OLD = (
+    "    const title = dept === 'Restaurant' ? 'Restaurant shift' : "
+    "(dept === 'Hotel' ? 'Hotel shift' : 'Mini‑mart shift');"
+)
+WPBAR_TITLE_NEW = (
+    "    const title = dept === 'Restaurant' ? 'Restaurant shift' : "
+    "(dept === 'Hotel' ? 'Hotel shift' : (dept === 'Vehicle Rental' ? 'Vehicle rental shift' : 'Mini‑mart shift'));"
+)
+
+WPBAR_OLD = (
+    "  const wpBar = !isHK ? (_wpBarFor('Restaurant') + _wpBarFor('Mini-Mart') + _wpBarFor('Hotel')) : '';"
+)
+WPBAR_NEW = (
+    "  const wpBar = !isHK ? (_wpBarFor('Restaurant') + _wpBarFor('Mini-Mart') + "
+    "_wpBarFor('Hotel') + _wpBarFor('Vehicle Rental')) : '';"
+)
+
+NORMALIZE_RENTAL_HOTEL = (
+    "  if (s.indexOf('vehicle') >= 0 || s.indexOf('rental') >= 0) return 'Hotel';\n"
+)
+NORMALIZE_RENTAL_DEPT = (
+    "  if (s.indexOf('vehicle') >= 0 || s.indexOf('rental') >= 0) return 'Vehicle Rental';\n"
+)
+
+WP_REPORT_OLD = (
+    "  var byPay = {}, bySource = { 'Restaurant': 0, 'Mini-Mart': 0, 'POS': 0, 'Service': 0, 'Other': 0 };"
+)
+WP_REPORT_NEW = (
+    "  var byPay = {}, bySource = { 'Restaurant': 0, 'Mini-Mart': 0, 'POS': 0, 'Service': 0, "
+    "'Vehicle Rental': 0, 'Other': 0 };"
 )
 
 DASH_CARD_ANCHOR = "    bodyHtml += wpBar;"
@@ -106,13 +141,30 @@ def _replace(content: str, old: str, new: str, label: str) -> str:
 
 
 def patch(content: str) -> str:
+    content = re.sub(r"HRMM-DASHBOARD-RENTAL-v\d+", MARKER, content)
     if MARKER not in content:
         content = content.replace("</head>", f"  <!-- {MARKER} -->\n</head>", 1)
-    else:
-        content = re.sub(r"HRMM-DASHBOARD-RENTAL-v\d+", MARKER, content)
 
-    if "pms.btnOpenRental" not in content and PMS_BTN_ANCHOR in content:
-        content = _replace(content, PMS_BTN_ANCHOR, PMS_BTN_NEW, "PMS rental buttons")
+    if PMS_OPEN_RENTAL_BTN in content:
+        content = content.replace(PMS_OPEN_RENTAL_BTN, "", 1)
+
+    if "pms.btnAddVehicle" not in content and PMS_BTN_ANCHOR in content:
+        content = _replace(content, PMS_BTN_ANCHOR, PMS_BTN_NEW, "PMS add vehicle button")
+
+    if "_wpBarFor('Vehicle Rental')" not in content:
+        if WPBAR_TITLE_OLD in content:
+            content = content.replace(WPBAR_TITLE_OLD, WPBAR_TITLE_NEW, 1)
+        if WPBAR_OLD in content:
+            content = content.replace(WPBAR_OLD, WPBAR_NEW, 1)
+
+    if NORMALIZE_RENTAL_HOTEL in content:
+        content = content.replace(NORMALIZE_RENTAL_HOTEL, NORMALIZE_RENTAL_DEPT, 1)
+    elif "return 'Vehicle Rental';" not in content.split("normalizeDeptKey")[1][:400]:
+        pass  # vehicle-rental patch handles fresh installs
+
+    if "'Vehicle Rental': 0" not in content.split("workPeriodBuildReport")[1][:300]:
+        if WP_REPORT_OLD in content:
+            content = content.replace(WP_REPORT_OLD, WP_REPORT_NEW, 1)
 
     if "rentRenderDashboardCardHtml" not in content.split("renderDashboard")[1][:2500]:
         content = _replace(content, DASH_CARD_ANCHOR, DASH_CARD_NEW, "dashboard fleet card")
@@ -143,9 +195,6 @@ def main() -> int:
         return 1
     text = INDEX.read_text(encoding="utf-8")
     patched = patch(text)
-    if patched == text and MARKER in text:
-        print("Dashboard rental patch already applied.")
-        return 0
     INDEX.write_text(patched, encoding="utf-8")
     print(f"Patched {INDEX} ({MARKER})")
     return 0
