@@ -74,8 +74,11 @@ if (!html.includes("HRMM-LICENSE-v1") || !html.includes("hrmmExpectedLicenseKey"
 if (!html.includes("hrmmInvoicePrintFrame") || !html.includes("buildInvoicePrintBodyHtml")) {
   fail("app missing iframe invoice print (HRMM-INVOICE-PRINT-v6)");
 }
-if (!html.includes("HRMM-SHIFTS-v1") || !html.includes("migrateShiftsClosedByDefault")) {
-  fail("app missing shifts-closed-by-default patch (HRMM-SHIFTS-v1)");
+if (!html.includes("HRMM-SHIFTS-v2") || !html.includes("Vehicle Rental") || !html.includes("workPeriods.push")) {
+  fail("app missing shifts-open-by-default patch (HRMM-SHIFTS-v2)");
+}
+if (html.includes("migrateShiftsClosedByDefault")) {
+  fail("shifts must not auto-close (migrateShiftsClosedByDefault still present)");
 }
 if (!html.includes("HRMM-MOBILE-MENU-v4") || !html.includes("window.closeLangMenu") || !html.includes('id="langMenuBackdrop"')) {
   fail("app missing mobile phone UI patch (HRMM-MOBILE-MENU-v4)");

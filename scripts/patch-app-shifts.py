@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
-"""Work periods (shifts): closed by default until staff opens them."""
+"""Work periods (shifts): open by default (no auto-close)."""
 from __future__ import annotations
 
 import sys
+import re
 from pathlib import Path
 
-MARKER = "HRMM-SHIFTS-v1"
+MARKER = "HRMM-SHIFTS-v2"
 INDEX = Path("public/index.html")
 
 AUTO_OPEN_OLD = """if (!Array.isArray(workPeriods)) workPeriods = [];
@@ -15,33 +16,22 @@ if (workPeriods.length === 0) {
 }"""
 
 AUTO_OPEN_NEW = """if (!Array.isArray(workPeriods)) workPeriods = [];
-(function migrateShiftsClosedByDefault() {
-  var MK = DB_KEY + 'shiftsClosedByDefaultV1';
-  try { if (String(localStorage.getItem(MK) || '') === '1') return; } catch (e) { return; }
-  if (isAndroid) {
-    try { if (String(HotelDB.getSetting('shiftsClosedByDefaultV1') || '') === '1') return; } catch (e) {}
-  }
-  if (!Array.isArray(workPeriods)) return;
-  var changed = false;
-  workPeriods.forEach(function(wp) {
-    if (!wp || wp.status !== 'Open') return;
-    var hasTx = Array.isArray(transactions) && transactions.some(function(tx) { return tx && tx.workPeriodId === wp.id; });
-    if (hasTx) return;
-    wp.status = 'Closed';
-    wp.endTime = wp.endTime || new Date().toISOString();
-    wp.closingCash = wp.closingCash != null ? wp.closingCash : (parseFloat(wp.openingCash) || 0);
-    wp.cashVariance = wp.cashVariance != null ? wp.cashVariance : 0;
-    wp.closedBy = wp.closedBy || 'System';
-    changed = true;
-  });
-  if (changed) save('workPeriods', workPeriods);
-  try { localStorage.setItem(MK, '1'); } catch (e) {}
-  if (isAndroid) { try { HotelDB.saveSetting('shiftsClosedByDefaultV1', '1'); } catch (e) {} }
-})();"""
+// Ensure initial sample shifts are OPEN by default.
+if (workPeriods.length === 0) {
+  var now = new Date().toISOString();
+  var mk = function(dept, who) {
+    return { id: genId(), dept: dept, startTime: now, endTime: null, openingCash: 0, closingCash: null, cashVariance: null, status: 'Open', userId: '', userName: who || '—', closedBy: '' };
+  };
+  workPeriods.push(mk('Restaurant', '—'));
+  workPeriods.push(mk('Mini-Mart', '—'));
+  workPeriods.push(mk('Hotel', '—'));
+  workPeriods.push(mk('Vehicle Rental', '—'));
+  save('workPeriods', workPeriods);
+}"""
 
 
 def _is_fully_patched(content: str) -> bool:
-    return MARKER in content and "migrateShiftsClosedByDefault" in content and AUTO_OPEN_OLD not in content
+    return MARKER in content and "Vehicle Rental" in content and AUTO_OPEN_OLD not in content
 
 
 def patch(content: str) -> str:
@@ -49,14 +39,17 @@ def patch(content: str) -> str:
         print(f"Already patched {MARKER} — skipping")
         return content
 
-    if AUTO_OPEN_OLD not in content:
-        if "migrateShiftsClosedByDefault" in content:
-            print(f"Already patched {MARKER} — skipping")
-            return content
-        raise SystemExit("Could not find workPeriods auto-open block")
+    if AUTO_OPEN_OLD in content:
+        content = content.replace(AUTO_OPEN_OLD, AUTO_OPEN_NEW, 1)
+    else:
+        # Upgrade from HRMM-SHIFTS-v1 (migrateShiftsClosedByDefault) to v2
+        m = re.search(r"if\s*\(!Array\.isArray\(workPeriods\)\)\s*workPeriods\s*=\s*\[\];\n\(\s*function\s+migrateShiftsClosedByDefault\(\)[\s\S]*?\}\)\(\);\s*", content)
+        if m:
+            content = content[: m.start()] + AUTO_OPEN_NEW + content[m.end() :]
+        else:
+            raise SystemExit("Could not find workPeriods shift init block")
 
-    content = content.replace(AUTO_OPEN_OLD, AUTO_OPEN_NEW, 1)
-
+    content = re.sub(r"<!-- HRMM-SHIFTS-v\d+ -->", f"<!-- {MARKER} -->", content)
     if f"<!-- {MARKER} -->" not in content:
         content = content.replace(
             "<title>HotelRestaurantMini-MartManagement</title>",
@@ -75,7 +68,7 @@ def main() -> int:
         return 1
     text = index.read_text(encoding="utf-8")
     index.write_text(patch(text), encoding="utf-8")
-    print(f"Patched {index} — shifts closed by default until opened on dashboard")
+    print(f"Patched {index} — shifts open by default (no auto-close)")
     return 0
 
 
