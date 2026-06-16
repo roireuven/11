@@ -13,6 +13,14 @@
       ],
       "rewrites": [
         {
+          "source": "/paid",
+          "destination": "/paid.html"
+        },
+        {
+          "source": "/paid/**",
+          "destination": "/paid.html"
+        },
+        {
           "source": "**",
           "destination": "/index.html"
         }
@@ -74,6 +82,14 @@
       ],
       "rewrites": [
         {
+          "source": "/paid",
+          "destination": "/paid.html"
+        },
+        {
+          "source": "/paid/**",
+          "destination": "/paid.html"
+        },
+        {
           "source": "**",
           "destination": "/index.html"
         }
@@ -134,6 +150,14 @@
         "**/node_modules/**"
       ],
       "rewrites": [
+        {
+          "source": "/paid",
+          "destination": "/paid.html"
+        },
+        {
+          "source": "/paid/**",
+          "destination": "/paid.html"
+        },
         {
           "source": "**",
           "destination": "/index.html"

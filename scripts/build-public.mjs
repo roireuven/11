@@ -171,6 +171,9 @@ runPython("scripts/patch-app-vehicle-rental.py");
 console.log("Dashboard vehicle rental integration...");
 runPython("scripts/patch-app-dashboard-rental.py");
 
+console.log("Paid/trial licensing (paid.html + login gating)...");
+runPython("scripts/patch-app-license.py");
+
 console.log("Generating What's new v2.3/v2.4 documentation (21 locales)...");
 runPython("scripts/generate-whats-new-v2-docs.py");
 

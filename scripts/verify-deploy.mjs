@@ -24,6 +24,12 @@ try {
   fail("missing multilingual doc site under public/doc/");
 }
 
+try {
+  await stat(join(PUBLIC, "paid.html"));
+} catch {
+  fail("missing public/paid.html (licensed build)");
+}
+
 let html;
 try {
   html = await readFile(INDEX, "utf8");
@@ -61,6 +67,9 @@ if (!html.includes("function invoiceT") || !html.includes("refreshOpenInvoiceOve
 }
 if (!html.includes("HRMM-INVOICE-PRINT-v6")) {
   fail("app missing invoice print layout fix");
+}
+if (!html.includes("HRMM-LICENSE-v1") || !html.includes("hrmmExpectedLicenseKey")) {
+  fail("app missing paid/trial licensing patch (HRMM-LICENSE-v1)");
 }
 if (!html.includes("hrmmInvoicePrintFrame") || !html.includes("buildInvoicePrintBodyHtml")) {
   fail("app missing iframe invoice print (HRMM-INVOICE-PRINT-v6)");
