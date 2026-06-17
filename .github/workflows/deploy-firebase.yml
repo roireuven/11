@@ -5,6 +5,7 @@ on:
   push:
     branches: ["main"]
     paths:
+      - "index.html"
       - "doc/**"
       - "scripts/**"
       - "firebase.json"
