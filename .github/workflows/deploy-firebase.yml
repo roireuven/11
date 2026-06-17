@@ -38,6 +38,14 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Python build dependencies
+        run: pip install deep_translator
+
       - name: Build app + documentation bundle
         run: npm run build
 
