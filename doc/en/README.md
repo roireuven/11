@@ -14,7 +14,7 @@ Complete documentation for **HotelRestaurantMini-MartManagement** (**v2.4** — 
 | **Alternate domain** | [https://hotel-restaurant-minimart2-4.firebaseapp.com/](https://hotel-restaurant-minimart2-4.firebaseapp.com/) |
 | **Stable v2.3 (legacy snapshot)** | [https://hotel-restaurant-minimart2-3.web.app/](https://hotel-restaurant-minimart2-3.web.app/) |
 | **Development (manual deploy only)** | [https://hotel-restaurant-minimart.web.app/](https://hotel-restaurant-minimart.web.app/) |
-| **Android APK (related)** | [Hotel Manager landing page](https://roireuven.github.io/11/) |
+| **Sales landing (web only)** | [https://roireuven.github.io/11/](https://roireuven.github.io/11/) |
 
 Routine releases deploy to **v2.4 only** (`npm run deploy`). See [Deployment](deployment.md).
 
@@ -28,7 +28,7 @@ Routine releases deploy to **v2.4 only** (`npm run deploy`). See [Deployment](de
 | [Overview](overview.md) | What the system is, who it is for, key capabilities |
 | [Getting started](getting-started.md) | Quick start for owners and staff |
 | [Visual guide (screenshots)](visual-guide.md) | Illustrated UI tour with screenshots |
-| [Installation](installation.md) | Web, Android, and local development |
+| [Installation](installation.md) | Web hosting and local development |
 | [First-time setup](first-time-setup.md) | Create your system account and initial configuration |
 | [Demo credentials](demo-credentials.md) | Built-in demo users for testing |
 
