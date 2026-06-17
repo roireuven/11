@@ -30,6 +30,12 @@ try {
   fail("missing public/paid.html (licensed build)");
 }
 
+try {
+  await stat(join(PUBLIC, "sales.html"));
+} catch {
+  fail("missing public/sales.html (sales landing — run build)");
+}
+
 let html;
 try {
   html = await readFile(INDEX, "utf8");

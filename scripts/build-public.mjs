@@ -206,8 +206,13 @@ for (const loc of locales) {
 }
 
 const enMd = (await readdir(join(PUBLIC, "doc", "en"))).filter((f) => f.endsWith(".md")).length;
+
+console.log("Copying sales landing page to public/sales.html...");
+await cp(join(ROOT, "index.html"), join(PUBLIC, "sales.html"));
+
 console.log("Build complete.");
 console.log(`  App:  ${join(PUBLIC, "index.html")} (Documentation in Help menu, top bar, bottom nav)`);
+console.log(`  Sales: ${join(PUBLIC, "sales.html")} → /sales on Firebase`);
 console.log(`  Docs: ${join(PUBLIC, "doc")} (${locales.length} locales, ${enMd} English guides)`);
 console.log("");
 console.log("  npm run verify   — check bundle");

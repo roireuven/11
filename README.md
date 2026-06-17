@@ -1,19 +1,30 @@
 # Hotel Manager — Landing (GitHub Pages)
 
-Static landing page for the Android app.
+Static landing page for the **Integrated Business Solutions** web suite (hotel, restaurant, mini-mart, car rental) and Android app download.
+
+## Firebase addresses (production v2.4)
+
+| Purpose | URL |
+|--------|-----|
+| **30-day trial & licensed app** | [https://hotel-restaurant-minimart2-4.web.app/paid](https://hotel-restaurant-minimart2-4.web.app/paid) |
+| **Free web app** (no license gate) | [https://hotel-restaurant-minimart2-4.web.app/](https://hotel-restaurant-minimart2-4.web.app/) |
+| **Sales / pricing landing** | [https://hotel-restaurant-minimart2-4.web.app/sales](https://hotel-restaurant-minimart2-4.web.app/sales) |
+| **Documentation** (21 languages) | [https://hotel-restaurant-minimart2-4.web.app/doc/](https://hotel-restaurant-minimart2-4.web.app/doc/) |
+| **Alternate domain** (same v2.4) | [https://hotel-restaurant-minimart2-4.firebaseapp.com/](https://hotel-restaurant-minimart2-4.firebaseapp.com/) |
+| **Development** (manual deploy) | [https://hotel-restaurant-minimart.firebaseapp.com/](https://hotel-restaurant-minimart.firebaseapp.com/) |
+| **Legacy v2.3 snapshot** | [https://hotel-restaurant-minimart2-3.web.app/](https://hotel-restaurant-minimart2-3.web.app/) |
+
+GitHub Pages mirror of the sales landing: [https://roireuven.github.io/11/](https://roireuven.github.io/11/)
 
 ## Documentation
 
-Full documentation for **HotelRestaurantMini-MartManagement** (hotel, restaurant, mini-mart web app):
+Full documentation for **HotelRestaurantMini-MartManagement** (hotel, restaurant, mini-mart, vehicle rental web app):
 
 | Format | URL |
 |--------|-----|
-| **Docs site (Firebase)** | [https://hotel-restaurant-minimart.firebaseapp.com/doc/](https://hotel-restaurant-minimart.firebaseapp.com/doc/) |
+| **Docs site (Firebase v2.4)** | [https://hotel-restaurant-minimart2-4.web.app/doc/](https://hotel-restaurant-minimart2-4.web.app/doc/) |
 | **Docs site (GitHub Pages)** | [https://roireuven.github.io/11/doc/](https://roireuven.github.io/11/doc/) |
 | **Markdown source** | [doc/README.md](doc/README.md) |
-| **Stable v2.4 (production)** | [hotel-restaurant-minimart2-4.web.app](https://hotel-restaurant-minimart2-4.web.app/) |
-| **Stable v2.3 (legacy snapshot)** | [hotel-restaurant-minimart2-3.web.app](https://hotel-restaurant-minimart2-3.web.app/) |
-| **Development (not auto-deployed)** | [hotel-restaurant-minimart.web.app](https://hotel-restaurant-minimart.web.app/) |
 
 Deploy **app + documentation** to Firebase from repo root:
 

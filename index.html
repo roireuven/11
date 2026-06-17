@@ -3,24 +3,18 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Hotel Manager — hotel, restaurant, and mini-mart operations in one Android app." />
-  <title>Hotel Manager — Android App</title>
+  <meta name="description" content="The ultimate all-in-one business management suite — hotel, restaurant, mini-mart, and car rental in one platform. 30-day free trial." />
+  <title>Integrated Business Solutions — Hotel, Restaurant, MiniMart &amp; Car Rental</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
       theme: {
         extend: {
-          fontFamily: {
-            sans: ['Inter', 'system-ui', 'sans-serif'],
-          },
+          fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] },
           colors: {
             brand: {
-              50: '#eff6ff',
-              100: '#dbeafe',
-              500: '#3b82f6',
-              600: '#2563eb',
-              700: '#1d4ed8',
-              900: '#1e3a5f',
+              50: '#eff6ff', 100: '#dbeafe', 500: '#3b82f6',
+              600: '#2563eb', 700: '#1d4ed8', 900: '#1e3a5f',
             },
           },
           boxShadow: {
@@ -34,41 +28,38 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <!-- APK: roireuven/HotelManager-v7.4.1-release.apk @ main/app-debug.apk; if 404, try /master/ instead. -->
   <link rel="prefetch" href="https://raw.githubusercontent.com/roireuven/HotelManager-v7.4.1-release.apk/main/app-debug.apk" />
 </head>
 <body class="font-sans text-slate-800 antialiased bg-slate-50">
-  <!-- Nav -->
+  <!-- Firebase production URLs (v2.4 stable) -->
+  <script>
+    window.HRMM_URLS = {
+      app: 'https://hotel-restaurant-minimart2-4.web.app/',
+      trial: 'https://hotel-restaurant-minimart2-4.web.app/paid',
+      docs: 'https://hotel-restaurant-minimart2-4.web.app/doc/',
+      sales: 'https://hotel-restaurant-minimart2-4.web.app/sales',
+      paypal: '' // set your PayPal.me or Buy Now URL here
+    };
+  </script>
+
   <header class="sticky top-0 z-50 border-b border-slate-200/80 bg-white/90 backdrop-blur-md">
     <div class="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
       <a href="#" class="flex items-center gap-2 text-lg font-bold text-brand-900">
-        <span class="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-brand-600 to-brand-900 text-sm font-extrabold text-white shadow-sm">H</span>
-        <span>Hotel Manager</span>
+        <span class="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-brand-600 to-brand-900 text-sm font-extrabold text-white shadow-sm">IB</span>
+        <span class="hidden sm:inline">Integrated Business Solutions</span>
+        <span class="sm:hidden">IBS</span>
       </a>
       <div class="flex items-center gap-2 sm:gap-3">
-      <a
-        href="#web"
-        class="hidden sm:inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:border-brand-200 hover:text-brand-700"
-      >
-        <i class="fa-solid fa-globe" aria-hidden="true"></i>
-        Web system (30‑day free trial)
-      </a>
-      <a
-        href="https://hotel-restaurant-minimart.firebaseapp.com/doc/"
-        class="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:border-brand-200 hover:text-brand-700"
-      >
-        <i class="fa-solid fa-book" aria-hidden="true"></i>
-        Documentation
-      </a>
-      <a
-        href="https://raw.githubusercontent.com/roireuven/HotelManager-v7.4.1-release.apk/main/app-debug.apk"
-        download="app-debug.apk"
-        rel="noopener noreferrer"
-        class="inline-flex items-center gap-2 rounded-full bg-brand-600 px-4 py-2 text-sm font-semibold text-white shadow-md transition hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2"
-      >
-        <i class="fa-solid fa-download" aria-hidden="true"></i>
-        Download APK
-      </a>
+        <a href="#modules" class="hidden sm:inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:border-brand-200 hover:text-brand-700">Modules</a>
+        <a href="#pricing" class="hidden sm:inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:border-brand-200 hover:text-brand-700">Pricing</a>
+        <a href="https://hotel-restaurant-minimart2-4.web.app/doc/" class="hidden md:inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:border-brand-200 hover:text-brand-700">
+          <i class="fa-solid fa-book" aria-hidden="true"></i> Docs
+        </a>
+        <a href="https://hotel-restaurant-minimart2-4.web.app/paid" class="inline-flex items-center gap-2 rounded-full bg-brand-600 px-4 py-2 text-sm font-semibold text-white shadow-md transition hover:bg-brand-700">
+          <i class="fa-solid fa-rocket" aria-hidden="true"></i>
+          <span class="hidden sm:inline">Get Started Free</span>
+          <span class="sm:hidden">Start Free</span>
+        </a>
       </div>
     </div>
   </header>
@@ -77,233 +68,164 @@
     <!-- Hero -->
     <section class="relative overflow-hidden bg-gradient-to-b from-white via-slate-50 to-slate-100">
       <div class="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_80%_50%_at_50%_-20%,rgba(37,99,235,0.15),transparent)]"></div>
-      <div class="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-24 lg:px-8 lg:py-28">
-        <div class="flex flex-col gap-12 lg:flex-row lg:items-center lg:justify-between lg:gap-14">
-          <div class="mx-auto max-w-3xl flex-1 text-center lg:mx-0 lg:text-left">
-            <p class="mb-3 text-sm font-semibold uppercase tracking-wider text-brand-600">Android app · v7.4.1 (debug build · i18n)</p>
-            <h1 class="text-4xl font-extrabold tracking-tight text-slate-900 sm:text-5xl lg:text-6xl">
-              Run your hotel, restaurant &amp; shop — <span class="bg-gradient-to-r from-brand-600 to-cyan-600 bg-clip-text text-transparent">one app</span>
-            </h1>
-            <p class="mt-5 text-lg text-slate-600 sm:text-xl">
-              Bookings, housekeeping, POS, mini-mart, and billing — designed for front desk, F&amp;B, and managers on the go.
-            </p>
-            <div class="mt-10 flex flex-col items-stretch justify-center gap-3 sm:flex-row sm:items-center lg:justify-start">
-              <a
-                href="https://raw.githubusercontent.com/roireuven/HotelManager-v7.4.1-release.apk/main/app-debug.apk"
-                download="app-debug.apk"
-                rel="noopener noreferrer"
-                class="inline-flex items-center justify-center gap-2 rounded-xl bg-brand-600 px-8 py-4 text-base font-bold text-white shadow-lg shadow-brand-500/30 transition hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2"
-              >
-                <i class="fa-brands fa-android text-xl" aria-hidden="true"></i>
-                Download APK
-              </a>
-              <a href="#features" class="inline-flex items-center justify-center rounded-xl border-2 border-slate-200 bg-white px-8 py-4 text-base font-semibold text-slate-700 transition hover:border-brand-200 hover:text-brand-700">
-                See features
-              </a>
-            </div>
-            <p class="mt-4 text-sm text-slate-500">Free download · For Android devices</p>
-          </div>
-          <aside class="mx-auto w-full max-w-sm shrink-0 lg:mx-0" aria-labelledby="side-release-title">
-            <div class="sticky top-24 rounded-2xl border border-brand-200/90 bg-white p-6 shadow-soft ring-1 ring-brand-500/10">
-              <p class="text-xs font-bold uppercase tracking-wider text-brand-600">Download (GitHub file)</p>
-              <h2 id="side-release-title" class="mt-1 text-3xl font-extrabold tracking-tight text-slate-900">v7.4.1</h2>
-              <p class="mt-1 text-sm font-medium text-slate-700">Hotel Manager — <code class="text-xs">app-debug.apk</code> in repo HotelManager-v7.4.1-release.apk</p>
-              <p class="mt-2 text-sm leading-relaxed text-slate-600">Direct file link. To use a <strong>release</strong> build later, add <code class="text-xs">app-release.apk</code> to GitHub Releases on the main app repo and update this page.</p>
-              <a
-                href="https://raw.githubusercontent.com/roireuven/HotelManager-v7.4.1-release.apk/main/app-debug.apk"
-                download="app-debug.apk"
-                rel="noopener noreferrer"
-                class="mt-5 flex w-full items-center justify-center gap-2 rounded-xl bg-brand-600 py-3.5 text-sm font-bold text-white shadow-md transition hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2"
-              >
-                <i class="fa-solid fa-download" aria-hidden="true"></i>
-                Download APK
-              </a>
-              <a
-                href="https://github.com/roireuven/HotelManager-v7.4.1-release.apk"
-                rel="noopener noreferrer"
-                class="mt-3 flex w-full items-center justify-center gap-2 rounded-xl border border-slate-200 bg-slate-50 py-3 text-sm font-semibold text-slate-700 transition hover:border-brand-200 hover:bg-white hover:text-brand-700"
-              >
-                <i class="fa-solid fa-tag" aria-hidden="true"></i>
-                Release notes
-              </a>
-            </div>
-          </aside>
+      <div class="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-24 lg:px-8 lg:py-28 text-center">
+        <p class="mb-4 text-2xl sm:text-3xl" aria-hidden="true">🏨 🍔 🛒 🚗</p>
+        <h1 class="text-4xl font-extrabold tracking-tight text-slate-900 sm:text-5xl lg:text-6xl">
+          The Ultimate All-in-One<br class="hidden sm:block" />
+          <span class="bg-gradient-to-r from-brand-600 to-cyan-600 bg-clip-text text-transparent">Business Management Suite</span>
+        </h1>
+        <p class="mx-auto mt-6 max-w-3xl text-lg text-slate-600 sm:text-xl">
+          Streamline your <strong class="text-slate-800">Hotel</strong>, <strong class="text-slate-800">Restaurant</strong>, <strong class="text-slate-800">MiniMart</strong>, and <strong class="text-slate-800">Car Rental</strong> business with one powerful platform.
+        </p>
+        <p class="mx-auto mt-4 max-w-2xl text-base font-medium text-brand-700 sm:text-lg">
+          🚀 Experience seamless management, complete synchronization, and total control over your business operations.
+        </p>
+        <div class="mt-10 flex flex-col items-stretch justify-center gap-3 sm:flex-row sm:items-center">
+          <a href="https://hotel-restaurant-minimart2-4.web.app/paid" class="inline-flex items-center justify-center gap-2 rounded-xl bg-brand-600 px-8 py-4 text-base font-bold text-white shadow-lg shadow-brand-500/30 transition hover:bg-brand-700">
+            <i class="fa-solid fa-rocket" aria-hidden="true"></i>
+            Get Started for Free
+          </a>
+          <a href="#pricing" class="inline-flex items-center justify-center gap-2 rounded-xl border-2 border-slate-200 bg-white px-8 py-4 text-base font-semibold text-slate-700 transition hover:border-brand-200 hover:text-brand-700">
+            <i class="fa-solid fa-tag" aria-hidden="true"></i>
+            View Pricing
+          </a>
         </div>
+        <p class="mt-4 text-sm text-slate-500">30-day free trial · No credit card required</p>
       </div>
     </section>
 
-    <!-- Features -->
-    <section id="features" class="border-t border-slate-200 bg-white py-16 sm:py-20">
+    <!-- Value proposition -->
+    <section class="border-t border-slate-200 bg-white py-14 sm:py-18">
+      <div class="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 text-center">
+        <p class="text-lg leading-relaxed text-slate-600 sm:text-xl">
+          Managing multiple branches or diverse business sectors can be overwhelming. Our integrated software bridges the gap, allowing you to sync your hotel guests with your restaurant tables, manage your minimart inventory, and track your car rental fleet—all from a single, intuitive dashboard.
+        </p>
+      </div>
+    </section>
+
+    <!-- Core modules -->
+    <section id="modules" class="border-t border-slate-200 bg-slate-50 py-16 sm:py-20">
       <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <div class="text-center">
-          <h2 class="text-3xl font-bold text-slate-900 sm:text-4xl">Built for your property</h2>
-          <p class="mx-auto mt-3 max-w-2xl text-slate-600">Everything you need to coordinate rooms, services, and sales in one place.</p>
+          <h2 class="text-3xl font-bold text-slate-900 sm:text-4xl">🌟 Core Modules Designed for Growth</h2>
         </div>
-        <div class="mt-14 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-          <article class="rounded-2xl border border-slate-100 bg-slate-50/80 p-6 shadow-soft transition hover:border-brand-200 hover:shadow-lg">
-            <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-brand-100 text-brand-700">
-              <i class="fa-solid fa-hotel text-xl" aria-hidden="true"></i>
-            </div>
-            <h3 class="mt-4 text-lg font-bold text-slate-900">Hotel operations</h3>
-            <p class="mt-2 text-slate-600">Rooms, bookings, check-in/out, housekeeping, and invoicing so your front office stays in sync.</p>
+        <div class="mt-14 grid gap-8 sm:grid-cols-2">
+          <article class="rounded-2xl border border-slate-100 bg-white p-6 shadow-soft transition hover:border-brand-200 hover:shadow-lg">
+            <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-brand-100 text-2xl" aria-hidden="true">🏨</div>
+            <h3 class="mt-4 text-lg font-bold text-slate-900">Hotel Management</h3>
+            <p class="mt-2 text-slate-600">Smooth check-ins/check-outs, real-time room availability, and detailed guest profiles.</p>
           </article>
-          <article class="rounded-2xl border border-slate-100 bg-slate-50/80 p-6 shadow-soft transition hover:border-brand-200 hover:shadow-lg">
-            <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-emerald-100 text-emerald-700">
-              <i class="fa-solid fa-utensils text-xl" aria-hidden="true"></i>
-            </div>
-            <h3 class="mt-4 text-lg font-bold text-slate-900">Restaurant &amp; POS</h3>
-            <p class="mt-2 text-slate-600">Take orders, manage the kitchen queue, and settle tabs — with room-charge when you need it.</p>
+          <article class="rounded-2xl border border-slate-100 bg-white p-6 shadow-soft transition hover:border-brand-200 hover:shadow-lg">
+            <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-emerald-100 text-2xl" aria-hidden="true">🍔</div>
+            <h3 class="mt-4 text-lg font-bold text-slate-900">Restaurant POS</h3>
+            <p class="mt-2 text-slate-600">Seamless table mapping, fast order taking, and direct kitchen communication.</p>
           </article>
-          <article class="rounded-2xl border border-slate-100 bg-slate-50/80 p-6 shadow-soft transition hover:border-brand-200 hover:shadow-lg sm:col-span-2 sm:max-w-none lg:col-span-1">
-            <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-amber-100 text-amber-700">
-              <i class="fa-solid fa-chart-line text-xl" aria-hidden="true"></i>
-            </div>
-            <h3 class="mt-4 text-lg font-bold text-slate-900">Inventory &amp; insight</h3>
-            <p class="mt-2 text-slate-600">Mini-mart and F&amp;B stock, transactions, and reports to keep revenue and items under control.</p>
+          <article class="rounded-2xl border border-slate-100 bg-white p-6 shadow-soft transition hover:border-brand-200 hover:shadow-lg">
+            <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-amber-100 text-2xl" aria-hidden="true">🛒</div>
+            <h3 class="mt-4 text-lg font-bold text-slate-900">MiniMart &amp; Inventory</h3>
+            <p class="mt-2 text-slate-600">Advanced barcode support, real-time stock tracking, and fast point-of-sale checkout.</p>
+          </article>
+          <article class="rounded-2xl border border-slate-100 bg-white p-6 shadow-soft transition hover:border-brand-200 hover:shadow-lg">
+            <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-violet-100 text-2xl" aria-hidden="true">🚗</div>
+            <h3 class="mt-4 text-lg font-bold text-slate-900">Car Rental Fleet</h3>
+            <p class="mt-2 text-slate-600">Track vehicle availability, manage rental agreements, and monitor maintenance schedules.</p>
           </article>
         </div>
       </div>
     </section>
 
-    <!-- Web system (trial + license) -->
-    <section id="web" class="border-t border-slate-200 bg-white py-16 sm:py-20">
+    <!-- Pricing -->
+    <section id="pricing" class="border-t border-slate-200 bg-white py-16 sm:py-20">
       <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-        <div class="grid items-center gap-10 lg:grid-cols-2">
-          <div>
-            <p class="mb-2 text-sm font-semibold uppercase tracking-wider text-brand-600">Web app · hotel + restaurant + mini‑mart + vehicle rental</p>
-            <h2 class="text-3xl font-bold text-slate-900 sm:text-4xl">Try the full system free for 30 days</h2>
-            <p class="mt-4 text-lg text-slate-600">
-              Use the hosted web system in your browser. You can run shifts, manage rooms, take restaurant orders, mini‑mart POS sales, and vehicle rentals.
-            </p>
-            <ul class="mt-6 space-y-3 text-slate-700">
-              <li class="flex gap-3"><i class="fa-solid fa-circle-check mt-0.5 text-emerald-600" aria-hidden="true"></i><span><strong>30‑day free trial</strong> (no payment)</span></li>
-              <li class="flex gap-3"><i class="fa-solid fa-circle-check mt-0.5 text-emerald-600" aria-hidden="true"></i><span><strong>$100 / year</strong> license after trial (PayPal)</span></li>
-              <li class="flex gap-3"><i class="fa-solid fa-circle-check mt-0.5 text-emerald-600" aria-hidden="true"></i><span>Login with your email + password. Paid users get a license key.</span></li>
-            </ul>
-            <div class="mt-8 flex flex-col gap-3 sm:flex-row">
-              <a
-                href="https://hotel-restaurant-minimart2-4.web.app/paid"
-                class="inline-flex items-center justify-center gap-2 rounded-xl bg-brand-600 px-7 py-3.5 text-base font-bold text-white shadow-lg shadow-brand-500/30 transition hover:bg-brand-700"
-              >
-                <i class="fa-solid fa-rocket" aria-hidden="true"></i>
-                Start 30‑day trial (Licensed version)
-              </a>
-              <a
-                href="https://hotel-restaurant-minimart2-4.web.app/"
-                class="inline-flex items-center justify-center gap-2 rounded-xl border-2 border-slate-200 bg-white px-7 py-3.5 text-base font-semibold text-slate-700 transition hover:border-brand-200 hover:text-brand-700"
-              >
-                Open free version
-              </a>
-            </div>
-            <p class="mt-3 text-sm text-slate-500">
-              Tip: After paying, you receive a license key. Enter it on the sign‑in screen in the licensed version.
-            </p>
-          </div>
-          <div class="rounded-2xl border border-slate-200 bg-slate-50 p-6 shadow-soft">
-            <h3 class="text-xl font-bold text-slate-900">Pricing</h3>
-            <div class="mt-4 rounded-2xl border border-brand-200 bg-white p-6">
-              <p class="text-sm font-semibold uppercase tracking-wider text-brand-600">Annual license</p>
-              <p class="mt-2 text-4xl font-extrabold text-slate-900">$100<span class="text-base font-semibold text-slate-500">/year</span></p>
-              <p class="mt-2 text-sm text-slate-600">Includes 30‑day free trial. Pay with PayPal after trial ends.</p>
-              <div class="mt-5 flex flex-col gap-2">
-                <a
-                  href="#paypal"
-                  class="inline-flex items-center justify-center gap-2 rounded-xl bg-slate-900 px-6 py-3 text-sm font-bold text-white transition hover:bg-slate-800"
-                >
-                  <i class="fa-brands fa-paypal" aria-hidden="true"></i>
-                  Buy license with PayPal
-                </a>
-                <a
-                  href="https://hotel-restaurant-minimart.firebaseapp.com/doc/"
-                  class="inline-flex items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-6 py-3 text-sm font-semibold text-slate-700 transition hover:border-brand-200 hover:text-brand-700"
-                >
-                  <i class="fa-solid fa-book" aria-hidden="true"></i>
-                  Read full documentation
-                </a>
-              </div>
-            </div>
-            <div id="paypal" class="mt-5 text-sm text-slate-600">
-              <p class="font-semibold text-slate-800">PayPal checkout</p>
-              <p class="mt-1">
-                Add your PayPal checkout link here (PayPal.me or a hosted “Buy Now” button URL), then we will wire it into the licensed app page too.
-              </p>
-            </div>
-          </div>
+        <div class="text-center">
+          <h2 class="text-3xl font-bold text-slate-900 sm:text-4xl">💎 Simple, Transparent Pricing</h2>
+          <p class="mx-auto mt-3 max-w-2xl text-slate-600">No hidden fees. No complicated tiers. Choose the plan that fits your current stage.</p>
         </div>
-      </div>
-    </section>
-
-    <!-- About -->
-    <section id="about" class="border-t border-slate-200 bg-slate-100/80 py-16 sm:py-20">
-      <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-        <div class="grid items-center gap-10 lg:grid-cols-2">
-          <div>
-            <h2 class="text-3xl font-bold text-slate-900 sm:text-4xl">What is Hotel Manager?</h2>
-            <p class="mt-4 text-lg text-slate-600">
-              Hotel Manager is a mobile management system for hotels that also cover restaurant and retail-style sales. It helps staff handle daily operations — from room status and guest stays to F&amp;B orders and on-site shop sales — without juggling multiple tools.
-            </p>
-            <p class="mt-4 text-slate-600">
-              Ideal for <strong class="text-slate-800">front desk, housekeeping, F&amp;B, and management</strong> who need a fast, touch-friendly app on Android phones and tablets.
-            </p>
-          </div>
-          <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-soft">
-            <ul class="space-y-3 text-slate-700">
-              <li class="flex gap-3">
-                <i class="fa-solid fa-circle-check mt-0.5 text-emerald-600" aria-hidden="true"></i>
-                <span>All-in-one workflows for room + F&amp;B + shop</span>
-              </li>
-              <li class="flex gap-3">
-                <i class="fa-solid fa-circle-check mt-0.5 text-emerald-600" aria-hidden="true"></i>
-                <span>Role-aware experience for different staff (e.g. reception, kitchen)</span>
-              </li>
-              <li class="flex gap-3">
-                <i class="fa-solid fa-circle-check mt-0.5 text-emerald-600" aria-hidden="true"></i>
-                <span>Built for on-device use on Android</span>
-              </li>
-            </ul>
-            <a
-              href="https://raw.githubusercontent.com/roireuven/HotelManager-v7.4.1-release.apk/main/app-debug.apk"
-              download="app-debug.apk"
-              rel="noopener noreferrer"
-              class="mt-6 flex w-full items-center justify-center gap-2 rounded-xl bg-brand-600 py-3 font-semibold text-white transition hover:bg-brand-700"
-            >
-              <i class="fa-solid fa-download" aria-hidden="true"></i>
-              Get the APK
+        <div class="mt-14 grid gap-8 lg:grid-cols-2 lg:gap-10">
+          <!-- Free trial -->
+          <div class="rounded-2xl border-2 border-brand-200 bg-gradient-to-b from-brand-50 to-white p-8 shadow-soft">
+            <p class="text-sm font-bold uppercase tracking-wider text-brand-600">🆓 30-Day Free Trial</p>
+            <p class="mt-4 text-slate-600">Get full access to all features for 30 days. Experience the power of the platform with zero risk and no credit card required.</p>
+            <p class="mt-6 text-4xl font-extrabold text-slate-900">$0 <span class="text-lg font-semibold text-slate-500">/ first month</span></p>
+            <a href="https://hotel-restaurant-minimart2-4.web.app/paid" class="mt-8 flex w-full items-center justify-center gap-2 rounded-xl bg-brand-600 py-4 text-base font-bold text-white shadow-lg shadow-brand-500/30 transition hover:bg-brand-700">
+              <i class="fa-solid fa-rocket" aria-hidden="true"></i>
+              Get Started for Free
             </a>
           </div>
+          <!-- Annual license -->
+          <div class="rounded-2xl border border-slate-200 bg-slate-50 p-8 shadow-soft">
+            <p class="text-sm font-bold uppercase tracking-wider text-slate-600">💳 Full Annual License</p>
+            <p class="mt-4 text-slate-600">Unlock unlimited access to every single module, ongoing updates, and dedicated support for an entire year.</p>
+            <p class="mt-6 text-4xl font-extrabold text-slate-900">$100 <span class="text-lg font-semibold text-slate-500">/ year</span></p>
+            <a id="paypal-cta" href="#paypal" class="mt-8 flex w-full items-center justify-center gap-2 rounded-xl bg-slate-900 py-4 text-base font-bold text-white transition hover:bg-slate-800">
+              <i class="fa-brands fa-paypal" aria-hidden="true"></i>
+              Buy Now via PayPal
+            </a>
+            <p class="mt-3 text-center text-sm text-slate-500">After payment, enter your license key on the sign-in screen.</p>
+          </div>
+        </div>
+        <div id="paypal" class="mx-auto mt-10 max-w-2xl rounded-xl border border-slate-200 bg-slate-50 p-5 text-center text-sm text-slate-600">
+          <p class="font-semibold text-slate-800">PayPal checkout</p>
+          <p class="mt-1">Add your PayPal.me or hosted “Buy Now” URL in <code class="rounded bg-slate-200 px-1.5 py-0.5 text-xs">window.HRMM_URLS.paypal</code> at the top of this page to activate the button.</p>
         </div>
       </div>
     </section>
 
-    <!-- Install -->
-    <section id="install" class="border-t border-slate-200 bg-white py-16 sm:py-20">
-      <div class="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
-        <h2 class="text-center text-3xl font-bold text-slate-900 sm:text-4xl">How to install the APK</h2>
-        <p class="mt-3 text-center text-slate-600">Android blocks apps from outside the Play Store until you allow installs from your browser or files app.</p>
-        <ol class="mt-10 list-none space-y-4">
-          <li class="flex gap-4 rounded-xl border border-slate-200 bg-slate-50 p-4">
-            <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-brand-600 text-sm font-bold text-white">1</span>
-            <div>
-              <p class="font-semibold text-slate-900">Download the file</p>
-              <p class="mt-1 text-slate-600">Tap <strong>Download APK</strong> — your browser will save <code class="rounded bg-slate-200 px-1.5 py-0.5 text-sm">app-debug.apk</code> (public file in the <strong>HotelManager-v7.4.1-release.apk</strong> GitHub repo).</p>
-            </div>
-          </li>
-          <li class="flex gap-4 rounded-xl border border-slate-200 bg-slate-50 p-4">
-            <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-brand-600 text-sm font-bold text-white">2</span>
-            <div>
-              <p class="font-semibold text-slate-900">Allow unknown sources</p>
-              <p class="mt-1 text-slate-600">Open <strong>Settings</strong> → <strong>Apps</strong> → <strong>Special app access</strong> → <strong>Install unknown apps</strong> (wording may vary), then allow the app you use to open the APK (e.g. Chrome, Files, or <strong>Package installer</strong>).</p>
-            </div>
-          </li>
-          <li class="flex gap-4 rounded-xl border border-slate-200 bg-slate-50 p-4">
-            <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-brand-600 text-sm font-bold text-white">3</span>
-            <div>
-              <p class="font-semibold text-slate-900">Open &amp; install</p>
-              <p class="mt-1 text-slate-600">Open the downloaded APK from your notifications or file manager, then follow the prompts. You can disable unknown-source permission later if you prefer.</p>
-            </div>
-          </li>
-        </ol>
-        <p class="mt-6 text-center text-sm text-slate-500">On older Android versions, look for <strong>Settings → Security → Unknown sources</strong> or <strong>Install from unknown sources</strong>.</p>
+    <!-- Firebase addresses -->
+    <section id="urls" class="border-t border-slate-200 bg-slate-100/80 py-16 sm:py-20">
+      <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+        <div class="text-center">
+          <h2 class="text-3xl font-bold text-slate-900 sm:text-4xl">Live Firebase Addresses</h2>
+          <p class="mx-auto mt-3 max-w-2xl text-slate-600">Production hosting (stable v2.4). Bookmark these links for your team.</p>
+        </div>
+        <div class="mt-10 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-soft">
+          <table class="w-full text-left text-sm">
+            <thead class="border-b border-slate-200 bg-slate-50">
+              <tr>
+                <th class="px-4 py-3 font-semibold text-slate-700 sm:px-6">Purpose</th>
+                <th class="px-4 py-3 font-semibold text-slate-700 sm:px-6">URL</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100">
+              <tr>
+                <td class="px-4 py-4 font-medium text-slate-900 sm:px-6">30-day trial &amp; licensed app</td>
+                <td class="px-4 py-4 sm:px-6"><a href="https://hotel-restaurant-minimart2-4.web.app/paid" class="break-all font-medium text-brand-600 hover:text-brand-700">https://hotel-restaurant-minimart2-4.web.app/paid</a></td>
+              </tr>
+              <tr>
+                <td class="px-4 py-4 font-medium text-slate-900 sm:px-6">Free web app (no license gate)</td>
+                <td class="px-4 py-4 sm:px-6"><a href="https://hotel-restaurant-minimart2-4.web.app/" class="break-all font-medium text-brand-600 hover:text-brand-700">https://hotel-restaurant-minimart2-4.web.app/</a></td>
+              </tr>
+              <tr>
+                <td class="px-4 py-4 font-medium text-slate-900 sm:px-6">Documentation (21 languages)</td>
+                <td class="px-4 py-4 sm:px-6"><a href="https://hotel-restaurant-minimart2-4.web.app/doc/" class="break-all font-medium text-brand-600 hover:text-brand-700">https://hotel-restaurant-minimart2-4.web.app/doc/</a></td>
+              </tr>
+              <tr>
+                <td class="px-4 py-4 font-medium text-slate-900 sm:px-6">This sales page (Firebase mirror)</td>
+                <td class="px-4 py-4 sm:px-6"><a href="https://hotel-restaurant-minimart2-4.web.app/sales" class="break-all font-medium text-brand-600 hover:text-brand-700">https://hotel-restaurant-minimart2-4.web.app/sales</a></td>
+              </tr>
+              <tr>
+                <td class="px-4 py-4 font-medium text-slate-900 sm:px-6">Alternate domain (same v2.4 app)</td>
+                <td class="px-4 py-4 sm:px-6"><a href="https://hotel-restaurant-minimart2-4.firebaseapp.com/" class="break-all font-medium text-brand-600 hover:text-brand-700">https://hotel-restaurant-minimart2-4.firebaseapp.com/</a></td>
+              </tr>
+              <tr>
+                <td class="px-4 py-4 font-medium text-slate-900 sm:px-6">Development site (manual deploy)</td>
+                <td class="px-4 py-4 sm:px-6"><a href="https://hotel-restaurant-minimart.firebaseapp.com/" class="break-all font-medium text-brand-600 hover:text-brand-700">https://hotel-restaurant-minimart.firebaseapp.com/</a></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- Android APK (secondary) -->
+    <section id="android" class="border-t border-slate-200 bg-white py-14 sm:py-16">
+      <div class="mx-auto max-w-3xl px-4 text-center sm:px-6 lg:px-8">
+        <h2 class="text-2xl font-bold text-slate-900 sm:text-3xl">Also available on Android</h2>
+        <p class="mt-3 text-slate-600">Hotel Manager mobile app (v7.4.1) for on-the-go staff — hotel, restaurant, and mini-mart.</p>
+        <a href="https://raw.githubusercontent.com/roireuven/HotelManager-v7.4.1-release.apk/main/app-debug.apk" download="app-debug.apk" rel="noopener noreferrer" class="mt-6 inline-flex items-center justify-center gap-2 rounded-xl border-2 border-slate-200 bg-white px-6 py-3 text-sm font-semibold text-slate-700 transition hover:border-brand-200 hover:text-brand-700">
+          <i class="fa-brands fa-android text-lg" aria-hidden="true"></i>
+          Download APK
+        </a>
       </div>
     </section>
   </main>
@@ -311,13 +233,22 @@
   <footer class="border-t border-slate-200 bg-slate-900 py-10 text-slate-400">
     <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
       <div class="flex flex-col items-center justify-between gap-4 sm:flex-row">
-        <p class="text-sm">© <span id="y"></span> Hotel Manager. All rights reserved.</p>
-        <a href="https://raw.githubusercontent.com/roireuven/HotelManager-v7.4.1-release.apk/main/app-debug.apk" download="app-debug.apk" rel="noopener noreferrer" class="text-sm font-medium text-brand-400 hover:text-brand-300">Download APK (GitHub)</a>
+        <p class="text-sm">© 2026 Integrated Business Solutions. All rights reserved.</p>
+        <div class="flex flex-wrap items-center justify-center gap-4 text-sm">
+          <a href="https://hotel-restaurant-minimart2-4.web.app/paid" class="font-medium text-brand-400 hover:text-brand-300">Start free trial</a>
+          <a href="https://hotel-restaurant-minimart2-4.web.app/doc/" class="font-medium text-brand-400 hover:text-brand-300">Documentation</a>
+        </div>
       </div>
     </div>
   </footer>
   <script>
-    document.getElementById('y').textContent = new Date().getFullYear();
+    (function () {
+      var u = window.HRMM_URLS && window.HRMM_URLS.paypal ? String(window.HRMM_URLS.paypal).trim() : '';
+      if (u) {
+        var btn = document.getElementById('paypal-cta');
+        if (btn) { btn.href = u; btn.removeAttribute('href'); btn.setAttribute('href', u); }
+      }
+    })();
   </script>
 </body>
 </html>
