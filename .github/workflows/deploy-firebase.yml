@@ -5,6 +5,7 @@ on:
   push:
     branches: ["main"]
     paths:
+      - "index.html"
       - "doc/**"
       - "scripts/**"
       - "firebase.json"
@@ -51,4 +52,4 @@ jobs:
             echo "::error::FIREBASE_TOKEN secret is not set. Run 'firebase login:ci' locally and add the token to repo Settings → Secrets → Actions."
             exit 1
           fi
-          npx firebase deploy --only hosting --project hotel-restaurant-minimart --token "$FIREBASE_TOKEN" --non-interactive
+          npx firebase deploy --only hosting:stable24 --project hotel-restaurant-minimart --token "$FIREBASE_TOKEN" --non-interactive
