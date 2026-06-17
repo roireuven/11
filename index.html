@@ -52,6 +52,10 @@
       from { opacity: 0; transform: translateY(-4px); }
       to { opacity: 1; transform: translateY(0); }
     }
+    /* Help punctuation render naturally in RTL/LTR mixes */
+    .sales-text {
+      unicode-bidi: plaintext;
+    }
   </style>
 </head>
 <body class="font-sans text-slate-800 antialiased bg-slate-50">
@@ -69,7 +73,7 @@
       <a href="#" class="sales-brand-link flex items-center gap-2 text-lg font-bold text-brand-900">
         <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-brand-600 to-brand-900 text-sm font-extrabold text-white shadow-sm">IB</span>
         <span class="hidden sm:inline" data-i18n="hero_title">Integrated Business Solutions (IBS)</span>
-        <span class="sm:hidden">IBS</span>
+        <span class="sm:hidden" data-i18n="hero_title">Integrated Business Solutions (IBS)</span>
       </a>
       <div class="sales-header-actions flex items-center gap-2 sm:gap-3">
         <div class="relative" id="sales-lang-menu">
@@ -91,10 +95,12 @@
             aria-label="Choose language"
           ></ul>
         </div>
-        <a href="#modules" class="hidden sm:inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:border-brand-200 hover:text-brand-700">Modules</a>
-        <a href="#pricing" class="hidden sm:inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:border-brand-200 hover:text-brand-700">Pricing</a>
-        <a href="https://hotel-restaurant-minimart2-4.web.app/doc/" class="hidden md:inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:border-brand-200 hover:text-brand-700">
-          <i class="fa-solid fa-book" aria-hidden="true"></i> Docs
+        <a
+          href="https://hotel-restaurant-minimart2-4.web.app/doc/"
+          class="hidden md:inline-flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-600 shadow-sm transition hover:border-brand-200 hover:text-brand-700 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
+          aria-label="Documentation"
+        >
+          <i class="fa-solid fa-book" aria-hidden="true"></i>
         </a>
         <a href="https://hotel-restaurant-minimart2-4.web.app/paid" class="inline-flex items-center gap-2 rounded-full bg-brand-600 px-4 py-2 text-sm font-semibold text-white shadow-md transition hover:bg-brand-700">
           <i class="fa-solid fa-rocket" aria-hidden="true"></i>
@@ -109,10 +115,10 @@
       <div class="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_80%_50%_at_50%_-20%,rgba(37,99,235,0.15),transparent)]"></div>
       <div class="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-24 lg:px-8 lg:py-28 text-center">
         <p class="mb-4 text-2xl sm:text-3xl" aria-hidden="true">🏨 🍔 🛒 🚗</p>
-        <h1 class="text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl lg:text-5xl" data-i18n="hero_title">
+        <h1 class="sales-text text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl lg:text-5xl" data-i18n="hero_title">
           Integrated Business Solutions (IBS)
         </h1>
-        <p class="mx-auto mt-6 max-w-3xl text-lg text-slate-600 sm:text-xl" data-i18n="hero_sub">
+        <p class="sales-text mx-auto mt-6 max-w-3xl text-lg text-slate-600 sm:text-xl" data-i18n="hero_sub">
           The Ultimate All-in-One Management System for Hotels, Restaurants, MiniMarts, and Car Rentals.
         </p>
         <div class="sales-hero-ctas mt-10 flex flex-col items-stretch justify-center gap-3 sm:flex-row sm:items-center">
@@ -120,40 +126,35 @@
             <i class="fa-solid fa-rocket" aria-hidden="true"></i>
             <span data-i18n="cta_btn">Get Started Now</span>
           </a>
-          <a href="#pricing" class="inline-flex items-center justify-center gap-2 rounded-xl border-2 border-slate-200 bg-white px-8 py-4 text-base font-semibold text-slate-700 transition hover:border-brand-200 hover:text-brand-700">
+          <a href="#pricing" class="inline-flex items-center justify-center gap-2 rounded-xl border-2 border-slate-200 bg-white px-8 py-4 text-base font-semibold text-slate-700 transition hover:border-brand-200 hover:text-brand-700" aria-label="Pricing">
             <i class="fa-solid fa-tag" aria-hidden="true"></i>
-            View Pricing
           </a>
         </div>
-        <p class="mt-4 text-sm text-slate-500">30-day free trial · No credit card required</p>
       </div>
     </section>
 
     <section id="modules" class="border-t border-slate-200 bg-slate-50 py-16 sm:py-20">
       <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-        <div class="text-center">
-          <h2 class="text-3xl font-bold text-slate-900 sm:text-4xl">🌟 Core Modules</h2>
-        </div>
         <div class="mt-14 grid gap-8 sm:grid-cols-2">
           <article class="sales-module-card rounded-2xl border border-slate-100 bg-white p-6 shadow-soft transition hover:border-brand-200 hover:shadow-lg">
             <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-brand-100 text-2xl" aria-hidden="true">🏨</div>
-            <h3 class="mt-4 text-lg font-bold text-slate-900" data-i18n="hotel_title">Hotel Management</h3>
-            <p class="mt-2 text-slate-600" data-i18n="hotel_desc">Complete property management system, room bookings, check-in/out, and guest invoicing.</p>
+            <h3 class="sales-text mt-4 text-lg font-bold text-slate-900" data-i18n="hotel_title">Hotel Management</h3>
+            <p class="sales-text mt-2 text-slate-600" data-i18n="hotel_desc">Complete property management system, room bookings, check-in/out, and guest invoicing.</p>
           </article>
           <article class="sales-module-card rounded-2xl border border-slate-100 bg-white p-6 shadow-soft transition hover:border-brand-200 hover:shadow-lg">
             <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-emerald-100 text-2xl" aria-hidden="true">🍔</div>
-            <h3 class="mt-4 text-lg font-bold text-slate-900" data-i18n="rest_title">Restaurant POS</h3>
-            <p class="mt-2 text-slate-600" data-i18n="rest_desc">Advanced Point of Sale system, table management, digital menus, and kitchen ordering.</p>
+            <h3 class="sales-text mt-4 text-lg font-bold text-slate-900" data-i18n="rest_title">Restaurant POS</h3>
+            <p class="sales-text mt-2 text-slate-600" data-i18n="rest_desc">Advanced Point of Sale system, table management, digital menus, and kitchen ordering.</p>
           </article>
           <article class="sales-module-card rounded-2xl border border-slate-100 bg-white p-6 shadow-soft transition hover:border-brand-200 hover:shadow-lg">
             <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-amber-100 text-2xl" aria-hidden="true">🛒</div>
-            <h3 class="mt-4 text-lg font-bold text-slate-900" data-i18n="mart_title">MiniMart &amp; Inventory</h3>
-            <p class="mt-2 text-slate-600" data-i18n="mart_desc">Barcode scanning, stock control, supplier tracking, and automated inventory management.</p>
+            <h3 class="sales-text mt-4 text-lg font-bold text-slate-900" data-i18n="mart_title">MiniMart &amp; Inventory</h3>
+            <p class="sales-text mt-2 text-slate-600" data-i18n="mart_desc">Barcode scanning, stock control, supplier tracking, and automated inventory management.</p>
           </article>
           <article class="sales-module-card rounded-2xl border border-slate-100 bg-white p-6 shadow-soft transition hover:border-brand-200 hover:shadow-lg">
             <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-violet-100 text-2xl" aria-hidden="true">🚗</div>
-            <h3 class="mt-4 text-lg font-bold text-slate-900" data-i18n="car_title">Car Rental Fleet</h3>
-            <p class="mt-2 text-slate-600" data-i18n="car_desc">Vehicle availability tracking, rental agreements, maintenance logs, and driver scheduling.</p>
+            <h3 class="sales-text mt-4 text-lg font-bold text-slate-900" data-i18n="car_title">Car Rental Fleet</h3>
+            <p class="sales-text mt-2 text-slate-600" data-i18n="car_desc">Vehicle availability tracking, rental agreements, maintenance logs, and driver scheduling.</p>
           </article>
         </div>
       </div>
@@ -162,28 +163,28 @@
     <section id="pricing" class="border-t border-slate-200 bg-white py-16 sm:py-20">
       <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <div class="text-center">
-          <h2 class="text-3xl font-bold text-slate-900 sm:text-4xl">💎 Simple, Transparent Pricing</h2>
-          <p class="mx-auto mt-3 max-w-2xl text-slate-600">No hidden fees. No complicated tiers. Choose the plan that fits your current stage.</p>
+          <h2 class="sales-text text-3xl font-bold text-slate-900 sm:text-4xl" data-i18n="pricing_title">Simple, Transparent Pricing</h2>
+          <p class="sales-text mx-auto mt-3 max-w-2xl text-slate-600" data-i18n="pricing_sub">No hidden fees. No complicated tiers. Choose the plan that fits your current stage.</p>
         </div>
         <div class="mt-14 grid gap-8 lg:grid-cols-2 lg:gap-10">
           <div class="rounded-2xl border-2 border-brand-200 bg-gradient-to-b from-brand-50 to-white p-8 shadow-soft">
-            <p class="text-sm font-bold uppercase tracking-wider text-brand-600">🆓 30-Day Free Trial</p>
-            <p class="mt-4 text-slate-600">Get full access to all features for 30 days. Experience the power of the platform with zero risk and no credit card required.</p>
-            <p class="mt-6 text-4xl font-extrabold text-slate-900">$0 <span class="text-lg font-semibold text-slate-500">/ first month</span></p>
+            <p class="sales-text text-sm font-bold uppercase tracking-wider text-brand-600" data-i18n="free_trial_title">30-DAY FREE TRIAL</p>
+            <p class="sales-text mt-4 text-slate-600" data-i18n="free_trial_desc">Get full access to all features for 30 days. Experience the power of the platform with zero risk and no credit card required.</p>
+            <p class="sales-text mt-6 text-4xl font-extrabold text-slate-900" data-i18n="free_price">$0 / first month</p>
             <a href="https://hotel-restaurant-minimart2-4.web.app/paid" class="mt-8 flex w-full items-center justify-center gap-2 rounded-xl bg-brand-600 py-4 text-base font-bold text-white shadow-lg shadow-brand-500/30 transition hover:bg-brand-700">
               <i class="fa-solid fa-rocket" aria-hidden="true"></i>
               <span data-i18n="cta_btn">Get Started Now</span>
             </a>
           </div>
           <div class="rounded-2xl border border-slate-200 bg-slate-50 p-8 shadow-soft">
-            <p class="text-sm font-bold uppercase tracking-wider text-slate-600">💳 Full Annual License</p>
-            <p class="mt-4 text-slate-600">Unlock unlimited access to every single module, ongoing updates, and dedicated support for an entire year.</p>
-            <p class="mt-6 text-4xl font-extrabold text-slate-900">$100 <span class="text-lg font-semibold text-slate-500">/ year</span></p>
+            <p class="sales-text text-sm font-bold uppercase tracking-wider text-slate-600" data-i18n="annual_title">FULL ANNUAL LICENSE</p>
+            <p class="sales-text mt-4 text-slate-600" data-i18n="annual_desc">Unlock unlimited access to every single module, ongoing updates, and dedicated support for an entire year.</p>
+            <p class="sales-text mt-6 text-4xl font-extrabold text-slate-900" data-i18n="annual_price">$100 / year</p>
             <a id="paypal-cta" href="#" class="mt-8 flex w-full items-center justify-center gap-2 rounded-xl bg-slate-900 py-4 text-base font-bold text-white transition hover:bg-slate-800">
               <i class="fa-brands fa-paypal" aria-hidden="true"></i>
-              Buy Now via PayPal
+              <span class="sales-text" data-i18n="paypal_btn">Buy Now via PayPal</span>
             </a>
-            <p class="mt-3 text-center text-sm text-slate-500">After payment, enter your license key on the sign-in screen.</p>
+            <p class="sales-text mt-3 text-center text-sm text-slate-500" data-i18n="license_note">After payment, enter your license key on the sign-in screen.</p>
           </div>
         </div>
       </div>
@@ -191,13 +192,14 @@
   </main>
 
   <footer class="border-t border-slate-200 bg-slate-900 py-10 text-slate-400">
-    <div class="sales-footer-inner mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-4 sm:flex-row sm:px-6 lg:px-8">
-      <p class="text-sm">© 2026 Integrated Business Solutions. All rights reserved.</p>
+    <div class="sales-footer-inner mx-auto flex max-w-6xl flex-col items-center justify-center gap-4 px-4 sm:flex-row sm:px-6 lg:px-8">
       <div class="flex flex-wrap items-center justify-center gap-4 text-sm">
         <a href="https://hotel-restaurant-minimart2-4.web.app/paid" class="font-medium text-brand-400 hover:text-brand-300">
           <span data-i18n="cta_btn">Get Started Now</span>
         </a>
-        <a href="https://hotel-restaurant-minimart2-4.web.app/doc/" class="font-medium text-brand-400 hover:text-brand-300">Documentation</a>
+        <a href="https://hotel-restaurant-minimart2-4.web.app/doc/" class="font-medium text-brand-400 hover:text-brand-300" aria-label="Documentation">
+          <i class="fa-solid fa-book" aria-hidden="true"></i>
+        </a>
       </div>
     </div>
   </footer>
