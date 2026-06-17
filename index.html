@@ -41,6 +41,18 @@
     [dir="rtl"] .sales-brand-link {
       flex-direction: row-reverse;
     }
+    .sales-lang-select {
+      min-width: 8.5rem;
+      max-width: 11rem;
+    }
+    @media (max-width: 639px) {
+      .sales-lang-select {
+        min-width: 7rem;
+        max-width: 8.5rem;
+        font-size: 0.8125rem;
+        padding-inline-end: 1.75rem;
+      }
+    }
   </style>
 </head>
 <body class="font-sans text-slate-800 antialiased bg-slate-50">
@@ -61,6 +73,16 @@
         <span class="sm:hidden">IBS</span>
       </a>
       <div class="sales-header-actions flex items-center gap-2 sm:gap-3">
+        <label class="relative inline-flex items-center">
+          <span class="sr-only">Language</span>
+          <i class="fa-solid fa-globe pointer-events-none absolute start-3 top-1/2 -translate-y-1/2 text-sm text-slate-500" aria-hidden="true"></i>
+          <select
+            id="sales-lang-select"
+            class="sales-lang-select appearance-none rounded-full border border-slate-200 bg-white py-2 ps-9 pe-8 text-sm font-semibold text-slate-700 transition hover:border-brand-200 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
+            aria-label="Language"
+          ></select>
+          <i class="fa-solid fa-chevron-down pointer-events-none absolute end-3 top-1/2 -translate-y-1/2 text-xs text-slate-400" aria-hidden="true"></i>
+        </label>
         <a href="#modules" class="hidden sm:inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:border-brand-200 hover:text-brand-700">Modules</a>
         <a href="#pricing" class="hidden sm:inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:border-brand-200 hover:text-brand-700">Pricing</a>
         <a href="https://hotel-restaurant-minimart2-4.web.app/doc/" class="hidden md:inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:border-brand-200 hover:text-brand-700">
@@ -181,8 +203,7 @@
         if (btn) btn.href = u;
       }
       document.addEventListener('DOMContentLoaded', function () {
-        var lang = typeof detectSalesLanguage === 'function' ? detectSalesLanguage() : 'en';
-        if (typeof applyLanguage === 'function') applyLanguage(lang);
+        if (typeof initSalesLanguageUI === 'function') initSalesLanguageUI();
       });
     })();
   </script>

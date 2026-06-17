@@ -277,6 +277,33 @@ const translations = {
 
 const RTL_LANGS = new Set(["he", "ar"]);
 
+const SALES_LANG_STORAGE_KEY = "ibs-sales-lang";
+
+/** Display order + native labels for the language picker (21 languages). */
+const SALES_LANG_OPTIONS = [
+  { code: "en", label: "English" },
+  { code: "ar", label: "العربية" },
+  { code: "de", label: "Deutsch" },
+  { code: "es", label: "Español" },
+  { code: "fr", label: "Français" },
+  { code: "he", label: "עברית" },
+  { code: "hi", label: "हिन्दी" },
+  { code: "id", label: "Bahasa Indonesia" },
+  { code: "it", label: "Italiano" },
+  { code: "ja", label: "日本語" },
+  { code: "ko", label: "한국어" },
+  { code: "ms", label: "Bahasa Melayu" },
+  { code: "nl", label: "Nederlands" },
+  { code: "pl", label: "Polski" },
+  { code: "pt", label: "Português" },
+  { code: "ru", label: "Русский" },
+  { code: "th", label: "ไทย" },
+  { code: "tl", label: "Filipino" },
+  { code: "tur", label: "Türkçe" },
+  { code: "vi", label: "Tiếng Việt" },
+  { code: "zh", label: "中文" }
+];
+
 const LANG_ALIASES = {
   "pt-br": "pt",
   "pt-pt": "pt",
@@ -312,7 +339,18 @@ function detectSalesLanguage() {
   return "en";
 }
 
-function applyLanguage(langCode) {
+function getInitialSalesLanguage() {
+  try {
+    const saved = localStorage.getItem(SALES_LANG_STORAGE_KEY);
+    if (saved && translations[resolveSalesLanguage(saved)]) {
+      return resolveSalesLanguage(saved);
+    }
+  } catch (_) { /* private mode */ }
+  return detectSalesLanguage();
+}
+
+function applyLanguage(langCode, options) {
+  const opts = options || {};
   const lang = resolveSalesLanguage(langCode);
   const pack = translations[lang] || translations.en;
   const rtl = RTL_LANGS.has(lang);
@@ -327,6 +365,39 @@ function applyLanguage(langCode) {
     const text = pack[key];
     if (text != null) el.textContent = text;
   });
+
+  const select = document.getElementById("sales-lang-select");
+  if (select && select.value !== lang) select.value = lang;
+
+  if (opts.persist !== false) {
+    try {
+      localStorage.setItem(SALES_LANG_STORAGE_KEY, lang);
+    } catch (_) { /* private mode */ }
+  }
+}
+
+function initSalesLanguageUI() {
+  const select = document.getElementById("sales-lang-select");
+  if (!select) {
+    applyLanguage(getInitialSalesLanguage());
+    return;
+  }
+
+  if (!select.options.length) {
+    SALES_LANG_OPTIONS.forEach(function (opt) {
+      if (!translations[opt.code]) return;
+      const option = document.createElement("option");
+      option.value = opt.code;
+      option.textContent = opt.label;
+      select.appendChild(option);
+    });
+  }
+
+  select.addEventListener("change", function () {
+    applyLanguage(select.value);
+  });
+
+  applyLanguage(getInitialSalesLanguage());
 }
 
 if (typeof window !== "undefined") {
@@ -334,4 +405,7 @@ if (typeof window !== "undefined") {
   window.applyLanguage = applyLanguage;
   window.detectSalesLanguage = detectSalesLanguage;
   window.resolveSalesLanguage = resolveSalesLanguage;
+  window.getInitialSalesLanguage = getInitialSalesLanguage;
+  window.initSalesLanguageUI = initSalesLanguageUI;
+  window.SALES_LANG_OPTIONS = SALES_LANG_OPTIONS;
 }
