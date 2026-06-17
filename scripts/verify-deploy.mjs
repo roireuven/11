@@ -36,6 +36,12 @@ try {
   fail("missing public/sales.html (sales landing — run build)");
 }
 
+try {
+  await stat(join(PUBLIC, "sales-i18n.js"));
+} catch {
+  fail("missing public/sales-i18n.js (sales i18n — run build)");
+}
+
 let html;
 try {
   html = await readFile(INDEX, "utf8");

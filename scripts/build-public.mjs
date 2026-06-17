@@ -209,6 +209,7 @@ const enMd = (await readdir(join(PUBLIC, "doc", "en"))).filter((f) => f.endsWith
 
 console.log("Copying sales landing page to public/sales.html...");
 await cp(join(ROOT, "index.html"), join(PUBLIC, "sales.html"));
+await cp(join(ROOT, "sales-i18n.js"), join(PUBLIC, "sales-i18n.js"));
 
 console.log("Build complete.");
 console.log(`  App:  ${join(PUBLIC, "index.html")} (Documentation in Help menu, top bar, bottom nav)`);

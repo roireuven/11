@@ -6,6 +6,7 @@ on:
     branches: ["main"]
     paths:
       - "index.html"
+      - "sales-i18n.js"
       - "doc/**"
       - "scripts/**"
       - "firebase.json"

@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en" class="scroll-smooth" dir="ltr">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="The ultimate all-in-one business management suite — hotel, restaurant, mini-mart, and car rental in one platform. 30-day free trial." />
-  <title>Integrated Business Solutions — Hotel, Restaurant, MiniMart &amp; Car Rental</title>
+  <meta name="description" content="Integrated Business Solutions — all-in-one management for hotels, restaurants, mini-marts, and car rentals." />
+  <title>Integrated Business Solutions (IBS)</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -28,6 +28,20 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <style>
+    [dir="rtl"] .sales-header-inner,
+    [dir="rtl"] .sales-header-actions,
+    [dir="rtl"] .sales-hero-ctas,
+    [dir="rtl"] .sales-footer-inner {
+      flex-direction: row-reverse;
+    }
+    [dir="rtl"] .sales-module-card {
+      text-align: right;
+    }
+    [dir="rtl"] .sales-brand-link {
+      flex-direction: row-reverse;
+    }
+  </style>
 </head>
 <body class="font-sans text-slate-800 antialiased bg-slate-50">
   <script>
@@ -35,18 +49,18 @@
       app: 'https://hotel-restaurant-minimart2-4.web.app/',
       trial: 'https://hotel-restaurant-minimart2-4.web.app/paid',
       docs: 'https://hotel-restaurant-minimart2-4.web.app/doc/',
-      paypal: '' // set your PayPal.me or Buy Now URL here
+      paypal: ''
     };
   </script>
 
   <header class="sticky top-0 z-50 border-b border-slate-200/80 bg-white/90 backdrop-blur-md">
-    <div class="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
-      <a href="#" class="flex items-center gap-2 text-lg font-bold text-brand-900">
-        <span class="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-brand-600 to-brand-900 text-sm font-extrabold text-white shadow-sm">IB</span>
-        <span class="hidden sm:inline">Integrated Business Solutions</span>
+    <div class="sales-header-inner mx-auto flex max-w-6xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
+      <a href="#" class="sales-brand-link flex items-center gap-2 text-lg font-bold text-brand-900">
+        <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-brand-600 to-brand-900 text-sm font-extrabold text-white shadow-sm">IB</span>
+        <span class="hidden sm:inline" data-i18n="hero_title">Integrated Business Solutions (IBS)</span>
         <span class="sm:hidden">IBS</span>
       </a>
-      <div class="flex items-center gap-2 sm:gap-3">
+      <div class="sales-header-actions flex items-center gap-2 sm:gap-3">
         <a href="#modules" class="hidden sm:inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:border-brand-200 hover:text-brand-700">Modules</a>
         <a href="#pricing" class="hidden sm:inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:border-brand-200 hover:text-brand-700">Pricing</a>
         <a href="https://hotel-restaurant-minimart2-4.web.app/doc/" class="hidden md:inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:border-brand-200 hover:text-brand-700">
@@ -54,33 +68,27 @@
         </a>
         <a href="https://hotel-restaurant-minimart2-4.web.app/paid" class="inline-flex items-center gap-2 rounded-full bg-brand-600 px-4 py-2 text-sm font-semibold text-white shadow-md transition hover:bg-brand-700">
           <i class="fa-solid fa-rocket" aria-hidden="true"></i>
-          <span class="hidden sm:inline">Get Started Free</span>
-          <span class="sm:hidden">Start Free</span>
+          <span data-i18n="cta_btn">Get Started Now</span>
         </a>
       </div>
     </div>
   </header>
 
   <main>
-    <!-- Hero -->
     <section class="relative overflow-hidden bg-gradient-to-b from-white via-slate-50 to-slate-100">
       <div class="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_80%_50%_at_50%_-20%,rgba(37,99,235,0.15),transparent)]"></div>
       <div class="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-24 lg:px-8 lg:py-28 text-center">
         <p class="mb-4 text-2xl sm:text-3xl" aria-hidden="true">🏨 🍔 🛒 🚗</p>
-        <h1 class="text-4xl font-extrabold tracking-tight text-slate-900 sm:text-5xl lg:text-6xl">
-          The Ultimate All-in-One<br class="hidden sm:block" />
-          <span class="bg-gradient-to-r from-brand-600 to-cyan-600 bg-clip-text text-transparent">Business Management Suite</span>
+        <h1 class="text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl lg:text-5xl" data-i18n="hero_title">
+          Integrated Business Solutions (IBS)
         </h1>
-        <p class="mx-auto mt-6 max-w-3xl text-lg text-slate-600 sm:text-xl">
-          Streamline your <strong class="text-slate-800">Hotel</strong>, <strong class="text-slate-800">Restaurant</strong>, <strong class="text-slate-800">MiniMart</strong>, and <strong class="text-slate-800">Car Rental</strong> business with one powerful platform.
+        <p class="mx-auto mt-6 max-w-3xl text-lg text-slate-600 sm:text-xl" data-i18n="hero_sub">
+          The Ultimate All-in-One Management System for Hotels, Restaurants, MiniMarts, and Car Rentals.
         </p>
-        <p class="mx-auto mt-4 max-w-2xl text-base font-medium text-brand-700 sm:text-lg">
-          🚀 Experience seamless management, complete synchronization, and total control over your business operations.
-        </p>
-        <div class="mt-10 flex flex-col items-stretch justify-center gap-3 sm:flex-row sm:items-center">
+        <div class="sales-hero-ctas mt-10 flex flex-col items-stretch justify-center gap-3 sm:flex-row sm:items-center">
           <a href="https://hotel-restaurant-minimart2-4.web.app/paid" class="inline-flex items-center justify-center gap-2 rounded-xl bg-brand-600 px-8 py-4 text-base font-bold text-white shadow-lg shadow-brand-500/30 transition hover:bg-brand-700">
             <i class="fa-solid fa-rocket" aria-hidden="true"></i>
-            Get Started for Free
+            <span data-i18n="cta_btn">Get Started Now</span>
           </a>
           <a href="#pricing" class="inline-flex items-center justify-center gap-2 rounded-xl border-2 border-slate-200 bg-white px-8 py-4 text-base font-semibold text-slate-700 transition hover:border-brand-200 hover:text-brand-700">
             <i class="fa-solid fa-tag" aria-hidden="true"></i>
@@ -91,47 +99,36 @@
       </div>
     </section>
 
-    <!-- Value proposition -->
-    <section class="border-t border-slate-200 bg-white py-14 sm:py-18">
-      <div class="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 text-center">
-        <p class="text-lg leading-relaxed text-slate-600 sm:text-xl">
-          Managing multiple branches or diverse business sectors can be overwhelming. Our integrated software bridges the gap, allowing you to sync your hotel guests with your restaurant tables, manage your minimart inventory, and track your car rental fleet—all from a single, intuitive dashboard.
-        </p>
-      </div>
-    </section>
-
-    <!-- Core modules -->
     <section id="modules" class="border-t border-slate-200 bg-slate-50 py-16 sm:py-20">
       <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <div class="text-center">
-          <h2 class="text-3xl font-bold text-slate-900 sm:text-4xl">🌟 Core Modules Designed for Growth</h2>
+          <h2 class="text-3xl font-bold text-slate-900 sm:text-4xl">🌟 Core Modules</h2>
         </div>
         <div class="mt-14 grid gap-8 sm:grid-cols-2">
-          <article class="rounded-2xl border border-slate-100 bg-white p-6 shadow-soft transition hover:border-brand-200 hover:shadow-lg">
+          <article class="sales-module-card rounded-2xl border border-slate-100 bg-white p-6 shadow-soft transition hover:border-brand-200 hover:shadow-lg">
             <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-brand-100 text-2xl" aria-hidden="true">🏨</div>
-            <h3 class="mt-4 text-lg font-bold text-slate-900">Hotel Management</h3>
-            <p class="mt-2 text-slate-600">Smooth check-ins/check-outs, real-time room availability, and detailed guest profiles.</p>
+            <h3 class="mt-4 text-lg font-bold text-slate-900" data-i18n="hotel_title">Hotel Management</h3>
+            <p class="mt-2 text-slate-600" data-i18n="hotel_desc">Complete property management system, room bookings, check-in/out, and guest invoicing.</p>
           </article>
-          <article class="rounded-2xl border border-slate-100 bg-white p-6 shadow-soft transition hover:border-brand-200 hover:shadow-lg">
+          <article class="sales-module-card rounded-2xl border border-slate-100 bg-white p-6 shadow-soft transition hover:border-brand-200 hover:shadow-lg">
             <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-emerald-100 text-2xl" aria-hidden="true">🍔</div>
-            <h3 class="mt-4 text-lg font-bold text-slate-900">Restaurant POS</h3>
-            <p class="mt-2 text-slate-600">Seamless table mapping, fast order taking, and direct kitchen communication.</p>
+            <h3 class="mt-4 text-lg font-bold text-slate-900" data-i18n="rest_title">Restaurant POS</h3>
+            <p class="mt-2 text-slate-600" data-i18n="rest_desc">Advanced Point of Sale system, table management, digital menus, and kitchen ordering.</p>
           </article>
-          <article class="rounded-2xl border border-slate-100 bg-white p-6 shadow-soft transition hover:border-brand-200 hover:shadow-lg">
+          <article class="sales-module-card rounded-2xl border border-slate-100 bg-white p-6 shadow-soft transition hover:border-brand-200 hover:shadow-lg">
             <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-amber-100 text-2xl" aria-hidden="true">🛒</div>
-            <h3 class="mt-4 text-lg font-bold text-slate-900">MiniMart &amp; Inventory</h3>
-            <p class="mt-2 text-slate-600">Advanced barcode support, real-time stock tracking, and fast point-of-sale checkout.</p>
+            <h3 class="mt-4 text-lg font-bold text-slate-900" data-i18n="mart_title">MiniMart &amp; Inventory</h3>
+            <p class="mt-2 text-slate-600" data-i18n="mart_desc">Barcode scanning, stock control, supplier tracking, and automated inventory management.</p>
           </article>
-          <article class="rounded-2xl border border-slate-100 bg-white p-6 shadow-soft transition hover:border-brand-200 hover:shadow-lg">
+          <article class="sales-module-card rounded-2xl border border-slate-100 bg-white p-6 shadow-soft transition hover:border-brand-200 hover:shadow-lg">
             <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-violet-100 text-2xl" aria-hidden="true">🚗</div>
-            <h3 class="mt-4 text-lg font-bold text-slate-900">Car Rental Fleet</h3>
-            <p class="mt-2 text-slate-600">Track vehicle availability, manage rental agreements, and monitor maintenance schedules.</p>
+            <h3 class="mt-4 text-lg font-bold text-slate-900" data-i18n="car_title">Car Rental Fleet</h3>
+            <p class="mt-2 text-slate-600" data-i18n="car_desc">Vehicle availability tracking, rental agreements, maintenance logs, and driver scheduling.</p>
           </article>
         </div>
       </div>
     </section>
 
-    <!-- Pricing -->
     <section id="pricing" class="border-t border-slate-200 bg-white py-16 sm:py-20">
       <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <div class="text-center">
@@ -139,17 +136,15 @@
           <p class="mx-auto mt-3 max-w-2xl text-slate-600">No hidden fees. No complicated tiers. Choose the plan that fits your current stage.</p>
         </div>
         <div class="mt-14 grid gap-8 lg:grid-cols-2 lg:gap-10">
-          <!-- Free trial -->
           <div class="rounded-2xl border-2 border-brand-200 bg-gradient-to-b from-brand-50 to-white p-8 shadow-soft">
             <p class="text-sm font-bold uppercase tracking-wider text-brand-600">🆓 30-Day Free Trial</p>
             <p class="mt-4 text-slate-600">Get full access to all features for 30 days. Experience the power of the platform with zero risk and no credit card required.</p>
             <p class="mt-6 text-4xl font-extrabold text-slate-900">$0 <span class="text-lg font-semibold text-slate-500">/ first month</span></p>
             <a href="https://hotel-restaurant-minimart2-4.web.app/paid" class="mt-8 flex w-full items-center justify-center gap-2 rounded-xl bg-brand-600 py-4 text-base font-bold text-white shadow-lg shadow-brand-500/30 transition hover:bg-brand-700">
               <i class="fa-solid fa-rocket" aria-hidden="true"></i>
-              Get Started for Free
+              <span data-i18n="cta_btn">Get Started Now</span>
             </a>
           </div>
-          <!-- Annual license -->
           <div class="rounded-2xl border border-slate-200 bg-slate-50 p-8 shadow-soft">
             <p class="text-sm font-bold uppercase tracking-wider text-slate-600">💳 Full Annual License</p>
             <p class="mt-4 text-slate-600">Unlock unlimited access to every single module, ongoing updates, and dedicated support for an entire year.</p>
@@ -166,23 +161,29 @@
   </main>
 
   <footer class="border-t border-slate-200 bg-slate-900 py-10 text-slate-400">
-    <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-      <div class="flex flex-col items-center justify-between gap-4 sm:flex-row">
-        <p class="text-sm">© 2026 Integrated Business Solutions. All rights reserved.</p>
-        <div class="flex flex-wrap items-center justify-center gap-4 text-sm">
-          <a href="https://hotel-restaurant-minimart2-4.web.app/paid" class="font-medium text-brand-400 hover:text-brand-300">Start free trial</a>
-          <a href="https://hotel-restaurant-minimart2-4.web.app/doc/" class="font-medium text-brand-400 hover:text-brand-300">Documentation</a>
-        </div>
+    <div class="sales-footer-inner mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-4 sm:flex-row sm:px-6 lg:px-8">
+      <p class="text-sm">© 2026 Integrated Business Solutions. All rights reserved.</p>
+      <div class="flex flex-wrap items-center justify-center gap-4 text-sm">
+        <a href="https://hotel-restaurant-minimart2-4.web.app/paid" class="font-medium text-brand-400 hover:text-brand-300">
+          <span data-i18n="cta_btn">Get Started Now</span>
+        </a>
+        <a href="https://hotel-restaurant-minimart2-4.web.app/doc/" class="font-medium text-brand-400 hover:text-brand-300">Documentation</a>
       </div>
     </div>
   </footer>
+
+  <script src="sales-i18n.js"></script>
   <script>
     (function () {
       var u = window.HRMM_URLS && window.HRMM_URLS.paypal ? String(window.HRMM_URLS.paypal).trim() : '';
       if (u) {
         var btn = document.getElementById('paypal-cta');
-        if (btn) { btn.href = u; btn.removeAttribute('href'); btn.setAttribute('href', u); }
+        if (btn) btn.href = u;
       }
+      document.addEventListener('DOMContentLoaded', function () {
+        var lang = typeof detectSalesLanguage === 'function' ? detectSalesLanguage() : 'en';
+        if (typeof applyLanguage === 'function') applyLanguage(lang);
+      });
     })();
   </script>
 </body>
