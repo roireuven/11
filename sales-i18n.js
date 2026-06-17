@@ -366,8 +366,13 @@ function applyLanguage(langCode, options) {
     if (text != null) el.textContent = text;
   });
 
-  const select = document.getElementById("sales-lang-select");
-  if (select && select.value !== lang) select.value = lang;
+  document.querySelectorAll("#sales-lang-list [role='option']").forEach(function (item) {
+    const active = item.getAttribute("data-lang") === lang;
+    item.setAttribute("aria-selected", active ? "true" : "false");
+    item.classList.toggle("bg-brand-50", active);
+    item.classList.toggle("text-brand-700", active);
+    item.classList.toggle("font-semibold", active);
+  });
 
   if (opts.persist !== false) {
     try {
@@ -376,25 +381,76 @@ function applyLanguage(langCode, options) {
   }
 }
 
+function closeSalesLangMenu() {
+  const btn = document.getElementById("sales-lang-btn");
+  const list = document.getElementById("sales-lang-list");
+  if (!list || !btn) return;
+  list.classList.add("hidden");
+  btn.setAttribute("aria-expanded", "false");
+}
+
+function openSalesLangMenu() {
+  const btn = document.getElementById("sales-lang-btn");
+  const list = document.getElementById("sales-lang-list");
+  if (!list || !btn) return;
+  list.classList.remove("hidden");
+  btn.setAttribute("aria-expanded", "true");
+}
+
+function toggleSalesLangMenu() {
+  const list = document.getElementById("sales-lang-list");
+  if (!list) return;
+  if (list.classList.contains("hidden")) openSalesLangMenu();
+  else closeSalesLangMenu();
+}
+
 function initSalesLanguageUI() {
-  const select = document.getElementById("sales-lang-select");
-  if (!select) {
+  const btn = document.getElementById("sales-lang-btn");
+  const list = document.getElementById("sales-lang-list");
+  const menu = document.getElementById("sales-lang-menu");
+
+  if (!btn || !list) {
     applyLanguage(getInitialSalesLanguage());
     return;
   }
 
-  if (!select.options.length) {
+  if (!list.children.length) {
     SALES_LANG_OPTIONS.forEach(function (opt) {
       if (!translations[opt.code]) return;
-      const option = document.createElement("option");
-      option.value = opt.code;
-      option.textContent = opt.label;
-      select.appendChild(option);
+      const li = document.createElement("li");
+      li.setAttribute("role", "option");
+      li.setAttribute("data-lang", opt.code);
+      li.setAttribute("aria-selected", "false");
+      li.tabIndex = 0;
+      li.className =
+        "cursor-pointer px-4 py-2.5 text-sm text-slate-700 transition hover:bg-slate-50 hover:text-brand-700";
+      li.textContent = opt.label;
+      li.addEventListener("click", function () {
+        applyLanguage(opt.code);
+        closeSalesLangMenu();
+      });
+      li.addEventListener("keydown", function (e) {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          applyLanguage(opt.code);
+          closeSalesLangMenu();
+        }
+      });
+      list.appendChild(li);
     });
   }
 
-  select.addEventListener("change", function () {
-    applyLanguage(select.value);
+  btn.addEventListener("click", function (e) {
+    e.stopPropagation();
+    toggleSalesLangMenu();
+  });
+
+  document.addEventListener("click", function (e) {
+    if (menu && !menu.contains(e.target)) closeSalesLangMenu();
+  });
+
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape") closeSalesLangMenu();
   });
 
   applyLanguage(getInitialSalesLanguage());
