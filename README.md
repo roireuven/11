@@ -1,6 +1,6 @@
-# Hotel Manager — Landing (GitHub Pages)
+# Integrated Business Solutions — Landing (GitHub Pages)
 
-Static landing page for the **Integrated Business Solutions** web suite (hotel, restaurant, mini-mart, car rental) and Android app download.
+Static sales landing page for the **web suite** (hotel, restaurant, mini-mart, car rental). No mobile app download — web only.
 
 ## Firebase addresses (production v2.4)
 
@@ -63,16 +63,6 @@ GitHub Pages is not turned on yet, or the wrong **source** is selected. Do **one
 4. Reload [https://roireuven.github.io/11/](https://roireuven.github.io/11/)
 
 **Easier:** If Actions fails, use **Option A** (branch `main`, folder **`/ (root)`**) — no workflow needed.
-
-## APK download
-
-The site links to a **public file in a separate repository** (not a GitHub Release on the main app repo):
-
-`https://raw.githubusercontent.com/roireuven/HotelManager-v7.4.1-release.apk/main/app-debug.apk`
-
-That is the direct **raw** URL for `app-debug.apk` on branch `main` (same file as `github.com/.../raw/main/...`). If the link 404s, the default branch may be `master` — use `.../master/app-debug.apk` in the path.
-
-**Alternative:** create a [Release](https://github.com/roireuven/hotel-management-v2/releases) on the main app repo and point `index.html` at `.../releases/download/TAG/filename.apk` for a cleaner, versioned download URL.
 
 ## Files
 
