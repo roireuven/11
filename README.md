@@ -1,27 +1,44 @@
-# Hotel Manager — Landing (GitHub Pages)
+# Integrated Business Solutions — Landing (GitHub Pages)
 
-Static landing page for the Android app.
+Static sales landing page for the **web suite** (hotel, restaurant, mini-mart, car rental). No mobile app download — web only.
+
+## Firebase addresses (production v2.4)
+
+| Purpose | URL |
+|--------|-----|
+| **30-day trial & licensed app** | [https://hotel-restaurant-minimart2-4.web.app/paid](https://hotel-restaurant-minimart2-4.web.app/paid) |
+| **Free web app** (no license gate) | [https://hotel-restaurant-minimart2-4.web.app/](https://hotel-restaurant-minimart2-4.web.app/) |
+| **Sales / pricing landing** | [https://hotel-restaurant-minimart2-4.web.app/sales](https://hotel-restaurant-minimart2-4.web.app/sales) |
+| **Documentation** (21 languages) | [https://hotel-restaurant-minimart2-4.web.app/doc/](https://hotel-restaurant-minimart2-4.web.app/doc/) |
+| **Alternate domain** (same v2.4) | [https://hotel-restaurant-minimart2-4.firebaseapp.com/](https://hotel-restaurant-minimart2-4.firebaseapp.com/) |
+| **Development** (manual deploy) | [https://hotel-restaurant-minimart.firebaseapp.com/](https://hotel-restaurant-minimart.firebaseapp.com/) |
+| **Legacy v2.3 snapshot** | [https://hotel-restaurant-minimart2-3.web.app/](https://hotel-restaurant-minimart2-3.web.app/) |
+
+GitHub Pages mirror of the sales landing: [https://roireuven.github.io/11/](https://roireuven.github.io/11/)
 
 ## Documentation
 
-Full documentation for **HotelRestaurantMini-MartManagement** (hotel, restaurant, mini-mart web app):
+Full documentation for **HotelRestaurantMini-MartManagement** (hotel, restaurant, mini-mart, vehicle rental web app):
 
 | Format | URL |
 |--------|-----|
-| **Docs site (Firebase)** | [https://hotel-restaurant-minimart.firebaseapp.com/doc/](https://hotel-restaurant-minimart.firebaseapp.com/doc/) |
+| **Docs site (Firebase v2.4)** | [https://hotel-restaurant-minimart2-4.web.app/doc/](https://hotel-restaurant-minimart2-4.web.app/doc/) |
 | **Docs site (GitHub Pages)** | [https://roireuven.github.io/11/doc/](https://roireuven.github.io/11/doc/) |
 | **Markdown source** | [doc/README.md](doc/README.md) |
-| **Live app** | [hotel-restaurant-minimart.firebaseapp.com](https://hotel-restaurant-minimart.firebaseapp.com/) |
 
 Deploy **app + documentation** to Firebase from repo root:
 
 ```bash
 npm install
 firebase login
-npm run deploy
+npm run deploy        # stable v2.4 only (default — staff production URL)
+npm run deploy:2.4    # same as npm run deploy
+npm run deploy:2.3    # legacy v2.3 only (manual)
+npm run deploy:dev    # development site + Firestore (manual)
+npm run deploy:all    # every hosting target + Firestore (manual)
 ```
 
-This builds `public/` with the app (Documentation button in top bar), embeds docs in the app, and uploads `/doc/` (26 guides). CI: add `FIREBASE_TOKEN` secret and push to `main`, or run **Actions → Deploy Firebase Hosting → Run workflow**.
+This builds `public/` with the app (Documentation button in top bar), embeds docs in the app, and uploads `/doc/` (30 guides, 21 locales). See [What's new in v2.3 / v2.4](doc/en/whats-new-v2.md). CI: add `FIREBASE_TOKEN` secret and push to `main`, or run **Actions → Deploy Firebase Hosting → Run workflow**.
 
 ## Live site
 
@@ -46,16 +63,6 @@ GitHub Pages is not turned on yet, or the wrong **source** is selected. Do **one
 4. Reload [https://roireuven.github.io/11/](https://roireuven.github.io/11/)
 
 **Easier:** If Actions fails, use **Option A** (branch `main`, folder **`/ (root)`**) — no workflow needed.
-
-## APK download
-
-The site links to a **public file in a separate repository** (not a GitHub Release on the main app repo):
-
-`https://raw.githubusercontent.com/roireuven/HotelManager-v7.4.1-release.apk/main/app-debug.apk`
-
-That is the direct **raw** URL for `app-debug.apk` on branch `main` (same file as `github.com/.../raw/main/...`). If the link 404s, the default branch may be `master` — use `.../master/app-debug.apk` in the path.
-
-**Alternative:** create a [Release](https://github.com/roireuven/hotel-management-v2/releases) on the main app repo and point `index.html` at `.../releases/download/TAG/filename.apk` for a cleaner, versioned download URL.
 
 ## Files
 
