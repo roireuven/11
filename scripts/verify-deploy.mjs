@@ -313,6 +313,12 @@ if (!html.includes("return 'Vehicle Rental'") || !html.includes("'Vehicle Rental
 if (!html.includes("takeArr('vehicleExpenses')") || !html.includes("vehicleExpenses,vehicleMaintBlocks,rentLocations")) {
   fail("app missing complete vehicle rental backup/restore");
 }
+if (!html.includes("rent_locations.csv")) {
+  fail("app missing rent_locations.csv in backup export/import");
+}
+if (!html.includes('id="loginFormExtra"') || !html.includes("hrmmLoginLicenseGate")) {
+  fail("app missing paid license login UI (loginFormExtra + hrmmLoginLicenseGate)");
+}
 try {
   const arLoc = JSON.parse(readFileSync(join(PUBLIC, "assets/locales/ar.json"), "utf8"));
   if (arLoc.msg?.accountCreated === "Account created! Sign in with your email and password.") {

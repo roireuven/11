@@ -6,7 +6,7 @@
     "build": "node scripts/build-public.mjs",
     "sync": "node scripts/sync-from-production.mjs",
     "patch": "node scripts/patch-app.mjs",
-    "verify": "node scripts/verify-deploy.mjs",
+    "verify": "node scripts/verify-deploy.mjs && node scripts/verify-backup-roundtrip.mjs",
     "serve": "npm run build && npx firebase emulators:start --only hosting",
     "capture:screenshots": "node scripts/capture-doc-screenshots.mjs",
     "deploy": "npm run build && npm run verify && npx firebase deploy --only hosting:stable24 --project hotel-restaurant-minimart",

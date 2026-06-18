@@ -127,7 +127,8 @@ ASSEMBLE_OLD = (
 ASSEMBLE_NEW = (
     "    'vehicle_rentals.csv': ['vehicleRentals', []],\n"
     "    'vehicle_expenses.csv': ['vehicleExpenses', []],\n"
-    "    'vehicle_maint_blocks.csv': ['vehicleMaintBlocks', []]\n"
+    "    'vehicle_maint_blocks.csv': ['vehicleMaintBlocks', []],\n"
+    "    'rent_locations.csv': ['rentLocations', []]\n"
     "  };"
 )
 
@@ -185,6 +186,13 @@ def patch(content: str) -> str:
 
     if "'vehicle_expenses.csv': ['vehicleExpenses'" not in content:
         content = _replace(content, ASSEMBLE_OLD, ASSEMBLE_NEW, "assembleBackupFromZipEntries")
+    elif "'rent_locations.csv': ['rentLocations'" not in content:
+        content = content.replace(
+            "    'vehicle_maint_blocks.csv': ['vehicleMaintBlocks', []]\n  };",
+            "    'vehicle_maint_blocks.csv': ['vehicleMaintBlocks', []],\n"
+            "    'rent_locations.csv': ['rentLocations', []]\n  };",
+            1,
+        )
 
     return content
 

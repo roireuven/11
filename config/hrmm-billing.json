@@ -1,0 +1,6 @@
+{
+  "paypalUrl": "",
+  "licensePriceUsd": 100,
+  "trialDays": 30,
+  "_comment": "Set paypalUrl to your PayPal.Me link, e.g. https://paypal.me/yourname/100USD"
+}

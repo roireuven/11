@@ -1,0 +1,5 @@
+{
+  "paypalUrl": "https://paypal.me/yourname/100USD",
+  "licensePriceUsd": 100,
+  "trialDays": 30
+}
