@@ -155,6 +155,7 @@ EXPORT_TABLES_NEW = (
     "    {name:'vehicle_rentals.csv', data:vehicleRentals},\n"
     "    {name:'vehicle_expenses.csv', data:vehicleExpenses},\n"
     "    {name:'vehicle_maint_blocks.csv', data:vehicleMaintBlocks},\n"
+    "    {name:'rent_locations.csv', data:rentLocations},\n"
     "  ];"
 )
 
@@ -189,7 +190,8 @@ ASSEMBLE_MAP_NEW = (
     "    'vehicles.csv': ['vehicles', []],\n"
     "    'vehicle_rentals.csv': ['vehicleRentals', []],\n"
     "    'vehicle_expenses.csv': ['vehicleExpenses', []],\n"
-    "    'vehicle_maint_blocks.csv': ['vehicleMaintBlocks', []]\n"
+    "    'vehicle_maint_blocks.csv': ['vehicleMaintBlocks', []],\n"
+    "    'rent_locations.csv': ['rentLocations', []]\n"
     "  };"
 )
 
@@ -356,6 +358,20 @@ def patch(content: str) -> str:
             "    {name:'vehicle_rentals.csv', data:vehicleRentals},\n"
             "    {name:'vehicle_expenses.csv', data:vehicleExpenses},\n"
             "    {name:'vehicle_maint_blocks.csv', data:vehicleMaintBlocks},\n  ];",
+            1,
+        )
+    if "rent_locations.csv" not in content and "vehicle_maint_blocks.csv" in content:
+        content = content.replace(
+            "    {name:'vehicle_maint_blocks.csv', data:vehicleMaintBlocks},\n  ];",
+            "    {name:'vehicle_maint_blocks.csv', data:vehicleMaintBlocks},\n"
+            "    {name:'rent_locations.csv', data:rentLocations},\n  ];",
+            1,
+        )
+    if "'rent_locations.csv': ['rentLocations'" not in content and "'vehicle_maint_blocks.csv': ['vehicleMaintBlocks'" in content:
+        content = content.replace(
+            "    'vehicle_maint_blocks.csv': ['vehicleMaintBlocks', []]\n  };",
+            "    'vehicle_maint_blocks.csv': ['vehicleMaintBlocks', []],\n"
+            "    'rent_locations.csv': ['rentLocations', []]\n  };",
             1,
         )
 

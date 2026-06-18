@@ -174,6 +174,9 @@ runPython("scripts/patch-app-dashboard-rental.py");
 console.log("Paid/trial licensing (paid.html + login gating)...");
 runPython("scripts/patch-app-license.py");
 
+console.log("Applying billing config (PayPal URL, pricing)...");
+runNodeScript("scripts/apply-hrmm-billing.mjs");
+
 console.log("Generating What's new v2.3/v2.4 documentation (21 locales)...");
 runPython("scripts/generate-whats-new-v2-docs.py");
 

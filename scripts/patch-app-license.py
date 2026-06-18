@@ -7,13 +7,16 @@ trial/license gating into the login flow.
 
 from __future__ import annotations
 
+import json
 import re
 import sys
 from pathlib import Path
 
 MARKER = "HRMM-LICENSE-v1"
+GUARD_MARKER = "HRMM-LICENSE-GUARD-v1"
 INDEX = Path("public/index.html")
 PAID = Path("public/paid.html")
+BILLING = Path("config/hrmm-billing.json")
 
 LOGIN_ANCHOR = "// ===== LOGIN / LOGOUT ====="
 LOGIN_INJECT = r"""
@@ -65,7 +68,8 @@ var hrmmCrcTable = (function() {
 function hrmmExpectedLicenseKey(email) {
   var em = String(email || '').trim().toLowerCase();
   if (!em) return '';
-  var seed = em + '|hrmm|annual|100';
+  var price = parseInt(window.HRMM_LICENSE_PRICE, 10) || 100;
+  var seed = em + '|hrmm|annual|' + String(price);
   var n = hrmmCrc32(seed);
   return ('HRMM-' + n.toString(36).toUpperCase()).replace(/[^A-Z0-9\-]/g, '');
 }
@@ -99,23 +103,31 @@ function hrmmMaybeInjectLicenseField() {
       '</div>' + hrmmRenderLicensePayHintHtml();
   } catch (e) {}
 }
+function hrmmAccountLicenseOk(account) {
+  if (!window.HRMM_LICENSE_MODE) return true;
+  if (!account || !account.email) return false;
+  return (!hrmmIsTrialExpired()) || hrmmLicenseOkForEmail(account.email, hrmmGetLicenseKey());
+}
+function hrmmLoginLicenseGate(account, errEl) {
+  if (!window.HRMM_LICENSE_MODE) return true;
+  hrmmEnsureTrialStarted();
+  hrmmMaybeInjectLicenseField();
+  var licEl = document.getElementById('loginLicenseKey');
+  var licKey = licEl ? String(licEl.value || '').trim() : hrmmGetLicenseKey();
+  if (licKey) hrmmSetLicenseKey(licKey);
+  if (hrmmAccountLicenseOk(account)) return true;
+  if (errEl) {
+    errEl.textContent = (typeof t === 'function' ? t('login.trialExpired') : 'Trial expired. Please enter a valid license key.');
+    errEl.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+  }
+  return false;
+}
 """
 
 LOGIN_GUARD_ANCHOR = "  currentUser = { id: account.id, name: account.name, email: account.email, role: account.role };"
-LOGIN_GUARD_NEW = (
-    "  hrmmEnsureTrialStarted();\n"
-    "  hrmmMaybeInjectLicenseField();\n"
-    "  if (window.HRMM_LICENSE_MODE) {\n"
-    "    var licEl = document.getElementById('loginLicenseKey');\n"
-    "    var licKey = licEl ? String(licEl.value || '').trim() : hrmmGetLicenseKey();\n"
-    "    if (licKey) hrmmSetLicenseKey(licKey);\n"
-    "    var ok = (!hrmmIsTrialExpired()) || hrmmLicenseOkForEmail(account.email, hrmmGetLicenseKey());\n"
-    "    if (!ok) {\n"
-    "      errEl.textContent = (typeof t === 'function' ? t('login.trialExpired') : 'Trial expired. Please enter a valid license key.');\n"
-    "      errEl.scrollIntoView({ block: 'nearest', behavior: 'smooth' });\n"
-    "      return;\n"
-    "    }\n"
-    "  }\n"
+LOGIN_GUARD_SINGLE = (
+    "  // <!-- HRMM-LICENSE-GUARD-v1 -->\n"
+    "  if (!hrmmLoginLicenseGate(account, errEl)) return;\n"
     "  currentUser = { id: account.id, name: account.name, email: account.email, role: account.role };"
 )
 
@@ -124,6 +136,59 @@ LOGIN_OVERLAY_INSERT = (
     '<div id="loginFormExtra"></div>\n      ' + LOGIN_OVERLAY_ANCHOR
 )
 
+AUTOLOGIN_ANCHOR = (
+    "      if (account) {\n"
+    "        currentUser = { id: account.id, name: account.name, email: account.email, role: account.role };"
+)
+AUTOLOGIN_NEW = (
+    "      if (account) {\n"
+    "        if (window.HRMM_LICENSE_MODE && !hrmmAccountLicenseOk(account)) {\n"
+    "          hrmmMaybeInjectLicenseField();\n"
+    "          return;\n"
+    "        }\n"
+    "        currentUser = { id: account.id, name: account.name, email: account.email, role: account.role };"
+)
+
+DUPLICATE_GUARD_RE = re.compile(
+    r"(?:  hrmmEnsureTrialStarted\(\);\n"
+    r"  hrmmMaybeInjectLicenseField\(\);\n"
+    r"  if \(window\.HRMM_LICENSE_MODE\) \{[\s\S]*?      return;\n"
+    r"    \}\n"
+    r"  \}\n)+",
+    re.MULTILINE,
+)
+
+AUTOLOGIN_DUP_RE = re.compile(
+    r"(?:  if \(typeof tryBootGuestOrderFromUrl === 'function' && tryBootGuestOrderFromUrl\(\)\) \{ return; \}\n)+"
+)
+
+LICENSE_BLOCK_RE = re.compile(
+    r"// ===== LOGIN / LOGOUT =====\n// <!-- HRMM-LICENSE-v1 -->[\s\S]*?"
+    r"(?=\nfunction readStoredCurrentUser)",
+    re.MULTILINE,
+)
+
+
+def load_billing() -> dict:
+    path = Path(__file__).resolve().parents[1] / BILLING
+    if not path.is_file():
+        return {"paypalUrl": "", "licensePriceUsd": 100, "trialDays": 30}
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+        return data if isinstance(data, dict) else {}
+    except (json.JSONDecodeError, OSError):
+        return {"paypalUrl": "", "licensePriceUsd": 100, "trialDays": 30}
+
+
+def _dedupe_license_guards(text: str) -> str:
+    text = DUPLICATE_GUARD_RE.sub("", text)
+    text = re.sub(
+        r"(?:  // <!-- HRMM-LICENSE-GUARD-v1 -->\n  if \(!hrmmLoginLicenseGate\(account, errEl\)\) return;\n)+",
+        "  // <!-- HRMM-LICENSE-GUARD-v1 -->\n  if (!hrmmLoginLicenseGate(account, errEl)) return;\n",
+        text,
+    )
+    return text
+
 
 def patch_index(text: str) -> str:
     if MARKER not in text:
@@ -131,31 +196,45 @@ def patch_index(text: str) -> str:
     else:
         text = re.sub(r"HRMM-LICENSE-v\d+", MARKER, text)
 
-    if LOGIN_ANCHOR in text and "hrmmExpectedLicenseKey" not in text:
-        text = text.replace(LOGIN_ANCHOR, LOGIN_INJECT.strip("\n"), 1)
+    license_block = LOGIN_INJECT.strip("\n") + "\n"
+    if LICENSE_BLOCK_RE.search(text):
+        text = LICENSE_BLOCK_RE.sub(license_block, text, count=1)
+    elif LOGIN_ANCHOR in text and "hrmmLoginLicenseGate" not in text:
+        text = text.replace(LOGIN_ANCHOR, license_block, 1)
 
-    if LOGIN_GUARD_ANCHOR in text and "hrmmIsTrialExpired" not in text.split("window.doLogin")[1][:1200]:
-        text = text.replace(LOGIN_GUARD_ANCHOR, LOGIN_GUARD_NEW, 1)
+    text = _dedupe_license_guards(text)
 
-    if "loginFormExtra" not in text and LOGIN_OVERLAY_ANCHOR in text:
+    if GUARD_MARKER not in text and LOGIN_GUARD_ANCHOR in text:
+        text = text.replace(LOGIN_GUARD_ANCHOR, LOGIN_GUARD_SINGLE, 1)
+
+    if 'id="loginFormExtra"' not in text and LOGIN_OVERLAY_ANCHOR in text:
         text = text.replace(LOGIN_OVERLAY_ANCHOR, LOGIN_OVERLAY_INSERT, 1)
+
+    if "hrmmAccountLicenseOk(account)" not in text.split("initAutologinIfSetupComplete")[1][:2500]:
+        if AUTOLOGIN_ANCHOR in text:
+            text = text.replace(AUTOLOGIN_ANCHOR, AUTOLOGIN_NEW, 1)
+
+    text = AUTOLOGIN_DUP_RE.sub(
+        "  if (typeof tryBootGuestOrderFromUrl === 'function' && tryBootGuestOrderFromUrl()) { return; }\n",
+        text,
+    )
 
     return text
 
 
-def build_paid_html(index_html: str) -> str:
-    # Use same SPA, but set license mode + optional PayPal URL in head.
+def build_paid_html(index_html: str, billing: dict) -> str:
+    paypal = str(billing.get("paypalUrl") or "").strip()
+    price = int(billing.get("licensePriceUsd") or 100)
+    trial = int(billing.get("trialDays") or 30)
     inject = (
         "<script>\n"
         "  window.HRMM_LICENSE_MODE = 'paid';\n"
-        "  // Set your PayPal link here (paypal.me or a hosted button URL)\n"
-        "  window.HRMM_PAYPAL_URL = window.HRMM_PAYPAL_URL || '';\n"
-        "  window.HRMM_LICENSE_PRICE = 100;\n"
-        "  window.HRMM_LICENSE_TRIAL_DAYS = 30;\n"
+        f"  window.HRMM_PAYPAL_URL = {json.dumps(paypal)};\n"
+        f"  window.HRMM_LICENSE_PRICE = {price};\n"
+        f"  window.HRMM_LICENSE_TRIAL_DAYS = {trial};\n"
         "</script>\n"
     )
     out = index_html
-    # Some upstream patching may leave multiple <title> tags; collapse to one.
     out = re.sub(r"<title>[\s\S]*?</title>\s*", "", out)
     if "HRMM-PAID-BOOT-v1" not in out:
         out = re.sub(
@@ -164,7 +243,12 @@ def build_paid_html(index_html: str) -> str:
             out,
             count=1,
         )
-    if "</head>" in out and "window.HRMM_LICENSE_MODE = 'paid'" not in out:
+    out = re.sub(
+        r"<script>\s*window\.HRMM_LICENSE_MODE = 'paid';[\s\S]*?</script>\s*",
+        "",
+        out,
+    )
+    if "</head>" in out:
         out = out.replace("</head>", inject + "</head>", 1)
     return out
 
@@ -173,15 +257,19 @@ def main() -> int:
     if not INDEX.is_file():
         print(f"Missing {INDEX}", file=sys.stderr)
         return 1
+    billing = load_billing()
     index_html = INDEX.read_text(encoding="utf-8")
     patched = patch_index(index_html)
     INDEX.write_text(patched, encoding="utf-8")
-    paid_html = build_paid_html(patched)
+    paid_html = build_paid_html(patched, billing)
     PAID.write_text(paid_html, encoding="utf-8")
-    print(f"Patched {INDEX} and wrote {PAID} ({MARKER})")
+    paypal = str(billing.get("paypalUrl") or "").strip()
+    if paypal:
+        print(f"Patched {INDEX} and wrote {PAID} ({MARKER}, PayPal configured)")
+    else:
+        print(f"Patched {INDEX} and wrote {PAID} ({MARKER}, PayPal URL empty — set config/hrmm-billing.json)")
     return 0
 
 
 if __name__ == "__main__":
     raise SystemExit(main())
-
